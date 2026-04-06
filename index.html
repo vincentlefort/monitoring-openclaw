@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring OpenClaw - Vincent Lefort</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .card {
+            background-color: #1e293b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .status-running { color: #10b981; }
+        .status-stopped { color: #ef4444; }
+        .status-warning { color: #f59e0b; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold">🚀 Monitoring OpenClaw</h1>
+            <p class="text-gray-400">Infrastructure de Vincent Lefort – Entrepreneur & Trader Crypto</p>
+            <p class="text-sm text-gray-500 mt-2">Dernière mise à jour : <span id="last-update">Chargement...</span></p>
+        </header>
+
+        <!-- Services Status -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Statut des Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Bot Trading V5</h3>
+                    <div class="flex items-center">
+                        <div id="bot-status" class="status-running text-lg font-bold">Chargement...</div>
+                        <div class="ml-4">
+                            <div>Scans : <span id="scan-count">0</span></div>
+                            <div>Positions : <span id="positions-count">0</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Gateway OpenClaw</h3>
+                    <div id="gateway-status" class="status-running text-lg font-bold">En ligne</div>
+                    <p class="text-sm text-gray-400 mt-2">Connecté au réseau</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Crypto Confirm Bot</h3>
+                    <div id="confirm-bot-status" class="status-running text-lg font-bold">Actif</div>
+                    <p class="text-sm text-gray-400 mt-2">Surveillance des transactions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PnL & Capital -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">💰 Performance Financière</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL du Jour</h3>
+                    <div id="daily-pnl" class="text-3xl font-bold text-green-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte sur la session en cours</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Capital Actuel</h3>
+                    <div id="capital" class="text-3xl font-bold text-blue-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital total disponible</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Trades -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📈 Derniers Trades</h2>
+            <div class="card overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-2 px-4 text-left">Date</th>
+                            <th class="py-2 px-4 text-left">Symbol</th>
+                            <th class="py-2 px-4 text-left">Direction</th>
+                            <th class="py-2 px-4 text-left">Entry</th>
+                            <th class="py-2 px-4 text-left">Exit</th>
+                            <th class="py-2 px-4 text-left">PnL ($)</th>
+                            <th class="py-2 px-4 text-left">PnL (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trades-table">
+                        <tr><td colspan="7" class="py-4 text-center">Chargement des trades...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chart -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Évolution du Capital</h2>
+            <div class="card">
+                <canvas id="capital-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-8">
+            <p>Monitoring OpenClaw – Vincent Lefort • Munich • <span id="current-time"></span></p>
+            <p class="mt-2">Données mises à jour automatiquement toutes les 30 secondes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fonction pour formater les dates
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString('fr-FR', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Fonction pour formater les nombres
+        function formatNumber(num, decimals = 2) {
+            return num.toLocaleString('fr-FR', { 
+                minimumFractionDigits: decimals, 
+                maximumFractionDigits: decimals 
+            });
+        }
+
+        // Fonction pour mettre à jour l'heure
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleString('fr-FR', { 
+                    day: '2-digit', 
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+        }
+
+        // Fonction pour charger les données du bot
+        async function loadBotData() {
+            try {
+                // Dans un environnement réel, ces données viendraient d'une API
+                // Pour cette démo, on utilise les données statiques
+                const botData = {
+                    timestamp: new Date().toISOString(),
+                    running: true,
+                    scan_count: 70,
+                    positions_count: 0,
+                    positions: [],
+                    daily_pnl: 0.0,
+                    capital: 3610.92676652,
+                    drawdown_pct: 0.0,
+                    circuit_breaker: false,
+                    consecutive_losses: 0
+                };
+
+                // Mise à jour de l'interface
+                document.getElementById('last-update').textContent = formatDate(botData.timestamp);
+                document.getElementById('bot-status').textContent = botData.running ? '🟢 En cours' : '🔴 Arrêté';
+                document.getElementById('bot-status').className = botData.running ? 'status-running text-lg font-bold' : 'status-stopped text-lg font-bold';
+                document.getElementById('scan-count').textContent = botData.scan_count;
+                document.getElementById('positions-count').textContent = botData.positions_count;
+                document.getElementById('daily-pnl').textContent = '$' + formatNumber(botData.daily_pnl);
+                document.getElementById('capital').textContent = '$' + formatNumber(botData.capital);
+
+                // Mise à jour du graphique
+                updateChart(botData.capital);
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des données du bot:', error);
+                document.getElementById('bot-status').textContent = '❌ Erreur';
+                document.getElementById('bot-status').className = 'status-warning text-lg font-bold';
+            }
+        }
+
+        // Fonction pour charger les trades
+        async function loadTrades() {
+            try {
+                // Dans un environnement réel, ces données viendraient d'une API
+                // Pour cette démo, on utilise un échantillon de données
+                const sampleTrades = [
+                    { timestamp: '2026-03-13T01:31:33.531750', symbol: 'SOLUSDC', direction: 'SHORT', entry_price: 89.56, exit_price: 90.63, pnl_usdc: -0.8132, pnl_pct: -1.1947 },
+                    { timestamp: '2026-03-13T01:28:12.181924', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71549.0, exit_price: 71435.35, pnl_usdc: 0.107967, pnl_pct: 0.1588 },
+                    { timestamp: '2026-03-13T01:28:11.229003', symbol: 'SOLUSDC', direction: 'SHORT', entry_price: 90.0, exit_price: 89.53, pnl_usdc: 0.35532, pnl_pct: 0.5222 },
+                    { timestamp: '2026-03-13T01:24:49.354784', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71701.01, exit_price: 71551.99, pnl_usdc: 0.141569, pnl_pct: 0.2078 },
+                    { timestamp: '2026-03-13T01:19:19.535161', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71617.17, exit_price: 71257.98, pnl_usdc: 0.341231, pnl_pct: 0.5015 }
+                ];
+
+                const tableBody = document.getElementById('trades-table');
+                tableBody.innerHTML = '';
+
+                sampleTrades.forEach(trade => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                    row.innerHTML = `
+                        <td class="py-2 px-4">${formatDate(trade.timestamp)}</td>
+                        <td class="py-2 px-4 font-mono">${trade.symbol}</td>
+                        <td class="py-2 px-4">
+                            <span class="${trade.direction === 'LONG' ? 'text-green-400' : 'text-red-400'}">
+                                ${trade.direction}
+                            </span>
+                        </td>
+                        <td class="py-2 px-4">${formatNumber(trade.entry_price, trade.symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4">${formatNumber(trade.exit_price, trade.symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4 ${trade.pnl_usdc >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${trade.pnl_usdc >= 0 ? '+' : ''}${formatNumber(trade.pnl_usdc, 4)}
+                        </td>
+                        <td class="py-2 px-4 ${trade.pnl_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${trade.pnl_pct >= 0 ? '+' : ''}${formatNumber(trade.pnl_pct, 2)}%
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des trades:', error);
+                document.getElementById('trades-table').innerHTML = 
+                    '<tr><td colspan="7" class="py-4 text-center text-red-400">Erreur de chargement des trades</td></tr>';
+            }
+        }
+
+        // Graphique du capital
+        let capitalChart;
+        function updateChart(currentCapital) {
+            const ctx = document.getElementById('capital-chart').getContext('2d');
+            
+            if (capitalChart) {
+                capitalChart.destroy();
+            }
+
+            // Données simulées pour le graphique
+            const labels = [];
+            const data = [];
+            let capital = 3500;
+            
+            for (let i = 0; i < 24; i++) {
+                labels.push(`${i}h`);
+                capital += (Math.random() - 0.5) * 20;
+                data.push(capital);
+            }
+            data[data.length - 1] = currentCapital;
+
+            capitalChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Capital ($)',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return '$' + formatNumber(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fonction principale de mise à jour
+        async function updateAllData() {
+            await loadBotData();
+            await loadTrades();
+            updateTime();
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAllData();
+            // Mise à jour toutes les 30 secondes
+            setInterval(updateAllData, 30000);
+            // Mise à jour de l'heure toutes les secondes
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>
