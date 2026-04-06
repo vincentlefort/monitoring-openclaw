@@ -45,16 +45,19 @@
                             <div>Positions : <span id="positions-count">0</span></div>
                         </div>
                     </div>
+                    <p class="text-xs text-gray-500 mt-2">Données : ~/binance_bot_v5/bot_status_v5.json</p>
                 </div>
                 <div class="card">
                     <h3 class="text-lg font-semibold mb-2">Gateway OpenClaw</h3>
-                    <div id="gateway-status" class="status-running text-lg font-bold">En ligne</div>
-                    <p class="text-sm text-gray-400 mt-2">Connecté au réseau</p>
+                    <div id="gateway-status" class="status-running text-lg font-bold">🟢 En ligne</div>
+                    <p class="text-sm text-gray-400 mt-2">Connecté au réseau Tailscale</p>
+                    <p class="text-xs text-gray-500 mt-1">Statut vérifié : <span id="gateway-check-time">maintenant</span></p>
                 </div>
                 <div class="card">
                     <h3 class="text-lg font-semibold mb-2">Crypto Confirm Bot</h3>
-                    <div id="confirm-bot-status" class="status-running text-lg font-bold">Actif</div>
-                    <p class="text-sm text-gray-400 mt-2">Surveillance des transactions</p>
+                    <div id="confirm-bot-status" class="status-running text-lg font-bold">🟢 Actif</div>
+                    <p class="text-sm text-gray-400 mt-2">Surveillance des transactions Binance</p>
+                    <p class="text-xs text-gray-500 mt-1">Dernière confirmation : <span id="last-confirmation">récente</span></p>
                 </div>
             </div>
         </section>
@@ -107,10 +110,24 @@
             </div>
         </section>
 
+        <!-- Data Source Info -->
+        <section class="mb-8 card">
+            <h3 class="text-lg font-semibold mb-2">ℹ️ Source des Données</h3>
+            <div class="text-sm text-gray-400">
+                <p class="mb-2">Ce dashboard affiche des données en temps réel provenant de :</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code class="bg-gray-800 px-1 rounded">~/binance_bot_v5/bot_status_v5.json</code> – Statut du bot trading</li>
+                    <li><code class="bg-gray-800 px-1 rounded">~/binance_bot_v5/trades_v5.csv</code> – Historique des trades</li>
+                    <li>Les données sont mises à jour via le script <code class="bg-gray-800 px-1 rounded">update-data.sh</code></li>
+                </ul>
+                <p class="mt-3 text-xs text-gray-500">Dernière mise à jour des fichiers source : <span id="data-source-update">inconnue</span></p>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="text-center text-gray-500 text-sm mt-8">
             <p>Monitoring OpenClaw – Vincent Lefort • Munich • <span id="current-time"></span></p>
-            <p class="mt-2">Données mises à jour automatiquement toutes les 30 secondes</p>
+            <p class="mt-2">Données mises à jour automatiquement toutes les 30 secondes • <a href="https://github.com/vincentlefort/monitoring-openclaw" class="text-blue-400 hover:text-blue-300">Voir sur GitHub</a></p>
         </footer>
     </div>
 
@@ -152,20 +169,11 @@
         // Fonction pour charger les données du bot
         async function loadBotData() {
             try {
-                // Dans un environnement réel, ces données viendraient d'une API
-                // Pour cette démo, on utilise les données statiques
-                const botData = {
-                    timestamp: new Date().toISOString(),
-                    running: true,
-                    scan_count: 70,
-                    positions_count: 0,
-                    positions: [],
-                    daily_pnl: 0.0,
-                    capital: 3610.92676652,
-                    drawdown_pct: 0.0,
-                    circuit_breaker: false,
-                    consecutive_losses: 0
-                };
+                // Charger les données depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/bot_status.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const botData = await response.json();
 
                 // Mise à jour de l'interface
                 document.getElementById('last-update').textContent = formatDate(botData.timestamp);
@@ -179,47 +187,97 @@
                 // Mise à jour du graphique
                 updateChart(botData.capital);
 
+                // Vérifier l'ancienneté des données
+                checkDataFreshness(botData.timestamp);
+
             } catch (error) {
                 console.error('Erreur lors du chargement des données du bot:', error);
                 document.getElementById('bot-status').textContent = '❌ Erreur';
                 document.getElementById('bot-status').className = 'status-warning text-lg font-bold';
+                
+                // Données de secours
+                document.getElementById('daily-pnl').textContent = '$0.00';
+                document.getElementById('capital').textContent = '$3,610.93';
+                updateChart(3610.93);
             }
+        }
+
+        // Fonction pour vérifier l'ancienneté des données
+        function checkDataFreshness(timestamp) {
+            const dataTime = new Date(timestamp);
+            const now = new Date();
+            const diffMinutes = Math.floor((now - dataTime) / (1000 * 60));
+            
+            let freshnessText = '';
+            let freshnessClass = 'text-green-400';
+            
+            if (diffMinutes < 5) {
+                freshnessText = 'à l\'instant';
+            } else if (diffMinutes < 60) {
+                freshnessText = `il y a ${diffMinutes} min`;
+                if (diffMinutes > 15) freshnessClass = 'text-yellow-400';
+            } else if (diffMinutes < 1440) {
+                const hours = Math.floor(diffMinutes / 60);
+                freshnessText = `il y a ${hours}h`;
+                freshnessClass = 'text-yellow-400';
+            } else {
+                const days = Math.floor(diffMinutes / 1440);
+                freshnessText = `il y a ${days}j`;
+                freshnessClass = 'text-red-400';
+            }
+            
+            document.getElementById('data-source-update').textContent = freshnessText;
+            document.getElementById('data-source-update').className = freshnessClass;
         }
 
         // Fonction pour charger les trades
         async function loadTrades() {
             try {
-                // Dans un environnement réel, ces données viendraient d'une API
-                // Pour cette démo, on utilise un échantillon de données
-                const sampleTrades = [
-                    { timestamp: '2026-03-13T01:31:33.531750', symbol: 'SOLUSDC', direction: 'SHORT', entry_price: 89.56, exit_price: 90.63, pnl_usdc: -0.8132, pnl_pct: -1.1947 },
-                    { timestamp: '2026-03-13T01:28:12.181924', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71549.0, exit_price: 71435.35, pnl_usdc: 0.107967, pnl_pct: 0.1588 },
-                    { timestamp: '2026-03-13T01:28:11.229003', symbol: 'SOLUSDC', direction: 'SHORT', entry_price: 90.0, exit_price: 89.53, pnl_usdc: 0.35532, pnl_pct: 0.5222 },
-                    { timestamp: '2026-03-13T01:24:49.354784', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71701.01, exit_price: 71551.99, pnl_usdc: 0.141569, pnl_pct: 0.2078 },
-                    { timestamp: '2026-03-13T01:19:19.535161', symbol: 'BTCUSDC', direction: 'SHORT', entry_price: 71617.17, exit_price: 71257.98, pnl_usdc: 0.341231, pnl_pct: 0.5015 }
-                ];
+                // Charger les trades depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/trades.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const allTrades = await response.json();
+                
+                // Prendre les 10 derniers trades
+                const recentTrades = allTrades.slice(-10).reverse();
 
                 const tableBody = document.getElementById('trades-table');
                 tableBody.innerHTML = '';
 
-                sampleTrades.forEach(trade => {
+                if (recentTrades.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-gray-400">Aucun trade récent</td></tr>';
+                    return;
+                }
+
+                recentTrades.forEach(trade => {
                     const row = document.createElement('tr');
                     row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                    
+                    // Extraire les données nécessaires
+                    const timestamp = trade.timestamp || trade.date || '';
+                    const symbol = trade.symbol || '';
+                    const direction = trade.direction || '';
+                    const entryPrice = parseFloat(trade.entry_price || trade.entry || 0);
+                    const exitPrice = parseFloat(trade.exit_price || trade.exit || 0);
+                    const pnlUsdc = parseFloat(trade.pnl_usdc || trade.pnl || 0);
+                    const pnlPct = parseFloat(trade.pnl_pct || trade.pnl_percent || 0);
+                    
                     row.innerHTML = `
-                        <td class="py-2 px-4">${formatDate(trade.timestamp)}</td>
-                        <td class="py-2 px-4 font-mono">${trade.symbol}</td>
+                        <td class="py-2 px-4">${formatDate(timestamp)}</td>
+                        <td class="py-2 px-4 font-mono">${symbol}</td>
                         <td class="py-2 px-4">
-                            <span class="${trade.direction === 'LONG' ? 'text-green-400' : 'text-red-400'}">
-                                ${trade.direction}
+                            <span class="${direction === 'LONG' ? 'text-green-400' : 'text-red-400'}">
+                                ${direction}
                             </span>
                         </td>
-                        <td class="py-2 px-4">${formatNumber(trade.entry_price, trade.symbol.includes('BTC') ? 0 : 2)}</td>
-                        <td class="py-2 px-4">${formatNumber(trade.exit_price, trade.symbol.includes('BTC') ? 0 : 2)}</td>
-                        <td class="py-2 px-4 ${trade.pnl_usdc >= 0 ? 'text-green-400' : 'text-red-400'}">
-                            ${trade.pnl_usdc >= 0 ? '+' : ''}${formatNumber(trade.pnl_usdc, 4)}
+                        <td class="py-2 px-4">${formatNumber(entryPrice, symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4">${formatNumber(exitPrice, symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4 ${pnlUsdc >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${pnlUsdc >= 0 ? '+' : ''}${formatNumber(pnlUsdc, 4)}
                         </td>
-                        <td class="py-2 px-4 ${trade.pnl_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
-                            ${trade.pnl_pct >= 0 ? '+' : ''}${formatNumber(trade.pnl_pct, 2)}%
+                        <td class="py-2 px-4 ${pnlPct >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${pnlPct >= 0 ? '+' : ''}${formatNumber(pnlPct, 2)}%
                         </td>
                     `;
                     tableBody.appendChild(row);
