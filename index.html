@@ -70,6 +70,12 @@
                     <h3 class="text-lg font-semibold mb-2">PnL du Jour</h3>
                     <div id="daily-pnl" class="text-3xl font-bold text-green-400">$0.00</div>
                     <p class="text-sm text-gray-400 mt-2">Profit/Perte sur la session en cours</p>
+                    <div id="pnl-info" class="text-xs text-gray-500 mt-1">
+                        <span id="today-trades-count">0</span> trades aujourd'hui
+                        <span id="pnl-calculated-badge" class="ml-2 px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs hidden">
+                            Calculé depuis trades
+                        </span>
+                    </div>
                 </div>
                 <div class="card">
                     <h3 class="text-lg font-semibold mb-2">Capital Actuel</h3>
@@ -181,8 +187,23 @@
                 document.getElementById('bot-status').className = botData.running ? 'status-running text-lg font-bold' : 'status-stopped text-lg font-bold';
                 document.getElementById('scan-count').textContent = botData.scan_count;
                 document.getElementById('positions-count').textContent = botData.positions_count;
-                document.getElementById('daily-pnl').textContent = '$' + formatNumber(botData.daily_pnl);
+                
+                // Mise à jour du PnL avec couleur selon le résultat
+                const dailyPnlElement = document.getElementById('daily-pnl');
+                const dailyPnlValue = botData.daily_pnl || 0;
+                dailyPnlElement.textContent = '$' + formatNumber(dailyPnlValue);
+                dailyPnlElement.className = dailyPnlValue >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+                
                 document.getElementById('capital').textContent = '$' + formatNumber(botData.capital);
+                
+                // Afficher le nombre de trades d'aujourd'hui et l'indicateur de calcul
+                if (botData.today_trades_count !== undefined) {
+                    document.getElementById('today-trades-count').textContent = botData.today_trades_count;
+                }
+                
+                if (botData.daily_pnl_calculated) {
+                    document.getElementById('pnl-calculated-badge').classList.remove('hidden');
+                }
 
                 // Mise à jour du graphique
                 updateChart(botData.capital);
