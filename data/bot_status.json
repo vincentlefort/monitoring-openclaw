@@ -1,12 +1,42 @@
 {
-  "timestamp": "2026-04-08T20:44:51.826711",
+  "timestamp": "2026-04-08T20:46:37.460402",
   "running": true,
-  "scan_count": 1203,
-  "positions_count": 0,
-  "positions": [],
-  "daily_pnl": 0.0,
+  "scan_count": 1210,
+  "positions_count": 2,
+  "positions": [
+    {
+      "symbol": "LINKUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 9.01,
+      "qty": 27.96,
+      "position_size": 251.65003825640002,
+      "open_time": 1775673906.3312514,
+      "tp_pct": 0.6,
+      "sl_pct": -2.5,
+      "trailing_pct": 0.08,
+      "trailing_active": false
+    },
+    {
+      "symbol": "DOTUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 1.28,
+      "qty": 196.6,
+      "position_size": 251.65003825640002,
+      "open_time": 1775673907.9607792,
+      "tp_pct": 0.6,
+      "sl_pct": -2.5,
+      "trailing_pct": 0.08,
+      "trailing_active": false
+    }
+  ],
+  "daily_pnl": -0.7092,
   "capital": 3595.00054652,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
-  "consecutive_losses": 0
+  "consecutive_losses": 0,
+  "daily_pnl_calculated": true,
+  "daily_pnl_date": "2026-04-08",
+  "today_trades_count": 33
 }
