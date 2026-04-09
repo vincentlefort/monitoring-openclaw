@@ -1,0 +1,66 @@
+        <!-- Stocks Portfolio -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📈 Portefeuille Boursier (EUR)</h2>
+            
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Valeur Totale</h3>
+                    <div id="stocks-total-value" class="text-3xl font-bold text-blue-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Portefeuille actions</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Investi Total</h3>
+                    <div id="stocks-total-invested" class="text-3xl font-bold text-purple-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital investi</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL Total</h3>
+                    <div id="stocks-total-pnl" class="text-3xl font-bold text-green-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte total</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Signaux</h3>
+                    <div class="flex space-x-2">
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-buy" class="text-2xl font-bold text-green-400">0</div>
+                            <div class="text-xs text-gray-400">ACHETER</div>
+                        </div>
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-hold" class="text-2xl font-bold text-yellow-400">0</div>
+                            <div class="text-xs text-gray-400">ATTENDRE</div>
+                        </div>
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-sell" class="text-2xl font-bold text-red-400">0</div>
+                            <div class="text-xs text-gray-400">VENDRE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Table -->
+            <div class="card overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-2 px-4 text-left">ETF</th>
+                            <th class="py-2 px-4 text-left">Quantité</th>
+                            <th class="py-2 px-4 text-left">Prix Moyen</th>
+                            <th class="py-2 px-4 text-left">Prix Actuel</th>
+                            <th class="py-2 px-4 text-left">Valeur</th>
+                            <th class="py-2 px-4 text-left">Var. Jour</th>
+                            <th class="py-2 px-4 text-left">PnL</th>
+                            <th class="py-2 px-4 text-left">Signal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stocks-table">
+                        <tr><td colspan="8" class="py-4 text-center">Chargement du portefeuille...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-4 text-xs text-gray-500">
+                Données mises à jour : <span id="stocks-last-update">inconnue</span>
+                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Scalable Capital + Yahoo Finance</span>
+            </div>
+        </section>

@@ -79,6 +79,11 @@ with open('./data/trades.json', 'w') as f:
 " 2>/dev/null || echo "Conversion CSV->JSON échouée"
 fi
 
+# Analyser les données boursières
+if [ -f /home/openclaw/.openclaw/workspace-bourse/scalable_export.csv ]; then
+    python3 ./update-stocks-data-simple.py 2>/dev/null || echo "Analyse boursière échouée"
+fi
+
 # Mettre à jour le timestamp
 echo '{"last_updated": "'$(date -Iseconds)'"}' > ./data/last_updated.json
 

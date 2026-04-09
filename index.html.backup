@@ -86,118 +86,29 @@
         </section>
 
         <!-- Recent Trades -->
-        <!-- Recent Trades -->
-        <section class="mb-8">
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4">📈 Derniers Trades</h2>
-            <h2 class="text-2xl font-bold mb-4">📈 Derniers Trades</h2>
-            <div class="card overflow-x-auto">
             <div class="card overflow-x-auto">
                 <table class="w-full text-sm">
-                <table class="w-full text-sm">
-                    <thead>
                     <thead>
                         <tr class="border-b border-gray-700">
-                        <tr class="border-b border-gray-700">
-                            <th class="py-2 px-4 text-left">Date</th>
                             <th class="py-2 px-4 text-left">Date</th>
                             <th class="py-2 px-4 text-left">Symbol</th>
-                            <th class="py-2 px-4 text-left">Symbol</th>
-                            <th class="py-2 px-4 text-left">Direction</th>
                             <th class="py-2 px-4 text-left">Direction</th>
                             <th class="py-2 px-4 text-left">Entry</th>
-                            <th class="py-2 px-4 text-left">Entry</th>
-                            <th class="py-2 px-4 text-left">Exit</th>
                             <th class="py-2 px-4 text-left">Exit</th>
                             <th class="py-2 px-4 text-left">PnL ($)</th>
-                            <th class="py-2 px-4 text-left">PnL ($)</th>
-                            <th class="py-2 px-4 text-left">PnL (%)</th>
                             <th class="py-2 px-4 text-left">PnL (%)</th>
                         </tr>
-                        </tr>
-                    </thead>
                     </thead>
                     <tbody id="trades-table">
-                    <tbody id="trades-table">
-                        <tr><td colspan="7" class="py-4 text-center">Chargement des trades...</td></tr>
                         <tr><td colspan="7" class="py-4 text-center">Chargement des trades...</td></tr>
                     </tbody>
-                    </tbody>
-                </table>
                 </table>
             </div>
-            </div>
         </section>
-        </section>
-
 
         <!-- Chart -->
-        <!-- Stocks Portfolio -->
-        <section class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">📈 Portefeuille Boursier (EUR)</h2>
-            
-            <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="card">
-                    <h3 class="text-lg font-semibold mb-2">Valeur Totale</h3>
-                    <div id="stocks-total-value" class="text-3xl font-bold text-blue-400">€0.00</div>
-                    <p class="text-sm text-gray-400 mt-2">Portefeuille actions</p>
-                </div>
-                <div class="card">
-                    <h3 class="text-lg font-semibold mb-2">Investi Total</h3>
-                    <div id="stocks-total-invested" class="text-3xl font-bold text-purple-400">€0.00</div>
-                    <p class="text-sm text-gray-400 mt-2">Capital investi</p>
-                </div>
-                <div class="card">
-                    <h3 class="text-lg font-semibold mb-2">PnL Total</h3>
-                    <div id="stocks-total-pnl" class="text-3xl font-bold text-green-400">€0.00</div>
-                    <p class="text-sm text-gray-400 mt-2">Profit/Perte total</p>
-                </div>
-                <div class="card">
-                    <h3 class="text-lg font-semibold mb-2">Signaux</h3>
-                    <div class="flex space-x-2">
-                        <div class="flex-1 text-center">
-                            <div id="stocks-signal-buy" class="text-2xl font-bold text-green-400">0</div>
-                            <div class="text-xs text-gray-400">ACHETER</div>
-                        </div>
-                        <div class="flex-1 text-center">
-                            <div id="stocks-signal-hold" class="text-2xl font-bold text-yellow-400">0</div>
-                            <div class="text-xs text-gray-400">ATTENDRE</div>
-                        </div>
-                        <div class="flex-1 text-center">
-                            <div id="stocks-signal-sell" class="text-2xl font-bold text-red-400">0</div>
-                            <div class="text-xs text-gray-400">VENDRE</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Portfolio Table -->
-            <div class="card overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="py-2 px-4 text-left">ETF</th>
-                            <th class="py-2 px-4 text-left">Quantité</th>
-                            <th class="py-2 px-4 text-left">Prix Moyen</th>
-                            <th class="py-2 px-4 text-left">Prix Actuel</th>
-                            <th class="py-2 px-4 text-left">Valeur</th>
-                            <th class="py-2 px-4 text-left">Var. Jour</th>
-                            <th class="py-2 px-4 text-left">PnL</th>
-                            <th class="py-2 px-4 text-left">Signal</th>
-                        </tr>
-                    </thead>
-                    <tbody id="stocks-table">
-                        <tr><td colspan="8" class="py-4 text-center">Chargement du portefeuille...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="mt-4 text-xs text-gray-500">
-                Données mises à jour : <span id="stocks-last-update">inconnue</span>
-                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Scalable Capital + Yahoo Finance</span>
-            </div>
-        </section>        <!-- Chart -->
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4">📊 Évolution du Capital</h2>
             <div class="card">
@@ -458,210 +369,10 @@
             });
         }
 
-        // Fonction pour charger les données boursières
-        async function loadStocksData() {
-            try {
-                // Charger les données de base depuis GitHub
-                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/stocks.json');
-                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
-                
-                const stocksData = await response.json();
-                
-                // Si erreur dans les données
-                if (stocksData.error) {
-                    console.error('Erreur dans les données boursières:', stocksData.error);
-                    document.getElementById('stocks-table').innerHTML = 
-                        '<tr><td colspan="8" class="py-4 text-center text-yellow-400">Données boursières temporairement indisponibles</td></tr>';
-                    return;
-                }
-                
-                // Mettre à jour les informations de base
-                document.getElementById('stocks-last-update').textContent = formatDate(stocksData.summary.last_updated);
-                document.getElementById('stocks-total-invested').textContent = '€' + formatNumber(stocksData.summary.total_invested);
-                
-                // Récupérer les prix actuels et signaux pour chaque ETF
-                await updateStocksWithLiveData(stocksData.portfolio);
-                
-            } catch (error) {
-                console.error('Erreur lors du chargement des données boursières:', error);
-                document.getElementById('stocks-table').innerHTML = 
-                    '<tr><td colspan="8" class="py-4 text-center text-red-400">Erreur de chargement des données boursières</td></tr>';
-                
-                // Valeurs par défaut
-                document.getElementById('stocks-total-value').textContent = '€0.00';
-                document.getElementById('stocks-total-pnl').textContent = '€0.00';
-            }
-        }
-        
-        // Fonction pour récupérer les prix en temps réel et calculer les valeurs
-        async function updateStocksWithLiveData(portfolio) {
-            const tableBody = document.getElementById('stocks-table');
-            tableBody.innerHTML = '';
-            
-            let totalValue = 0;
-            let totalPnl = 0;
-            const signals = { ACHETER: 0, ATTENDRE: 0, VENDRE: 0 };
-            
-            // Pour chaque position dans le portefeuille
-            for (const [ticker, position] of Object.entries(portfolio)) {
-                try {
-                    // Récupérer le prix actuel depuis Yahoo Finance
-                    const priceData = await getStockPrice(ticker);
-                    
-                    if (!priceData || !priceData.price) {
-                        // Si pas de prix, utiliser le prix moyen
-                        position.current_price = position.average_price;
-                        position.current_value = position.shares * position.average_price;
-                        position.daily_change_pct = 0;
-                        position.signal = 'ATTENDRE';
-                        position.momentum_score = 0;
-                    } else {
-                        position.current_price = priceData.price;
-                        position.current_value = position.shares * priceData.price;
-                        position.daily_change_pct = priceData.daily_change || 0;
-                        
-                        // Déterminer le signal basé sur le momentum
-                        position.signal = getStockSignal(position, priceData);
-                        position.momentum_score = priceData.momentum || 0;
-                    }
-                    
-                    // Calculer le PnL
-                    position.total_invested = position.shares * position.average_price;
-                    position.total_pnl = position.current_value - position.total_invested;
-                    position.total_pnl_pct = (position.total_pnl / position.total_invested) * 100;
-                    
-                    // Mettre à jour les totaux
-                    totalValue += position.current_value;
-                    totalPnl += position.total_pnl;
-                    signals[position.signal]++;
-                    
-                    // Créer la ligne du tableau
-                    const row = document.createElement('tr');
-                    row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
-                    
-                    row.innerHTML = `
-                        <td class="py-2 px-4">
-                            <div class="font-medium">${position.name}</div>
-                            <div class="text-xs text-gray-400">${ticker}</div>
-                        </td>
-                        <td class="py-2 px-4">${formatNumber(position.shares, 0)}</td>
-                        <td class="py-2 px-4">€${formatNumber(position.average_price, 2)}</td>
-                        <td class="py-2 px-4">€${formatNumber(position.current_price, 2)}</td>
-                        <td class="py-2 px-4 font-medium">€${formatNumber(position.current_value, 2)}</td>
-                        <td class="py-2 px-4 ${position.daily_change_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
-                            ${position.daily_change_pct >= 0 ? '+' : ''}${formatNumber(position.daily_change_pct, 2)}%
-                        </td>
-                        <td class="py-2 px-4 ${position.total_pnl >= 0 ? 'text-green-400' : 'text-red-400'}">
-                            ${position.total_pnl >= 0 ? '+' : ''}€${formatNumber(position.total_pnl, 2)}
-                            <div class="text-xs ${position.total_pnl_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
-                                ${position.total_pnl_pct >= 0 ? '+' : ''}${formatNumber(position.total_pnl_pct, 2)}%
-                            </div>
-                        </td>
-                        <td class="py-2 px-4">
-                            <span class="px-2 py-1 rounded text-xs font-medium ${getSignalClass(position.signal)}">
-                                ${position.signal}
-                            </span>
-                        </td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                    
-                } catch (error) {
-                    console.error(`Erreur pour ${ticker}:`, error);
-                }
-            }
-            
-            // Mettre à jour les totaux
-            document.getElementById('stocks-total-value').textContent = '€' + formatNumber(totalValue);
-            document.getElementById('stocks-total-pnl').textContent = '€' + formatNumber(totalPnl);
-            document.getElementById('stocks-total-pnl').className = 
-                totalPnl >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
-            
-            // Mettre à jour les compteurs de signaux
-            document.getElementById('stocks-signal-buy').textContent = signals.ACHETER;
-            document.getElementById('stocks-signal-hold').textContent = signals.ATTENDRE;
-            document.getElementById('stocks-signal-sell').textContent = signals.VENDRE;
-            
-            // Si pas de positions
-            if (Object.keys(portfolio).length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="8" class="py-4 text-center text-gray-400">Aucune position boursière</td></tr>';
-            }
-        }
-        
-        // Fonction pour récupérer le prix d'une action depuis Yahoo Finance
-        async function getStockPrice(ticker) {
-            try {
-                // Utiliser un proxy CORS ou une API alternative
-                const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d`;
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-                
-                if (!response.ok) throw new Error('Erreur API');
-                
-                const data = await response.json();
-                const chartData = JSON.parse(data.contents);
-                
-                if (chartData.chart && chartData.chart.result && chartData.chart.result[0]) {
-                    const result = chartData.chart.result[0];
-                    const quote = result.indicators.quote[0];
-                    const closes = quote.close.filter(c => c !== null);
-                    
-                    if (closes.length >= 2) {
-                        const currentPrice = closes[closes.length - 1];
-                        const previousPrice = closes[closes.length - 2];
-                        const dailyChange = ((currentPrice - previousPrice) / previousPrice) * 100;
-                        
-                        // Calculer le momentum sur 1 mois
-                        const momentum = calculateMomentum(closes);
-                        
-                        return {
-                            price: currentPrice,
-                            daily_change: dailyChange,
-                            momentum: momentum
-                        };
-                    }
-                }
-            } catch (error) {
-                console.error(`Erreur prix pour ${ticker}:`, error);
-            }
-            return null;
-        }
-        
-        // Fonction pour calculer le momentum
-        function calculateMomentum(prices) {
-            if (prices.length < 20) return 0;
-            
-            const recent = prices.slice(-20);
-            const oldAvg = recent.slice(0, 10).reduce((a, b) => a + b, 0) / 10;
-            const newAvg = recent.slice(-10).reduce((a, b) => a + b, 0) / 10;
-            
-            return ((newAvg - oldAvg) / oldAvg) * 100;
-        }
-        
-        // Fonction pour déterminer le signal
-        function getStockSignal(position, priceData) {
-            if (!priceData || !priceData.momentum) return 'ATTENDRE';
-            
-            const momentum = priceData.momentum;
-            
-            if (momentum > 3.0) return 'ACHETER';
-            if (momentum < -5.0) return 'VENDRE';
-            return 'ATTENDRE';
-        }
-        
-        // Fonction pour obtenir la classe CSS du signal
-        function getSignalClass(signal) {
-            switch(signal) {
-                case 'ACHETER': return 'bg-green-900/50 text-green-300';
-                case 'VENDRE': return 'bg-red-900/50 text-red-300';
-                default: return 'bg-yellow-900/50 text-yellow-300';
-            }
-        }
-
         // Fonction principale de mise à jour
         async function updateAllData() {
             await loadBotData();
             await loadTrades();
-            await loadStocksData();
             updateTime();
         }
 
