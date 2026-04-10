@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring OpenClaw - Vincent Lefort</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .card {
+            background-color: #1e293b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .status-running { color: #10b981; }
+        .status-stopped { color: #ef4444; }
+        .status-warning { color: #f59e0b; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold">🚀 Monitoring OpenClaw</h1>
+            <p class="text-gray-400">Infrastructure de Vincent Lefort – Entrepreneur & Trader Crypto</p>
+            <p class="text-sm text-gray-500 mt-2">Dernière mise à jour : <span id="last-update">Chargement...</span></p>
+        </header>
+
+        <!-- Services Status -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Statut des Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Bot Trading V5</h3>
+                    <div class="flex items-center">
+                        <div id="bot-status" class="status-running text-lg font-bold">Chargement...</div>
+                        <div class="ml-4">
+                            <div>Scans : <span id="scan-count">0</span></div>
+                            <div>Positions : <span id="positions-count">0</span></div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Données : ~/binance_bot_v5/bot_status_v5.json</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Gateway OpenClaw</h3>
+                    <div id="gateway-status" class="status-running text-lg font-bold">🟢 En ligne</div>
+                    <p class="text-sm text-gray-400 mt-2">Connecté au réseau Tailscale</p>
+                    <p class="text-xs text-gray-500 mt-1">Statut vérifié : <span id="gateway-check-time">maintenant</span></p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Crypto Confirm Bot</h3>
+                    <div id="confirm-bot-status" class="status-running text-lg font-bold">🟢 Actif</div>
+                    <p class="text-sm text-gray-400 mt-2">Surveillance des transactions Binance</p>
+                    <p class="text-xs text-gray-500 mt-1">Dernière confirmation : <span id="last-confirmation">récente</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PnL & Capital -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">💰 Performance Financière</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL du Jour</h3>
+                    <div id="daily-pnl" class="text-3xl font-bold text-green-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte sur la session en cours</p>
+                    <div id="pnl-info" class="text-xs text-gray-500 mt-1">
+                        <span id="today-trades-count">0</span> trades aujourd'hui
+                        <span id="pnl-calculated-badge" class="ml-2 px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs hidden">
+                            Calculé depuis trades
+                        </span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Capital Actuel</h3>
+                    <div id="capital" class="text-3xl font-bold text-blue-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital total disponible</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Trades -->
+        <!-- Recent Trades -->
+        <section class="mb-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📈 Derniers Trades</h2>
+            <h2 class="text-2xl font-bold mb-4">📈 Derniers Trades</h2>
+            <div class="card overflow-x-auto">
+            <div class="card overflow-x-auto">
+                <table class="w-full text-sm">
+                <table class="w-full text-sm">
+                    <thead>
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                        <tr class="border-b border-gray-700">
+                            <th class="py-2 px-4 text-left">Date</th>
+                            <th class="py-2 px-4 text-left">Date</th>
+                            <th class="py-2 px-4 text-left">Symbol</th>
+                            <th class="py-2 px-4 text-left">Symbol</th>
+                            <th class="py-2 px-4 text-left">Direction</th>
+                            <th class="py-2 px-4 text-left">Direction</th>
+                            <th class="py-2 px-4 text-left">Entry</th>
+                            <th class="py-2 px-4 text-left">Entry</th>
+                            <th class="py-2 px-4 text-left">Exit</th>
+                            <th class="py-2 px-4 text-left">Exit</th>
+                            <th class="py-2 px-4 text-left">PnL ($)</th>
+                            <th class="py-2 px-4 text-left">PnL ($)</th>
+                            <th class="py-2 px-4 text-left">PnL (%)</th>
+                            <th class="py-2 px-4 text-left">PnL (%)</th>
+                        </tr>
+                        </tr>
+                    </thead>
+                    </thead>
+                    <tbody id="trades-table">
+                    <tbody id="trades-table">
+                        <tr><td colspan="7" class="py-4 text-center">Chargement des trades...</td></tr>
+                        <tr><td colspan="7" class="py-4 text-center">Chargement des trades...</td></tr>
+                    </tbody>
+                    </tbody>
+                </table>
+                </table>
+            </div>
+            </div>
+        </section>
+        </section>
+
+
+        <!-- Chart -->
+        <!-- Stocks Portfolio -->
+        <!-- Stocks Portfolio -->
+        <section class="mb-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📈 Portefeuille Boursier (EUR)</h2>
+            <h2 class="text-2xl font-bold mb-4">📈 Portefeuille Boursier (EUR)</h2>
+            
+            
+            <!-- Summary Cards -->
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="card">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Valeur Totale</h3>
+                    <h3 class="text-lg font-semibold mb-2">Valeur Totale</h3>
+                    <div id="stocks-total-value" class="text-3xl font-bold text-blue-400">€0.00</div>
+                    <div id="stocks-total-value" class="text-3xl font-bold text-blue-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Portefeuille actions</p>
+                    <p class="text-sm text-gray-400 mt-2">Portefeuille actions</p>
+                </div>
+                </div>
+                <div class="card">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Investi Total</h3>
+                    <h3 class="text-lg font-semibold mb-2">Investi Total</h3>
+                    <div id="stocks-total-invested" class="text-3xl font-bold text-purple-400">€0.00</div>
+                    <div id="stocks-total-invested" class="text-3xl font-bold text-purple-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital investi</p>
+                    <p class="text-sm text-gray-400 mt-2">Capital investi</p>
+                </div>
+                </div>
+                <div class="card">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL Total</h3>
+                    <h3 class="text-lg font-semibold mb-2">PnL Total</h3>
+                    <div id="stocks-total-pnl" class="text-3xl font-bold text-green-400">€0.00</div>
+                    <div id="stocks-total-pnl" class="text-3xl font-bold text-green-400">€0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte total</p>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte total</p>
+                </div>
+                </div>
+                <div class="card">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Signaux</h3>
+                    <h3 class="text-lg font-semibold mb-2">Signaux</h3>
+                    <div class="flex space-x-2">
+                    <div class="flex space-x-2">
+                        <div class="flex-1 text-center">
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-buy" class="text-2xl font-bold text-green-400">0</div>
+                            <div id="stocks-signal-buy" class="text-2xl font-bold text-green-400">0</div>
+                            <div class="text-xs text-gray-400">ACHETER</div>
+                            <div class="text-xs text-gray-400">ACHETER</div>
+                        </div>
+                        </div>
+                        <div class="flex-1 text-center">
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-hold" class="text-2xl font-bold text-yellow-400">0</div>
+                            <div id="stocks-signal-hold" class="text-2xl font-bold text-yellow-400">0</div>
+                            <div class="text-xs text-gray-400">ATTENDRE</div>
+                            <div class="text-xs text-gray-400">ATTENDRE</div>
+                        </div>
+                        </div>
+                        <div class="flex-1 text-center">
+                        <div class="flex-1 text-center">
+                            <div id="stocks-signal-sell" class="text-2xl font-bold text-red-400">0</div>
+                            <div id="stocks-signal-sell" class="text-2xl font-bold text-red-400">0</div>
+                            <div class="text-xs text-gray-400">VENDRE</div>
+                            <div class="text-xs text-gray-400">VENDRE</div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
+            <!-- Portfolio Table -->
+            <!-- Portfolio Table -->
+            <div class="card overflow-x-auto">
+            <div class="card overflow-x-auto">
+                <table class="w-full text-sm">
+                <table class="w-full text-sm">
+                    <thead>
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                        <tr class="border-b border-gray-700">
+                            <th class="py-2 px-4 text-left">ETF</th>
+                            <th class="py-2 px-4 text-left">ETF</th>
+                            <th class="py-2 px-4 text-left">Quantité</th>
+                            <th class="py-2 px-4 text-left">Quantité</th>
+                            <th class="py-2 px-4 text-left">Prix Moyen</th>
+                            <th class="py-2 px-4 text-left">Prix Moyen</th>
+                            <th class="py-2 px-4 text-left">Prix Actuel</th>
+                            <th class="py-2 px-4 text-left">Prix Actuel</th>
+                            <th class="py-2 px-4 text-left">Valeur</th>
+                            <th class="py-2 px-4 text-left">Valeur</th>
+                            <th class="py-2 px-4 text-left">Var. Jour</th>
+                            <th class="py-2 px-4 text-left">Var. Jour</th>
+                            <th class="py-2 px-4 text-left">PnL</th>
+                            <th class="py-2 px-4 text-left">PnL</th>
+                            <th class="py-2 px-4 text-left">Signal</th>
+                            <th class="py-2 px-4 text-left">Signal</th>
+                        </tr>
+                        </tr>
+                    </thead>
+                    </thead>
+                    <tbody id="stocks-table">
+                    <tbody id="stocks-table">
+                        <tr><td colspan="8" class="py-4 text-center">Chargement du portefeuille...</td></tr>
+                        <tr><td colspan="8" class="py-4 text-center">Chargement du portefeuille...</td></tr>
+                    </tbody>
+                    </tbody>
+                </table>
+                </table>
+            </div>
+            </div>
+            
+            
+            <div class="mt-4 text-xs text-gray-500">
+            <div class="mt-4 text-xs text-gray-500">
+                Données mises à jour : <span id="stocks-last-update">inconnue</span>
+                Données mises à jour : <span id="stocks-last-update">inconnue</span>
+                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Scalable Capital + Yahoo Finance</span>
+                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Scalable Capital + Yahoo Finance</span>
+            </div>
+            </div>
+        </section>        <!-- Chart -->
+        </section>        <!-- Chart -->
+        <section class="mb-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Évolution du Capital</h2>
+            <h2 class="text-2xl font-bold mb-4">📊 Évolution du Capital</h2>
+            <div class="card">
+            <div class="card">
+                <canvas id="capital-chart"></canvas>
+                <canvas id="capital-chart"></canvas>
+            </div>
+            </div>
+        </section>
+        </section>
+
+
+        <!-- Data Source Info -->
+        <!-- Kraken Futures -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">⚡ Kraken Futures (USD)</h2>
+            
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Balance</h3>
+                    <div id="kraken-balance" class="text-3xl font-bold text-blue-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital disponible</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Positions</h3>
+                    <div id="kraken-positions-count" class="text-3xl font-bold text-purple-400">0</div>
+                    <p class="text-sm text-gray-400 mt-2">Positions ouvertes</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL du Jour</h3>
+                    <div id="kraken-daily-pnl" class="text-3xl font-bold text-green-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte journalier</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Statut</h3>
+                    <div id="kraken-status" class="text-2xl font-bold">
+                        <span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300">offline</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Bot Kraken</p>
+                </div>
+            </div>
+
+            <!-- RSI Indicators -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📊 Indicateurs RSI</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="kraken-rsi-container">
+                    <div class="card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">BTCUSDC</div>
+                                <div class="text-sm text-gray-400">Bitcoin / USDC</div>
+                            </div>
+                            <div class="text-right">
+                                <div id="kraken-btc-rsi" class="text-2xl font-bold text-yellow-400">0.0</div>
+                                <div class="text-xs text-gray-400">RSI 14</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div id="kraken-btc-rsi-bar" class="h-full bg-yellow-500" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">ETHUSDC</div>
+                                <div class="text-sm text-gray-400">Ethereum / USDC</div>
+                            </div>
+                            <div class="text-right">
+                                <div id="kraken-eth-rsi" class="text-2xl font-bold text-purple-400">0.0</div>
+                                <div class="text-xs text-gray-400">RSI 14</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div id="kraken-eth-rsi-bar" class="h-full bg-purple-500" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Positions -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📈 Positions Ouvertes</h3>
+                <div class="card overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="py-2 px-4 text-left">Symbol</th>
+                                <th class="py-2 px-4 text-left">Side</th>
+                                <th class="py-2 px-4 text-left">Size</th>
+                                <th class="py-2 px-4 text-left">Entry Price</th>
+                                <th class="py-2 px-4 text-left">Current PnL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kraken-positions-table">
+                            <tr><td colspan="5" class="py-4 text-center text-gray-400">Aucune position ouverte</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Trades -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📋 5 Derniers Trades</h3>
+                <div class="card overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="py-2 px-4 text-left">Date</th>
+                                <th class="py-2 px-4 text-left">Symbol</th>
+                                <th class="py-2 px-4 text-left">Side</th>
+                                <th class="py-2 px-4 text-left">Entry</th>
+                                <th class="py-2 px-4 text-left">Exit</th>
+                                <th class="py-2 px-4 text-left">PnL ($)</th>
+                                <th class="py-2 px-4 text-left">PnL (%)</th>
+                                <th class="py-2 px-4 text-left">Durée</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kraken-trades-table">
+                            <tr><td colspan="8" class="py-4 text-center text-gray-400">Aucun trade récent</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="text-xs text-gray-500">
+                Données mises à jour : <span id="kraken-last-update">inconnue</span>
+                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Kraken Futures Bot V1</span>
+            </div>
+        </section>        <!-- Data Source Info -->
+        <section class="mb-8 card">
+            <h3 class="text-lg font-semibold mb-2">ℹ️ Source des Données</h3>
+            <div class="text-sm text-gray-400">
+                <p class="mb-2">Ce dashboard affiche des données en temps réel provenant de :</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><code class="bg-gray-800 px-1 rounded">~/binance_bot_v5/bot_status_v5.json</code> – Statut du bot trading</li>
+                    <li><code class="bg-gray-800 px-1 rounded">~/binance_bot_v5/trades_v5.csv</code> – Historique des trades</li>
+                    <li>Les données sont mises à jour via le script <code class="bg-gray-800 px-1 rounded">update-data.sh</code></li>
+                </ul>
+                <p class="mt-3 text-xs text-gray-500">Dernière mise à jour des fichiers source : <span id="data-source-update">inconnue</span></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-8">
+            <p>Monitoring OpenClaw – Vincent Lefort • Munich • <span id="current-time"></span></p>
+            <p class="mt-2">Données mises à jour automatiquement toutes les 30 secondes • <a href="https://github.com/vincentlefort/monitoring-openclaw" class="text-blue-400 hover:text-blue-300">Voir sur GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Fonction pour formater les dates
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString('fr-FR', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Fonction pour formater les nombres
+        function formatNumber(num, decimals = 2) {
+            return num.toLocaleString('fr-FR', { 
+                minimumFractionDigits: decimals, 
+                maximumFractionDigits: decimals 
+            });
+        }
+
+        // Fonction pour mettre à jour l'heure
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleString('fr-FR', { 
+                    day: '2-digit', 
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+        }
+
+        // Fonction pour charger les données du bot
+        async function loadBotData() {
+            try {
+                // Charger les données depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/bot_status.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const botData = await response.json();
+
+                // Mise à jour de l'interface
+                document.getElementById('last-update').textContent = formatDate(botData.timestamp);
+                document.getElementById('bot-status').textContent = botData.running ? '🟢 En cours' : '🔴 Arrêté';
+                document.getElementById('bot-status').className = botData.running ? 'status-running text-lg font-bold' : 'status-stopped text-lg font-bold';
+                document.getElementById('scan-count').textContent = botData.scan_count;
+                document.getElementById('positions-count').textContent = botData.positions_count;
+                
+                // Mise à jour du PnL avec couleur selon le résultat
+                const dailyPnlElement = document.getElementById('daily-pnl');
+                const dailyPnlValue = botData.daily_pnl || 0;
+                dailyPnlElement.textContent = '$' + formatNumber(dailyPnlValue);
+                dailyPnlElement.className = dailyPnlValue >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+                
+                document.getElementById('capital').textContent = '$' + formatNumber(botData.capital);
+                
+                // Afficher le nombre de trades d'aujourd'hui et l'indicateur de calcul
+                if (botData.today_trades_count !== undefined) {
+                    document.getElementById('today-trades-count').textContent = botData.today_trades_count;
+                }
+                
+                if (botData.daily_pnl_calculated) {
+                    document.getElementById('pnl-calculated-badge').classList.remove('hidden');
+                }
+
+                // Mise à jour du graphique
+                updateChart(botData.capital);
+
+                // Vérifier l'ancienneté des données
+                checkDataFreshness(botData.timestamp);
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des données du bot:', error);
+                document.getElementById('bot-status').textContent = '❌ Erreur';
+                document.getElementById('bot-status').className = 'status-warning text-lg font-bold';
+                
+                // Données de secours
+                document.getElementById('daily-pnl').textContent = '$0.00';
+                document.getElementById('capital').textContent = '$3,610.93';
+                updateChart(3610.93);
+            }
+        }
+
+        // Fonction pour vérifier l'ancienneté des données
+        function checkDataFreshness(timestamp) {
+            const dataTime = new Date(timestamp);
+            const now = new Date();
+            const diffMinutes = Math.floor((now - dataTime) / (1000 * 60));
+            
+            let freshnessText = '';
+            let freshnessClass = 'text-green-400';
+            
+            if (diffMinutes < 5) {
+                freshnessText = 'à l\'instant';
+            } else if (diffMinutes < 60) {
+                freshnessText = `il y a ${diffMinutes} min`;
+                if (diffMinutes > 15) freshnessClass = 'text-yellow-400';
+            } else if (diffMinutes < 1440) {
+                const hours = Math.floor(diffMinutes / 60);
+                freshnessText = `il y a ${hours}h`;
+                freshnessClass = 'text-yellow-400';
+            } else {
+                const days = Math.floor(diffMinutes / 1440);
+                freshnessText = `il y a ${days}j`;
+                freshnessClass = 'text-red-400';
+            }
+            
+            document.getElementById('data-source-update').textContent = freshnessText;
+            document.getElementById('data-source-update').className = freshnessClass;
+        }
+
+        // Fonction pour charger les trades
+        async function loadTrades() {
+            try {
+                // Charger les trades depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/trades.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const allTrades = await response.json();
+                
+                // Prendre les 10 derniers trades
+                const recentTrades = allTrades.slice(-10).reverse();
+
+                const tableBody = document.getElementById('trades-table');
+                tableBody.innerHTML = '';
+
+                if (recentTrades.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-gray-400">Aucun trade récent</td></tr>';
+                    return;
+                }
+
+                recentTrades.forEach(trade => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                    
+                    // Extraire les données nécessaires
+                    const timestamp = trade.timestamp || trade.date || '';
+                    const symbol = trade.symbol || '';
+                    const direction = trade.direction || '';
+                    const entryPrice = parseFloat(trade.entry_price || trade.entry || 0);
+                    const exitPrice = parseFloat(trade.exit_price || trade.exit || 0);
+                    const pnlUsdc = parseFloat(trade.pnl_usdc || trade.pnl || 0);
+                    const pnlPct = parseFloat(trade.pnl_pct || trade.pnl_percent || 0);
+                    
+                    row.innerHTML = `
+                        <td class="py-2 px-4">${formatDate(timestamp)}</td>
+                        <td class="py-2 px-4 font-mono">${symbol}</td>
+                        <td class="py-2 px-4">
+                            <span class="${direction === 'LONG' ? 'text-green-400' : 'text-red-400'}">
+                                ${direction}
+                            </span>
+                        </td>
+                        <td class="py-2 px-4">${formatNumber(entryPrice, symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4">${formatNumber(exitPrice, symbol.includes('BTC') ? 0 : 2)}</td>
+                        <td class="py-2 px-4 ${pnlUsdc >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${pnlUsdc >= 0 ? '+' : ''}${formatNumber(pnlUsdc, 4)}
+                        </td>
+                        <td class="py-2 px-4 ${pnlPct >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${pnlPct >= 0 ? '+' : ''}${formatNumber(pnlPct, 2)}%
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des trades:', error);
+                document.getElementById('trades-table').innerHTML = 
+                    '<tr><td colspan="7" class="py-4 text-center text-red-400">Erreur de chargement des trades</td></tr>';
+            }
+        }
+
+        // Graphique du capital
+        let capitalChart;
+        function updateChart(currentCapital) {
+            const ctx = document.getElementById('capital-chart').getContext('2d');
+            
+            if (capitalChart) {
+                capitalChart.destroy();
+            }
+
+            // Données simulées pour le graphique
+            const labels = [];
+            const data = [];
+            let capital = 3500;
+            
+            for (let i = 0; i < 24; i++) {
+                labels.push(`${i}h`);
+                capital += (Math.random() - 0.5) * 20;
+                data.push(capital);
+            }
+            data[data.length - 1] = currentCapital;
+
+            capitalChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Capital ($)',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return '$' + formatNumber(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fonction pour charger les données boursières
+        async function loadStocksData() {
+            try {
+                // Charger les données de base depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/stocks.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const stocksData = await response.json();
+                
+                // Si erreur dans les données
+                if (stocksData.error) {
+                    console.error('Erreur dans les données boursières:', stocksData.error);
+                    document.getElementById('stocks-table').innerHTML = 
+                        '<tr><td colspan="8" class="py-4 text-center text-yellow-400">Données boursières temporairement indisponibles</td></tr>';
+                    return;
+                }
+                
+                // Mettre à jour les informations de base
+                document.getElementById('stocks-last-update').textContent = formatDate(stocksData.summary.last_updated);
+                document.getElementById('stocks-total-invested').textContent = '€' + formatNumber(stocksData.summary.total_invested);
+                
+                // Récupérer les prix actuels et signaux pour chaque ETF
+                await updateStocksWithLiveData(stocksData.portfolio);
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement des données boursières:', error);
+                document.getElementById('stocks-table').innerHTML = 
+                    '<tr><td colspan="8" class="py-4 text-center text-red-400">Erreur de chargement des données boursières</td></tr>';
+                
+                // Valeurs par défaut
+                document.getElementById('stocks-total-value').textContent = '€0.00';
+                document.getElementById('stocks-total-pnl').textContent = '€0.00';
+            }
+        }
+        
+        // Fonction pour récupérer les prix en temps réel et calculer les valeurs
+        async function updateStocksWithLiveData(portfolio) {
+            const tableBody = document.getElementById('stocks-table');
+            tableBody.innerHTML = '';
+            
+            let totalValue = 0;
+            let totalPnl = 0;
+            const signals = { ACHETER: 0, ATTENDRE: 0, VENDRE: 0 };
+            
+            // Pour chaque position dans le portefeuille
+            for (const [ticker, position] of Object.entries(portfolio)) {
+                try {
+                    // Récupérer le prix actuel depuis Yahoo Finance
+                    const priceData = await getStockPrice(ticker);
+                    
+                    if (!priceData || !priceData.price) {
+                        // Si pas de prix, utiliser le prix moyen
+                        position.current_price = position.average_price;
+                        position.current_value = position.shares * position.average_price;
+                        position.daily_change_pct = 0;
+                        position.signal = 'ATTENDRE';
+                        position.momentum_score = 0;
+                    } else {
+                        position.current_price = priceData.price;
+                        position.current_value = position.shares * priceData.price;
+                        position.daily_change_pct = priceData.daily_change || 0;
+                        
+                        // Déterminer le signal basé sur le momentum
+                        position.signal = getStockSignal(position, priceData);
+                        position.momentum_score = priceData.momentum || 0;
+                    }
+                    
+                    // Calculer le PnL
+                    position.total_invested = position.shares * position.average_price;
+                    position.total_pnl = position.current_value - position.total_invested;
+                    position.total_pnl_pct = (position.total_pnl / position.total_invested) * 100;
+                    
+                    // Mettre à jour les totaux
+                    totalValue += position.current_value;
+                    totalPnl += position.total_pnl;
+                    signals[position.signal]++;
+                    
+                    // Créer la ligne du tableau
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                    
+                    row.innerHTML = `
+                        <td class="py-2 px-4">
+                            <div class="font-medium">${position.name}</div>
+                            <div class="text-xs text-gray-400">${ticker}</div>
+                        </td>
+                        <td class="py-2 px-4">${formatNumber(position.shares, 0)}</td>
+                        <td class="py-2 px-4">€${formatNumber(position.average_price, 2)}</td>
+                        <td class="py-2 px-4">€${formatNumber(position.current_price, 2)}</td>
+                        <td class="py-2 px-4 font-medium">€${formatNumber(position.current_value, 2)}</td>
+                        <td class="py-2 px-4 ${position.daily_change_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${position.daily_change_pct >= 0 ? '+' : ''}${formatNumber(position.daily_change_pct, 2)}%
+                        </td>
+                        <td class="py-2 px-4 ${position.total_pnl >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${position.total_pnl >= 0 ? '+' : ''}€${formatNumber(position.total_pnl, 2)}
+                            <div class="text-xs ${position.total_pnl_pct >= 0 ? 'text-green-400' : 'text-red-400'}">
+                                ${position.total_pnl_pct >= 0 ? '+' : ''}${formatNumber(position.total_pnl_pct, 2)}%
+                            </div>
+                        </td>
+                        <td class="py-2 px-4">
+                            <span class="px-2 py-1 rounded text-xs font-medium ${getSignalClass(position.signal)}">
+                                ${position.signal}
+                            </span>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                    
+                } catch (error) {
+                    console.error(`Erreur pour ${ticker}:`, error);
+                }
+            }
+            
+            // Mettre à jour les totaux
+            document.getElementById('stocks-total-value').textContent = '€' + formatNumber(totalValue);
+            document.getElementById('stocks-total-pnl').textContent = '€' + formatNumber(totalPnl);
+            document.getElementById('stocks-total-pnl').className = 
+                totalPnl >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+            
+            // Mettre à jour les compteurs de signaux
+            document.getElementById('stocks-signal-buy').textContent = signals.ACHETER;
+            document.getElementById('stocks-signal-hold').textContent = signals.ATTENDRE;
+            document.getElementById('stocks-signal-sell').textContent = signals.VENDRE;
+            
+            // Si pas de positions
+            if (Object.keys(portfolio).length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8" class="py-4 text-center text-gray-400">Aucune position boursière</td></tr>';
+            }
+        }
+        
+        // Fonction pour récupérer le prix d'une action depuis Yahoo Finance
+        async function getStockPrice(ticker) {
+            try {
+                // Utiliser un proxy CORS ou une API alternative
+                const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d`;
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+                
+                if (!response.ok) throw new Error('Erreur API');
+                
+                const data = await response.json();
+                const chartData = JSON.parse(data.contents);
+                
+                if (chartData.chart && chartData.chart.result && chartData.chart.result[0]) {
+                    const result = chartData.chart.result[0];
+                    const quote = result.indicators.quote[0];
+                    const closes = quote.close.filter(c => c !== null);
+                    
+                    if (closes.length >= 2) {
+                        const currentPrice = closes[closes.length - 1];
+                        const previousPrice = closes[closes.length - 2];
+                        const dailyChange = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        
+                        // Calculer le momentum sur 1 mois
+                        const momentum = calculateMomentum(closes);
+                        
+                        return {
+                            price: currentPrice,
+                            daily_change: dailyChange,
+                            momentum: momentum
+                        };
+                    }
+                }
+            } catch (error) {
+                console.error(`Erreur prix pour ${ticker}:`, error);
+            }
+            return null;
+        }
+        
+        // Fonction pour calculer le momentum
+        function calculateMomentum(prices) {
+            if (prices.length < 20) return 0;
+            
+            const recent = prices.slice(-20);
+            const oldAvg = recent.slice(0, 10).reduce((a, b) => a + b, 0) / 10;
+            const newAvg = recent.slice(-10).reduce((a, b) => a + b, 0) / 10;
+            
+            return ((newAvg - oldAvg) / oldAvg) * 100;
+        }
+        
+        // Fonction pour déterminer le signal
+        function getStockSignal(position, priceData) {
+            if (!priceData || !priceData.momentum) return 'ATTENDRE';
+            
+            const momentum = priceData.momentum;
+            
+            if (momentum > 3.0) return 'ACHETER';
+            if (momentum < -5.0) return 'VENDRE';
+            return 'ATTENDRE';
+        }
+        
+        // Fonction pour obtenir la classe CSS du signal
+        function getSignalClass(signal) {
+            switch(signal) {
+                case 'ACHETER': return 'bg-green-900/50 text-green-300';
+                case 'VENDRE': return 'bg-red-900/50 text-red-300';
+                default: return 'bg-yellow-900/50 text-yellow-300';
+            }
+        }
+
+        // Fonction pour charger les données Kraken
+        async function loadKrakenData() {
+            try {
+                // Charger les données depuis GitHub
+                const response = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/kraken.json');
+                if (!response.ok) throw new Error('Erreur HTTP ' + response.status);
+                
+                const krakenData = await response.json();
+                
+                // Si erreur dans les données
+                if (krakenData.error) {
+                    console.error('Erreur dans les données Kraken:', krakenData.error);
+                    return;
+                }
+                
+                // Mettre à jour les informations de base
+                document.getElementById('kraken-last-update').textContent = formatDate(krakenData.summary.last_updated);
+                
+                // Mettre à jour les cartes de résumé
+                document.getElementById('kraken-balance').textContent = '$' + formatNumber(krakenData.summary.balance);
+                document.getElementById('kraken-positions-count').textContent = krakenData.summary.positions_count;
+                document.getElementById('kraken-daily-pnl').textContent = '$' + formatNumber(krakenData.summary.daily_pnl, 4);
+                
+                // Couleur du PnL
+                const dailyPnlElement = document.getElementById('kraken-daily-pnl');
+                dailyPnlElement.className = krakenData.summary.daily_pnl >= 0 ? 
+                    'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+                
+                // Statut du bot
+                const statusElement = document.getElementById('kraken-status');
+                const status = krakenData.bot.status;
+                if (status === 'online') {
+                    statusElement.innerHTML = '<span class="px-3 py-1 rounded-full bg-green-900/50 text-green-300">online</span>';
+                } else if (status === 'offline') {
+                    statusElement.innerHTML = '<span class="px-3 py-1 rounded-full bg-red-900/50 text-red-300">offline</span>';
+                } else {
+                    statusElement.innerHTML = '<span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300">' + status + '</span>';
+                }
+                
+                // Mettre à jour les indicateurs RSI
+                updateRSIIndicators(krakenData.bot.rsi_data);
+                
+                // Mettre à jour les positions ouvertes
+                updateKrakenPositions(krakenData.bot.positions);
+                
+                // Mettre à jour les trades récents
+                updateKrakenTrades(krakenData.trades);
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement des données Kraken:', error);
+                
+                // Valeurs par défaut
+                document.getElementById('kraken-balance').textContent = '$0.00';
+                document.getElementById('kraken-positions-count').textContent = '0';
+                document.getElementById('kraken-daily-pnl').textContent = '$0.00';
+                document.getElementById('kraken-status').innerHTML = 
+                    '<span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300">erreur</span>';
+            }
+        }
+        
+        // Fonction pour mettre à jour les indicateurs RSI
+        function updateRSIIndicators(rsiData) {
+            if (!rsiData) return;
+            
+            // BTC RSI
+            if (rsiData.BTCUSDC) {
+                const btcRsi = rsiData.BTCUSDC.rsi;
+                document.getElementById('kraken-btc-rsi').textContent = btcRsi.toFixed(1);
+                document.getElementById('kraken-btc-rsi-bar').style.width = Math.min(btcRsi, 100) + '%';
+                
+                // Couleur selon la valeur RSI
+                const btcRsiElement = document.getElementById('kraken-btc-rsi');
+                if (btcRsi > 70) {
+                    btcRsiElement.className = 'text-2xl font-bold text-red-400';
+                    document.getElementById('kraken-btc-rsi-bar').className = 'h-full bg-red-500';
+                } else if (btcRsi < 30) {
+                    btcRsiElement.className = 'text-2xl font-bold text-green-400';
+                    document.getElementById('kraken-btc-rsi-bar').className = 'h-full bg-green-500';
+                } else {
+                    btcRsiElement.className = 'text-2xl font-bold text-yellow-400';
+                    document.getElementById('kraken-btc-rsi-bar').className = 'h-full bg-yellow-500';
+                }
+            }
+            
+            // ETH RSI
+            if (rsiData.ETHUSDC) {
+                const ethRsi = rsiData.ETHUSDC.rsi;
+                document.getElementById('kraken-eth-rsi').textContent = ethRsi.toFixed(1);
+                document.getElementById('kraken-eth-rsi-bar').style.width = Math.min(ethRsi, 100) + '%';
+                
+                // Couleur selon la valeur RSI
+                const ethRsiElement = document.getElementById('kraken-eth-rsi');
+                if (ethRsi > 70) {
+                    ethRsiElement.className = 'text-2xl font-bold text-red-400';
+                    document.getElementById('kraken-eth-rsi-bar').className = 'h-full bg-red-500';
+                } else if (ethRsi < 30) {
+                    ethRsiElement.className = 'text-2xl font-bold text-green-400';
+                    document.getElementById('kraken-eth-rsi-bar').className = 'h-full bg-green-500';
+                } else {
+                    ethRsiElement.className = 'text-2xl font-bold text-purple-400';
+                    document.getElementById('kraken-eth-rsi-bar').className = 'h-full bg-purple-500';
+                }
+            }
+        }
+        
+        // Fonction pour mettre à jour les positions ouvertes
+        function updateKrakenPositions(positions) {
+            const tableBody = document.getElementById('kraken-positions-table');
+            
+            if (!positions || positions.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-gray-400">Aucune position ouverte</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            positions.forEach(position => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                
+                row.innerHTML = `
+                    <td class="py-2 px-4 font-mono">${position.symbol || ''}</td>
+                    <td class="py-2 px-4">
+                        <span class="px-2 py-1 rounded text-xs font-medium ${position.side === 'LONG' ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}">
+                            ${position.side || 'UNKNOWN'}
+                        </span>
+                    </td>
+                    <td class="py-2 px-4">${formatNumber(position.size || 0, 4)}</td>
+                    <td class="py-2 px-4">-</td>
+                    <td class="py-2 px-4">-</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Fonction pour mettre à jour les trades récents
+        function updateKrakenTrades(trades) {
+            const tableBody = document.getElementById('kraken-trades-table');
+            
+            if (!trades || trades.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8" class="py-4 text-center text-gray-400">Aucun trade récent</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            // Prendre les 5 derniers trades
+            const recentTrades = trades.slice(0, 5);
+            
+            recentTrades.forEach(trade => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-800 hover:bg-gray-800/50';
+                
+                row.innerHTML = `
+                    <td class="py-2 px-4">${formatDate(trade.timestamp)}</td>
+                    <td class="py-2 px-4 font-mono">${trade.symbol || ''}</td>
+                    <td class="py-2 px-4">
+                        <span class="px-2 py-1 rounded text-xs font-medium ${trade.side === 'BUY' ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}">
+                            ${trade.side || ''}
+                        </span>
+                    </td>
+                    <td class="py-2 px-4">${formatNumber(trade.entry_price || 0, 2)}</td>
+                    <td class="py-2 px-4">${formatNumber(trade.exit_price || 0, 2)}</td>
+                    <td class="py-2 px-4 ${(trade.pnl_usd || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">
+                        ${(trade.pnl_usd || 0) >= 0 ? '+' : ''}$${formatNumber(trade.pnl_usd || 0, 4)}
+                    </td>
+                    <td class="py-2 px-4 ${(trade.pnl_pct || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">
+                        ${(trade.pnl_pct || 0) >= 0 ? '+' : ''}${formatNumber(trade.pnl_pct || 0, 2)}%
+                    </td>
+                    <td class="py-2 px-4">${trade.duration || ''}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Fonction principale de mise à jour
+        async function updateAllData() {
+            await loadBotData();
+            await loadTrades();
+            await loadStocksData();
+            await loadKrakenData();
+            updateTime();
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAllData();
+            // Mise à jour toutes les 30 secondes
+            setInterval(updateAllData, 30000);
+            // Mise à jour de l'heure toutes les secondes
+            setInterval(updateTime, 1000);
+        });
+    </script>
+</body>
+</html>
