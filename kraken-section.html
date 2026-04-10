@@ -1,0 +1,131 @@
+        <!-- Kraken Futures -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">⚡ Kraken Futures (USD)</h2>
+            
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Balance</h3>
+                    <div id="kraken-balance" class="text-3xl font-bold text-blue-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Capital disponible</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Positions</h3>
+                    <div id="kraken-positions-count" class="text-3xl font-bold text-purple-400">0</div>
+                    <p class="text-sm text-gray-400 mt-2">Positions ouvertes</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">PnL du Jour</h3>
+                    <div id="kraken-daily-pnl" class="text-3xl font-bold text-green-400">$0.00</div>
+                    <p class="text-sm text-gray-400 mt-2">Profit/Perte journalier</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2">Statut</h3>
+                    <div id="kraken-status" class="text-2xl font-bold">
+                        <span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300">offline</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Bot Kraken</p>
+                </div>
+            </div>
+
+            <!-- RSI Indicators -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📊 Indicateurs RSI</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="kraken-rsi-container">
+                    <div class="card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">BTCUSDC</div>
+                                <div class="text-sm text-gray-400">Bitcoin / USDC</div>
+                            </div>
+                            <div class="text-right">
+                                <div id="kraken-btc-rsi" class="text-2xl font-bold text-yellow-400">0.0</div>
+                                <div class="text-xs text-gray-400">RSI 14</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div id="kraken-btc-rsi-bar" class="h-full bg-yellow-500" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">ETHUSDC</div>
+                                <div class="text-sm text-gray-400">Ethereum / USDC</div>
+                            </div>
+                            <div class="text-right">
+                                <div id="kraken-eth-rsi" class="text-2xl font-bold text-purple-400">0.0</div>
+                                <div class="text-xs text-gray-400">RSI 14</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div id="kraken-eth-rsi-bar" class="h-full bg-purple-500" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Positions -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📈 Positions Ouvertes</h3>
+                <div class="card overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="py-2 px-4 text-left">Symbol</th>
+                                <th class="py-2 px-4 text-left">Side</th>
+                                <th class="py-2 px-4 text-left">Size</th>
+                                <th class="py-2 px-4 text-left">Entry Price</th>
+                                <th class="py-2 px-4 text-left">Current PnL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kraken-positions-table">
+                            <tr><td colspan="5" class="py-4 text-center text-gray-400">Aucune position ouverte</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Trades -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">📋 5 Derniers Trades</h3>
+                <div class="card overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="py-2 px-4 text-left">Date</th>
+                                <th class="py-2 px-4 text-left">Symbol</th>
+                                <th class="py-2 px-4 text-left">Side</th>
+                                <th class="py-2 px-4 text-left">Entry</th>
+                                <th class="py-2 px-4 text-left">Exit</th>
+                                <th class="py-2 px-4 text-left">PnL ($)</th>
+                                <th class="py-2 px-4 text-left">PnL (%)</th>
+                                <th class="py-2 px-4 text-left">Durée</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kraken-trades-table">
+                            <tr><td colspan="8" class="py-4 text-center text-gray-400">Aucun trade récent</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="text-xs text-gray-500">
+                Données mises à jour : <span id="kraken-last-update">inconnue</span>
+                <span class="ml-2 px-2 py-1 bg-gray-800 text-gray-300 rounded">Kraken Futures Bot V1</span>
+            </div>
+        </section>

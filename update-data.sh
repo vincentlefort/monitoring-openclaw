@@ -84,6 +84,11 @@ if [ -f /home/openclaw/.openclaw/workspace-bourse/scalable_export.csv ]; then
     python3 ./update-stocks-data-simple.py 2>/dev/null || echo "Analyse boursière échouée"
 fi
 
+# Analyser les données Kraken
+if [ -f /home/openclaw/kraken_bot_v1/bot.log ]; then
+    python3 ./update-kraken-data.py 2>/dev/null || echo "Analyse Kraken échouée"
+fi
+
 # Mettre à jour le timestamp
 echo '{"last_updated": "'$(date -Iseconds)'"}' > ./data/last_updated.json
 
