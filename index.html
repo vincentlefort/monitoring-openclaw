@@ -3,372 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Monitoring - Vincent</title>
+    <title>Dashboard — Vincent</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-purple: #8b5cf6;
-        }
-        
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-        
-        .card {
-            background-color: var(--bg-secondary);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            transition: border-color 0.2s;
-        }
-        
-        .status-online {
-            background: linear-gradient(135deg, #10b98122, #10b98111);
-            color: #10b981;
-        }
-        
-        .status-offline {
-            background: linear-gradient(135deg, #ef444422, #ef444411);
-            color: #ef4444;
-        }
-        
-        .signal-buy {
-            background: linear-gradient(135deg, #10b98122, #10b98111);
-            color: #10b981;
-        }
-        
-        .signal-sell {
-            background: linear-gradient(135deg, #ef444422, #ef444411);
-            color: #ef4444;
-        }
-        
-        .signal-hold {
-            background: linear-gradient(135deg, #f59e0b22, #f59e0b11);
-            color: #f59e0b;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 3px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
+        body { background: #0f172a; color: #f1f5f9; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .card { background: #1e293b; border-radius: 0.75rem; padding: 1.25rem; border: 1px solid rgba(255,255,255,0.06); }
+        .card-header { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; }
+        .badge { padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+        .badge-green { background: #10b98122; color: #10b981; }
+        .badge-red { background: #ef444422; color: #ef4444; }
+        .badge-yellow { background: #f59e0b22; color: #f59e0b; }
+        .badge-gray { background: #37415122; color: #94a3b8; }
+        .stat-label { color: #64748b; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+        .pnl-pos { color: #10b981; }
+        .pnl-neg { color: #ef4444; }
+        .pnl-zero { color: #94a3b8; }
+        table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+        thead tr { border-bottom: 1px solid #334155; }
+        th { padding: 6px 8px; text-align: left; color: #64748b; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
+        td { padding: 6px 8px; border-bottom: 1px solid #1e293b; }
+        tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .signal-buy { background: #10b98122; color: #10b981; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+        .signal-sell { background: #ef444422; color: #ef4444; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+        .signal-hold { background: #f59e0b22; color: #f59e0b; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+        .pos-card { background: #0f172a; border-radius: 0.5rem; padding: 0.75rem; border: 1px solid #334155; margin-bottom: 0.5rem; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-6">
+
     <!-- Header -->
-    <header class="mb-8">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <h1 class="text-3xl font-bold">
-                    <i class="fas fa-chart-line text-blue-400 mr-2"></i>
-                    Dashboard Monitoring
-                </h1>
-                <p class="text-gray-400 mt-1">Vincent • Crypto Trading & ETF Portfolio</p>
-            </div>
-            <div class="flex flex-col md:flex-row items-start md:items-center gap-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                    <span class="text-sm">Live</span>
-                </div>
-                <div class="text-sm text-gray-400" id="current-time">Chargement...</div>
-                <div class="px-3 py-1 bg-blue-900/30 text-blue-300 rounded-full text-sm">
-                    <i class="fas fa-sync-alt mr-1"></i>
-                    <span id="refresh-status">Auto-refresh 30s</span>
-                </div>
-            </div>
+    <header class="mb-6 flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold">Dashboard <span class="text-blue-400">Vincent</span></h1>
+            <p class="text-gray-500 text-sm mt-0.5">Crypto Trading & ETF Portfolio</p>
+        </div>
+        <div class="flex items-center gap-3 text-sm text-gray-400">
+            <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block"></span>
+                Live
+            </span>
+            <span id="current-time"></span>
         </div>
     </header>
 
-    <!-- Section 1: Deux colonnes côte à côte (Binance + Kraken) -->
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">
-            <i class="fas fa-coins text-yellow-400 mr-2"></i>
-            Trading Crypto
-        </h2>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Colonne gauche: Binance V5 -->
-            <div class="card">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 class="text-xl font-bold">
-                            <i class="fab fa-binance text-yellow-400 mr-2"></i>
-                            Binance V5
-                        </h3>
-                        <p class="text-gray-400 text-sm">Spot Trading</p>
-                    </div>
-                    <div class="px-3 py-1 rounded-full bg-yellow-900/30 text-yellow-300 text-sm">
-                        <i class="fas fa-robot mr-1"></i>
-                        <span id="binance-status">Online</span>
-                    </div>
-                </div>
-                
-                <!-- Stats Binance -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-400 text-sm">Capital</p>
-                        <p id="binance-capital" class="text-2xl font-bold">$0.00</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">PnL du Jour</p>
-                        <p id="binance-daily-pnl" class="text-2xl font-bold text-green-400">$0.00</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">Trades Aujourd'hui</p>
-                        <p id="binance-today-trades" class="text-2xl font-bold">0</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">Positions</p>
-                        <p id="binance-positions" class="text-2xl font-bold">0</p>
-                    </div>
-                </div>
-                
-                <!-- Derniers Trades Binance -->
-                <div class="mb-4">
-                    <h4 class="font-semibold mb-3 text-gray-300">
-                        <i class="fas fa-exchange-alt mr-2"></i>
-                        Derniers Trades
-                    </h4>
-                    <div class="overflow-x-auto scrollbar-thin">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b border-gray-700">
-                                    <th class="py-2 px-2 text-left">Date</th>
-                                    <th class="py-2 px-2 text-left">Pair</th>
-                                    <th class="py-2 px-2 text-left">Side</th>
-                                    <th class="py-2 px-2 text-left">PnL</th>
-                                </tr>
-                            </thead>
-                            <tbody id="binance-trades-table">
-                                <tr><td colspan="4" class="py-4 text-center text-gray-400">Chargement...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Positions Binance -->
-                <div>
-                    <h4 class="font-semibold mb-3 text-gray-300">
-                        <i class="fas fa-chart-bar mr-2"></i>
-                        Positions Actives
-                    </h4>
-                    <div id="binance-positions-list" class="text-gray-400 text-sm">
-                        Aucune position active
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Colonne droite: Kraken Futures -->
-            <div class="card">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 class="text-xl font-bold">
-                            <i class="fab fa-bitcoin text-purple-400 mr-2"></i>
-                            Kraken Futures
-                        </h3>
-                        <p class="text-gray-400 text-sm">Futures Trading</p>
-                    </div>
-                    <div id="kraken-status-badge" class="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-sm">
-                        <i class="fas fa-power-off mr-1"></i>
-                        <span>Offline</span>
-                    </div>
-                </div>
-                
-                <!-- Stats Kraken -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-400 text-sm">Balance</p>
-                        <p id="kraken-balance" class="text-2xl font-bold">$0.00</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">PnL du Jour</p>
-                        <p id="kraken-daily-pnl" class="text-2xl font-bold">$0.00</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">Positions SHORT</p>
-                        <p id="kraken-short-positions" class="text-2xl font-bold">0</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-400 text-sm">Trades</p>
-                        <p id="kraken-total-trades" class="text-2xl font-bold">0</p>
-                    </div>
-                </div>
-                
-                <!-- Indicateurs RSI Kraken -->
-                <div class="mb-4">
-                    <h4 class="font-semibold mb-3 text-gray-300">
-                        <i class="fas fa-wave-square mr-2"></i>
-                        Indicateurs RSI
-                    </h4>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="p-3 rounded-lg bg-gray-800/50">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-medium">BTCUSDC</span>
-                                <span id="kraken-btc-rsi" class="font-bold">0.0</span>
-                            </div>
-                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
-                                <div id="kraken-btc-rsi-bar" class="h-full bg-yellow-500" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="p-3 rounded-lg bg-gray-800/50">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-medium">ETHUSDC</span>
-                                <span id="kraken-eth-rsi" class="font-bold">0.0</span>
-                            </div>
-                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
-                                <div id="kraken-eth-rsi-bar" class="h-full bg-purple-500" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Derniers Trades Kraken -->
-                <div>
-                    <h4 class="font-semibold mb-3 text-gray-300">
-                        <i class="fas fa-exchange-alt mr-2"></i>
-                        Derniers Trades
-                    </h4>
-                    <div class="overflow-x-auto scrollbar-thin">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b border-gray-700">
-                                    <th class="py-2 px-2 text-left">Date</th>
-                                    <th class="py-2 px-2 text-left">Pair</th>
-                                    <th class="py-2 px-2 text-left">Side</th>
-                                    <th class="py-2 px-2 text-left">PnL</th>
-                                </tr>
-                            </thead>
-                            <tbody id="kraken-trades-table">
-                                <tr><td colspan="4" class="py-4 text-center text-gray-400">Aucun trade</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- ROW 1: Binance + Kraken côte à côte -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
 
-    <!-- Section 2: Bourse (pleine largeur) -->
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-6">
-            <i class="fas fa-chart-line text-green-400 mr-2"></i>
-            Portefeuille Boursier
-        </h2>
-        
+        <!-- BINANCE V5 -->
         <div class="card">
-            <!-- Stats Bourse -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <div class="card-header">
+                <span><i class="fas fa-robot text-yellow-400 mr-2"></i>Binance V5</span>
+                <span id="binance-badge" class="badge badge-gray">—</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-3 mb-4">
                 <div>
-                    <p class="text-gray-400 text-sm">Valeur Totale</p>
-                    <p id="stocks-total-value" class="text-3xl font-bold">€0.00</p>
+                    <div class="stat-label">Capital</div>
+                    <div id="b-capital" class="stat-value text-blue-300">—</div>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">Capital Investi</p>
-                    <p id="stocks-total-invested" class="text-2xl font-bold">€0.00</p>
+                    <div class="stat-label">PnL Jour</div>
+                    <div id="b-pnl" class="stat-value">—</div>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">PnL Total</p>
-                    <p id="stocks-total-pnl" class="text-2xl font-bold text-green-400">€0.00</p>
-                </div>
-                <div>
-                    <p class="text-gray-400 text-sm">Positions</p>
-                    <p id="stocks-positions-count" class="text-2xl font-bold">0</p>
+                    <div class="stat-label">Trades Jour</div>
+                    <div id="b-trades-today" class="stat-value">—</div>
                 </div>
             </div>
-            
-            <!-- Signaux Bourse -->
-            <div class="mb-6">
-                <h4 class="font-semibold mb-4 text-gray-300">
-                    <i class="fas fa-bullhorn mr-2"></i>
-                    Signaux du Moment
-                </h4>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="p-4 rounded-lg signal-buy text-center">
-                        <div class="text-2xl font-bold" id="stocks-signal-buy">0</div>
-                        <div class="text-sm mt-1">ACHETER</div>
-                    </div>
-                    <div class="p-4 rounded-lg signal-hold text-center">
-                        <div class="text-2xl font-bold" id="stocks-signal-hold">0</div>
-                        <div class="text-sm mt-1">ATTENDRE</div>
-                    </div>
-                    <div class="p-4 rounded-lg signal-sell text-center">
-                        <div class="text-2xl font-bold" id="stocks-signal-sell">0</div>
-                        <div class="text-sm mt-1">VENDRE</div>
-                    </div>
-                </div>
+
+            <!-- Position ouverte -->
+            <div id="b-position-section" class="mb-4 hidden">
+                <div class="stat-label mb-1">Position ouverte</div>
+                <div id="b-position" class="pos-card text-sm"></div>
             </div>
-            
-            <!-- Tableau ETF -->
+
+            <!-- Derniers trades -->
             <div>
-                <h4 class="font-semibold mb-4 text-gray-300">
-                    <i class="fas fa-table mr-2"></i>
-                    Détail des Positions ETF
-                </h4>
-                <div class="overflow-x-auto scrollbar-thin">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-700">
-                                <th class="py-3 px-4 text-left">ETF</th>
-                                <th class="py-3 px-4 text-left">Quantité</th>
-                                <th class="py-3 px-4 text-left">Prix Moyen</th>
-                                <th class="py-3 px-4 text-left">Prix Actuel</th>
-                                <th class="py-3 px-4 text-left">Valeur</th>
-                                <th class="py-3 px-4 text-left">Var. Jour</th>
-                                <th class="py-3 px-4 text-left">PnL</th>
-                                <th class="py-3 px-4 text-left">Signal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="stocks-table">
-                            <tr><td colspan="8" class="py-8 text-center text-gray-400">Chargement...</td></tr>
+                <div class="stat-label mb-2">Derniers trades</div>
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead><tr>
+                            <th>Heure</th><th>Pair</th><th>Side</th><th>PnL $</th><th>Raison</th>
+                        </tr></thead>
+                        <tbody id="b-trades">
+                            <tr><td colspan="5" class="text-center text-gray-500 py-4">Chargement...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            
-            <div class="mt-6 pt-6 border-t border-gray-800 text-xs text-gray-500">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                        Données mises à jour : <span id="stocks-last-update">inconnue</span>
+        </div>
+
+        <!-- KRAKEN FUTURES -->
+        <div class="card">
+            <div class="card-header">
+                <span><i class="fas fa-wave-square text-purple-400 mr-2"></i>Kraken Futures</span>
+                <span id="kraken-badge" class="badge badge-gray">—</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-3 mb-4">
+                <div>
+                    <div class="stat-label">Balance</div>
+                    <div id="k-balance" class="stat-value text-purple-300">—</div>
+                </div>
+                <div>
+                    <div class="stat-label">PnL Jour</div>
+                    <div id="k-pnl" class="stat-value">—</div>
+                </div>
+                <div>
+                    <div class="stat-label">Positions</div>
+                    <div id="k-positions-count" class="stat-value">—</div>
+                </div>
+            </div>
+
+            <!-- RSI -->
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="pos-card">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-semibold">BTC RSI</span>
+                        <span id="k-btc-rsi" class="text-xs font-bold">—</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded">Scalable Capital</span>
-                        <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded">ETF Portfolio</span>
+                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                        <div id="k-btc-rsi-bar" class="h-full bg-yellow-400 transition-all" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="pos-card">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-semibold">ETH RSI</span>
+                        <span id="k-eth-rsi" class="text-xs font-bold">—</span>
+                    </div>
+                    <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                        <div id="k-eth-rsi-bar" class="h-full bg-purple-400 transition-all" style="width:0%"></div>
                     </div>
                 </div>
             </div>
+
+            <!-- Derniers trades -->
+            <div>
+                <div class="stat-label mb-2">Derniers trades</div>
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead><tr>
+                            <th>Heure</th><th>Pair</th><th>Side</th><th>PnL $</th><th>Raison</th>
+                        </tr></thead>
+                        <tbody id="k-trades">
+                            <tr><td colspan="5" class="text-center text-gray-500 py-4">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- ROW 2: Scalable Capital (pleine largeur) -->
+    <div class="card">
+        <div class="card-header">
+            <span><i class="fas fa-chart-line text-green-400 mr-2"></i>Scalable Capital — ETF Portfolio</span>
+            <span id="stocks-last-update" class="text-xs text-gray-500"></span>
+        </div>
+
+        <!-- Stats résumé -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+            <div>
+                <div class="stat-label">Valeur Totale</div>
+                <div id="s-total-value" class="stat-value text-green-300">—</div>
+            </div>
+            <div>
+                <div class="stat-label">Investi</div>
+                <div id="s-total-invested" class="stat-value">—</div>
+            </div>
+            <div>
+                <div class="stat-label">PnL Total</div>
+                <div id="s-total-pnl" class="stat-value">—</div>
+            </div>
+            <div>
+                <div class="stat-label">Signaux</div>
+                <div class="flex gap-2 mt-1">
+                    <span class="signal-buy" id="s-sig-buy">0 BUY</span>
+                    <span class="signal-hold" id="s-sig-hold">0 HOLD</span>
+                    <span class="signal-sell" id="s-sig-sell">0 SELL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau ETF -->
+        <div class="overflow-x-auto">
+            <table>
+                <thead><tr>
+                    <th>ETF</th>
+                    <th>Nom</th>
+                    <th>Qté</th>
+                    <th>Px Moyen</th>
+                    <th>Px Actuel</th>
+                    <th>Valeur</th>
+                    <th>Var. Jour</th>
+                    <th>PnL</th>
+                    <th>Action</th>
+                </tr></thead>
+                <tbody id="s-table">
+                    <tr><td colspan="9" class="text-center text-gray-500 py-6">Chargement des prix...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3 text-xs text-gray-600">Prix via Yahoo Finance (CORS proxy) • Refresh auto 60s</div>
+    </div>
 
     <!-- Footer -->
-    <footer class="mt-12 pt-6 border-t border-gray-800">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="text
+    <div class="mt-4 text-center text-xs text-gray-600">
+        Dernière mise à jour des données : <span id="last-data-update">—</span>
+    </div>
+
+<script>
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function fmt$(n, dec=2) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    const s = Math.abs(n).toFixed(dec);
+    return (n >= 0 ? '+' : '-') + '$' + s;
+}
+function fmtEur(n, dec=2) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    const s = Math.abs(n).toFixed(dec);
+    return (n >= 0 ? '+' : '-') + '€' + s;
+}
+function fmtPct(n) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    return (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+}
+function pnlClass(n) {
+    if (!n || n === 0) return 'pnl-zero';
+    return n > 0 ? 'pnl-pos' : 'pnl-neg';
+}
+function fmtTime(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    return d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+}
+function fmtDate(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    const today = new Date();
+    if (d.toDateString() === today.toDateString()) return fmtTime(ts);
+    return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit'}) + ' ' + fmtTime(ts);
+}
+
+// ─── CLOCK ───────────────────────────────────────────────────────────────────
+function updateClock() {
+    document.getElementById('current-time').textContent =
+        new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ─── BINANCE ─────────────────────────────────────────────────────────────────
+async function loadBinance() {
+    try {
+        const [statusRes, tradesRes] = await Promise.all([
+            fetch('data/bot_status.json?t=' + Date.now()),
+            fetch('data/trades.json?t=' + Date.now())
+        ]);
+        const status = await statusRes.json();
+        const trades = await tradesRes.json();
+
+        // Badge
+        const badge = document.getElementById('binance-badge');
+        if (status.running) {
+            badge.textContent = 'Online';
+            badge.className = 'badge badge-green';
+        } else {
+            badge.textContent = 'Offline';
+            badge.className = 'badge badge-red';
+        }
+
+        // Stats
+        const cap = parseFloat(status.capital) || 0;
+        document.getElementById('b-capital').textContent = '$' + cap.toFixed(2);
+        const pnl = parseFloat(status.daily_pnl) || 0;
+        const pnlEl = document.getElementById('b-pnl');
+        pnlEl.textContent = fmt$(pnl);
+        pnlEl.className = 'stat-value ' + pnlClass(pnl);
+        document.getElementById('b-trades-today').textContent = status.today_trades_count || 0;
+
+        // Position ouverte
+        const posSection = document.getElementById('b-position-section');
+        const posEl = document.getElementById('b-position');
+        if (status.positions && status.positions.length > 0) {
+            posSection.classList.remove('hidden');
+            const p = status.positions[0];
+            const currentPnl = (p.entry_price ? ((p.entry_price * (1 + p.tp_pct/100)) - p.entry_price) : 0);
+            posEl.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-yellow-300">${p.symbol}</span>
+                    <span class="badge ${p.direction === 'LONG' ? 'badge-green' : 'badge-red'}">${p.direction}</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-2 text-xs text-gray-400">
+                    <span>Entry: <b class="text-white">$${parseFloat(p.entry_price).toFixed(4)}</b></span>
+                    <span>Taille: <b class="text-white">$${parseFloat(p.position_size).toFixed(0)}</b></span>
+                    <span>TP/SL: <b class="text-green-400">+${p.tp_pct}%</b> / <b class="text-red-400">${p.sl_pct}%</b></span>
+                </div>
+            `;
+        } else {
+            posSection.classList.add('hidden');
+        }
+
+        // Trades
+        const tbody = document.getElementById('b-trades');
+        const recent = trades.slice(-8).reverse();
+        if (recent.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500 py-4">Aucun trade</td></tr>';
+        } else {
+            tbody.innerHTML = recent.map(t => {
+                const pnl = parseFloat(t.pnl_usdc) || 0;
+                return `<tr>
+                    <td class="text-gray-400">${fmtDate(t.timestamp)}</td>
+                    <td class="font-semibold">${t.symbol || '—'}</td>
+                    <td><span class="badge ${t.direction === 'LONG' ? 'badge-green' : 'badge-red'}">${t.direction || '—'}</span></td>
+                    <td class="${pnlClass(pnl)} font-semibold">${fmt$(pnl)}</td>
+                    <td class="text-gray-500 text-xs">${t.exit_reason || '—'}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.getElementById('last-data-update').textContent = new Date().toLocaleTimeString('fr-FR');
+    } catch(e) {
+        console.error('Binance load error:', e);
+    }
+}
+
+// ─── KRAKEN ──────────────────────────────────────────────────────────────────
+async function loadKraken() {
+    try {
+        const res = await fetch('data/kraken.json?t=' + Date.now());
+        const data = await res.json();
+
+        // Badge
+        const badge = document.getElementById('kraken-badge');
+        const status = data.bot?.status || 'offline';
+        if (status === 'online') {
+            badge.textContent = 'Online';
+            badge.className = 'badge badge-green';
+        } else {
+            badge.textContent = 'Offline';
+            badge.className = 'badge badge-gray';
+        }
+
+        // Stats
+        const bal = parseFloat(data.summary?.balance) || 0;
+        document.getElementById('k-balance').textContent = '$' + bal.toFixed(2);
+        const kpnl = parseFloat(data.summary?.daily_pnl) || 0;
+        const kpnlEl = document.getElementById('k-pnl');
+        kpnlEl.textContent = fmt$(kpnl);
+        kpnlEl.className = 'stat-value ' + pnlClass(kpnl);
+        document.getElementById('k-positions-count').textContent = data.summary?.positions_count || 0;
+
+        // RSI
+        const rsi = data.bot?.rsi_data || {};
+        const btcRsi = rsi.BTCUSDC?.rsi;
+        const ethRsi = rsi.ETHUSDC?.rsi;
+        if (btcRsi !== undefined) {
+            document.getElementById('k-btc-rsi').textContent = btcRsi.toFixed(1);
+            document.getElementById('k-btc-rsi-bar').style.width = btcRsi + '%';
+            document.getElementById('k-btc-rsi').className = 'text-xs font-bold ' + (btcRsi < 35 ? 'text-green-400' : btcRsi > 65 ? 'text-red-400' : 'text-yellow-400');
+        }
+        if (ethRsi !== undefined) {
+            document.getElementById('k-eth-rsi').textContent = ethRsi.toFixed(1);
+            document.getElementById('k-eth-rsi-bar').style.width = ethRsi + '%';
+            document.getElementById('k-eth-rsi').className = 'text-xs font-bold ' + (ethRsi < 35 ? 'text-green-400' : ethRsi > 65 ? 'text-red-400' : 'text-yellow-400');
+        }
+
+        // Trades
+        const tbody = document.getElementById('k-trades');
+        const trades = data.trades || [];
+        if (trades.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500 py-4">Aucun trade</td></tr>';
+        } else {
+            tbody.innerHTML = trades.slice(0, 8).map(t => {
+                const pnl = parseFloat(t.pnl_usd) || 0;
+                const sym = (t.symbol || '').replace('PF_', '').replace('USD', '');
+                return `<tr>
+                    <td class="text-gray-400">${fmtDate(t.timestamp)}</td>
+                    <td class="font-semibold">${sym}</td>
+                    <td><span class="badge ${t.side === 'LONG' ? 'badge-green' : 'badge-red'}">${t.side || '—'}</span></td>
+                    <td class="${pnlClass(pnl)} font-semibold">${fmt$(pnl)}</td>
+                    <td class="text-gray-500 text-xs">${t.exit_reason || '—'}</td>
+                </tr>`;
+            }).join('');
+        }
+    } catch(e) {
+        console.error('Kraken load error:', e);
+    }
+}
+
+// ─── SCALABLE / ETF ──────────────────────────────────────────────────────────
+// Proxy CORS pour Yahoo Finance
+const YAHOO_PROXY = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+
+async function fetchPrice(ticker) {
+    try {
+        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=2d`;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        if (!meta) return null;
+        const current = meta.regularMarketPrice;
+        const prev = meta.chartPreviousClose || meta.previousClose;
+        const change = prev ? ((current - prev) / prev * 100) : null;
+        return { price: current, change };
+    } catch(e) {
+        return null;
+    }
+}
+
+async function loadStocks() {
+    try {
+        const res = await fetch('data/stocks.json?t=' + Date.now());
+        const data = await res.json();
+        const portfolio = data.portfolio || {};
+        const tickers = Object.keys(portfolio);
+
+        // Fetch all prices in parallel
+        const prices = await Promise.all(tickers.map(t => fetchPrice(t)));
+        const priceMap = {};
+        tickers.forEach((t, i) => { priceMap[t] = prices[i]; });
+
+        let totalValue = 0, totalInvested = 0;
+        let sigBuy = 0, sigHold = 0, sigSell = 0;
+
+        const rows = tickers.map(ticker => {
+            const pos = portfolio[ticker];
+            const priceData = priceMap[ticker];
+            const shares = pos.shares;
+            const avgPrice = pos.average_price;
+            const invested = pos.total_invested;
+            const currentPrice = priceData?.price || null;
+            const dayChange = priceData?.change || null;
+            const value = currentPrice ? currentPrice * shares : null;
+            const pnl = value ? value - invested : null;
+            const pnlPct = pnl && invested ? (pnl / invested * 100) : null;
+
+            if (value) totalValue += value;
+            totalInvested += invested;
+
+            // Signal simple basé sur RSI-like heuristique
+            let signal = 'HOLD';
+            if (pnlPct !== null) {
+                if (pnlPct < -8) signal = 'BUY';       // fort drawdown → renforcer
+                else if (pnlPct > 20) signal = 'SELL';  // fort gain → alléger
+                else signal = 'HOLD';
+            }
+            if (dayChange !== null) {
+                if (dayChange < -3) signal = 'BUY';     // forte baisse journalière → opportunité
+                else if (dayChange > 4) signal = 'SELL'; // forte hausse → prendre profits
+            }
+
+            if (signal === 'BUY') sigBuy++;
+            else if (signal === 'SELL') sigSell++;
+            else sigHold++;
+
+            const signalHtml = signal === 'BUY'
+                ? `<span class="signal-buy">ACHETER</span>`
+                : signal === 'SELL'
+                ? `<span class="signal-sell">VENDRE</span>`
+                : `<span class="signal-hold">TENIR</span>`;
+
+            return `<tr>
+                <td class="font-bold text-blue-300">${ticker}</td>
+                <td class="text-gray-400 text-xs max-w-[120px] truncate">${pos.name}</td>
+                <td>${shares}</td>
+                <td>€${avgPrice.toFixed(2)}</td>
+                <td class="font-semibold">${currentPrice ? '€' + currentPrice.toFixed(2) : '<span class="text-gray-500">—</span>'}</td>
+                <td>${value ? '€' + value.toFixed(0) : '<span class="text-gray-500">—</span>'}</td>
+                <td class="${dayChange === null ? '' : dayChange >= 0 ? 'pnl-pos' : 'pnl-neg'}">${dayChange !== null ? fmtPct(dayChange) : '—'}</td>
+                <td class="${pnl === null ? '' : pnlClass(pnl)}">${pnl !== null ? fmtEur(pnl, 0) : '—'}</td>
+                <td>${signalHtml}</td>
+            </tr>`;
+        });
+
+        document.getElementById('s-table').innerHTML = rows.join('');
+
+        // Totaux
+        const totalPnl = totalValue - totalInvested;
+        document.getElementById('s-total-value').textContent = totalValue ? '€' + totalValue.toFixed(0) : '—';
+        const tvEl = document.getElementById('s-total-value');
+        tvEl.className = 'stat-value text-green-300';
+
+        document.getElementById('s-total-invested').textContent = '€' + totalInvested.toFixed(0);
+
+        const spnlEl = document.getElementById('s-total-pnl');
+        spnlEl.textContent = totalValue ? fmtEur(totalPnl, 0) : '—';
+        spnlEl.className = 'stat-value ' + (totalPnl >= 0 ? 'pnl-pos' : 'pnl-neg');
+
+        document.getElementById('s-sig-buy').textContent = sigBuy + ' BUY';
+        document.getElementById('s-sig-hold').textContent = sigHold + ' HOLD';
+        document.getElementById('s-sig-sell').textContent = sigSell + ' SELL';
+
+        document.getElementById('stocks-last-update').textContent =
+            'Mis à jour ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+
+    } catch(e) {
+        console.error('Stocks load error:', e);
+        document.getElementById('s-table').innerHTML =
+            '<tr><td colspan="9" class="text-center text-red-400 py-6">Erreur chargement prix Yahoo Finance</td></tr>';
+    }
+}
+
+// ─── INIT & REFRESH ──────────────────────────────────────────────────────────
+async function loadAll() {
+    await Promise.all([loadBinance(), loadKraken()]);
+}
+
+async function loadAllWithStocks() {
+    await Promise.all([loadBinance(), loadKraken(), loadStocks()]);
+}
+
+// Premier chargement
+loadAllWithStocks();
+
+// Refresh crypto toutes les 30s, ETF toutes les 60s
+setInterval(loadAll, 30000);
+setInterval(loadStocks, 60000);
+</script>
+</body>
+</html>
