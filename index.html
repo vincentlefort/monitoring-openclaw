@@ -265,8 +265,8 @@ updateClock();
 async function loadBinance() {
     try {
         const [statusRes, tradesRes] = await Promise.all([
-            fetch('data/bot_status.json?t=' + Date.now()),
-            fetch('data/trades.json?t=' + Date.now())
+            fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/bot_status.json?t=' + Date.now()),
+            fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/trades.json?t=' + Date.now())
         ]);
         const status = await statusRes.json();
         const trades = await tradesRes.json();
@@ -339,7 +339,7 @@ async function loadBinance() {
 // ─── KRAKEN ──────────────────────────────────────────────────────────────────
 async function loadKraken() {
     try {
-        const res = await fetch('data/kraken.json?t=' + Date.now());
+        const res = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/kraken.json?t=' + Date.now());
         const data = await res.json();
 
         // Badge
@@ -423,7 +423,7 @@ async function fetchPrice(ticker) {
 
 async function loadStocks() {
     try {
-        const res = await fetch('data/stocks.json?t=' + Date.now());
+        const res = await fetch('https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/stocks.json?t=' + Date.now());
         const data = await res.json();
         const portfolio = data.portfolio || {};
         const tickers = Object.keys(portfolio);
