@@ -1,29 +1,37 @@
 {
   "bot": {
-    "balance": 565.59,
+    "balance": 565.46,
     "positions": [],
-    "last_scan": "2026-04-13T12:55:02.007142",
+    "last_scan": "2026-04-13T13:00:01.336147",
     "rsi_data": {
       "SOLUSDC": {
-        "rsi": 29.5,
+        "rsi": 26.5,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 26.9,
+        "rsi": 33.3,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 40.7,
-        "signal": "none"
-      },
-      "NEARUSDC": {
-        "rsi": 25.0,
+        "rsi": 46.3,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-13T12:58:32",
+      "symbol": "PF_SOLUSD",
+      "side": "LONG",
+      "entry_price": 81.78,
+      "exit_price": 81.74,
+      "size": 0.98,
+      "pnl_usd": -0.0392,
+      "pnl_pct": -0.0489,
+      "duration": "237",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-04-13T12:54:22",
       "symbol": "PF_SOLUSD",
@@ -131,26 +139,14 @@
       "pnl_pct": -0.0802,
       "duration": "605",
       "exit_reason": "TIMEOUT"
-    },
-    {
-      "timestamp": "2026-04-11T11:05:15",
-      "symbol": "PF_ETHUSD",
-      "side": "SHORT",
-      "entry_price": 2234.4,
-      "exit_price": 2234.4,
-      "size": 0.036,
-      "pnl_usd": -0.0,
-      "pnl_pct": -0.0,
-      "duration": "604",
-      "exit_reason": "TIMEOUT"
     }
   ],
   "summary": {
-    "balance": 565.59,
+    "balance": 565.46,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.6432,
-    "total_trades": 18,
-    "last_updated": "2026-04-13T12:55:02.007939"
+    "daily_pnl": 0.604,
+    "total_trades": 19,
+    "last_updated": "2026-04-13T13:00:01.336963"
   }
 }
