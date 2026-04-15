@@ -421,60 +421,51 @@ async function loadKraken() {
 }
 
 // ── Scalable / ETF ────────────────────────────────────────────────────────
-async function fetchPrice(ticker) {
-    try {
-        const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=2d`);
-        if (!r.ok) return null;
-        const d = await r.json();
-        const meta = d?.chart?.result?.[0]?.meta;
-        if (!meta) return null;
-        return {
-            price: meta.regularMarketPrice,
-            change: meta.chartPreviousClose ? (meta.regularMarketPrice - meta.chartPreviousClose) / meta.chartPreviousClose * 100 : null
-        };
-    } catch { return null; }
-}
+// Prix récupérés côté serveur (update-stocks-prices.py, cron 30min)
+// Pas d'appel Yahoo Finance depuis le browser (CORS bloqué)
 
 async function loadStocks() {
     try {
         const res = await fetch(GH_RAW + 'stocks.json?t=' + Date.now());
         const data = await res.json();
         const portfolio = data.portfolio || {};
+        const serverPrices = data.prices || {};
         const tickers = Object.keys(portfolio);
-
-        const prices = await Promise.all(tickers.map(t => fetchPrice(t)));
-        const pm = {};
-        tickers.forEach((t, i) => pm[t] = prices[i]);
 
         let totalVal = 0, totalInv = 0, buy = 0, hold = 0, sell = 0;
 
         const rows = tickers.map(ticker => {
             const pos = portfolio[ticker];
-            const pd = pm[ticker];
+            const pd = serverPrices[ticker] || {};
             const shares = pos.shares;
             const avgPx = pos.average_price;
             const invested = pos.total_invested;
-            const curPx = pd?.price ?? null;
-            const dayChg = pd?.change ?? null;
-            const val = curPx ? curPx * shares : null;
-            const pnl = val ? val - invested : null;
-            const pnlPct = pnl && invested ? pnl / invested * 100 : null;
+            const curPx = pd.price ?? null;
+            const dayChg = pd.change_pct ?? null;
+            const val = pd.value ?? (curPx ? curPx * shares : null);
+            const pnl = pd.pnl_eur ?? (val ? val - invested : null);
+            const pnlPct = pd.pnl_pct ?? (pnl && invested ? pnl / invested * 100 : null);
+            // Signal calculé côté serveur, ou recalculé ici en fallback
+            const serverSig = pd.signal ?? null;
 
             if (val) totalVal += val;
             totalInv += invested;
 
-            // Signal — logique multi-critères
+            // Signal : priorité au signal serveur, sinon recalcul local
             let sig = 'HOLD';
             let sigReason = '';
-            // BUY : baisse jour > 1.5% OU PnL position < -5% OU forte baisse > 3%
-            if (dayChg !== null && dayChg < -3) { sig = 'BUY'; sigReason = 'baisse ' + dayChg.toFixed(1) + '%'; }
-            else if (pnlPct !== null && pnlPct < -8) { sig = 'BUY'; sigReason = 'PnL ' + pnlPct.toFixed(1) + '%'; }
-            else if (dayChg !== null && dayChg < -1.5) { sig = 'BUY'; sigReason = 'repli ' + dayChg.toFixed(1) + '%'; }
-            // SELL : hausse jour > 3% OU PnL position > 15%
-            else if (dayChg !== null && dayChg > 3) { sig = 'SELL'; sigReason = '+' + dayChg.toFixed(1) + '%'; }
-            else if (pnlPct !== null && pnlPct > 15) { sig = 'SELL'; sigReason = 'PnL +' + pnlPct.toFixed(1) + '%'; }
-            // RENFORCER : PnL négatif modéré (DCA)
-            else if (pnlPct !== null && pnlPct < -4 && pnlPct >= -8) { sig = 'BUY'; sigReason = 'DCA ' + pnlPct.toFixed(1) + '%'; }
+            if (serverSig) {
+                sig = serverSig;
+                if (sig === 'BUY')  sigReason = dayChg !== null ? 'repli ' + dayChg.toFixed(1) + '%' : (pnlPct !== null ? 'PnL ' + pnlPct.toFixed(1) + '%' : '');
+                if (sig === 'SELL') sigReason = dayChg !== null ? '+' + dayChg.toFixed(1) + '%'    : (pnlPct !== null ? 'PnL +' + pnlPct.toFixed(1) + '%' : '');
+            } else {
+                if (dayChg !== null && dayChg < -3)          { sig = 'BUY';  sigReason = 'baisse ' + dayChg.toFixed(1) + '%'; }
+                else if (pnlPct !== null && pnlPct < -8)     { sig = 'BUY';  sigReason = 'PnL ' + pnlPct.toFixed(1) + '%'; }
+                else if (dayChg !== null && dayChg < -1.5)   { sig = 'BUY';  sigReason = 'repli ' + dayChg.toFixed(1) + '%'; }
+                else if (dayChg !== null && dayChg > 3)      { sig = 'SELL'; sigReason = '+' + dayChg.toFixed(1) + '%'; }
+                else if (pnlPct !== null && pnlPct > 15)     { sig = 'SELL'; sigReason = 'PnL +' + pnlPct.toFixed(1) + '%'; }
+                else if (pnlPct !== null && pnlPct < -4)     { sig = 'BUY';  sigReason = 'DCA ' + pnlPct.toFixed(1) + '%'; }
+            }
 
             if (sig === 'BUY') buy++;
             else if (sig === 'SELL') sell++;
@@ -504,22 +495,27 @@ async function loadStocks() {
 
         document.getElementById('s-table').innerHTML = rows.join('');
 
-        const totalPnl = totalVal - totalInv;
-        document.getElementById('s-value').textContent = totalVal ? '€' + totalVal.toFixed(0) : '—';
-        document.getElementById('s-invested').textContent = '€' + totalInv.toFixed(0);
+        // Totaux : priorité aux valeurs calculées côté serveur
+        const summ = data.summary || {};
+        const displayVal = summ.total_value || totalVal;
+        const displayInv = summ.total_invested || totalInv;
+        const displayPnl = summ.total_pnl_eur ?? (displayVal - displayInv);
+        document.getElementById('s-value').textContent = displayVal ? '€' + displayVal.toFixed(0) : '—';
+        document.getElementById('s-invested').textContent = '€' + displayInv.toFixed(0);
         const spEl = document.getElementById('s-pnl');
-        spEl.textContent = totalVal ? fmtEUR(totalPnl) : '—';
-        spEl.className = 'stat-val ' + (totalPnl >= 0 ? 'green' : 'red');
+        spEl.textContent = displayVal ? fmtEUR(displayPnl) : '—';
+        spEl.className = 'stat-val ' + (displayPnl >= 0 ? 'green' : 'red');
 
         document.getElementById('s-buy').textContent = buy + ' BUY';
         document.getElementById('s-hold').textContent = hold + ' HOLD';
         document.getElementById('s-sell').textContent = sell + ' SELL';
-        document.getElementById('s-update').textContent =
-            'Mis à jour ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+        // Heure de mise à jour côté serveur
+        const lastUpd = summ.last_updated ? new Date(summ.last_updated).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '—';
+        document.getElementById('s-update').textContent = 'Mis à jour ' + lastUpd;
     } catch(e) {
         console.error('Stocks:', e);
         document.getElementById('s-table').innerHTML =
-            '<tr><td colspan="9" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement Yahoo Finance</td></tr>';
+            '<tr><td colspan="9" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement données ETF</td></tr>';
     }
 }
 

@@ -89,6 +89,9 @@ if [ -f /home/openclaw/kraken_bot_v1/bot.log ]; then
     python3 ./update-kraken-data.py 2>/dev/null || echo "Analyse Kraken échouée"
 fi
 
+# Mettre à jour les prix ETF (Yahoo Finance côté serveur)
+python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
+
 # Mettre à jour le timestamp
 echo '{"last_updated": "'$(date -Iseconds)'"}' > ./data/last_updated.json
 
