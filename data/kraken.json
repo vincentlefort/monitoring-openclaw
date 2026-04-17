@@ -2,36 +2,48 @@
   "bot": {
     "balance": 3395.88,
     "positions": [],
-    "last_scan": "2026-04-17T06:50:01.521163",
+    "last_scan": "2026-04-17T06:55:01.474647",
     "rsi_data": {
-      "ADAUSDC": {
-        "rsi": 33.3,
-        "signal": "none"
-      },
-      "XRPUSDC": {
-        "rsi": 38.3,
+      "BTCUSDC": {
+        "rsi": 52.9,
         "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 69.4,
+        "rsi": 60.9,
         "signal": "none"
       },
       "NEARUSDC": {
-        "rsi": 31.0,
+        "rsi": 42.1,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 50.6,
+        "rsi": 53.0,
         "signal": "none"
       },
-      "BTCUSDC": {
-        "rsi": 47.2,
+      "ADAUSDC": {
+        "rsi": 34.3,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 41.2,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-17T06:52:24",
+      "symbol": "PF_NEARUSD",
+      "side": "LONG",
+      "entry_price": 1.3968,
+      "exit_price": 1.4025,
+      "size": 729.35,
+      "pnl_usd": 4.1573,
+      "pnl_pct": 0.4081,
+      "duration": "140",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-04-16T17:37:37",
       "symbol": "PF_XBTUSD",
@@ -139,26 +151,14 @@
       "pnl_pct": 0.0944,
       "duration": "721",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-04-15T23:39:09",
-      "symbol": "PF_SOLUSD",
-      "side": "LONG",
-      "entry_price": 84.55,
-      "exit_price": 84.57,
-      "size": 7.2,
-      "pnl_usd": 0.144,
-      "pnl_pct": 0.0237,
-      "duration": "1761",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
     "balance": 3395.88,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.0,
-    "total_trades": 109,
-    "last_updated": "2026-04-17T06:50:01.524073"
+    "daily_pnl": 4.1573,
+    "total_trades": 110,
+    "last_updated": "2026-04-17T06:55:01.477439"
   }
 }
