@@ -1,37 +1,49 @@
 {
   "bot": {
-    "balance": 3376.81,
+    "balance": 3376.77,
     "positions": [],
-    "last_scan": "2026-04-18T06:00:01.962713",
+    "last_scan": "2026-04-18T06:05:01.673185",
     "rsi_data": {
-      "ETHUSDC": {
-        "rsi": 18.4,
-        "signal": "none"
-      },
       "ADAUSDC": {
-        "rsi": 29.4,
+        "rsi": 41.2,
         "signal": "none"
       },
       "XRPUSDC": {
-        "rsi": 25.8,
+        "rsi": 23.0,
         "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 14.6,
+        "rsi": 24.5,
         "signal": "none"
       },
       "NEARUSDC": {
-        "rsi": 42.9,
+        "rsi": 50.0,
+        "signal": "none"
+      },
+      "ETHUSDC": {
+        "rsi": 26.5,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 12.1,
+        "rsi": 24.2,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-18T06:03:15",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.4657,
+      "exit_price": 1.4659,
+      "size": 691.18,
+      "pnl_usd": 0.1797,
+      "pnl_pct": 0.0177,
+      "duration": "163",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-04-18T05:55:26",
       "symbol": "PF_SOLUSD",
@@ -139,26 +151,14 @@
       "pnl_pct": 0.023,
       "duration": "1370",
       "exit_reason": "SMART_TIMEOUT_900S"
-    },
-    {
-      "timestamp": "2026-04-17T20:19:12",
-      "symbol": "PF_XRPUSD",
-      "side": "LONG",
-      "entry_price": 1.4777,
-      "exit_price": 1.4782,
-      "size": 664.71,
-      "pnl_usd": 0.3589,
-      "pnl_pct": 0.0365,
-      "duration": "883",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
-    "balance": 3376.81,
+    "balance": 3376.77,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -8.7762,
-    "total_trades": 138,
-    "last_updated": "2026-04-18T06:00:01.966597"
+    "daily_pnl": -8.5965,
+    "total_trades": 139,
+    "last_updated": "2026-04-18T06:05:01.677538"
   }
 }
