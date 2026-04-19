@@ -1,17 +1,49 @@
 {
   "bot": {
-    "balance": 3368.64,
+    "balance": 3300.02,
     "positions": [],
-    "last_scan": "2026-04-19T06:45:01.906634",
+    "last_scan": "2026-04-19T06:50:01.447772",
     "rsi_data": {
+      "ADAUSDC": {
+        "rsi": 32.6,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 39.6,
+        "signal": "none"
+      },
+      "SOLUSDC": {
+        "rsi": 40.8,
+        "signal": "none"
+      },
       "NEARUSDC": {
         "rsi": 54.5,
+        "signal": "none"
+      },
+      "ETHUSDC": {
+        "rsi": 26.4,
+        "signal": "none"
+      },
+      "BTCUSDC": {
+        "rsi": 56.0,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-19T06:48:07",
+      "symbol": "PF_BNBUSD",
+      "side": "LONG",
+      "entry_price": 621.35,
+      "exit_price": 621.55,
+      "size": 1.08,
+      "pnl_usd": 0.216,
+      "pnl_pct": 0.0322,
+      "duration": "165",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-04-19T05:33:42",
       "symbol": "PF_BNBUSD",
@@ -119,26 +151,14 @@
       "pnl_pct": -0.3171,
       "duration": "1805",
       "exit_reason": "TIMEOUT"
-    },
-    {
-      "timestamp": "2026-04-19T02:35:12",
-      "symbol": "PF_INJUSD",
-      "side": "LONG",
-      "entry_price": 3.204,
-      "exit_price": 3.183,
-      "size": 210.72,
-      "pnl_usd": -4.4251,
-      "pnl_pct": -0.6554,
-      "duration": "1440",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
-    "balance": 3368.64,
+    "balance": 3300.02,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -12.1523,
-    "total_trades": 169,
-    "last_updated": "2026-04-19T06:45:01.911407"
+    "daily_pnl": -11.9363,
+    "total_trades": 170,
+    "last_updated": "2026-04-19T06:50:01.453231"
   }
 }
