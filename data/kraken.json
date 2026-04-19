@@ -2,40 +2,48 @@
   "bot": {
     "balance": 3367.17,
     "positions": [],
-    "last_scan": "2026-04-19T08:10:01.333019",
+    "last_scan": "2026-04-19T08:15:01.407631",
     "rsi_data": {
-      "BTCUSDC": {
-        "rsi": 35.4,
-        "signal": "none"
-      },
       "BNBUSDC": {
-        "rsi": 45.0,
+        "rsi": 38.5,
         "signal": "none"
       },
       "INJUSDC": {
-        "rsi": 51.8,
-        "signal": "none"
-      },
-      "ADAUSDC": {
-        "rsi": 33.3,
+        "rsi": 48.3,
         "signal": "none"
       },
       "XRPUSDC": {
-        "rsi": 41.9,
+        "rsi": 32.4,
         "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 39.1,
+        "rsi": 37.0,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 42.6,
+        "rsi": 36.1,
+        "signal": "none"
+      },
+      "BTCUSDC": {
+        "rsi": 31.6,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-19T08:12:37",
+      "symbol": "PF_ADAUSD",
+      "side": "LONG",
+      "entry_price": 0.2467,
+      "exit_price": 0.2464,
+      "size": 2729.43,
+      "pnl_usd": -0.9826,
+      "pnl_pct": -0.1459,
+      "duration": "154",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-04-19T08:09:33",
       "symbol": "PF_NEARUSD",
@@ -143,26 +151,14 @@
       "pnl_pct": 0.0234,
       "duration": "421",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-04-19T04:26:09",
-      "symbol": "PF_BNBUSD",
-      "side": "LONG",
-      "entry_price": 628.04,
-      "exit_price": 624.59,
-      "size": 1.07,
-      "pnl_usd": -3.6915,
-      "pnl_pct": -0.5493,
-      "duration": "1428",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
     "balance": 3367.17,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -12.1725,
-    "total_trades": 174,
-    "last_updated": "2026-04-19T08:10:01.337868"
+    "daily_pnl": -13.1551,
+    "total_trades": 175,
+    "last_updated": "2026-04-19T08:15:01.412279"
   }
 }
