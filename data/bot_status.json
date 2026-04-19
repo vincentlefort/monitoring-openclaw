@@ -1,29 +1,42 @@
 {
-  "timestamp": "2026-04-19T17:09:55.711149+00:00",
+  "timestamp": "2026-04-19T17:15:00.200888+00:00",
   "running": true,
-  "scan_count": 961,
-  "positions_count": 1,
+  "scan_count": 458,
+  "positions_count": 2,
   "positions": [
     {
       "symbol": "SUIUSDC",
       "direction": "LONG",
       "strategy": "mean_reversion",
-      "entry_price": 0.9477,
-      "qty": 184.9,
+      "entry_price": 0.9467,
+      "qty": 184.8,
       "position_size": 174.99483438150003,
-      "open_time": 1776618346.686481,
+      "open_time": 1776618603.607279,
       "tp_pct": 0.31,
       "sl_pct": -0.8,
       "trailing_pct": 0.25,
-      "trailing_active": false
+      "trailing_active": true
+    },
+    {
+      "symbol": "AVAXUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 9.2,
+      "qty": 19.02,
+      "position_size": 174.99483438150003,
+      "open_time": 1776618621.5507085,
+      "tp_pct": 0.31,
+      "sl_pct": -0.8,
+      "trailing_pct": 0.25,
+      "trailing_active": true
     }
   ],
-  "daily_pnl": 3.8753,
+  "daily_pnl": 3.9492,
   "capital": 3499.89668763,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
-  "consecutive_losses": 0,
+  "consecutive_losses": 1,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-04-19",
-  "today_trades_count": 8
+  "today_trades_count": 9
 }
