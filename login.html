@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès — Dashboard OpenClaw</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #080f1a;
+      color: #e2e8f0;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #1f2d40;
+      border-radius: 14px;
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #60a5fa;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      color: #4b6280;
+      font-size: 0.8rem;
+      margin-bottom: 28px;
+    }
+    label {
+      display: block;
+      color: #4b6280;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    input[type="password"] {
+      width: 100%;
+      background: #0d1825;
+      border: 1px solid #1a2535;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="password"]:focus {
+      border-color: #3b82f6;
+    }
+    .btn {
+      margin-top: 18px;
+      width: 100%;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .error {
+      margin-top: 14px;
+      background: #1f0a0a;
+      border: 1px solid #450a0a;
+      border-radius: 7px;
+      padding: 9px 12px;
+      color: #ef4444;
+      font-size: 0.8rem;
+      display: none;
+    }
+    .error.visible { display: block; }
+    .lock-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="lock-icon">🔒</div>
+    <div class="logo">OpenClaw Dashboard</div>
+    <div class="subtitle">Accès restreint — authentification requise</div>
+
+    <form method="POST" action="/api/login">
+      <label for="pwd">Mot de passe</label>
+      <input type="password" id="pwd" name="password" autofocus autocomplete="current-password" placeholder="••••••••">
+      <button type="submit" class="btn">Accéder au dashboard</button>
+    </form>
+
+    <div id="err" class="error">Mot de passe incorrect. Réessaie.</div>
+  </div>
+
+  <script>
+    if (new URLSearchParams(location.search).get('error') === '1') {
+      document.getElementById('err').classList.add('visible')
+    }
+  </script>
+</body>
+</html>
