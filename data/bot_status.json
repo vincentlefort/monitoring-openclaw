@@ -1,35 +1,9 @@
 {
-  "timestamp": "2026-04-21T12:44:58.990971+00:00",
+  "timestamp": "2026-04-21T12:49:53.973055+00:00",
   "running": true,
-  "scan_count": 4202,
+  "scan_count": 4218,
   "positions_count": 3,
   "positions": [
-    {
-      "symbol": "NEARUSDC",
-      "direction": "LONG",
-      "strategy": "mean_reversion",
-      "entry_price": 1.374,
-      "qty": 126.8,
-      "position_size": 174.19178121800002,
-      "open_time": 1776775187.157133,
-      "tp_pct": 0.25,
-      "sl_pct": -0.8,
-      "trailing_pct": 0.08,
-      "trailing_active": false
-    },
-    {
-      "symbol": "SUIUSDC",
-      "direction": "LONG",
-      "strategy": "mean_reversion",
-      "entry_price": 0.9475,
-      "qty": 183.8,
-      "position_size": 174.19178121800002,
-      "open_time": 1776775219.957338,
-      "tp_pct": 0.25,
-      "sl_pct": -0.8,
-      "trailing_pct": 0.08,
-      "trailing_active": false
-    },
     {
       "symbol": "FETUSDC",
       "direction": "LONG",
@@ -41,15 +15,41 @@
       "tp_pct": 0.25,
       "sl_pct": -0.8,
       "trailing_pct": 0.08,
+      "trailing_active": true
+    },
+    {
+      "symbol": "SUIUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 0.9474,
+      "qty": 183.9,
+      "position_size": 174.19178121800002,
+      "open_time": 1776775629.6579792,
+      "tp_pct": 0.25,
+      "sl_pct": -0.8,
+      "trailing_pct": 0.08,
+      "trailing_active": false
+    },
+    {
+      "symbol": "NEARUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 1.371,
+      "qty": 127.1,
+      "position_size": 174.19178121800002,
+      "open_time": 1776775703.8493476,
+      "tp_pct": 0.25,
+      "sl_pct": -0.8,
+      "trailing_pct": 0.08,
       "trailing_active": false
     }
   ],
-  "daily_pnl": -0.9477,
+  "daily_pnl": -1.5468,
   "capital": 3483.83562436,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
-  "consecutive_losses": 2,
+  "consecutive_losses": 4,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-04-21",
-  "today_trades_count": 6
+  "today_trades_count": 8
 }
