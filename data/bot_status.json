@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-23T17:29:56.791477+00:00",
+  "timestamp": "2026-04-23T17:34:53.756606+00:00",
   "running": true,
-  "scan_count": 15862,
-  "positions_count": 1,
+  "scan_count": 15880,
+  "positions_count": 2,
   "positions": [
     {
       "symbol": "NEARUSDC",
@@ -15,15 +15,28 @@
       "tp_pct": 0.25,
       "sl_pct": -0.8,
       "trailing_pct": 0.08,
+      "trailing_active": true
+    },
+    {
+      "symbol": "SUIUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 0.9355,
+      "qty": 186.2,
+      "position_size": 174.19178121800002,
+      "open_time": 1776965612.2094152,
+      "tp_pct": 0.25,
+      "sl_pct": -0.8,
+      "trailing_pct": 0.08,
       "trailing_active": false
     }
   ],
-  "daily_pnl": 1.0246,
+  "daily_pnl": 1.1922,
   "capital": 3483.83562436,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
-  "consecutive_losses": 2,
+  "consecutive_losses": 0,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-04-23",
-  "today_trades_count": 13
+  "today_trades_count": 15
 }
