@@ -1,12 +1,29 @@
 {
   "bot": {
-    "balance": 3302.68,
+    "balance": 3336.1,
     "positions": [],
-    "last_scan": "2026-04-24T05:45:01.794701",
-    "rsi_data": {},
+    "last_scan": "2026-04-24T05:50:01.614171",
+    "rsi_data": {
+      "BTCUSDC": {
+        "rsi": 22.7,
+        "signal": "none"
+      }
+    },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-24T05:46:58",
+      "symbol": "PF_SOLUSD",
+      "side": "LONG",
+      "entry_price": 85.82,
+      "exit_price": 85.59,
+      "size": 3.89,
+      "pnl_usd": -0.8947,
+      "pnl_pct": -0.268,
+      "duration": "1807",
+      "exit_reason": "TIMEOUT"
+    },
     {
       "timestamp": "2026-04-24T05:10:11",
       "symbol": "PF_SOLUSD",
@@ -114,26 +131,14 @@
       "pnl_pct": 0.0503,
       "duration": "204",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-04-23T19:17:10",
-      "symbol": "PF_XRPUSD",
-      "side": "LONG",
-      "entry_price": 1.4288,
-      "exit_price": 1.4316,
-      "size": 467.2,
-      "pnl_usd": 1.3035,
-      "pnl_pct": 0.1953,
-      "duration": "607",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
-    "balance": 3302.68,
+    "balance": 3336.1,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.1166,
-    "total_trades": 308,
-    "last_updated": "2026-04-24T05:45:01.801324"
+    "daily_pnl": -1.0113,
+    "total_trades": 309,
+    "last_updated": "2026-04-24T05:50:01.620828"
   }
 }
