@@ -2,11 +2,40 @@
   "bot": {
     "balance": 3336.38,
     "positions": [],
-    "last_scan": "2026-04-25T00:50:01.419935",
-    "rsi_data": {},
+    "last_scan": "2026-04-25T00:55:02.070007",
+    "rsi_data": {
+      "XRPUSDC": {
+        "rsi": 34.4,
+        "signal": "none"
+      }
+    },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-25T00:54:29",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.4324,
+      "exit_price": 1.4328,
+      "size": 465.85,
+      "pnl_usd": 0.1957,
+      "pnl_pct": 0.0293,
+      "duration": "906",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
+    {
+      "timestamp": "2026-04-25T00:54:19",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.4326,
+      "exit_price": 1.4328,
+      "size": 465.79,
+      "pnl_usd": 0.1118,
+      "pnl_pct": 0.0168,
+      "duration": "908",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-04-25T00:21:00",
       "symbol": "PF_NEARUSD",
@@ -102,38 +131,14 @@
       "pnl_pct": -0.268,
       "duration": "1807",
       "exit_reason": "TIMEOUT"
-    },
-    {
-      "timestamp": "2026-04-24T05:10:11",
-      "symbol": "PF_SOLUSD",
-      "side": "LONG",
-      "entry_price": 85.86,
-      "exit_price": 85.92,
-      "size": 3.89,
-      "pnl_usd": 0.2334,
-      "pnl_pct": 0.0699,
-      "duration": "900",
-      "exit_reason": "SMART_TIMEOUT_900S"
-    },
-    {
-      "timestamp": "2026-04-24T03:37:10",
-      "symbol": "PF_NEARUSD",
-      "side": "LONG",
-      "entry_price": 1.404,
-      "exit_price": 1.4055,
-      "size": 475.44,
-      "pnl_usd": 0.7132,
-      "pnl_pct": 0.1068,
-      "duration": "1719",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
     "balance": 3336.38,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.6644,
-    "total_trades": 316,
-    "last_updated": "2026-04-25T00:50:01.427747"
+    "daily_pnl": 0.9719,
+    "total_trades": 318,
+    "last_updated": "2026-04-25T00:55:02.077671"
   }
 }
