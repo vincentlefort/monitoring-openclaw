@@ -1,12 +1,53 @@
 {
   "bot": {
-    "balance": 3303.04,
+    "balance": 3336.25,
     "positions": [],
-    "last_scan": "2026-04-25T14:15:01.560375",
-    "rsi_data": {},
+    "last_scan": "2026-04-25T14:20:01.899373",
+    "rsi_data": {
+      "ADAUSDC": {
+        "rsi": 38.7,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 36.4,
+        "signal": "none"
+      },
+      "SOLUSDC": {
+        "rsi": 39.8,
+        "signal": "none"
+      },
+      "NEARUSDC": {
+        "rsi": 35.7,
+        "signal": "none"
+      }
+    },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-25T14:18:45",
+      "symbol": "PF_SOLUSD",
+      "side": "LONG",
+      "entry_price": 86.32,
+      "exit_price": 86.43,
+      "size": 3.86,
+      "pnl_usd": 0.4246,
+      "pnl_pct": 0.1274,
+      "duration": "902",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
+    {
+      "timestamp": "2026-04-25T14:18:23",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.4304,
+      "exit_price": 1.4318,
+      "size": 466.49,
+      "pnl_usd": 0.6764,
+      "pnl_pct": 0.1014,
+      "duration": "904",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-04-25T13:36:54",
       "symbol": "PF_XRPUSD",
@@ -102,38 +143,14 @@
       "pnl_pct": -0.048,
       "duration": "1807",
       "exit_reason": "TIMEOUT"
-    },
-    {
-      "timestamp": "2026-04-25T02:41:59",
-      "symbol": "PF_ADAUSD",
-      "side": "LONG",
-      "entry_price": 0.2502,
-      "exit_price": 0.2501,
-      "size": 2639.96,
-      "pnl_usd": -0.3168,
-      "pnl_pct": -0.048,
-      "duration": "1807",
-      "exit_reason": "TIMEOUT"
-    },
-    {
-      "timestamp": "2026-04-25T02:37:17",
-      "symbol": "PF_SOLUSD",
-      "side": "LONG",
-      "entry_price": 86.19,
-      "exit_price": 86.2,
-      "size": 3.87,
-      "pnl_usd": 0.0387,
-      "pnl_pct": 0.0116,
-      "duration": "1551",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
-    "balance": 3303.04,
+    "balance": 3336.25,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 1.316,
-    "total_trades": 329,
-    "last_updated": "2026-04-25T14:15:01.568170"
+    "daily_pnl": 2.417,
+    "total_trades": 331,
+    "last_updated": "2026-04-25T14:20:01.907096"
   }
 }
