@@ -2,16 +2,44 @@
   "bot": {
     "balance": 3326.39,
     "positions": [],
-    "last_scan": "2026-04-29T16:30:01.387576",
+    "last_scan": "2026-04-29T16:35:02.082645",
     "rsi_data": {
+      "DOTUSDC": {
+        "rsi": 44.4,
+        "signal": "none"
+      },
+      "LINKUSDC": {
+        "rsi": 40.5,
+        "signal": "none"
+      },
+      "ATOMUSDC": {
+        "rsi": 53.3,
+        "signal": "none"
+      },
       "SOLUSDC": {
-        "rsi": 43.7,
+        "rsi": 39.7,
+        "signal": "none"
+      },
+      "NEARUSDC": {
+        "rsi": 51.3,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-04-29T16:30:20",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.3716,
+      "exit_price": 1.3754,
+      "size": 242.53,
+      "pnl_usd": 0.9216,
+      "pnl_pct": 0.2771,
+      "duration": "1497",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-04-29T16:08:57",
       "symbol": "PF_DOTUSD",
@@ -119,26 +147,14 @@
       "pnl_pct": -0.0295,
       "duration": "452",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-04-29T10:33:11",
-      "symbol": "PF_NEARUSD",
-      "side": "LONG",
-      "entry_price": 1.3585,
-      "exit_price": 1.3564,
-      "size": 612.41,
-      "pnl_usd": -1.2861,
-      "pnl_pct": -0.1546,
-      "duration": "497",
-      "exit_reason": "SMART_EXIT_300S"
     }
   ],
   "summary": {
     "balance": 3326.39,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.3019,
-    "total_trades": 413,
-    "last_updated": "2026-04-29T16:30:01.398083"
+    "daily_pnl": -3.3803,
+    "total_trades": 414,
+    "last_updated": "2026-04-29T16:35:02.091958"
   }
 }
