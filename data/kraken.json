@@ -1,17 +1,48 @@
 {
   "bot": {
-    "balance": 3305.82,
+    "balance": 3314.09,
     "positions": [],
-    "last_scan": "2026-05-04T23:00:01.998773",
-    "rsi_data": {
-      "NEARUSDC": {
-        "rsi": 41.3,
-        "signal": "none"
-      }
-    },
+    "last_scan": "2026-05-04T23:05:01.734081",
+    "rsi_data": {},
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-04T23:02:23",
+      "symbol": "PF_NEARUSD",
+      "side": "SHORT",
+      "entry_price": 1.2696,
+      "exit_price": 1.2711,
+      "size": 19.58,
+      "pnl_usd": -0.0294,
+      "pnl_pct": -0.1181,
+      "duration": "61",
+      "exit_reason": "STOP_LOSS"
+    },
+    {
+      "timestamp": "2026-05-04T23:01:10",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.393,
+      "exit_price": 1.3933,
+      "size": 23.73,
+      "pnl_usd": 0.0081,
+      "pnl_pct": 0.0244,
+      "duration": "602",
+      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
+    },
+    {
+      "timestamp": "2026-05-04T23:00:18",
+      "symbol": "PF_SOLUSD",
+      "side": "LONG",
+      "entry_price": 84.0794,
+      "exit_price": 84.06,
+      "size": 0.99,
+      "pnl_usd": -0.0192,
+      "pnl_pct": -0.0231,
+      "duration": "910",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-05-04T22:19:37",
       "symbol": "PF_NEARUSD",
@@ -95,50 +126,14 @@
       "pnl_pct": -0.0478,
       "duration": "466",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-05-04T12:16:26",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.3917,
-      "exit_price": 1.3942,
-      "size": 59.58,
-      "pnl_usd": -0.1513,
-      "pnl_pct": -0.1825,
-      "duration": "320",
-      "exit_reason": "SMART_EXIT_300S"
-    },
-    {
-      "timestamp": "2026-05-04T10:30:06",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 1.2804,
-      "exit_price": 1.283,
-      "size": 19.43,
-      "pnl_usd": -0.0505,
-      "pnl_pct": -0.2031,
-      "duration": "891",
-      "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-05-04T09:19:01",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 84.91,
-      "exit_price": 84.91,
-      "size": 0.59,
-      "pnl_usd": -0.0,
-      "pnl_pct": -0.0,
-      "duration": "900",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
-    "balance": 3305.82,
+    "balance": 3314.09,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.2639,
-    "total_trades": 502,
-    "last_updated": "2026-05-04T23:00:02.019718"
+    "daily_pnl": -0.3044,
+    "total_trades": 505,
+    "last_updated": "2026-05-04T23:05:01.747365"
   }
 }
