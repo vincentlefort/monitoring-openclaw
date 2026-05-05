@@ -1,10 +1,37 @@
 {
-  "timestamp": "2026-05-05T23:29:51.416535+00:00",
+  "timestamp": "2026-05-05T23:34:45.246805+00:00",
   "running": true,
   "phase": "6-controlled-real-autonomy",
-  "scan_count": 2284,
-  "positions_count": 0,
-  "positions": [],
+  "scan_count": 2304,
+  "positions_count": 2,
+  "positions": [
+    {
+      "symbol": "BNBUSDC",
+      "direction": "LONG",
+      "strategy": "phase6_micro_probe",
+      "entry_price": 630.31,
+      "qty": 0.077,
+      "position_size": 49.04375649705,
+      "open_time": 1778023850.545425,
+      "tp_pct": 0.2,
+      "sl_pct": -0.35,
+      "trailing_pct": 99.0,
+      "trailing_active": false
+    },
+    {
+      "symbol": "INJUSDC",
+      "direction": "LONG",
+      "strategy": "mean_reversion",
+      "entry_price": 3.752,
+      "qty": 43.62,
+      "position_size": 163.4791883235,
+      "open_time": 1778024054.765676,
+      "tp_pct": 0.41,
+      "sl_pct": -0.8,
+      "trailing_pct": 0.08,
+      "trailing_active": false
+    }
+  ],
   "daily_pnl": 0.7393,
   "capital": 3269.58376647,
   "drawdown_pct": 0.0,
