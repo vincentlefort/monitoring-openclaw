@@ -2,16 +2,35 @@
   "bot": {
     "balance": 3311.43,
     "positions": [],
-    "last_scan": "2026-05-07T12:45:01.320731",
-    "rsi_data": {
-      "NEARUSDC": {
-        "rsi": 45.7,
-        "signal": "none"
-      }
-    },
+    "last_scan": "2026-05-07T12:50:01.547956",
+    "rsi_data": {},
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-07T12:50:01",
+      "symbol": "PF_NEARUSD",
+      "side": "SHORT",
+      "entry_price": 1.4732,
+      "exit_price": 1.4768,
+      "size": 33.72,
+      "pnl_usd": -0.1214,
+      "pnl_pct": -0.2444,
+      "duration": "307",
+      "exit_reason": "SMART_EXIT_300S"
+    },
+    {
+      "timestamp": "2026-05-07T12:49:00",
+      "symbol": "PF_XRPUSD",
+      "side": "LONG",
+      "entry_price": 1.4088,
+      "exit_price": 1.4095,
+      "size": 16.42,
+      "pnl_usd": 0.0099,
+      "pnl_pct": 0.0426,
+      "duration": "605",
+      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
+    },
     {
       "timestamp": "2026-05-07T12:38:53",
       "symbol": "PF_SOLUSD",
@@ -107,38 +126,14 @@
       "pnl_pct": 0.0543,
       "duration": "135",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-05-07T06:43:04",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.4063,
-      "exit_price": 1.408,
-      "size": 17.66,
-      "pnl_usd": -0.0297,
-      "pnl_pct": -0.1195,
-      "duration": "163",
-      "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-05-07T06:22:05",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 1.4929,
-      "exit_price": 1.4966,
-      "size": 23.3,
-      "pnl_usd": -0.0862,
-      "pnl_pct": -0.2478,
-      "duration": "276",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
     "balance": 3311.43,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.0173,
-    "total_trades": 648,
-    "last_updated": "2026-05-07T12:45:01.336436"
+    "daily_pnl": -0.0942,
+    "total_trades": 650,
+    "last_updated": "2026-05-07T12:50:01.562434"
   }
 }
