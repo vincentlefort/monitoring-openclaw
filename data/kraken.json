@@ -2,20 +2,40 @@
   "bot": {
     "balance": 3310.58,
     "positions": [],
-    "last_scan": "2026-05-10T13:15:01.283768",
+    "last_scan": "2026-05-10T13:20:01.779715",
     "rsi_data": {
-      "SOLUSDC": {
-        "rsi": 47.5,
-        "signal": "none"
-      },
       "NEARUSDC": {
-        "rsi": 50.4,
+        "rsi": 45.0,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-10T13:19:39",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 93.75,
+      "exit_price": 93.65,
+      "size": 0.27,
+      "pnl_usd": 0.027,
+      "pnl_pct": 0.1067,
+      "duration": "63",
+      "exit_reason": "TAKE_PROFIT"
+    },
+    {
+      "timestamp": "2026-05-10T13:16:17",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.4242,
+      "exit_price": 1.4259,
+      "size": 17.43,
+      "pnl_usd": -0.0305,
+      "pnl_pct": -0.1229,
+      "duration": "357",
+      "exit_reason": "STOP_LOSS"
+    },
     {
       "timestamp": "2026-05-10T12:52:26",
       "symbol": "PF_NEARUSD",
@@ -111,38 +131,14 @@
       "pnl_pct": -0.1523,
       "duration": "316",
       "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-05-10T11:10:38",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.4279,
-      "exit_price": 1.4275,
-      "size": 10.43,
-      "pnl_usd": 0.0045,
-      "pnl_pct": 0.0301,
-      "duration": "607",
-      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
-    },
-    {
-      "timestamp": "2026-05-10T11:00:30",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 94.1,
-      "exit_price": 94.38,
-      "size": 0.16,
-      "pnl_usd": -0.0448,
-      "pnl_pct": -0.2976,
-      "duration": "11",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
     "balance": 3310.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 1.1343,
-    "total_trades": 756,
-    "last_updated": "2026-05-10T13:15:01.299533"
+    "daily_pnl": 1.1308,
+    "total_trades": 758,
+    "last_updated": "2026-05-10T13:20:01.796057"
   }
 }
