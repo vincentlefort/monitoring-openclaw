@@ -2,20 +2,32 @@
   "bot": {
     "balance": 3306.31,
     "positions": [],
-    "last_scan": "2026-05-14T14:50:01.845115",
+    "last_scan": "2026-05-14T14:55:01.910613",
     "rsi_data": {
       "SOLUSDC": {
-        "rsi": 60.9,
+        "rsi": 63.2,
         "signal": "none"
       },
       "NEARUSDC": {
-        "rsi": 58.0,
+        "rsi": 58.7,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-14T14:54:58",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.45,
+      "exit_price": 1.4476,
+      "size": 3.42,
+      "pnl_usd": 0.0081,
+      "pnl_pct": 0.1628,
+      "duration": "288",
+      "exit_reason": "TAKE_PROFIT"
+    },
     {
       "timestamp": "2026-05-14T14:35:01",
       "symbol": "PF_XRPUSD",
@@ -123,26 +135,14 @@
       "pnl_pct": 0.022,
       "duration": "146",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-05-14T12:28:35",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 1.5568,
-      "exit_price": 1.5594,
-      "size": 15.93,
-      "pnl_usd": -0.0414,
-      "pnl_pct": -0.167,
-      "duration": "156",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
     "balance": 3306.31,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -1.3798,
-    "total_trades": 1044,
-    "last_updated": "2026-05-14T14:50:01.863551"
+    "daily_pnl": -1.3717,
+    "total_trades": 1045,
+    "last_updated": "2026-05-14T14:55:01.929048"
   }
 }
