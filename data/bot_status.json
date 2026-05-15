@@ -1,11 +1,25 @@
 {
-  "timestamp": "2026-05-15T14:45:01.103481+00:00",
+  "timestamp": "2026-05-15T14:48:39.146881+00:00",
   "running": true,
   "phase": "6-controlled-real-autonomy",
-  "scan_count": 1361,
-  "positions_count": 0,
-  "positions": [],
-  "daily_pnl": -0.0928,
+  "scan_count": 1379,
+  "positions_count": 1,
+  "positions": [
+    {
+      "symbol": "BNBUSDC",
+      "direction": "LONG",
+      "strategy": "phase6_micro_probe",
+      "entry_price": 674.94,
+      "qty": 0.048,
+      "position_size": 32.8572108344,
+      "open_time": 1778856467.7356143,
+      "tp_pct": 0.2,
+      "sl_pct": -0.35,
+      "trailing_pct": 99.0,
+      "trailing_active": false
+    }
+  ],
+  "daily_pnl": -0.1327,
   "capital": 3285.72108344,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
@@ -15,5 +29,5 @@
   "btc_pump_cooldown_active": false,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-05-15",
-  "today_trades_count": 1
+  "today_trades_count": 2
 }
