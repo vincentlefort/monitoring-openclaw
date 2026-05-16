@@ -2,16 +2,40 @@
   "bot": {
     "balance": 3305.0,
     "positions": [],
-    "last_scan": "2026-05-16T03:25:01.584947",
+    "last_scan": "2026-05-16T03:30:02.306581",
     "rsi_data": {
-      "SOLUSDC": {
-        "rsi": 40.5,
+      "NEARUSDC": {
+        "rsi": 44.5,
         "signal": "none"
       }
     },
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-16T03:28:10",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 89.12,
+      "exit_price": 89.03,
+      "size": 0.28,
+      "pnl_usd": 0.0252,
+      "pnl_pct": 0.101,
+      "duration": "73",
+      "exit_reason": "TAKE_PROFIT"
+    },
+    {
+      "timestamp": "2026-05-16T03:26:57",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.4334,
+      "exit_price": 1.4335,
+      "size": 17.29,
+      "pnl_usd": -0.0007,
+      "pnl_pct": -0.0028,
+      "duration": "608",
+      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
+    },
     {
       "timestamp": "2026-05-16T03:11:14",
       "symbol": "PF_NEARUSD",
@@ -107,38 +131,14 @@
       "pnl_pct": 0.0649,
       "duration": "604",
       "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
-    },
-    {
-      "timestamp": "2026-05-16T00:24:19",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 89.15,
-      "exit_price": 89.25,
-      "size": 0.28,
-      "pnl_usd": -0.028,
-      "pnl_pct": -0.1122,
-      "duration": "512",
-      "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-05-16T00:15:47",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 1.5352,
-      "exit_price": 1.5326,
-      "size": 16.15,
-      "pnl_usd": 0.042,
-      "pnl_pct": 0.1694,
-      "duration": "290",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
     "balance": 3305.0,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.0955,
-    "total_trades": 1174,
-    "last_updated": "2026-05-16T03:25:01.604240"
+    "daily_pnl": 0.12,
+    "total_trades": 1176,
+    "last_updated": "2026-05-16T03:30:02.328803"
   }
 }
