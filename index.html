@@ -223,7 +223,7 @@
         </div>
 
         <!-- Résumé -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;">
             <div class="stat">
                 <div class="stat-label">Valeur Totale</div>
                 <div id="s-value" class="stat-val green">—</div>
@@ -237,11 +237,37 @@
                 <div id="s-pnl" class="stat-val">—</div>
             </div>
             <div class="stat">
-                <div class="stat-label">Signaux</div>
-                <div style="display:flex;gap:6px;margin-top:4px;">
-                    <span class="sig-buy" id="s-buy">0 BUY</span>
-                    <span class="sig-hold" id="s-hold">0 HOLD</span>
-                    <span class="sig-sell" id="s-sell">0 SELL</span>
+                <div class="stat-label">PnL Réalisé</div>
+                <div id="s-realized" class="stat-val">—</div>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;">
+            <div class="stat">
+                <div class="stat-label">MTD</div>
+                <div id="s-mtd" class="stat-val">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">30 Jours</div>
+                <div id="s-30d" class="stat-val">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">YTD</div>
+                <div id="s-ytd" class="stat-val">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Frais</div>
+                <div id="s-fees" class="stat-val white">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Dépôts</div>
+                <div id="s-deposits" class="stat-val white">—</div>
+            </div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:12px;">
+            <span class="sig-buy" id="s-buy">0 BUY</span>
+            <span class="sig-hold" id="s-hold">0 HOLD</span>
+            <span class="sig-sell" id="s-sell">0 SELL</span>
+        </div>
                 </div>
             </div>
         </div>
@@ -260,6 +286,15 @@
             </table>
         </div>
         <div style="margin-top:10px;font-size:0.68rem;color:#1f2d40;">Prix via Yahoo Finance • Refresh 60s</div>
+
+        <!-- PnL Mensuel -->
+        <div class="divider" style="margin-top:18px;"></div>
+        <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;margin:12px 0 8px;">
+            <i class="fas fa-chart-bar gray"></i> PnL Réalisé par Mois
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="s-monthly">
+            <span class="gray" style="font-size:0.75rem;">—</span>
+        </div>
 
         <!-- Historique Transactions (pliable) -->
         <details style="margin-top:20px;">
@@ -535,6 +570,35 @@ async function loadStocks() {
         // Heure de mise à jour côté serveur
         const lastUpd = summ.last_updated ? new Date(summ.last_updated).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '—';
         document.getElementById('s-update').textContent = 'Mis à jour ' + lastUpd;
+
+        // ── Nouvelles cartes PnL ──
+        const realized = summ.pnl_realized || 0;
+        document.getElementById('s-realized').textContent = fmtEUR(realized);
+        document.getElementById('s-realized').className = 'stat-val ' + (realized >= 0 ? 'green' : 'red');
+        document.getElementById('s-mtd').textContent = fmtEUR(summ.pnl_realized_mtd || 0);
+        document.getElementById('s-mtd').className = 'stat-val ' + ((summ.pnl_realized_mtd || 0) >= 0 ? 'green' : 'red');
+        document.getElementById('s-30d').textContent = fmtEUR(summ.pnl_realized_30d || 0);
+        document.getElementById('s-30d').className = 'stat-val ' + ((summ.pnl_realized_30d || 0) >= 0 ? 'green' : 'red');
+        document.getElementById('s-ytd').textContent = fmtEUR(summ.pnl_realized_ytd || 0);
+        document.getElementById('s-ytd').className = 'stat-val ' + ((summ.pnl_realized_ytd || 0) >= 0 ? 'green' : 'red');
+        document.getElementById('s-fees').textContent = '€' + (summ.total_fees || 0).toFixed(0);
+        document.getElementById('s-deposits').textContent = '€' + (summ.total_deposits || 0).toFixed(0);
+        // PnL label = total (réalisé + latent)
+        spEl.textContent = displayVal ? fmtEUR(displayPnl + realized) : '—';
+
+        // ── PnL Mensuel ──
+        const monthly = summ.monthly_pnl || {};
+        const monthlyDiv = document.getElementById('s-monthly');
+        if (Object.keys(monthly).length > 0) {
+            monthlyDiv.innerHTML = Object.entries(monthly).map(([m, v]) =>
+                `<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;min-width:70px;">
+                    <div style="font-size:0.6rem;color:#374151;">${m}</div>
+                    <div style="font-weight:700;font-size:0.8rem;color:${v >= 0 ? '#059669' : '#dc2626'};">${fmtEUR(v)}</div>
+                </div>`
+            ).join('');
+        } else {
+            monthlyDiv.innerHTML = '<span class="gray" style="font-size:0.75rem;">Aucune vente</span>';
+        }
 
         // ── Transactions ──
         const tx = data.transactions || [];
