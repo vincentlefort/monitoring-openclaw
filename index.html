@@ -252,33 +252,30 @@
         <div style="overflow-x:auto;">
             <table class="tbl">
                 <thead><tr>
-                    <th>Ticker</th><th>Nom</th><th>Qté</th>
+                    <th>Ticker</th><th>Nom</th><th>Type</th><th>Qté</th>
                     <th>Px Moy</th><th>Px Actuel</th><th>Valeur</th>
                     <th>Var. Jour</th><th>PnL</th><th>Action</th>
                 </tr></thead>
-                <tbody id="s-table"><tr><td colspan="9" style="text-align:center;color:#374151;padding:20px;">Chargement des prix...</td></tr></tbody>
+                <tbody id="s-table"><tr><td colspan="10" style="text-align:center;color:#374151;padding:20px;">Chargement des prix...</td></tr></tbody>
             </table>
         </div>
         <div style="margin-top:10px;font-size:0.68rem;color:#1f2d40;">Prix via Yahoo Finance • Refresh 60s</div>
 
-        <div class="divider" style="margin-top:20px;"></div>
-
-        <!-- Historique Transactions -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:16px;">
-            <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;">
-                <i class="fas fa-history gray"></i> Historique des Transactions
+        <!-- Historique Transactions (pliable) -->
+        <details style="margin-top:20px;">
+            <summary style="cursor:pointer;font-weight:700;color:#1f2d40;font-size:0.85rem;padding:8px 0;">
+                <i class="fas fa-history gray"></i> Historique des Transactions <span id="tx-count" style="font-size:0.7rem;color:#374151;margin-left:8px;">—</span>
+            </summary>
+            <div style="overflow-x:auto;margin-top:8px;">
+                <table class="tbl">
+                    <thead><tr>
+                        <th>Date</th><th>Type</th><th>Description</th><th>Ticker</th>
+                        <th>Qté</th><th>Prix</th><th>Montant</th><th>Frais</th>
+                    </tr></thead>
+                    <tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
+                </table>
             </div>
-            <span id="tx-count" style="font-size:0.7rem;color:#374151;">—</span>
-        </div>
-        <div style="overflow-x:auto;">
-            <table class="tbl">
-                <thead><tr>
-                    <th>Date</th><th>Type</th><th>Description</th><th>Ticker</th>
-                    <th>Qté</th><th>Prix</th><th>Montant</th><th>Frais</th>
-                </tr></thead>
-                <tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
-            </table>
-        </div>
+        </details>
     </div>
 
 </div>
@@ -453,17 +450,23 @@ async function loadStocks() {
 
         let totalVal = 0, totalInv = 0, buy = 0, hold = 0, sell = 0;
 
-        const rows = tickers.map(ticker => {
+        // Trier par valeur decroissante
+        const sorted = tickers.map(ticker => {
             const pos = portfolio[ticker];
             const pd = serverPrices[ticker] || {};
+            const val = pd.value ?? (pd.price ? pd.price * pos.shares : 0);
+            return { ticker, pos, pd, val };
+        }).sort((a, b) => b.val - a.val);
+
+        const rows = sorted.map(({ ticker, pos, pd, val }) => {
             const shares = pos.shares;
             const avgPx = pos.average_price;
             const invested = pos.total_invested;
             const curPx = pd.price ?? null;
             const dayChg = pd.change_pct ?? null;
-            const val = pd.value ?? (curPx ? curPx * shares : null);
             const pnl = pd.pnl_eur ?? (val ? val - invested : null);
             const pnlPct = pd.pnl_pct ?? (pnl && invested ? pnl / invested * 100 : null);
+            const assetType = pos.type || (ticker.includes('.') ? 'ETF' : 'action');
             // Signal calculé côté serveur, ou recalculé ici en fallback
             const serverSig = pd.signal ?? null;
 
@@ -501,7 +504,8 @@ async function loadStocks() {
 
             return `<tr>
                 <td style="font-weight:700;" class="blue">${ticker}</td>
-                <td class="gray" style="font-size:0.72rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pos.name}</td>
+                <td class="gray" style="font-size:0.72rem;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pos.name}</td>
+                <td><span class="badge badge-${assetType==='ETF'?'green':'gray'}" style="font-size:0.6rem;padding:2px 6px;">${assetType}</span></td>
                 <td>${shares}</td>
                 <td>€${avgPx.toFixed(2)}</td>
                 <td style="font-weight:600;">${curPx ? '€'+curPx.toFixed(2) : '<span class="gray">—</span>'}</td>
@@ -555,7 +559,7 @@ async function loadStocks() {
     } catch(e) {
         console.error('Stocks:', e);
         document.getElementById('s-table').innerHTML =
-            '<tr><td colspan="9" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement données ETF</td></tr>';
+            '<tr><td colspan="10" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement données ETF</td></tr>';
         document.getElementById('tx-table').innerHTML =
             '<tr><td colspan="8" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement transactions</td></tr>';
     }

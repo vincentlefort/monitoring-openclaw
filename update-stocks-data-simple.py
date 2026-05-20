@@ -12,17 +12,22 @@ from datetime import datetime
 SCALABLE_CSV = "/home/openclaw/.openclaw/workspace-bourse/scalable_export.csv"
 OUTPUT_JSON = "/home/openclaw/monitoring-site/data/stocks.json"
 
-# Mapping ISIN -> Ticker et noms
+# Mapping ISIN -> Ticker Yahoo Finance et nom
 ISIN_TO_DATA = {
     "IE00BF4RFH31": {"ticker": "WSML.L",  "name": "iShares MSCI World Small Cap"},
     "IE00BKM4GZ66": {"ticker": "EIMI.L",  "name": "iShares Core MSCI Emerging Markets IMI"},
     "IE00B5BMR087": {"ticker": "CSPX.L",  "name": "iShares Core S&P 500"},
     "IE00BK5BQT80": {"ticker": "VWRA.L",  "name": "Vanguard FTSE All-World"},
-    "IE000BI8OT95": {"ticker": "WRDU.AS", "name": "Amundi Core MSCI World"},          # fix: LCUW.DE retournait 19€ (mauvais ETF)
-    "IE000I8KRLL9": {"ticker": "SEMI.L",  "name": "iShares MSCI Global Semiconductors"},  # fix: était XDWH.DE (Health Care ~48€)
-    "IE00BM67HK77": {"ticker": "XDWH.DE", "name": "Xtrackers MSCI World Health Care"},    # nouveau: 1 part ~48€
+    "IE000BI8OT95": {"ticker": "WRDU.AS", "name": "Amundi Core MSCI World"},
+    "IE000I8KRLL9": {"ticker": "SEMI.L",  "name": "iShares MSCI Global Semiconductors"},
+    "IE00BM67HK77": {"ticker": "XDWH.DE", "name": "Xtrackers MSCI World Health Care"},
     "IE00BMW42413": {"ticker": "IQQH.DE", "name": "iShares MSCI Europe IT Sector"},
-    "IE00BMW42306": {"ticker": "ESIF.L",  "name": "iShares MSCI Europe Financials"},  # fix: IEMM.L→IEMM.AS était un ETF EM à 53€
+    "IE00BMW42306": {"ticker": "ESIF.L",  "name": "iShares MSCI Europe Financials"},
+    # Actions US (Scalable Capital)
+    "US0404132054": {"ticker": "ANET",    "name": "Arista Networks"},
+    "US74762E1029": {"ticker": "PWR",     "name": "Quanta Services"},
+    "US7475251036": {"ticker": "QCOM",    "name": "Qualcomm"},
+    "US1717793095": {"ticker": "CIEN",    "name": "Ciena Co"},
 }
 
 def analyze_portfolio_simple():
@@ -43,12 +48,17 @@ def analyze_portfolio_simple():
                     continue
 
                 isin = row['isin']
-                if not isin or isin not in ISIN_TO_DATA:
+                if not isin:
                     continue
 
-                ticker = ISIN_TO_DATA[isin]['ticker']
-                shares = float(row['shares'].replace(',', '.')) if row['shares'] else 0
-                price  = float(row['price'].replace(',', '.'))  if row['price']  else 0
+                # Resoudre ticker et nom : mapping prioritaire, sinon utiliser description CSV
+                mapping = ISIN_TO_DATA.get(isin, {})
+                ticker = mapping.get('ticker', isin[:20])
+                name = mapping.get('name', row.get('description', isin))
+                asset_type = 'ETF' if isin.startswith('IE') else 'action'
+
+                shares = float(row['shares'].replace('.', '').replace(',', '.')) if row['shares'] else 0
+                price  = float(row['price'].replace('.', '').replace(',', '.'))  if row['price']  else 0
 
                 if shares <= 0:
                     continue
@@ -56,8 +66,9 @@ def analyze_portfolio_simple():
                 # Initialiser la position si absente
                 if ticker not in portfolio:
                     portfolio[ticker] = {
-                        'name': ISIN_TO_DATA[isin]['name'],
+                        'name': name,
                         'isin': isin,
+                        'type': asset_type,
                         'shares': 0,
                         'average_price': 0,
                         'total_invested': 0
