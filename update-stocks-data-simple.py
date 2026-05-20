@@ -14,14 +14,15 @@ OUTPUT_JSON = "/home/openclaw/monitoring-site/data/stocks.json"
 
 # Mapping ISIN -> Ticker et noms
 ISIN_TO_DATA = {
-    "IE00BF4RFH31": {"ticker": "WSML.L", "name": "iShares MSCI World Small Cap"},
-    "IE00BKM4GZ66": {"ticker": "EIMI.L", "name": "iShares Core MSCI Emerging Markets IMI"},
-    "IE00B5BMR087": {"ticker": "CSPX.L", "name": "iShares Core S&P 500"},
-    "IE00BK5BQT80": {"ticker": "VWRA.L", "name": "Vanguard FTSE All-World"},
-    "IE000BI8OT95": {"ticker": "LCUW.DE", "name": "Amundi MSCI World ESG"},
-    "IE000I8KRLL9": {"ticker": "XDWH.DE", "name": "iShares MSCI Global Semiconductors"},
+    "IE00BF4RFH31": {"ticker": "WSML.L",  "name": "iShares MSCI World Small Cap"},
+    "IE00BKM4GZ66": {"ticker": "EIMI.L",  "name": "iShares Core MSCI Emerging Markets IMI"},
+    "IE00B5BMR087": {"ticker": "CSPX.L",  "name": "iShares Core S&P 500"},
+    "IE00BK5BQT80": {"ticker": "VWRA.L",  "name": "Vanguard FTSE All-World"},
+    "IE000BI8OT95": {"ticker": "WRDU.AS", "name": "Amundi Core MSCI World"},          # fix: LCUW.DE retournait 19€ (mauvais ETF)
+    "IE000I8KRLL9": {"ticker": "SEMI.L",  "name": "iShares MSCI Global Semiconductors"},  # fix: était XDWH.DE (Health Care ~48€)
+    "IE00BM67HK77": {"ticker": "XDWH.DE", "name": "Xtrackers MSCI World Health Care"},    # nouveau: 1 part ~48€
     "IE00BMW42413": {"ticker": "IQQH.DE", "name": "iShares MSCI Europe IT Sector"},
-    "IE00BMW42306": {"ticker": "IEMM.L", "name": "iShares MSCI Europe Financials"},
+    "IE00BMW42306": {"ticker": "ESIF.L",  "name": "iShares MSCI Europe Financials"},  # fix: IEMM.L→IEMM.AS était un ETF EM à 53€
 }
 
 def analyze_portfolio_simple():
@@ -32,24 +33,27 @@ def analyze_portfolio_simple():
     try:
         with open(SCALABLE_CSV, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f, delimiter=';')
-            
-            for row in reader:
-                # Filtrer seulement les transactions exécutées d'achat
-                if row['status'] != 'Executed' or row['type'] != 'Buy':
+            # CSV Scalable = ordre anti-chronologique → inverser pour traiter Buy avant Sell
+            rows = list(reader)
+            rows.reverse()
+
+            for row in rows:
+                # Transactions exécutées Buy ou Sell uniquement
+                if row['status'] != 'Executed' or row['type'] not in ('Buy', 'Sell'):
                     continue
-                
+
                 isin = row['isin']
                 if not isin or isin not in ISIN_TO_DATA:
                     continue
-                
+
                 ticker = ISIN_TO_DATA[isin]['ticker']
                 shares = float(row['shares'].replace(',', '.')) if row['shares'] else 0
-                price = float(row['price'].replace(',', '.')) if row['price'] else 0
-                
+                price  = float(row['price'].replace(',', '.'))  if row['price']  else 0
+
                 if shares <= 0:
                     continue
-                
-                # Initialiser ou mettre à jour la position
+
+                # Initialiser la position si absente
                 if ticker not in portfolio:
                     portfolio[ticker] = {
                         'name': ISIN_TO_DATA[isin]['name'],
@@ -58,17 +62,30 @@ def analyze_portfolio_simple():
                         'average_price': 0,
                         'total_invested': 0
                     }
-                
-                # Mettre à jour la position
-                portfolio[ticker]['shares'] += shares
-                invested = shares * price
-                portfolio[ticker]['total_invested'] += invested
-                portfolio[ticker]['average_price'] = portfolio[ticker]['total_invested'] / portfolio[ticker]['shares']
+
+                pos = portfolio[ticker]
+                if row['type'] == 'Buy':
+                    pos['shares'] += shares
+                    pos['total_invested'] += shares * price
+                else:  # Sell
+                    # Réduction proportionnelle du coût moyen
+                    if pos['shares'] > 0:
+                        cost_per_share = pos['total_invested'] / pos['shares']
+                        pos['total_invested'] -= shares * cost_per_share
+                    pos['shares'] -= shares
+
+                if pos['shares'] > 0:
+                    pos['average_price'] = pos['total_invested'] / pos['shares']
+                else:
+                    pos['average_price'] = 0
     
     except Exception as e:
         print(f"Erreur lecture CSV: {e}")
         return {}
-    
+
+    # Retirer les positions soldées (shares <= 0)
+    portfolio = {k: v for k, v in portfolio.items() if v['shares'] > 0.001}
+
     # Pour le moment, on retourne les positions sans prix actuels
     # (les prix seront récupérés par JavaScript côté client)
     return portfolio
@@ -79,9 +96,21 @@ def main():
     try:
         portfolio = analyze_portfolio_simple()
         
+        # Préserver les prix existants pour éviter perte si Yahoo rate-limite
+        prev_prices = {}
+        try:
+            if os.path.exists(OUTPUT_JSON):
+                with open(OUTPUT_JSON, 'r') as f:
+                    prev = json.load(f)
+                    prev_prices = prev.get('prices', {})
+                    prev_summary = prev.get('summary', {})
+        except Exception:
+            pass
+
         # Préparer les données pour le dashboard
         result = {
             'portfolio': portfolio,
+            'prices': prev_prices,
             'summary': {
                 'positions_count': len(portfolio),
                 'total_shares': sum(p['shares'] for p in portfolio.values()),
