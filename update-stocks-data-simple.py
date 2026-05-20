@@ -90,27 +90,71 @@ def analyze_portfolio_simple():
     # (les prix seront récupérés par JavaScript côté client)
     return portfolio
 
+def get_transactions():
+    """Extrait l'historique des transactions (Buy/Sell) depuis le CSV Scalable."""
+    transactions = []
+    try:
+        with open(SCALABLE_CSV, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                if row.get('status') != 'Executed':
+                    continue
+                ttype = row.get('type', '')
+                if ttype not in ('Buy', 'Sell'):
+                    continue
+                desc = row.get('description', '')
+                isin = row.get('isin', '')
+                ticker = ISIN_TO_DATA.get(isin, {}).get('ticker', '')
+                shares = row.get('shares', '0').replace('.', '').replace(',', '.')
+                price = row.get('price', '0').replace('.', '').replace(',', '.')
+                amount = row.get('amount', '0').replace('.', '').replace(',', '.')
+                fee = row.get('fee', '0').replace('.', '').replace(',', '.')
+                transactions.append({
+                    'date': row['date'],
+                    'time': row.get('time', ''),
+                    'type': ttype,
+                    'description': desc,
+                    'isin': isin,
+                    'ticker': ticker,
+                    'shares': float(shares),
+                    'price': float(price),
+                    'amount': float(amount),
+                    'fee': float(fee),
+                })
+    except Exception as e:
+        print(f"⚠️ Transactions: {e}")
+    return transactions
+
 def main():
     print("Analyse simplifiée du portefeuille boursier...")
     
     try:
         portfolio = analyze_portfolio_simple()
         
+        # Extraire l'historique des transactions
+        transactions = get_transactions()
+
         # Préserver les prix existants pour éviter perte si Yahoo rate-limite
         prev_prices = {}
+        prev_transactions = []
         try:
             if os.path.exists(OUTPUT_JSON):
                 with open(OUTPUT_JSON, 'r') as f:
                     prev = json.load(f)
                     prev_prices = prev.get('prices', {})
-                    prev_summary = prev.get('summary', {})
+                    prev_transactions = prev.get('transactions', [])
         except Exception:
             pass
+
+        # Garder les transactions precedentes si la nouvelle extraction echoue
+        if not transactions and prev_transactions:
+            transactions = prev_transactions
 
         # Préparer les données pour le dashboard
         result = {
             'portfolio': portfolio,
             'prices': prev_prices,
+            'transactions': transactions,
             'summary': {
                 'positions_count': len(portfolio),
                 'total_shares': sum(p['shares'] for p in portfolio.values()),
