@@ -263,10 +263,8 @@
                 <div id="s-deposits" class="stat-val white">—</div>
             </div>
         </div>
-        <div style="display:flex;gap:6px;margin-bottom:12px;">
-            <span class="sig-buy" id="s-buy">0 BUY</span>
-            <span class="sig-hold" id="s-hold">0 HOLD</span>
-            <span class="sig-sell" id="s-sell">0 SELL</span>
+        <div style="font-size:0.68rem;color:#374151;margin-bottom:16px;">
+            Données réelles de transactions Scalable Capital
         </div>
                 </div>
             </div>
@@ -274,15 +272,15 @@
 
         <div class="divider"></div>
 
-        <!-- Tableau ETF -->
+        <!-- Tableau Positions -->
         <div style="overflow-x:auto;">
-            <table class="tbl">
+            <table class="tbl" style="font-size:0.7rem;">
                 <thead><tr>
                     <th>Ticker</th><th>Nom</th><th>Type</th><th>Qté</th>
-                    <th>Px Moy</th><th>Px Actuel</th><th>Valeur</th>
-                    <th>Var. Jour</th><th>PnL</th><th>Action</th>
+                    <th>Px Moy</th><th>Px Actuel</th><th>Investi</th><th>Valeur</th>
+                    <th>PnL Latent</th><th>PnL Réal.</th><th>PnL Total</th><th>Poids</th>
                 </tr></thead>
-                <tbody id="s-table"><tr><td colspan="10" style="text-align:center;color:#374151;padding:20px;">Chargement des prix...</td></tr></tbody>
+                <tbody id="s-table"><tr><td colspan="12" style="text-align:center;color:#374151;padding:20px;">Chargement des prix...</td></tr></tbody>
             </table>
         </div>
         <div style="margin-top:10px;font-size:0.68rem;color:#1f2d40;">Prix via Yahoo Finance • Refresh 60s</div>
@@ -483,7 +481,7 @@ async function loadStocks() {
         const serverPrices = data.prices || {};
         const tickers = Object.keys(portfolio);
 
-        let totalVal = 0, totalInv = 0, buy = 0, hold = 0, sell = 0;
+        let totalVal = 0, totalInv = 0;
 
         // Trier par valeur decroissante
         const sorted = tickers.map(ticker => {
@@ -497,57 +495,34 @@ async function loadStocks() {
             const shares = pos.shares;
             const avgPx = pos.average_price;
             const invested = pos.total_invested;
-            const curPx = pd.price ?? null;
-            const dayChg = pd.change_pct ?? null;
-            const pnl = pd.pnl_eur ?? (val ? val - invested : null);
-            const pnlPct = pd.pnl_pct ?? (pnl && invested ? pnl / invested * 100 : null);
+            const curPx = pd.price_eur ?? pd.price ?? null;
+            const latentEur = pd.pnl_eur ?? (val ? val - invested : null);
+            const latentPct = pd.pnl_pct ?? (val && invested ? (val - invested) / invested * 100 : null);
+            const realized = pd.pnl_realized ?? pos.pnl_realized ?? 0;
+            const totalPnl = pd.pnl_total ?? (realized + (latentEur || 0));
+            const totalPnlPct = pd.pnl_total_pct ?? (val && invested ? (realized + (latentEur || 0)) / invested * 100 : null);
+            const weight = pd.weight_pct ?? (totalVal > 0 ? val / totalVal * 100 : 0);
             const assetType = pos.type || (ticker.includes('.') ? 'ETF' : 'action');
-            // Signal calculé côté serveur, ou recalculé ici en fallback
-            const serverSig = pd.signal ?? null;
 
-            if (val) totalVal += val;
-            totalInv += invested;
+            if (val) { totalVal += val; totalInv += invested; }
 
-            // Signal : priorité au signal serveur, sinon recalcul local
-            let sig = 'HOLD';
-            let sigReason = '';
-            if (serverSig) {
-                sig = serverSig;
-                if (sig === 'BUY')  sigReason = dayChg !== null ? 'repli ' + dayChg.toFixed(1) + '%' : (pnlPct !== null ? 'PnL ' + pnlPct.toFixed(1) + '%' : '');
-                if (sig === 'SELL') sigReason = dayChg !== null ? '+' + dayChg.toFixed(1) + '%'    : (pnlPct !== null ? 'PnL +' + pnlPct.toFixed(1) + '%' : '');
-            } else {
-                if (dayChg !== null && dayChg < -3)          { sig = 'BUY';  sigReason = 'baisse ' + dayChg.toFixed(1) + '%'; }
-                else if (pnlPct !== null && pnlPct < -8)     { sig = 'BUY';  sigReason = 'PnL ' + pnlPct.toFixed(1) + '%'; }
-                else if (dayChg !== null && dayChg < -1.5)   { sig = 'BUY';  sigReason = 'repli ' + dayChg.toFixed(1) + '%'; }
-                else if (dayChg !== null && dayChg > 3)      { sig = 'SELL'; sigReason = '+' + dayChg.toFixed(1) + '%'; }
-                else if (pnlPct !== null && pnlPct > 15)     { sig = 'SELL'; sigReason = 'PnL +' + pnlPct.toFixed(1) + '%'; }
-                else if (pnlPct !== null && pnlPct < -4)     { sig = 'BUY';  sigReason = 'DCA ' + pnlPct.toFixed(1) + '%'; }
-            }
-
-            if (sig === 'BUY') buy++;
-            else if (sig === 'SELL') sell++;
-            else hold++;
-
-            const sigHtml = sig === 'BUY'
-                ? `<span class="sig-buy">ACHETER</span><span style="font-size:0.65rem;color:#64748b;margin-left:4px;">${sigReason}</span>`
-                : sig === 'SELL'
-                ? `<span class="sig-sell">VENDRE</span><span style="font-size:0.65rem;color:#64748b;margin-left:4px;">${sigReason}</span>`
-                : '<span class="sig-hold">TENIR</span>';
-
-            const pnlClass2 = pnl === null ? 'gray' : pnl >= 0 ? 'green' : 'red';
-            const dayClass = dayChg === null ? 'gray' : dayChg >= 0 ? 'green' : 'red';
+            const latentClass = latentEur === null ? 'gray' : latentEur >= 0 ? 'green' : 'red';
+            const totalClass  = totalPnl   === null ? 'gray' : totalPnl  >= 0 ? 'green' : 'red';
+            const realizedClass = realized === 0 ? 'gray' : realized > 0 ? 'green' : 'red';
 
             return `<tr>
                 <td style="font-weight:700;" class="blue">${ticker}</td>
-                <td class="gray" style="font-size:0.72rem;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pos.name}</td>
-                <td><span class="badge badge-${assetType==='ETF'?'green':'gray'}" style="font-size:0.6rem;padding:2px 6px;">${assetType}</span></td>
+                <td class="gray" style="font-size:0.68rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pos.name}</td>
+                <td><span class="badge badge-${assetType==='ETF'?'green':'gray'}" style="font-size:0.58rem;padding:2px 5px;">${assetType}</span></td>
                 <td>${shares}</td>
                 <td>€${avgPx.toFixed(2)}</td>
                 <td style="font-weight:600;">${curPx ? '€'+curPx.toFixed(2) : '<span class="gray">—</span>'}</td>
+                <td>€${invested.toFixed(0)}</td>
                 <td>${val ? '€'+val.toFixed(0) : '<span class="gray">—</span>'}</td>
-                <td class="${dayClass}">${fmtPct(dayChg)}</td>
-                <td class="${pnlClass2}" style="font-weight:600;">${pnl !== null ? fmtEUR(pnl) : '—'}</td>
-                <td>${sigHtml}</td>
+                <td class="${latentClass}">${latentEur !== null ? fmtEUR(latentEur) : '—'}</td>
+                <td class="${realizedClass}">${realized !== 0 ? fmtEUR(realized) : '<span class="gray">€0</span>'}</td>
+                <td class="${totalClass}" style="font-weight:600;">${totalPnl !== null ? fmtEUR(totalPnl) : '—'}</td>
+                <td style="font-weight:600;">${weight > 0 ? weight.toFixed(1)+'%' : '<span class="gray">—</span>'}</td>
             </tr>`;
         });
 
@@ -558,15 +533,13 @@ async function loadStocks() {
         const displayVal = summ.total_value || totalVal;
         const displayInv = summ.total_invested || totalInv;
         const displayPnl = summ.total_pnl_eur ?? (displayVal - displayInv);
+        const realized = summ.pnl_realized || 0;
+        const totalReturn = realized + displayPnl;
         document.getElementById('s-value').textContent = displayVal ? '€' + displayVal.toFixed(0) : '—';
         document.getElementById('s-invested').textContent = '€' + displayInv.toFixed(0);
         const spEl = document.getElementById('s-pnl');
-        spEl.textContent = displayVal ? fmtEUR(displayPnl) : '—';
-        spEl.className = 'stat-val ' + (displayPnl >= 0 ? 'green' : 'red');
-
-        document.getElementById('s-buy').textContent = buy + ' BUY';
-        document.getElementById('s-hold').textContent = hold + ' HOLD';
-        document.getElementById('s-sell').textContent = sell + ' SELL';
+        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
+        spEl.className = 'stat-val ' + (totalReturn >= 0 ? 'green' : 'red');
         // Heure de mise à jour côté serveur
         const lastUpd = summ.last_updated ? new Date(summ.last_updated).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '—';
         document.getElementById('s-update').textContent = 'Mis à jour ' + lastUpd;
@@ -584,7 +557,7 @@ async function loadStocks() {
         document.getElementById('s-fees').textContent = '€' + (summ.total_fees || 0).toFixed(0);
         document.getElementById('s-deposits').textContent = '€' + (summ.total_deposits || 0).toFixed(0);
         // PnL label = total (réalisé + latent)
-        spEl.textContent = displayVal ? fmtEUR(displayPnl + realized) : '—';
+        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
 
         // ── PnL Mensuel ──
         const monthly = summ.monthly_pnl || {};
