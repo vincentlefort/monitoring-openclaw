@@ -9,10 +9,52 @@ import re
 from datetime import datetime, timedelta
 import csv
 
+try:
+    import requests
+except ImportError:
+    requests = None
+
 # Chemins des fichiers
 BOT_LOG = "/home/openclaw/kraken_bot_v1/bot.log"
 TRADES_CSV = "/home/openclaw/kraken_bot_v1/trades_kraken.csv"
 OUTPUT_JSON = "/home/openclaw/monitoring-site/data/kraken.json"
+
+
+def _calc_rsi(prices, period=14):
+    """Calcule RSI a partir d'une liste de prix de cloture."""
+    if len(prices) < period + 1:
+        return None
+    deltas = [prices[i] - prices[i-1] for i in range(-period, 0)]
+    gains = sum(d for d in deltas if d > 0) / period
+    losses = sum(abs(d) for d in deltas if d < 0) / period
+    if losses == 0:
+        return 100.0
+    rs = gains / losses
+    return round(100 - (100 / (1 + rs)), 1)
+
+
+def _fetch_kraken_rsi():
+    """Fetch BTC/ETH RSI-14 (15m) depuis l'API publique Kraken."""
+    result = {}
+    if requests is None:
+        return result
+    pairs = {'BTCUSDC': 'XBTUSD', 'ETHUSDC': 'ETHUSD'}
+    for symbol, pair in pairs.items():
+        try:
+            url = f'https://api.kraken.com/0/public/OHLC?pair={pair}&interval=15'
+            r = requests.get(url, timeout=8)
+            data = r.json()
+            candles = data.get('result', {}).get(
+                'XXBTZUSD' if pair == 'XBTUSD' else 'XETHZUSD', [])
+            if candles:
+                closes = [float(c[4]) for c in candles[-20:]]
+                rsi = _calc_rsi(closes)
+                if rsi is not None:
+                    result[symbol] = {'rsi': rsi, 'signal': 'none', 'source': 'kraken_api'}
+        except Exception as e:
+            print(f'  ⚠️  RSI {symbol}: {e}')
+    return result
+
 
 def parse_bot_log():
     """Parse le fichier de log du bot Kraken"""
@@ -64,9 +106,9 @@ def parse_bot_log():
                     data['positions'] = positions
                 break
         
-        # Extraire les dernières données RSI
+        # Extraire les dernières données RSI (scan 500 dernières lignes pour couvrir BTC/ETH)
         rsi_data = {}
-        for line in reversed(lines[-50:]):  # Regarder les 50 dernières lignes
+        for line in reversed(lines[-500:]):
             line = line.strip()
             # Chercher les lignes RSI
             rsi_match = re.search(r'(\w+): RSI=([\d\.]+)', line)
@@ -78,6 +120,24 @@ def parse_bot_log():
                         'rsi': rsi_value,
                         'signal': 'none'
                     }
+
+        # Fallback BTC/ETH RSI depuis BTC RSI_1h (recherche profonde)
+        if 'BTCUSDC' not in rsi_data:
+            for line in reversed(lines[-300000:]):
+                btc_match = re.search(r'BTC RSI_1h=([\d\.]+)', line)
+                if btc_match:
+                    rsi_data['BTCUSDC'] = {'rsi': float(btc_match.group(1)), 'signal': 'none', 'source': 'RSI_1h'}
+                    break
+        if 'ETHUSDC' not in rsi_data:
+            for line in reversed(lines):
+                eth_match = re.search(r'ETHUSDC: RSI=([\d\.]+)', line)
+                if eth_match:
+                    rsi_data['ETHUSDC'] = {'rsi': float(eth_match.group(1)), 'signal': 'none', 'source': 'stale'}
+                    break
+
+        # Fallback ultime: Kraken API temps reel (ecrase les valeurs stale du log)
+        api_rsi = _fetch_kraken_rsi()
+        rsi_data.update(api_rsi)
         
         data['rsi_data'] = rsi_data
         
