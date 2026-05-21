@@ -1,15 +1,15 @@
 {
   "bot": {
-    "balance": 3301.68,
+    "balance": 3299.26,
     "positions": [],
-    "last_scan": "2026-05-21T06:05:02.354592",
+    "last_scan": "2026-05-21T06:10:01.435932",
     "rsi_data": {
-      "SOLUSDC": {
-        "rsi": 65.1,
+      "NEARUSDC": {
+        "rsi": 59.6,
         "signal": "none"
       },
-      "NEARUSDC": {
-        "rsi": 60.7,
+      "SOLUSDC": {
+        "rsi": 73.8,
         "signal": "none"
       },
       "XRPUSDC": {
@@ -17,12 +17,12 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 66.9,
+        "rsi": 63.6,
         "signal": "none",
         "source": "kraken_api"
       },
       "BTCUSDC": {
-        "rsi": 67.1,
+        "rsi": 60.8,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-21T06:08:52",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.3835,
+      "exit_price": 1.3828,
+      "size": 17.9,
+      "pnl_usd": 0.0127,
+      "pnl_pct": 0.0513,
+      "duration": "608",
+      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
+    },
     {
       "timestamp": "2026-05-21T05:30:12",
       "symbol": "PF_NEARUSD",
@@ -137,26 +149,14 @@
       "pnl_pct": -0.0873,
       "duration": "604",
       "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
-    },
-    {
-      "timestamp": "2026-05-21T03:16:00",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 86.8,
-      "exit_price": 86.96,
-      "size": 0.29,
-      "pnl_usd": -0.0464,
-      "pnl_pct": -0.1843,
-      "duration": "31",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
-    "balance": 3301.68,
+    "balance": 3299.26,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.1179,
-    "total_trades": 1468,
-    "last_updated": "2026-05-21T06:05:02.802902"
+    "daily_pnl": 0.1306,
+    "total_trades": 1469,
+    "last_updated": "2026-05-21T06:10:01.897887"
   }
 }
