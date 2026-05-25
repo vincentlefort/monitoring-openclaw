@@ -1,28 +1,28 @@
 {
   "bot": {
-    "balance": 3296.32,
+    "balance": 3298.78,
     "positions": [],
-    "last_scan": "2026-05-25T05:45:01.746722",
+    "last_scan": "2026-05-25T05:50:01.629768",
     "rsi_data": {
+      "NEARUSDC": {
+        "rsi": 43.6,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 38.2,
+        "signal": "none"
+      },
       "SOLUSDC": {
         "rsi": 37.4,
         "signal": "none"
       },
-      "XRPUSDC": {
-        "rsi": 35.3,
-        "signal": "none"
-      },
-      "NEARUSDC": {
-        "rsi": 43.7,
-        "signal": "none"
-      },
       "BTCUSDC": {
-        "rsi": 44.3,
+        "rsi": 43.2,
         "signal": "none",
         "source": "kraken_api"
       },
       "ETHUSDC": {
-        "rsi": 39.7,
+        "rsi": 39.3,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-25T05:47:19",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 84.79,
+      "exit_price": 84.78,
+      "size": 0.29,
+      "pnl_usd": 0.0029,
+      "pnl_pct": 0.0118,
+      "duration": "602",
+      "exit_reason": "LOW_VOL_SCALP_STALE_TIMEOUT_10M"
+    },
     {
       "timestamp": "2026-05-25T05:33:00",
       "symbol": "PF_XRPUSD",
@@ -137,26 +149,14 @@
       "pnl_pct": 0.1023,
       "duration": "193",
       "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-05-25T03:54:23",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 85.13,
-      "exit_price": 85.02,
-      "size": 0.29,
-      "pnl_usd": 0.0319,
-      "pnl_pct": 0.1292,
-      "duration": "114",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
-    "balance": 3296.32,
+    "balance": 3298.78,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.0222,
-    "total_trades": 1752,
-    "last_updated": "2026-05-25T05:45:02.240133"
+    "daily_pnl": 0.0251,
+    "total_trades": 1753,
+    "last_updated": "2026-05-25T05:50:02.157081"
   }
 }
