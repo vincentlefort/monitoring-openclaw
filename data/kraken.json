@@ -1,24 +1,24 @@
 {
   "bot": {
-    "balance": 3296.05,
+    "balance": 3296.0,
     "positions": [],
-    "last_scan": "2026-05-28T04:35:01.481383",
+    "last_scan": "2026-05-28T04:40:02.029729",
     "rsi_data": {
       "XRPUSDC": {
-        "rsi": 42.7,
+        "rsi": 45.0,
         "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 44.2,
+        "rsi": 39.7,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 39.3,
+        "rsi": 40.2,
         "signal": "none",
         "source": "kraken_api"
       },
       "ETHUSDC": {
-        "rsi": 39.2,
+        "rsi": 41.9,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +26,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-05-28T04:36:29",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 81.96,
+      "exit_price": 82.05,
+      "size": 0.3,
+      "pnl_usd": -0.027,
+      "pnl_pct": -0.1098,
+      "duration": "30",
+      "exit_reason": "STOP_LOSS"
+    },
     {
       "timestamp": "2026-05-28T04:24:50",
       "symbol": "PF_XRPUSD",
@@ -133,26 +145,14 @@
       "pnl_pct": 0.1307,
       "duration": "307",
       "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-05-28T02:30:08",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.3064,
-      "exit_price": 1.3077,
-      "size": 18.92,
-      "pnl_usd": -0.0254,
-      "pnl_pct": -0.1026,
-      "duration": "281",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
-    "balance": 3296.05,
+    "balance": 3296.0,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 0.1189,
-    "total_trades": 1994,
-    "last_updated": "2026-05-28T04:35:03.030673"
+    "daily_pnl": 0.0919,
+    "total_trades": 1995,
+    "last_updated": "2026-05-28T04:40:02.537431"
   }
 }
