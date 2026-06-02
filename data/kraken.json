@@ -1,32 +1,28 @@
 {
   "bot": {
-    "balance": 3289.86,
+    "balance": 3289.8,
     "positions": [],
-    "last_scan": "2026-06-02T22:00:01.969901",
+    "last_scan": "2026-06-02T22:05:01.600917",
     "rsi_data": {
       "DOTUSDC": {
-        "rsi": 46.8,
+        "rsi": 49.7,
         "signal": "none"
       },
       "XRPUSDC": {
-        "rsi": 46.6,
+        "rsi": 45.0,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 41.9,
+        "rsi": 42.3,
         "signal": "none",
         "source": "kraken_api"
       },
       "SOLUSDC": {
-        "rsi": 38.8,
-        "signal": "none"
-      },
-      "ATOMUSDC": {
-        "rsi": 40.6,
+        "rsi": 35.2,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 37.6,
+        "rsi": 39.9,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +30,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-02T22:03:12",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 75.36,
+      "exit_price": 75.47,
+      "size": 0.33,
+      "pnl_usd": -0.0363,
+      "pnl_pct": -0.146,
+      "duration": "120",
+      "exit_reason": "STOP_LOSS"
+    },
     {
       "timestamp": "2026-06-02T21:56:04",
       "symbol": "PF_ATOMUSD",
@@ -141,26 +149,14 @@
       "pnl_pct": -0.2172,
       "duration": "169",
       "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-06-02T20:00:18",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 1.115,
-      "exit_price": 1.113,
-      "size": 4.43,
-      "pnl_usd": 0.0089,
-      "pnl_pct": 0.1794,
-      "duration": "201",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
-    "balance": 3289.86,
+    "balance": 3289.8,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.3583,
-    "total_trades": 2453,
-    "last_updated": "2026-06-02T22:00:02.569056"
+    "daily_pnl": -0.3946,
+    "total_trades": 2454,
+    "last_updated": "2026-06-02T22:05:02.203229"
   }
 }
