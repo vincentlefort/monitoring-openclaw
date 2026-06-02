@@ -2,23 +2,23 @@
   "bot": {
     "balance": 3289.98,
     "positions": [],
-    "last_scan": "2026-06-02T20:00:01.901086",
+    "last_scan": "2026-06-02T20:05:02.109840",
     "rsi_data": {
-      "ATOMUSDC": {
-        "rsi": 60.0,
-        "signal": "none"
-      },
       "XRPUSDC": {
-        "rsi": 55.6,
+        "rsi": 57.7,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 40.0,
+        "rsi": 41.0,
         "signal": "none",
         "source": "kraken_api"
       },
       "SOLUSDC": {
-        "rsi": 56.4,
+        "rsi": 56.9,
+        "signal": "none"
+      },
+      "ATOMUSDC": {
+        "rsi": 69.7,
         "signal": "none"
       },
       "DOTUSDC": {
@@ -26,7 +26,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 43.8,
+        "rsi": 44.7,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +34,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-02T20:04:54",
+      "symbol": "PF_ATOMUSD",
+      "side": "SHORT",
+      "entry_price": 1.842,
+      "exit_price": 1.846,
+      "size": 2.68,
+      "pnl_usd": -0.0107,
+      "pnl_pct": -0.2172,
+      "duration": "169",
+      "exit_reason": "STOP_LOSS"
+    },
+    {
+      "timestamp": "2026-06-02T20:00:18",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 1.115,
+      "exit_price": 1.113,
+      "size": 4.43,
+      "pnl_usd": 0.0089,
+      "pnl_pct": 0.1794,
+      "duration": "201",
+      "exit_reason": "TAKE_PROFIT"
+    },
     {
       "timestamp": "2026-06-02T19:05:23",
       "symbol": "PF_SOLUSD",
@@ -129,38 +153,14 @@
       "pnl_pct": -0.1143,
       "duration": "75",
       "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-06-02T15:48:19",
-      "symbol": "PF_ATOMUSD",
-      "side": "SHORT",
-      "entry_price": 1.882,
-      "exit_price": 1.88,
-      "size": 13.11,
-      "pnl_usd": 0.0262,
-      "pnl_pct": 0.1063,
-      "duration": "41",
-      "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-06-02T15:37:18",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 1.137,
-      "exit_price": 1.139,
-      "size": 21.7,
-      "pnl_usd": -0.0434,
-      "pnl_pct": -0.1759,
-      "duration": "97",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
     "balance": 3289.98,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.5648,
-    "total_trades": 2443,
-    "last_updated": "2026-06-02T20:00:02.515799"
+    "daily_pnl": -0.5666,
+    "total_trades": 2445,
+    "last_updated": "2026-06-02T20:05:02.721559"
   }
 }
