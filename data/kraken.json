@@ -1,24 +1,28 @@
 {
   "bot": {
-    "balance": 3287.29,
+    "balance": 3289.74,
     "positions": [],
-    "last_scan": "2026-06-02T22:45:02.043587",
+    "last_scan": "2026-06-02T22:50:01.602062",
     "rsi_data": {
+      "DOTUSDC": {
+        "rsi": 51.9,
+        "signal": "none"
+      },
       "BTCUSDC": {
-        "rsi": 40.7,
+        "rsi": 45.4,
         "signal": "none",
         "source": "kraken_api"
+      },
+      "XRPUSDC": {
+        "rsi": 44.6,
+        "signal": "none"
       },
       "SOLUSDC": {
         "rsi": 37.0,
         "signal": "none"
       },
-      "ATOMUSDC": {
-        "rsi": 44.3,
-        "signal": "none"
-      },
       "ETHUSDC": {
-        "rsi": 29.4,
+        "rsi": 35.5,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +30,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-02T22:48:06",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.2171,
+      "exit_price": 1.2185,
+      "size": 4.05,
+      "pnl_usd": -0.0056,
+      "pnl_pct": -0.1142,
+      "duration": "116",
+      "exit_reason": "STOP_LOSS"
+    },
+    {
+      "timestamp": "2026-06-02T22:45:57",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 75.03,
+      "exit_price": 75.11,
+      "size": 0.33,
+      "pnl_usd": -0.0264,
+      "pnl_pct": -0.1066,
+      "duration": "310",
+      "exit_reason": "STOP_LOSS"
+    },
     {
       "timestamp": "2026-06-02T22:38:50",
       "symbol": "PF_ATOMUSD",
@@ -121,38 +149,14 @@
       "pnl_pct": 0.1056,
       "duration": "62",
       "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-06-02T21:12:13",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 75.95,
-      "exit_price": 76.05,
-      "size": 0.33,
-      "pnl_usd": -0.033,
-      "pnl_pct": -0.1317,
-      "duration": "121",
-      "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-06-02T21:01:35",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 1.104,
-      "exit_price": 1.102,
-      "size": 22.35,
-      "pnl_usd": 0.0447,
-      "pnl_pct": 0.1812,
-      "duration": "42",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
-    "balance": 3287.29,
+    "balance": 3289.74,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.555,
-    "total_trades": 2458,
-    "last_updated": "2026-06-02T22:45:03.624735"
+    "daily_pnl": -0.587,
+    "total_trades": 2460,
+    "last_updated": "2026-06-02T22:50:03.259846"
   }
 }
