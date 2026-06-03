@@ -1,25 +1,38 @@
 {
-  "timestamp": "2026-06-03T00:04:54.455368+00:00",
+  "timestamp": "2026-06-03T00:09:55.683081+00:00",
   "running": true,
   "phase": "6-controlled-real-autonomy",
-  "scan_count": 3941,
-  "positions_count": 1,
+  "scan_count": 3962,
+  "positions_count": 2,
   "positions": [
     {
       "symbol": "BNBUSDC",
       "direction": "LONG",
+      "strategy": "phase6_micro_probe",
+      "entry_price": 652.19,
+      "qty": 0.076,
+      "position_size": 49.91509404195,
+      "open_time": 1780445335.2577617,
+      "tp_pct": 0.2,
+      "sl_pct": -0.2,
+      "trailing_pct": 99.0,
+      "trailing_active": true
+    },
+    {
+      "symbol": "ZECUSDC",
+      "direction": "LONG",
       "strategy": "breakout",
-      "entry_price": 651.22,
-      "qty": 0.255,
+      "entry_price": 615.6,
+      "qty": 0.27,
       "position_size": 166.3836468065,
-      "open_time": 1780444865.8268273,
+      "open_time": 1780445385.1510344,
       "tp_pct": 1.0,
       "sl_pct": -1.5,
       "trailing_pct": 0.1,
-      "trailing_active": false
+      "trailing_active": true
     }
   ],
-  "daily_pnl": -1.1909,
+  "daily_pnl": -0.9844,
   "capital": 3327.67293613,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
@@ -29,5 +42,5 @@
   "btc_pump_cooldown_active": false,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-06-03",
-  "today_trades_count": 8
+  "today_trades_count": 9
 }
