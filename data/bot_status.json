@@ -1,25 +1,38 @@
 {
-  "timestamp": "2026-06-03T00:14:56.489458+00:00",
+  "timestamp": "2026-06-03T00:19:59.747134+00:00",
   "running": true,
   "phase": "6-controlled-real-autonomy",
-  "scan_count": 3984,
-  "positions_count": 1,
+  "scan_count": 4007,
+  "positions_count": 2,
   "positions": [
     {
-      "symbol": "BNBUSDC",
+      "symbol": "LINKUSDC",
       "direction": "LONG",
-      "strategy": "phase6_micro_probe",
-      "entry_price": 652.19,
-      "qty": 0.076,
-      "position_size": 49.91509404195,
-      "open_time": 1780445335.2577617,
-      "tp_pct": 0.2,
-      "sl_pct": -0.2,
-      "trailing_pct": 99.0,
-      "trailing_active": true
+      "strategy": "breakout",
+      "entry_price": 8.411,
+      "qty": 19.78,
+      "position_size": 166.3836468065,
+      "open_time": 1780445831.2679389,
+      "tp_pct": 1.0,
+      "sl_pct": -1.5,
+      "trailing_pct": 0.1,
+      "trailing_active": false
+    },
+    {
+      "symbol": "OPUSDC",
+      "direction": "LONG",
+      "strategy": "breakout",
+      "entry_price": 0.1174,
+      "qty": 1417.23,
+      "position_size": 166.3836468065,
+      "open_time": 1780445902.763368,
+      "tp_pct": 1.0,
+      "sl_pct": -1.5,
+      "trailing_pct": 0.1,
+      "trailing_active": false
     }
   ],
-  "daily_pnl": -0.9277,
+  "daily_pnl": -0.7878,
   "capital": 3327.67293613,
   "drawdown_pct": 0.0,
   "circuit_breaker": false,
@@ -29,5 +42,5 @@
   "btc_pump_cooldown_active": false,
   "daily_pnl_calculated": true,
   "daily_pnl_date": "2026-06-03",
-  "today_trades_count": 10
+  "today_trades_count": 11
 }
