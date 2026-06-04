@@ -1,17 +1,21 @@
 {
   "bot": {
-    "balance": 3281.32,
+    "balance": 3255.53,
     "positions": [],
-    "last_scan": "2026-06-04T06:15:02.367030",
+    "last_scan": "2026-06-04T06:20:02.282071",
     "rsi_data": {
-      "BTCUSDC": {
-        "rsi": 65.0,
-        "signal": "none",
-        "source": "kraken_api"
+      "DOTUSDC": {
+        "rsi": 56.6,
+        "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 66.6,
+        "rsi": 69.7,
         "signal": "none"
+      },
+      "BTCUSDC": {
+        "rsi": 64.5,
+        "signal": "none",
+        "source": "kraken_api"
       },
       "ATOMUSDC": {
         "rsi": 54.3,
@@ -22,7 +26,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 56.9,
+        "rsi": 56.6,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-04T06:18:42",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.2075,
+      "exit_price": 1.2084,
+      "size": 217.4,
+      "pnl_usd": -0.2022,
+      "pnl_pct": -0.077,
+      "duration": "525",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-04T06:00:47",
       "symbol": "PF_DOTUSD",
@@ -137,26 +153,14 @@
       "pnl_pct": -0.0143,
       "duration": "84",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-04T04:42:55",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.1747,
-      "exit_price": 1.1818,
-      "size": 223.51,
-      "pnl_usd": -1.5757,
-      "pnl_pct": -0.6001,
-      "duration": "411",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
-    "balance": 3281.32,
+    "balance": 3255.53,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -1.4368,
-    "total_trades": 2588,
-    "last_updated": "2026-06-04T06:15:02.953607"
+    "daily_pnl": -1.639,
+    "total_trades": 2589,
+    "last_updated": "2026-06-04T06:20:02.853179"
   }
 }
