@@ -2,31 +2,31 @@
   "bot": {
     "balance": 3282.09,
     "positions": [],
-    "last_scan": "2026-06-04T04:35:01.712940",
+    "last_scan": "2026-06-04T04:40:02.238212",
     "rsi_data": {
-      "DOTUSDC": {
-        "rsi": 42.1,
+      "BTCUSDC": {
+        "rsi": 36.5,
+        "signal": "none",
+        "source": "kraken_api"
+      },
+      "XRPUSDC": {
+        "rsi": 46.7,
         "signal": "none"
       },
       "ATOMUSDC": {
-        "rsi": 45.6,
+        "rsi": 45.3,
         "signal": "none"
       },
-      "XRPUSDC": {
-        "rsi": 50.1,
+      "DOTUSDC": {
+        "rsi": 40.7,
         "signal": "none"
-      },
-      "BTCUSDC": {
-        "rsi": 35.7,
-        "signal": "none",
-        "source": "kraken_api"
       },
       "SOLUSDC": {
         "rsi": 45.6,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 32.4,
+        "rsi": 33.3,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-04T04:36:37",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 1.052,
+      "exit_price": 1.052,
+      "size": 249.59,
+      "pnl_usd": -0.0,
+      "pnl_pct": -0.0,
+      "duration": "76",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-04T04:31:33",
       "symbol": "PF_SOLUSD",
@@ -141,18 +153,6 @@
       "pnl_pct": 0.0865,
       "duration": "41",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-04T03:30:01",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.1718,
-      "exit_price": 1.1694,
-      "size": 224.13,
-      "pnl_usd": 0.5334,
-      "pnl_pct": 0.2031,
-      "duration": "295",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
@@ -160,7 +160,7 @@
     "positions_count": 0,
     "open_positions_value": 0,
     "daily_pnl": 8.0615,
-    "total_trades": 2577,
-    "last_updated": "2026-06-04T04:35:02.298040"
+    "total_trades": 2578,
+    "last_updated": "2026-06-04T04:40:03.890431"
   }
 }
