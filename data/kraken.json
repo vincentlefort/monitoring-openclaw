@@ -1,20 +1,32 @@
 {
   "bot": {
-    "balance": 3281.34,
+    "balance": 3254.43,
     "positions": [],
-    "last_scan": "2026-06-04T07:20:02.047303",
+    "last_scan": "2026-06-04T07:25:02.334862",
     "rsi_data": {
+      "ATOMUSDC": {
+        "rsi": 44.0,
+        "signal": "none"
+      },
+      "BTCUSDC": {
+        "rsi": 72.4,
+        "signal": "none",
+        "source": "kraken_api"
+      },
+      "DOTUSDC": {
+        "rsi": 34.7,
+        "signal": "none"
+      },
+      "SOLUSDC": {
+        "rsi": 38.4,
+        "signal": "none"
+      },
       "XRPUSDC": {
         "rsi": 40.9,
         "signal": "none"
       },
-      "BTCUSDC": {
-        "rsi": 72.8,
-        "signal": "none",
-        "source": "kraken_api"
-      },
       "ETHUSDC": {
-        "rsi": 63.3,
+        "rsi": 63.0,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -22,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-04T07:23:15",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.187,
+      "exit_price": 1.185,
+      "size": 221.14,
+      "pnl_usd": 0.4511,
+      "pnl_pct": 0.1719,
+      "duration": "202",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-04T07:08:42",
       "symbol": "PF_DOTUSD",
@@ -129,26 +153,14 @@
       "pnl_pct": -0.077,
       "duration": "525",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-04T06:00:47",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 1.081,
-      "exit_price": 1.081,
-      "size": 242.86,
-      "pnl_usd": -0.0,
-      "pnl_pct": -0.0,
-      "duration": "766",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
-    "balance": 3281.34,
+    "balance": 3254.43,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 3.9475,
-    "total_trades": 2597,
-    "last_updated": "2026-06-04T07:20:03.705947"
+    "daily_pnl": 4.3986,
+    "total_trades": 2598,
+    "last_updated": "2026-06-04T07:25:02.905852"
   }
 }
