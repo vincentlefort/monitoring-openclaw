@@ -1,28 +1,28 @@
 {
   "bot": {
-    "balance": 3249.51,
+    "balance": 3224.46,
     "positions": [],
-    "last_scan": "2026-06-05T22:00:02.506920",
+    "last_scan": "2026-06-05T22:05:01.391281",
     "rsi_data": {
-      "DOTUSDC": {
-        "rsi": 48.3,
-        "signal": "none"
-      },
-      "XRPUSDC": {
-        "rsi": 58.1,
-        "signal": "none"
-      },
       "BTCUSDC": {
-        "rsi": 43.2,
+        "rsi": 40.6,
         "signal": "none",
         "source": "kraken_api"
       },
+      "DOTUSDC": {
+        "rsi": 41.9,
+        "signal": "none"
+      },
       "SOLUSDC": {
-        "rsi": 51.0,
+        "rsi": 45.2,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 55.2,
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 46.5,
+        "rsi": 41.9,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-05T22:03:06",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.0984,
+      "exit_price": 1.0921,
+      "size": 236.67,
+      "pnl_usd": 1.4887,
+      "pnl_pct": 0.5727,
+      "duration": "160",
+      "exit_reason": "TAKE_PROFIT"
+    },
     {
       "timestamp": "2026-06-05T21:48:14",
       "symbol": "PF_ATOMUSD",
@@ -137,26 +149,14 @@
       "pnl_pct": -0.3811,
       "duration": "31",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-05T20:54:30",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 0.9261,
-      "exit_price": 0.9208,
-      "size": 281.03,
-      "pnl_usd": 1.4895,
-      "pnl_pct": 0.5723,
-      "duration": "73",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
-    "balance": 3249.51,
+    "balance": 3224.46,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 20.6577,
-    "total_trades": 2928,
-    "last_updated": "2026-06-05T22:00:03.194618"
+    "daily_pnl": 22.1464,
+    "total_trades": 2929,
+    "last_updated": "2026-06-05T22:05:02.071878"
   }
 }
