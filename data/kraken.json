@@ -1,9 +1,14 @@
 {
   "bot": {
-    "balance": 3211.4,
+    "balance": 3211.89,
     "positions": [],
-    "last_scan": "2026-06-06T14:20:01.538058",
+    "last_scan": "2026-06-06T14:25:01.663496",
     "rsi_data": {
+      "BTCUSDC": {
+        "rsi": 40.2,
+        "signal": "none",
+        "source": "kraken_api"
+      },
       "SOLUSDC": {
         "rsi": 49.7,
         "signal": "none"
@@ -11,11 +16,6 @@
       "DOTUSDC": {
         "rsi": 52.1,
         "signal": "none"
-      },
-      "BTCUSDC": {
-        "rsi": 41.5,
-        "signal": "none",
-        "source": "kraken_api"
       },
       "XRPUSDC": {
         "rsi": 50.3,
@@ -26,7 +26,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 37.3,
+        "rsi": 35.2,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-06T14:21:20",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.0873,
+      "exit_price": 1.0874,
+      "size": 238.19,
+      "pnl_usd": -0.0238,
+      "pnl_pct": -0.0092,
+      "duration": "605",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-06T14:19:34",
       "symbol": "PF_DOTUSD",
@@ -141,26 +153,14 @@
       "pnl_pct": 0.3314,
       "duration": "97",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-06T12:31:34",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 0.9347,
-      "exit_price": 0.929,
-      "size": 277.48,
-      "pnl_usd": 1.5816,
-      "pnl_pct": 0.6098,
-      "duration": "64",
-      "exit_reason": "TAKE_PROFIT"
     }
   ],
   "summary": {
-    "balance": 3211.4,
+    "balance": 3211.89,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 5.3873,
-    "total_trades": 3045,
-    "last_updated": "2026-06-06T14:20:02.177655"
+    "daily_pnl": 5.3635,
+    "total_trades": 3046,
+    "last_updated": "2026-06-06T14:25:02.288811"
   }
 }
