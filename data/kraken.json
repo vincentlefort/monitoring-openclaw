@@ -1,17 +1,21 @@
 {
   "bot": {
-    "balance": 3203.76,
+    "balance": 3229.06,
     "positions": [],
-    "last_scan": "2026-06-07T01:20:02.377873",
+    "last_scan": "2026-06-07T01:25:02.073691",
     "rsi_data": {
-      "DOTUSDC": {
-        "rsi": 59.0,
+      "ATOMUSDC": {
+        "rsi": 52.7,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 52.1,
+        "rsi": 50.7,
         "signal": "none",
         "source": "kraken_api"
+      },
+      "DOTUSDC": {
+        "rsi": 59.0,
+        "signal": "none"
       },
       "XRPUSDC": {
         "rsi": 55.5,
@@ -22,7 +26,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 55.7,
+        "rsi": 54.8,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-07T01:20:43",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 62.01,
+      "exit_price": 61.93,
+      "size": 4.17,
+      "pnl_usd": 0.3336,
+      "pnl_pct": 0.129,
+      "duration": "284",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-07T00:48:08",
       "symbol": "PF_ATOMUSD",
@@ -137,26 +153,14 @@
       "pnl_pct": 0.0917,
       "duration": "652",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-06T23:15:03",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.0844,
-      "exit_price": 1.0932,
-      "size": 238.39,
-      "pnl_usd": -2.1002,
-      "pnl_pct": -0.8124,
-      "duration": "380",
-      "exit_reason": "STOP_LOSS"
     }
   ],
   "summary": {
-    "balance": 3203.76,
+    "balance": 3229.06,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -1.3414,
-    "total_trades": 3124,
-    "last_updated": "2026-06-07T01:20:02.955517"
+    "daily_pnl": -1.0078,
+    "total_trades": 3125,
+    "last_updated": "2026-06-07T01:25:02.665342"
   }
 }
