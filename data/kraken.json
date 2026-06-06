@@ -1,17 +1,17 @@
 {
   "bot": {
-    "balance": 3219.48,
+    "balance": 3244.93,
     "positions": [],
-    "last_scan": "2026-06-06T07:35:01.859892",
+    "last_scan": "2026-06-06T07:40:02.307102",
     "rsi_data": {
+      "BTCUSDC": {
+        "rsi": 48.4,
+        "signal": "none",
+        "source": "kraken_api"
+      },
       "XRPUSDC": {
         "rsi": 53.6,
         "signal": "none"
-      },
-      "BTCUSDC": {
-        "rsi": 45.5,
-        "signal": "none",
-        "source": "kraken_api"
       },
       "DOTUSDC": {
         "rsi": 50.2,
@@ -22,7 +22,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 38.1,
+        "rsi": 41.0,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-06T07:35:15",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 0.915,
+      "exit_price": 0.9139,
+      "size": 283.73,
+      "pnl_usd": 0.3121,
+      "pnl_pct": 0.1202,
+      "duration": "137",
+      "exit_reason": "TRAILING_STOP"
+    },
+    {
+      "timestamp": "2026-06-06T07:35:03",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 61.99,
+      "exit_price": 61.97,
+      "size": 4.19,
+      "pnl_usd": 0.0838,
+      "pnl_pct": 0.0323,
+      "duration": "128",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-06T07:19:25",
       "symbol": "PF_ATOMUSD",
@@ -125,38 +149,14 @@
       "pnl_pct": 0.6814,
       "duration": "162",
       "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-06-06T06:27:36",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 61.57,
-      "exit_price": 61.21,
-      "size": 4.21,
-      "pnl_usd": 1.5156,
-      "pnl_pct": 0.5847,
-      "duration": "86",
-      "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-06-06T06:07:08",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.083,
-      "exit_price": 1.0788,
-      "size": 239.5,
-      "pnl_usd": 1.0011,
-      "pnl_pct": 0.386,
-      "duration": "148",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
-    "balance": 3219.48,
+    "balance": 3244.93,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 9.6343,
-    "total_trades": 2993,
-    "last_updated": "2026-06-06T07:35:02.456430"
+    "daily_pnl": 10.0302,
+    "total_trades": 2995,
+    "last_updated": "2026-06-06T07:40:03.939456"
   }
 }
