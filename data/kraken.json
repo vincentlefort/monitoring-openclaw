@@ -1,21 +1,21 @@
 {
   "bot": {
-    "balance": 3198.57,
+    "balance": 3198.32,
     "positions": [],
-    "last_scan": "2026-06-07T06:55:01.636898",
+    "last_scan": "2026-06-07T07:00:01.999471",
     "rsi_data": {
-      "ATOMUSDC": {
-        "rsi": 51.7,
-        "signal": "none"
-      },
       "XRPUSDC": {
-        "rsi": 62.7,
+        "rsi": 64.6,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 57.6,
+        "rsi": 68.4,
         "signal": "none",
         "source": "kraken_api"
+      },
+      "ATOMUSDC": {
+        "rsi": 51.7,
+        "signal": "none"
       },
       "DOTUSDC": {
         "rsi": 57.2,
@@ -26,7 +26,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 50.9,
+        "rsi": 61.5,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +34,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-07T06:57:56",
+      "symbol": "PF_ATOMUSD",
+      "side": "SHORT",
+      "entry_price": 1.668,
+      "exit_price": 1.682,
+      "size": 153.41,
+      "pnl_usd": -2.1477,
+      "pnl_pct": -0.8393,
+      "duration": "562",
+      "exit_reason": "STOP_LOSS"
+    },
     {
       "timestamp": "2026-06-07T06:21:36",
       "symbol": "PF_XRPUSD",
@@ -141,26 +153,14 @@
       "pnl_pct": -0.602,
       "duration": "696",
       "exit_reason": "STOP_LOSS"
-    },
-    {
-      "timestamp": "2026-06-07T04:34:51",
-      "symbol": "PF_ATOMUSD",
-      "side": "SHORT",
-      "entry_price": 1.662,
-      "exit_price": 1.662,
-      "size": 155.41,
-      "pnl_usd": -0.0,
-      "pnl_pct": -0.0,
-      "duration": "908",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
-    "balance": 3198.57,
+    "balance": 3198.32,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.8999,
-    "total_trades": 3154,
-    "last_updated": "2026-06-07T06:55:02.274285"
+    "daily_pnl": -7.0476,
+    "total_trades": 3155,
+    "last_updated": "2026-06-07T07:00:02.613724"
   }
 }
