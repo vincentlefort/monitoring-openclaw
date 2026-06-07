@@ -2,23 +2,19 @@
   "bot": {
     "balance": 3225.09,
     "positions": [],
-    "last_scan": "2026-06-07T06:15:01.593725",
+    "last_scan": "2026-06-07T06:20:01.819563",
     "rsi_data": {
+      "BTCUSDC": {
+        "rsi": 70.9,
+        "signal": "none",
+        "source": "kraken_api"
+      },
       "XRPUSDC": {
         "rsi": 40.5,
         "signal": "none"
       },
-      "BTCUSDC": {
-        "rsi": 69.7,
-        "signal": "none",
-        "source": "kraken_api"
-      },
-      "ATOMUSDC": {
-        "rsi": 57.4,
-        "signal": "none"
-      },
       "ETHUSDC": {
-        "rsi": 68.8,
+        "rsi": 69.4,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +22,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-07T06:18:29",
+      "symbol": "PF_ATOMUSD",
+      "side": "SHORT",
+      "entry_price": 1.666,
+      "exit_price": 1.67,
+      "size": 153.64,
+      "pnl_usd": -0.6146,
+      "pnl_pct": -0.2401,
+      "duration": "903",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
+    {
+      "timestamp": "2026-06-07T06:17:56",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 0.956,
+      "exit_price": 0.9557,
+      "size": 267.74,
+      "pnl_usd": 0.0803,
+      "pnl_pct": 0.0314,
+      "duration": "905",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-06-07T06:03:22",
       "symbol": "PF_SOLUSD",
@@ -121,38 +141,14 @@
       "pnl_pct": 0.1736,
       "duration": "297",
       "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-07T04:19:10",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 63.64,
-      "exit_price": 63.39,
-      "size": 4.06,
-      "pnl_usd": 1.015,
-      "pnl_pct": 0.3928,
-      "duration": "412",
-      "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-07T04:04:22",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 0.9596,
-      "exit_price": 0.9605,
-      "size": 269.13,
-      "pnl_usd": -0.2422,
-      "pnl_pct": -0.0938,
-      "duration": "906",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
     "balance": 3225.09,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.5325,
-    "total_trades": 3151,
-    "last_updated": "2026-06-07T06:15:02.207532"
+    "daily_pnl": -5.0668,
+    "total_trades": 3153,
+    "last_updated": "2026-06-07T06:20:02.438595"
   }
 }
