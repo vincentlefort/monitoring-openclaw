@@ -2,27 +2,27 @@
   "bot": {
     "balance": 3228.42,
     "positions": [],
-    "last_scan": "2026-06-07T02:40:01.545678",
+    "last_scan": "2026-06-07T02:45:02.184485",
     "rsi_data": {
-      "SOLUSDC": {
-        "rsi": 66.7,
-        "signal": "none"
-      },
       "ATOMUSDC": {
-        "rsi": 65.5,
-        "signal": "none"
-      },
-      "XRPUSDC": {
-        "rsi": 65.1,
+        "rsi": 63.1,
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 54.0,
+        "rsi": 44.8,
         "signal": "none",
         "source": "kraken_api"
       },
+      "SOLUSDC": {
+        "rsi": 55.5,
+        "signal": "none"
+      },
+      "XRPUSDC": {
+        "rsi": 55.8,
+        "signal": "none"
+      },
       "ETHUSDC": {
-        "rsi": 62.8,
+        "rsi": 56.2,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-07T02:40:45",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 0.9414,
+      "exit_price": 0.9434,
+      "size": 274.35,
+      "pnl_usd": -0.5487,
+      "pnl_pct": -0.2124,
+      "duration": "900",
+      "exit_reason": "SMART_TIMEOUT_900S"
+    },
     {
       "timestamp": "2026-06-07T02:08:35",
       "symbol": "PF_DOTUSD",
@@ -137,26 +149,14 @@
       "pnl_pct": -0.0,
       "duration": "910",
       "exit_reason": "SMART_TIMEOUT_900S"
-    },
-    {
-      "timestamp": "2026-06-07T00:46:31",
-      "symbol": "PF_DOTUSD",
-      "side": "SHORT",
-      "entry_price": 0.9335,
-      "exit_price": 0.9356,
-      "size": 276.73,
-      "pnl_usd": -0.5811,
-      "pnl_pct": -0.225,
-      "duration": "908",
-      "exit_reason": "SMART_TIMEOUT_900S"
     }
   ],
   "summary": {
     "balance": 3228.42,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.678,
-    "total_trades": 3132,
-    "last_updated": "2026-06-07T02:40:02.147582"
+    "daily_pnl": -1.2267,
+    "total_trades": 3133,
+    "last_updated": "2026-06-07T02:45:02.793664"
   }
 }
