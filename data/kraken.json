@@ -2,7 +2,7 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-09T15:40:02.331490",
+    "last_scan": "2026-06-09T15:45:01.809128",
     "rsi_data": {
       "ATOMUSDC": {
         "rsi": 31.1,
@@ -13,12 +13,12 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 42.7,
+        "rsi": 50.1,
         "signal": "none",
         "source": "kraken_api"
       },
       "BTCUSDC": {
-        "rsi": 31.9,
+        "rsi": 39.1,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +26,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-09T15:41:27",
+      "symbol": "PF_XBTUSD",
+      "side": "SHORT",
+      "entry_price": 62195.0,
+      "exit_price": 62212.0,
+      "size": 0.00414385,
+      "pnl_usd": -0.0704,
+      "pnl_pct": -0.0273,
+      "duration": "302",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
     {
       "timestamp": "2026-06-09T15:38:12",
       "symbol": "PF_SOLUSD",
@@ -133,26 +145,14 @@
       "pnl_pct": -0.1724,
       "duration": "306",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-09T14:46:39",
-      "symbol": "PF_XBTUSD",
-      "side": "SHORT",
-      "entry_price": 62546.0,
-      "exit_price": 62516.0,
-      "size": 0.00412059,
-      "pnl_usd": 0.1236,
-      "pnl_pct": 0.048,
-      "duration": "330",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -9.2551,
-    "total_trades": 3317,
-    "last_updated": "2026-06-09T15:40:03.141942"
+    "daily_pnl": -9.3255,
+    "total_trades": 3318,
+    "last_updated": "2026-06-09T15:45:02.513242"
   }
 }
