@@ -2,7 +2,7 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-09T22:05:02.085751",
+    "last_scan": "2026-06-09T22:10:01.861368",
     "rsi_data": {
       "ATOMUSDC": {
         "rsi": 31.1,
@@ -13,7 +13,7 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 85.4,
+        "rsi": 84.9,
         "signal": "none",
         "source": "kraken_api"
       },
@@ -26,6 +26,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-09T22:09:23",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.1397,
+      "exit_price": 1.1423,
+      "size": 226.13545319,
+      "pnl_usd": -0.597,
+      "pnl_pct": -0.2316,
+      "duration": "308",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-09T22:05:20",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 0.9661,
+      "exit_price": 0.967,
+      "size": 266.77008177,
+      "pnl_usd": -0.2401,
+      "pnl_pct": -0.0932,
+      "duration": "162",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-09T22:04:15",
       "symbol": "PF_LINKUSD",
@@ -121,38 +145,14 @@
       "pnl_pct": -0.0747,
       "duration": "307",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-09T18:07:11",
-      "symbol": "PF_XBTUSD",
-      "side": "SHORT",
-      "entry_price": 61095.0,
-      "exit_price": 60998.0,
-      "size": 0.00421846,
-      "pnl_usd": 0.4092,
-      "pnl_pct": 0.1588,
-      "duration": "276",
-      "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-09T18:07:10",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 64.32,
-      "exit_price": 64.13,
-      "size": 4.00694303,
-      "pnl_usd": 0.7613,
-      "pnl_pct": 0.2954,
-      "duration": "276",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -1.5618,
-    "total_trades": 3345,
-    "last_updated": "2026-06-09T22:05:02.833747"
+    "daily_pnl": -2.3989,
+    "total_trades": 3347,
+    "last_updated": "2026-06-09T22:10:02.589762"
   }
 }
