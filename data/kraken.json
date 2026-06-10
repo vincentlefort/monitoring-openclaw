@@ -2,7 +2,7 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-10T13:40:02.790865",
+    "last_scan": "2026-06-10T13:45:01.886697",
     "rsi_data": {
       "ATOMUSDC": {
         "rsi": 31.1,
@@ -13,12 +13,12 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 35.5,
+        "rsi": 37.2,
         "signal": "none",
         "source": "kraken_api"
       },
       "BTCUSDC": {
-        "rsi": 28.7,
+        "rsi": 32.7,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +26,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-10T13:44:08",
+      "symbol": "PF_DOTUSD",
+      "side": "SHORT",
+      "entry_price": 0.9272,
+      "exit_price": 0.9299,
+      "size": 277.96222606,
+      "pnl_usd": -0.7505,
+      "pnl_pct": -0.2912,
+      "duration": "303",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-10T13:43:57",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.1025,
+      "exit_price": 1.1034,
+      "size": 233.76560181,
+      "pnl_usd": -0.2104,
+      "pnl_pct": -0.0816,
+      "duration": "544",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
     {
       "timestamp": "2026-06-10T13:33:11",
       "symbol": "PF_NEARUSD",
@@ -121,38 +145,14 @@
       "pnl_pct": -0.3634,
       "duration": "2073",
       "exit_reason": "SMART_TIMEOUT_900S"
-    },
-    {
-      "timestamp": "2026-06-10T13:00:20",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT",
-      "entry_price": 1.1074,
-      "exit_price": 1.1101,
-      "size": 232.72283465,
-      "pnl_usd": -0.626,
-      "pnl_pct": -0.2429,
-      "duration": "2084",
-      "exit_reason": "SMART_TIMEOUT_900S"
-    },
-    {
-      "timestamp": "2026-06-10T12:59:27",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 2.0582,
-      "exit_price": 2.0662,
-      "size": 125.21940336,
-      "pnl_usd": -1.0018,
-      "pnl_pct": -0.3887,
-      "duration": "308",
-      "exit_reason": "NEGATIVE_TIMEOUT"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.5824,
-    "total_trades": 3454,
-    "last_updated": "2026-06-10T13:40:03.495957"
+    "daily_pnl": -5.5433,
+    "total_trades": 3456,
+    "last_updated": "2026-06-10T13:45:02.584501"
   }
 }
