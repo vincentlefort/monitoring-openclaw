@@ -2,7 +2,7 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-10T10:50:02.296133",
+    "last_scan": "2026-06-10T10:55:02.054086",
     "rsi_data": {
       "ATOMUSDC": {
         "rsi": 31.1,
@@ -13,12 +13,12 @@
         "signal": "none"
       },
       "ETHUSDC": {
-        "rsi": 43.6,
+        "rsi": 44.4,
         "signal": "none",
         "source": "kraken_api"
       },
       "BTCUSDC": {
-        "rsi": 48.1,
+        "rsi": 50.7,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -26,6 +26,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-10T10:50:43",
+      "symbol": "PF_LINKUSD",
+      "side": "SHORT",
+      "entry_price": 7.663,
+      "exit_price": 7.671,
+      "size": 33.63259507,
+      "pnl_usd": -0.2691,
+      "pnl_pct": -0.1044,
+      "duration": "304",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-10T10:50:11",
+      "symbol": "PF_XBTUSD",
+      "side": "SHORT",
+      "entry_price": 61385.0,
+      "exit_price": 61201.0,
+      "size": 0.00419853,
+      "pnl_usd": 0.7725,
+      "pnl_pct": 0.2997,
+      "duration": "718",
+      "exit_reason": "TRAILING_STOP"
+    },
     {
       "timestamp": "2026-06-10T10:49:29",
       "symbol": "PF_NEARUSD",
@@ -121,38 +145,14 @@
       "pnl_pct": -0.1169,
       "duration": "303",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-10T07:53:51",
-      "symbol": "PF_LINKUSD",
-      "side": "SHORT",
-      "entry_price": 7.685,
-      "exit_price": 7.696,
-      "size": 33.53631438,
-      "pnl_usd": -0.3689,
-      "pnl_pct": -0.1431,
-      "duration": "398",
-      "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-10T07:50:31",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 64.07,
-      "exit_price": 64.02,
-      "size": 4.02257806,
-      "pnl_usd": 0.2011,
-      "pnl_pct": 0.078,
-      "duration": "329",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.3486,
-    "total_trades": 3422,
-    "last_updated": "2026-06-10T10:50:03.003762"
+    "daily_pnl": -3.8452,
+    "total_trades": 3424,
+    "last_updated": "2026-06-10T10:55:02.752919"
   }
 }
