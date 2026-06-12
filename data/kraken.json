@@ -2,14 +2,14 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-12T09:35:02.214953",
+    "last_scan": "2026-06-12T09:40:03.194701",
     "rsi_data": {
-      "INJUSDC": {
-        "rsi": 37.5,
+      "NEARUSDC": {
+        "rsi": 61.7,
         "signal": "none"
       },
-      "NEARUSDC": {
-        "rsi": 61.4,
+      "INJUSDC": {
+        "rsi": 37.5,
         "signal": "none"
       },
       "SOLUSDC": {
@@ -17,12 +17,12 @@
         "signal": "none"
       },
       "BTCUSDC": {
-        "rsi": 32.2,
+        "rsi": 34.6,
         "signal": "none",
         "source": "kraken_api"
       },
       "ETHUSDC": {
-        "rsi": 36.3,
+        "rsi": 38.3,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -30,6 +30,54 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-12T09:39:51",
+      "symbol": "PF_NEARUSD",
+      "side": "SHORT_REDUCED",
+      "entry_price": 2.0996,
+      "exit_price": 2.1066,
+      "size": 92.06274147,
+      "pnl_usd": 0.6444,
+      "pnl_pct": 0.3334,
+      "duration": "247",
+      "exit_reason": "TRAILING_STOP"
+    },
+    {
+      "timestamp": "2026-06-12T09:37:48",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT_REDUCED",
+      "entry_price": 66.2,
+      "exit_price": 66.18,
+      "size": 2.91986302,
+      "pnl_usd": -0.0584,
+      "pnl_pct": -0.0302,
+      "duration": "336",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-12T09:37:48",
+      "symbol": "PF_INJUSD",
+      "side": "SHORT_REDUCED",
+      "entry_price": 5.388,
+      "exit_price": 5.381,
+      "size": 35.87508018,
+      "pnl_usd": -0.2511,
+      "pnl_pct": -0.1299,
+      "duration": "303",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-12T09:35:41",
+      "symbol": "PF_XBTUSD",
+      "side": "SHORT",
+      "entry_price": 62942.0,
+      "exit_price": 62953.0,
+      "size": 0.00409467,
+      "pnl_usd": -0.045,
+      "pnl_pct": -0.0175,
+      "duration": "324",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
     {
       "timestamp": "2026-06-12T09:22:36",
       "symbol": "PF_XRPUSD",
@@ -101,62 +149,14 @@
       "pnl_pct": -0.1769,
       "duration": "302",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-12T08:31:18",
-      "symbol": "PF_XRPUSD",
-      "side": "SHORT_REDUCED",
-      "entry_price": 1.1344,
-      "exit_price": 1.1317,
-      "size": 170.39698514,
-      "pnl_usd": -0.455,
-      "pnl_pct": -0.2354,
-      "duration": "304",
-      "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-12T08:26:34",
-      "symbol": "PF_XBTUSD",
-      "side": "SHORT",
-      "entry_price": 63040.0,
-      "exit_price": 63109.0,
-      "size": 0.0040883,
-      "pnl_usd": -0.2821,
-      "pnl_pct": -0.1095,
-      "duration": "306",
-      "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-12T08:26:34",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 2.0306,
-      "exit_price": 2.0383,
-      "size": 126.92139072,
-      "pnl_usd": -0.9773,
-      "pnl_pct": -0.3792,
-      "duration": "304",
-      "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-12T08:26:11",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT_REDUCED",
-      "entry_price": 66.38,
-      "exit_price": 66.42,
-      "size": 2.91194534,
-      "pnl_usd": 0.1165,
-      "pnl_pct": 0.0603,
-      "duration": "282",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -4.2425,
-    "total_trades": 3538,
-    "last_updated": "2026-06-12T09:35:03.003422"
+    "daily_pnl": -3.9526,
+    "total_trades": 3542,
+    "last_updated": "2026-06-12T09:40:03.942307"
   }
 }
