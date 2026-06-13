@@ -2,31 +2,43 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-13T07:40:01.779225",
+    "last_scan": "2026-06-13T07:45:02.929974",
     "rsi_data": {
       "ADAUSDC": {
-        "rsi": 36.7,
+        "rsi": 38.4,
+        "signal": "none"
+      },
+      "INJUSDC": {
+        "rsi": 42.5,
+        "signal": "none"
+      },
+      "LINKUSDC": {
+        "rsi": 51.3,
         "signal": "none"
       },
       "ATOMUSDC": {
-        "rsi": 32.6,
+        "rsi": 44.7,
         "signal": "none"
       },
       "XRPUSDC": {
-        "rsi": 41.7,
+        "rsi": 46.6,
         "signal": "none"
       },
       "SOLUSDC": {
-        "rsi": 42.8,
+        "rsi": 45.3,
         "signal": "none"
       },
-      "BTCUSDC": {
-        "rsi": 31.4,
+      "NEARUSDC": {
+        "rsi": 40.2,
+        "signal": "none"
+      },
+      "ETHUSDC": {
+        "rsi": 32.7,
         "signal": "none",
         "source": "kraken_api"
       },
-      "ETHUSDC": {
-        "rsi": 29.8,
+      "BTCUSDC": {
+        "rsi": 38.0,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +46,18 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-13T07:41:59",
+      "symbol": "PF_XBTUSD",
+      "side": "SHORT",
+      "entry_price": 63510.0,
+      "exit_price": 63553.0,
+      "size": 0.00405805,
+      "pnl_usd": -0.1745,
+      "pnl_pct": -0.0677,
+      "duration": "301",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
     {
       "timestamp": "2026-06-13T07:21:27",
       "symbol": "PF_DOTUSD",
@@ -141,26 +165,14 @@
       "pnl_pct": 1.1382,
       "duration": "9164",
       "exit_reason": "TAKE_PROFIT"
-    },
-    {
-      "timestamp": "2026-06-12T16:37:35",
-      "symbol": "PF_XBTUSD",
-      "side": "SHORT_REDUCED",
-      "entry_price": 63552.0,
-      "exit_price": 63645.0,
-      "size": 0.00304152,
-      "pnl_usd": 0.2829,
-      "pnl_pct": 0.1463,
-      "duration": "369",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -2.7743,
-    "total_trades": 3569,
-    "last_updated": "2026-06-13T07:40:02.471310"
+    "daily_pnl": -2.9488,
+    "total_trades": 3570,
+    "last_updated": "2026-06-13T07:45:03.624028"
   }
 }
