@@ -2,10 +2,14 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-19T12:25:02.693197",
+    "last_scan": "2026-06-19T12:30:02.411835",
     "rsi_data": {
       "ATOMUSDC": {
-        "rsi": 37.6,
+        "rsi": 43.0,
+        "signal": "none"
+      },
+      "LINKUSDC": {
+        "rsi": 41.3,
         "signal": "none"
       },
       "ADAUSDC": {
@@ -20,13 +24,13 @@
         "rsi": 38.6,
         "signal": "none"
       },
-      "BTCUSDC": {
-        "rsi": 28.9,
+      "ETHUSDC": {
+        "rsi": 36.0,
         "signal": "none",
         "source": "kraken_api"
       },
-      "ETHUSDC": {
-        "rsi": 30.8,
+      "BTCUSDC": {
+        "rsi": 33.7,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -34,6 +38,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-19T12:28:46",
+      "symbol": "PF_ADAUSD",
+      "side": "SHORT",
+      "entry_price": 0.1595,
+      "exit_price": 0.1596,
+      "size": 1615.53673917,
+      "pnl_usd": -0.1292,
+      "pnl_pct": -0.0501,
+      "duration": "314",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
+    {
+      "timestamp": "2026-06-19T12:26:41",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.124,
+      "exit_price": 1.125,
+      "size": 229.30430713,
+      "pnl_usd": -0.2408,
+      "pnl_pct": -0.0934,
+      "duration": "305",
+      "exit_reason": "NEGATIVE_TIMEOUT"
+    },
     {
       "timestamp": "2026-06-19T12:24:14",
       "symbol": "PF_DOTUSD",
@@ -129,38 +157,14 @@
       "pnl_pct": -0.0436,
       "duration": "304",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-19T11:51:07",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 2.1195,
-      "exit_price": 2.1151,
-      "size": 121.59781835,
-      "pnl_usd": 0.535,
-      "pnl_pct": 0.2076,
-      "duration": "282",
-      "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-19T11:50:24",
-      "symbol": "PF_SOLUSD",
-      "side": "SHORT",
-      "entry_price": 68.35,
-      "exit_price": 68.35,
-      "size": 3.77068875,
-      "pnl_usd": -0.0,
-      "pnl_pct": -0.0,
-      "duration": "241",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": 5.1779,
-    "total_trades": 3671,
-    "last_updated": "2026-06-19T12:25:03.488868"
+    "daily_pnl": 4.8079,
+    "total_trades": 3673,
+    "last_updated": "2026-06-19T12:30:03.325255"
   }
 }
