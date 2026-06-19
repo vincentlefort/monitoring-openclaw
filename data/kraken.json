@@ -2,19 +2,31 @@
   "bot": {
     "balance": 3221.58,
     "positions": [],
-    "last_scan": "2026-06-19T14:30:02.876361",
+    "last_scan": "2026-06-19T14:35:02.960222",
     "rsi_data": {
-      "ATOMUSDC": {
-        "rsi": 62.7,
+      "NEARUSDC": {
+        "rsi": 37.1,
         "signal": "none"
       },
-      "ETHUSDC": {
-        "rsi": 45.3,
+      "ATOMUSDC": {
+        "rsi": 52.8,
+        "signal": "none"
+      },
+      "LINKUSDC": {
+        "rsi": 35.4,
+        "signal": "none"
+      },
+      "SOLUSDC": {
+        "rsi": 41.6,
+        "signal": "none"
+      },
+      "BTCUSDC": {
+        "rsi": 52.5,
         "signal": "none",
         "source": "kraken_api"
       },
-      "BTCUSDC": {
-        "rsi": 58.1,
+      "ETHUSDC": {
+        "rsi": 40.6,
         "signal": "none",
         "source": "kraken_api"
       }
@@ -22,6 +34,30 @@
     "status": "online"
   },
   "trades": [
+    {
+      "timestamp": "2026-06-19T14:34:17",
+      "symbol": "PF_SOLUSD",
+      "side": "SHORT",
+      "entry_price": 68.14,
+      "exit_price": 68.14,
+      "size": 3.7823096,
+      "pnl_usd": -0.0,
+      "pnl_pct": -0.0,
+      "duration": "168",
+      "exit_reason": "TRAILING_STOP"
+    },
+    {
+      "timestamp": "2026-06-19T14:30:12",
+      "symbol": "PF_XRPUSD",
+      "side": "SHORT",
+      "entry_price": 1.125,
+      "exit_price": 1.123,
+      "size": 229.0984355,
+      "pnl_usd": 0.4582,
+      "pnl_pct": 0.1778,
+      "duration": "909",
+      "exit_reason": "PROFIT_RUNNER_EXIT"
+    },
     {
       "timestamp": "2026-06-19T14:24:20",
       "symbol": "PF_DOTUSD",
@@ -117,38 +153,14 @@
       "pnl_pct": -0.1617,
       "duration": "300",
       "exit_reason": "NEGATIVE_TIMEOUT"
-    },
-    {
-      "timestamp": "2026-06-19T13:40:57",
-      "symbol": "PF_NEARUSD",
-      "side": "SHORT",
-      "entry_price": 2.1051,
-      "exit_price": 2.1067,
-      "size": 122.42961189,
-      "pnl_usd": -0.1959,
-      "pnl_pct": -0.076,
-      "duration": "299",
-      "exit_reason": "TRAILING_STOP"
-    },
-    {
-      "timestamp": "2026-06-19T13:40:06",
-      "symbol": "PF_ADAUSD",
-      "side": "SHORT",
-      "entry_price": 0.16,
-      "exit_price": 0.1599,
-      "size": 1611.19389847,
-      "pnl_usd": 0.0967,
-      "pnl_pct": 0.0375,
-      "duration": "426",
-      "exit_reason": "TRAILING_STOP"
     }
   ],
   "summary": {
     "balance": 3221.58,
     "positions_count": 0,
     "open_positions_value": 0,
-    "daily_pnl": -0.7928,
-    "total_trades": 3695,
-    "last_updated": "2026-06-19T14:30:03.782683"
+    "daily_pnl": -0.3346,
+    "total_trades": 3697,
+    "last_updated": "2026-06-19T14:35:03.806059"
   }
 }
