@@ -216,6 +216,31 @@
     </div>
 </div>
 
+<!-- ===== ROW 2.5: Forward-Test Status ===== -->
+<div style="margin-bottom:16px;">
+    <div class="card" id="forward-test-card">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-flask blue"></i>Forward-Test Monitoring</div>
+                <div class="bot-subtitle" id="ft-subtitle">DRY_RUN observation · Read-only</div>
+            </div>
+            <span id="ft-badge" class="badge badge-gray">—</span>
+        </div>
+        <div class="stats-row">
+            <div class="stat"><div class="stat-label">Verdict</div><div id="ft-verdict" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Days Observed</div><div id="ft-days" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Last Snapshot</div><div id="ft-last" class="stat-val">—</div></div>
+        </div>
+        <div class="grid-4">
+            <div class="stat"><div class="stat-label">Total Snapshots</div><div id="ft-snaps" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Warnings</div><div id="ft-warns" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Unsafe Events</div><div id="ft-unsafe" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Date Range</div><div id="ft-range" class="stat-val">—</div></div>
+        </div>
+        <div style="font-size:0.6rem;color:#1f2d40;margin-top:8px;">No buttons · No actions · Read-only monitoring</div>
+    </div>
+</div>
+
 <!-- ===== ROW 3: Binance V5 + Kraken Futures ===== -->
 <div class="grid-2" style="margin-bottom:16px;">
     <!-- BINANCE V5 -->
@@ -468,6 +493,26 @@ async function loadNTV() {
         ageEl.textContent = age !== null ? age.toFixed(1) + 'h' : 'UNKNOWN';
         ageEl.className = age !== null ? (age > 48 ? 'red' : age > 24 ? 'yellow' : 'green') : 'gray';
         document.getElementById('fr-refresh').textContent = fmtTime(PAGE_LOAD.toISOString());
+
+        // Forward-test status
+        var ft = data.forward_test || {};
+        var ftVerdict = safeStr(ft.status || ft.last_verdict, 'UNKNOWN');
+        document.getElementById('ft-verdict').textContent = ftVerdict;
+        document.getElementById('ft-verdict').className = 'stat-val ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'yellow' : 'red');
+        document.getElementById('ft-badge').textContent = ftVerdict;
+        document.getElementById('ft-badge').className = 'badge ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'badge-green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'badge-yellow' : 'badge-red');
+        document.getElementById('ft-days').textContent = ft.days_observed !== undefined ? ft.days_observed : '—';
+        document.getElementById('ft-last').textContent = fmtTime(ft.last_snapshot_time);
+        document.getElementById('ft-snaps').textContent = ft.total_snapshots !== undefined ? ft.total_snapshots : '—';
+        var warns = ft.warnings_count !== undefined ? ft.warnings_count : 0;
+        document.getElementById('ft-warns').textContent = warns;
+        document.getElementById('ft-warns').className = 'stat-val ' + (warns > 0 ? 'yellow' : 'green');
+        var unsafe = ft.unsafe_count !== undefined ? ft.unsafe_count : 0;
+        document.getElementById('ft-unsafe').textContent = unsafe;
+        document.getElementById('ft-unsafe').className = 'stat-val ' + (unsafe > 0 ? 'red' : 'green');
+        var dr = ft.date_range || {};
+        document.getElementById('ft-range').textContent = dr.start ? (dr.start + ' → ' + (dr.end || dr.start)) : '—';
+        document.getElementById('ft-subtitle').textContent = 'DRY_RUN observation · ' + (ft.days_observed || 0) + ' days tracked';
 
     } catch(e) {
         console.error('NTV:', e);

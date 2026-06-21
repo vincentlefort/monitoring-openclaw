@@ -92,6 +92,9 @@ fi
 # Exporter les données Kraken Auto Spot NTV
 python3 ./update-ntv-data.py 2>/dev/null || echo "Export NTV échoué"
 
+# Forward-test snapshot (after NTV data generation)
+python3 /home/openclaw/kraken_auto_spot_ntv/src/forward_test_snapshot.py 2>/dev/null || echo "Forward-test snapshot échoué"
+
 # Mettre à jour les prix ETF (Yahoo Finance côté serveur)
 python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
 

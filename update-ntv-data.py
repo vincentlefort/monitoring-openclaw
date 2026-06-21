@@ -111,6 +111,21 @@ def main():
         "safety_status": dashboard.get("safety_status", {}) if dashboard else {},
     }
 
+    # Forward-test summary
+    ft_summary_path = "/home/openclaw/kraken_auto_spot_ntv/forward_test/forward_test_summary.json"
+    ft_summary = safe_read_json(ft_summary_path)
+    if ft_summary:
+        fused["forward_test"] = {
+            "status": ft_summary.get("last_verdict", "UNKNOWN"),
+            "days_observed": ft_summary.get("days_observed", 0),
+            "last_snapshot_time": ft_summary.get("last_snapshot_time", ""),
+            "last_verdict": ft_summary.get("last_verdict", "UNKNOWN"),
+            "warnings_count": ft_summary.get("total_warnings", 0),
+            "unsafe_count": ft_summary.get("unsafe_days", 0),
+            "total_snapshots": ft_summary.get("total_snapshots", 0),
+            "date_range": ft_summary.get("date_range", {}),
+        }
+
     # Safeguard: never show live_trading_enabled=true unless ALL conditions met
     if fused.get("live_trading_enabled"):
         fused["live_trading_enabled"] = False
