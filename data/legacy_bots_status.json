@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-21T14:30:04.518277+00:00",
+  "generated_at": "2026-06-21T14:35:05.048460+00:00",
   "bots": [
     {
       "bot": "Binance V5",
       "status": "RETIRED_STOPPED",
       "pid": null,
-      "checked_at": "2026-06-21T14:30:04.517875+00:00",
-      "stopped_at": "2026-06-21T14:30:04.517875+00:00",
+      "checked_at": "2026-06-21T14:35:05.047841+00:00",
+      "stopped_at": "2026-06-21T14:35:05.047841+00:00",
       "stop_method": "bot_manager.py stop",
       "restart_disabled": true,
       "no_orders_executed": true,
@@ -14,16 +14,19 @@
     },
     {
       "bot": "Kraken Futures V1",
-      "status": "ACTIVE",
-      "pid": 2855714,
-      "checked_at": "2026-06-21T14:30:04.517926+00:00",
-      "no_orders_executed": null,
-      "warning": "BOT IS RUNNING \u2014 should be retired"
+      "status": "RETIRED_STOPPED",
+      "pid": null,
+      "checked_at": "2026-06-21T14:35:05.047864+00:00",
+      "stopped_at": "2026-06-21T14:35:05.047864+00:00",
+      "stop_method": "bot_manager.py stop",
+      "restart_disabled": true,
+      "no_orders_executed": true,
+      "notes": "Watchdog cron disabled 2026-06-21. systemd service disabled. @reboot cron disabled."
     }
   ],
   "summary": {
     "total": 2,
-    "active": 1,
-    "retired_stopped": 1
+    "active": 0,
+    "retired_stopped": 2
   }
 }
