@@ -311,6 +311,134 @@
         </details>
     </div>
 
+    <!-- ROW 3: Kraken Auto Spot NTV -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title">
+                    <i class="fas fa-shield-halved blue"></i>
+                    Kraken Auto Spot NTV
+                </div>
+                <div class="bot-subtitle">
+                    <span id="ntv-model">Naive Trend+Vol Model A</span>
+                    <span style="margin-left:8px;">|</span>
+                    <span id="ntv-mode-badge" class="badge badge-yellow" style="margin-left:8px;">DRY_RUN</span>
+                </div>
+            </div>
+            <div style="text-align:right;font-size:0.7rem;">
+                <div id="ntv-update" style="color:#1f2d40;">—</div>
+            </div>
+        </div>
+
+        <!-- Safety header row -->
+        <div id="ntv-safety-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+            <span class="badge badge-gray">Futures: blocked</span>
+            <span class="badge badge-gray">Margin: blocked</span>
+            <span class="badge badge-gray">Short: blocked</span>
+            <span class="badge badge-gray">Leverage: blocked</span>
+            <span id="ntv-killswitch" class="badge badge-gray">Kill switch: inactive</span>
+            <span id="ntv-data-status" class="badge badge-green">Data: ok</span>
+        </div>
+        <div id="ntv-safety-alert" style="display:none;background:#ef444418;border:1px solid #ef444430;border-radius:8px;padding:8px 12px;margin-bottom:12px;color:#ef4444;font-size:0.75rem;font-weight:600;"></div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Current Signal -->
+        <div class="section-title"><i class="fas fa-signal blue"></i> Current Signal</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+            <!-- BTC -->
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span style="font-weight:700;font-size:0.85rem;">BTC/EUR</span>
+                    <span id="ntv-btc-allowed" class="badge badge-gray">—</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.72rem;color:#64748b;">
+                    <span>Close:</span><span id="ntv-btc-close" style="color:#e2e8f0;">—</span>
+                    <span>SMA200:</span><span id="ntv-btc-sma200" style="color:#e2e8f0;">—</span>
+                    <span>Vol30:</span><span id="ntv-btc-vol30" style="color:#e2e8f0;">—</span>
+                    <span>Trend:</span><span id="ntv-btc-trend" style="color:#e2e8f0;">—</span>
+                    <span>Vol:</span><span id="ntv-btc-volok" style="color:#e2e8f0;">—</span>
+                </div>
+                <div id="ntv-btc-reason" style="font-size:0.65rem;color:#ef4444;margin-top:4px;"></div>
+            </div>
+            <!-- ETH -->
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span style="font-weight:700;font-size:0.85rem;">ETH/EUR</span>
+                    <span id="ntv-eth-allowed" class="badge badge-gray">—</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.72rem;color:#64748b;">
+                    <span>Close:</span><span id="ntv-eth-close" style="color:#e2e8f0;">—</span>
+                    <span>SMA200:</span><span id="ntv-eth-sma200" style="color:#e2e8f0;">—</span>
+                    <span>Vol30:</span><span id="ntv-eth-vol30" style="color:#e2e8f0;">—</span>
+                    <span>Trend:</span><span id="ntv-eth-trend" style="color:#e2e8f0;">—</span>
+                    <span>Vol:</span><span id="ntv-eth-volok" style="color:#e2e8f0;">—</span>
+                </div>
+                <div id="ntv-eth-reason" style="font-size:0.65rem;color:#ef4444;margin-top:4px;"></div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Allocation -->
+        <div class="section-title"><i class="fas fa-chart-pie blue"></i> Allocation</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+            <div class="stat">
+                <div class="stat-label">Current</div>
+                <div id="ntv-alloc-curr" class="stat-val" style="font-size:0.85rem;">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Target</div>
+                <div id="ntv-alloc-target" class="stat-val" style="font-size:0.85rem;">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Action</div>
+                <div id="ntv-alloc-action" class="stat-val" style="font-size:0.85rem;">—</div>
+            </div>
+        </div>
+        <div id="ntv-deviation" style="font-size:0.68rem;color:#1f2d40;margin-bottom:4px;">Deviation: —</div>
+        <div id="ntv-cap-info" style="font-size:0.68rem;color:#1f2d40;">Max capital: €2,810.54 | Hard cap: €3,000</div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Dry-Run Orders -->
+        <div class="section-title"><i class="fas fa-scroll yellow"></i> Dry-Run Orders <span style="font-size:0.62rem;color:#374151;">(simulated only)</span></div>
+        <div id="ntv-orders-list" style="font-size:0.78rem;color:#64748b;">No orders</div>
+        <div id="ntv-orders-cost" style="font-size:0.68rem;color:#1f2d40;margin-top:4px;"></div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Breakout 20 Shadow -->
+        <div class="section-title"><i class="fas fa-bolt purple"></i> Breakout 20 — Shadow Only</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="card-sm" style="font-size:0.72rem;">
+                <span style="font-weight:600;">BTC:</span>
+                <span id="ntv-bo-btc" class="gray">—</span>
+            </div>
+            <div class="card-sm" style="font-size:0.72rem;">
+                <span style="font-weight:600;">ETH:</span>
+                <span id="ntv-bo-eth" class="gray">—</span>
+            </div>
+        </div>
+        <div style="font-size:0.62rem;color:#1f2d40;margin-top:4px;">No live orders</div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Alerts -->
+        <div class="section-title"><i class="fas fa-triangle-exclamation red"></i> Alerts</div>
+        <div id="ntv-alerts" style="font-size:0.78rem;color:#10b981;">No alerts</div>
+
+        <div class="divider"></div>
+
+        <!-- Section: Old Bots Status -->
+        <div class="section-title"><i class="fas fa-clock gray"></i> Bot Status</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:0.72rem;">
+            <span class="badge badge-gray">Kraken Futures V1: retired</span>
+            <span class="badge badge-gray">Binance V5: retired</span>
+            <span class="badge badge-green">Kraken Auto Spot NTV: active DRY_RUN</span>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -602,11 +730,157 @@ async function loadStocks() {
     }
 }
 
+// ── Kraken Auto Spot NTV ──────────────────────────────────────────────────
+async function loadNTV() {
+    const safeVal = (v, d) => (v !== null && v !== undefined) ? v : d;
+    const safeNum = (v, dec=2) => (v !== null && v !== undefined && !isNaN(v)) ? v.toFixed(dec) : '—';
+    const safeStr = (v, d='—') => (v !== null && v !== undefined && v !== '') ? String(v) : d;
+
+    try {
+        const res = await fetch(GH_RAW + 'ntv.json?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        // --- Safety Header ---
+        const h = data.safety_header || {};
+        document.getElementById('ntv-model').textContent = safeStr(h.model, 'Naive Trend+Vol Model A');
+        const modeBadge = document.getElementById('ntv-mode-badge');
+        const mode = safeStr(h.mode, 'DRY_RUN');
+        modeBadge.textContent = mode;
+        modeBadge.className = 'badge ' + (mode === 'DRY_RUN' ? 'badge-yellow' : 'badge-red');
+
+        document.getElementById('ntv-update').textContent = 'Updated ' + (h.last_update ? fmtTime(h.last_update) : '—');
+        document.getElementById('ntv-safety-alert').style.display = 'none';
+        let safetyMsg = '';
+
+        // Safety alerts
+        if (h.live_trading_enabled === true || data.live_trading_enabled === true) {
+            safetyMsg += '<div>ALERT: live_trading_enabled=true — should be false!</div>';
+        }
+        if (h.auto_execution === true || data.auto_execution === true) {
+            safetyMsg += '<div>ALERT: auto_execution=true — should be false!</div>';
+        }
+        if (safeStr(h.mode, 'DRY_RUN') !== 'DRY_RUN') {
+            safetyMsg += '<div>ALERT: mode=' + safeStr(h.mode, '?') + ' — should be DRY_RUN!</div>';
+        }
+        if (h.kill_switch_status === 'active') {
+            safetyMsg += '<div>ALERT: Kill switch is ACTIVE!</div>';
+        }
+        if (safeStr(h.data_status, 'ok') !== 'ok') {
+            safetyMsg += '<div>ALERT: Data status=' + safeStr(h.data_status, '?') + '</div>';
+        }
+        if (safetyMsg) {
+            const alertEl = document.getElementById('ntv-safety-alert');
+            alertEl.innerHTML = safetyMsg;
+            alertEl.style.display = 'block';
+        }
+
+        // --- Current Signal ---
+        const sig = data.current_signal || {};
+        function setSignal(prefix, s) {
+            if (!s) return;
+            document.getElementById('ntv-' + prefix + '-close').textContent = safeNum(s.close, 2);
+            document.getElementById('ntv-' + prefix + '-sma200').textContent = safeNum(s.sma200, 2);
+            document.getElementById('ntv-' + prefix + '-vol30').textContent = safeNum(s.vol30, 1) + '%';
+            document.getElementById('ntv-' + prefix + '-trend').textContent = safeStr(s.trend_ok !== undefined ? (s.trend_ok ? 'OK' : 'FAIL') : null);
+            document.getElementById('ntv-' + prefix + '-trend').className = s.trend_ok ? 'green' : 'red';
+            document.getElementById('ntv-' + prefix + '-volok').textContent = safeStr(s.vol_ok !== undefined ? (s.vol_ok ? 'OK' : 'FAIL') : null);
+            document.getElementById('ntv-' + prefix + '-volok').className = s.vol_ok ? 'green' : 'red';
+
+            const badge = document.getElementById('ntv-' + prefix + '-allowed');
+            badge.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED';
+            badge.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red');
+
+            const reasonEl = document.getElementById('ntv-' + prefix + '-reason');
+            reasonEl.textContent = s.block_reason || (s.allowed ? '' : 'Blocked');
+        }
+        setSignal('btc', sig.btc);
+        setSignal('eth', sig.eth);
+
+        // --- Allocation ---
+        const alloc = data.allocation || {};
+        const curr = alloc.current || {};
+        const target = alloc.target || {};
+        document.getElementById('ntv-alloc-curr').innerHTML =
+            '<span class="yellow">BTC</span> ' + safeNum(curr.btc_pct, 1) + '% ' +
+            '<span class="purple">ETH</span> ' + safeNum(curr.eth_pct, 1) + '% ' +
+            '<span class="gray">EUR</span> ' + safeNum(curr.eur_pct, 1) + '%';
+        document.getElementById('ntv-alloc-target').innerHTML =
+            '<span class="yellow">BTC</span> ' + safeNum(target.btc_pct, 1) + '% ' +
+            '<span class="purple">ETH</span> ' + safeNum(target.eth_pct, 1) + '% ' +
+            '<span class="gray">EUR</span> ' + safeNum(target.eur_pct, 1) + '%';
+        const action = safeStr(alloc.recommended_action, 'HOLD');
+        const actionEl = document.getElementById('ntv-alloc-action');
+        actionEl.textContent = action;
+        actionEl.className = 'stat-val ' + (action === 'REBALANCE' ? 'yellow' : 'green');
+        document.getElementById('ntv-alloc-action').style.fontSize = '0.85rem';
+
+        const dev = alloc.deviation || {};
+        document.getElementById('ntv-deviation').innerHTML = 'Deviation: BTC ' +
+            (dev.btc_deviation_pct !== undefined ? (dev.btc_deviation_pct >= 0 ? '+' : '') + dev.btc_deviation_pct.toFixed(1) : '—') +
+            '% | ETH ' +
+            (dev.eth_deviation_pct !== undefined ? (dev.eth_deviation_pct >= 0 ? '+' : '') + dev.eth_deviation_pct.toFixed(1) : '—') +
+            '% | EUR ' +
+            (dev.eur_deviation_pct !== undefined ? (dev.eur_deviation_pct >= 0 ? '+' : '') + dev.eur_deviation_pct.toFixed(1) : '—') + '%';
+
+        // --- Dry-Run Orders ---
+        const dro = data.dry_run_orders || {};
+        const orders = dro.orders || [];
+        const ordersList = document.getElementById('ntv-orders-list');
+        if (orders.length === 0) {
+            ordersList.innerHTML = '<span class="gray">No orders — allocation within threshold</span>';
+        } else {
+            ordersList.innerHTML = '<table class="tbl"><thead><tr><th>Pair</th><th>Side</th><th>Qty</th><th>Notional (EUR)</th><th>Status</th></tr></thead><tbody>' +
+                orders.map(o => '<tr><td style="font-weight:600;">' + safeStr(o.pair) + '</td>' +
+                    '<td><span class="badge ' + (o.side === 'buy' ? 'badge-green' : 'badge-red') + '" style="font-size:0.65rem;">' + safeStr(o.side).toUpperCase() + '</span></td>' +
+                    '<td>' + safeNum(o.quantity, 8) + '</td>' +
+                    '<td>€' + safeNum(o.notional_eur, 2) + '</td>' +
+                    '<td>' + (o.blocked ? '<span class="red">BLOCKED: ' + safeStr(o.block_reason) + '</span>' : '<span class="green">Ready</span>') + '</td></tr>').join('') +
+                '</tbody></table>';
+        }
+        const costs = dro.estimated_costs || [];
+        document.getElementById('ntv-orders-cost').textContent = dro.executed === false ?
+            'Executed orders: 0 (DRY_RUN — nothing executed)' : '';
+
+        // --- Breakout 20 ---
+        const bo = data.breakout20_shadow || {};
+        const bost = bo.status || {};
+        const btcBo = bost.btc || {};
+        const ethBo = bost.eth || {};
+        document.getElementById('ntv-bo-btc').textContent = safeStr(btcBo.signal) + ' (close: ' + safeNum(btcBo.close, 1) + ', high20: ' + safeNum(btcBo.high_20, 1) + ', low20: ' + safeNum(btcBo.low_20, 1) + ')';
+        document.getElementById('ntv-bo-eth').textContent = safeStr(ethBo.signal) + ' (close: ' + safeNum(ethBo.close, 2) + ', high20: ' + safeNum(ethBo.high_20, 2) + ', low20: ' + safeNum(ethBo.low_20, 2) + ')';
+
+        // --- Alerts ---
+        const alerts = data.alerts || [];
+        const alertsEl = document.getElementById('ntv-alerts');
+        if (alerts.length === 0) {
+            alertsEl.innerHTML = '<span class="green">No alerts</span>';
+            alertsEl.className = '';
+        } else {
+            alertsEl.innerHTML = alerts.map(a =>
+                '<div style="padding:4px 0;border-bottom:1px solid #0f1e2e;">' +
+                '<span class="badge ' + (a.level === 'CRITICAL' ? 'badge-red' : 'badge-yellow') + '" style="font-size:0.6rem;">' + safeStr(a.level) + '</span> ' +
+                safeStr(a.message) + ' ' + (a.pair ? '(' + safeStr(a.pair) + ')' : '') +
+                '</div>').join('');
+            alertsEl.className = 'red';
+        }
+
+    } catch(e) {
+        console.error('NTV:', e);
+        document.getElementById('ntv-update').textContent = 'Erreur: ' + e.message;
+        document.getElementById('ntv-safety-alert').style.display = 'block';
+        document.getElementById('ntv-safety-alert').innerHTML = 'Failed to load NTV data: ' + e.message;
+        document.getElementById('ntv-mode-badge').textContent = 'OFFLINE';
+        document.getElementById('ntv-mode-badge').className = 'badge badge-red';
+    }
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────
 loadBinance();
 loadKraken();
 loadStocks();
-setInterval(() => { loadBinance(); loadKraken(); }, 30000);
+loadNTV();
+setInterval(() => { loadBinance(); loadKraken(); loadNTV(); }, 30000);
 setInterval(loadStocks, 60000);
 </script>
 </body>
