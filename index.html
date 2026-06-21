@@ -3,32 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — Vincent</title>
+    <title>OpenClaw Monitoring</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
         body { background: #080f1a; color: #e2e8f0; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; margin: 0; }
-
-        /* Layout */
         .page { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
-
-        /* Cards */
         .card { background: #111827; border: 1px solid #1f2d40; border-radius: 12px; padding: 20px; }
         .card-sm { background: #0d1825; border: 1px solid #1a2535; border-radius: 8px; padding: 12px; }
-
-        /* Header bot */
-        .bot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .card-alert { border-color: #ef444440; background: #ef444408; }
+        .bot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
         .bot-title { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .bot-subtitle { color: #4b6280; font-size: 0.72rem; margin-top: 2px; }
-
-        /* Stats grid */
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-        .stat { }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+        .stat {}
         .stat-label { color: #4b6280; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
         .stat-val { font-size: 1.25rem; font-weight: 700; line-height: 1; }
-
-        /* Colors */
         .green { color: #10b981; }
         .red { color: #ef4444; }
         .blue { color: #60a5fa; }
@@ -36,851 +27,586 @@
         .yellow { color: #fbbf24; }
         .gray { color: #64748b; }
         .white { color: #f1f5f9; }
-
-        /* Badge */
-        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; }
+        .orange { color: #f97316; }
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
         .badge-green { background: #10b98120; color: #10b981; border: 1px solid #10b98130; }
         .badge-red { background: #ef444420; color: #ef4444; border: 1px solid #ef444430; }
         .badge-gray { background: #37415120; color: #64748b; border: 1px solid #37415130; }
         .badge-yellow { background: #fbbf2420; color: #fbbf24; border: 1px solid #fbbf2430; }
-
-        /* Position card */
+        .badge-blue { background: #60a5fa20; color: #60a5fa; border: 1px solid #60a5fa30; }
+        .badge-purple { background: #a78bfa20; color: #a78bfa; border: 1px solid #a78bfa30; }
         .pos-card { background: #0a1520; border: 1px solid #1e3a52; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
         .pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .pos-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 0.72rem; color: #64748b; }
         .pos-details b { color: #94a3b8; }
-
-        /* Table */
         .tbl { width: 100%; font-size: 0.78rem; border-collapse: collapse; }
         .tbl th { padding: 6px 8px; text-align: left; color: #374151; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #1f2d40; }
         .tbl td { padding: 7px 8px; border-bottom: 1px solid #0f1e2e; }
         .tbl tr:last-child td { border-bottom: none; }
         .tbl tr:hover td { background: #0d1825; }
-
-        /* RSI bar */
         .rsi-wrap { background: #0a1520; border-radius: 4px; height: 6px; overflow: hidden; margin-top: 4px; }
         .rsi-bar { height: 100%; border-radius: 4px; transition: width 0.5s; }
-
-        /* Signal pills */
-        .sig-buy { background: #10b98118; color: #10b981; border: 1px solid #10b98128; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
-        .sig-sell { background: #ef444418; color: #ef4444; border: 1px solid #ef444428; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
-        .sig-hold { background: #fbbf2418; color: #fbbf24; border: 1px solid #fbbf2428; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
-
-        /* Divider */
         .divider { height: 1px; background: #1f2d40; margin: 14px 0; }
-
-        /* Section title */
         .section-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #374151; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-
-        /* Dot pulse */
         .dot-pulse { width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.85)} }
-
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #1f2d40; border-radius: 2px; }
-
-        /* Responsive */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .stats-row { grid-template-columns: repeat(3, 1fr); } }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        @media(max-width: 768px) { .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; } .stats-row { grid-template-columns: repeat(3, 1fr); } }
+        .global-alert { background: #ef444415; border: 1px solid #ef444435; border-radius: 10px; padding: 10px 16px; margin-bottom: 16px; color: #fca5a5; font-size: 0.78rem; font-weight: 600; display: none; }
+        .global-alert i { margin-right: 6px; }
+        .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .signal-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; font-size: 0.76rem; }
+        .signal-row .label { color: #4b6280; }
+        .freshness-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.7rem; }
+        .freshness-row .tag { color: #4b6280; }
     </style>
 </head>
 <body>
 <div class="page">
 
-    <!-- Header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-        <div>
-            <h1 style="font-size:1.3rem;font-weight:800;margin:0;">
-                <span class="dot-pulse" style="margin-right:8px;"></span>
-                Dashboard <span class="blue">Vincent</span>
-            </h1>
-            <div style="color:#374151;font-size:0.72rem;margin-top:3px;">Crypto Trading & ETF Portfolio • Munich</div>
-        </div>
-        <div style="text-align:right;font-size:0.75rem;color:#374151;">
-            <div id="clock" style="font-size:0.9rem;font-weight:600;color:#64748b;"></div>
-            <div style="margin-top:2px;">Données: <span id="last-update" class="gray">—</span></div>
-        </div>
+<!-- ===== GLOBAL SAFETY HEADER ===== -->
+<div id="global-alert" class="global-alert"><i class="fas fa-triangle-exclamation"></i><span id="global-alert-msg"></span></div>
+
+<div style="background:#0d1825;border:1px solid #1f2d40;border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div>
+        <h1 style="font-size:1.2rem;font-weight:800;margin:0;">
+            <span class="dot-pulse" style="margin-right:8px;"></span>
+            OpenClaw <span class="blue">Monitoring</span>
+        </h1>
+        <div style="color:#374151;font-size:0.68rem;margin-top:2px;">Kraken Auto Spot NTV + Legacy Bots · Munich</div>
     </div>
-
-    <!-- ROW 1: Binance + Kraken -->
-    <div class="grid-2" style="margin-bottom:16px;">
-
-        <!-- BINANCE V5 -->
-        <div class="card">
-            <div class="bot-header">
-                <div>
-                    <div class="bot-title">
-                        <i class="fas fa-robot yellow"></i>
-                        Binance V5
-                    </div>
-                    <div class="bot-subtitle">Spot · Mean Reversion</div>
-                </div>
-                <span id="b-badge" class="badge badge-gray">—</span>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat-label">Capital</div>
-                    <div id="b-capital" class="stat-val blue">—</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">PnL Jour</div>
-                    <div id="b-pnl" class="stat-val">—</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Trades / Jour</div>
-                    <div id="b-today" class="stat-val white">—</div>
-                </div>
-            </div>
-
-            <!-- Position ouverte -->
-            <div id="b-pos-section">
-                <div class="section-title"><i class="fas fa-circle-dot" style="color:#fbbf24;font-size:8px;"></i> Position ouverte</div>
-                <div id="b-pos-content" class="gray" style="font-size:0.8rem;">Aucune</div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Derniers trades -->
-            <div class="section-title"><i class="fas fa-list-ul"></i> Derniers trades</div>
-            <div style="overflow-x:auto;">
-                <table class="tbl">
-                    <thead><tr><th>Heure</th><th>Pair</th><th>Side</th><th>PnL</th><th>Exit</th></tr></thead>
-                    <tbody id="b-trades"><tr><td colspan="5" style="text-align:center;color:#374151;padding:16px;">Chargement...</td></tr></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- KRAKEN FUTURES -->
-        <div class="card">
-            <div class="bot-header">
-                <div>
-                    <div class="bot-title">
-                        <i class="fas fa-wave-square purple"></i>
-                        Kraken Futures
-                    </div>
-                    <div class="bot-subtitle">Futures · SHORT only</div>
-                </div>
-                <span id="k-badge" class="badge badge-gray">—</span>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat-label">Balance</div>
-                    <div id="k-balance" class="stat-val purple">—</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">PnL Jour</div>
-                    <div id="k-pnl" class="stat-val">—</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Positions</div>
-                    <div id="k-pos-count" class="stat-val white">—</div>
-                </div>
-            </div>
-
-            <!-- RSI -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-                <div class="card-sm">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <span style="font-size:0.75rem;font-weight:600;">BTC RSI</span>
-                        <span id="k-btc-rsi" style="font-size:0.85rem;font-weight:700;">—</span>
-                    </div>
-                    <div class="rsi-wrap"><div id="k-btc-bar" class="rsi-bar" style="width:0%;background:#fbbf24;"></div></div>
-                </div>
-                <div class="card-sm">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <span style="font-size:0.75rem;font-weight:600;">ETH RSI</span>
-                        <span id="k-eth-rsi" style="font-size:0.85rem;font-weight:700;">—</span>
-                    </div>
-                    <div class="rsi-wrap"><div id="k-eth-bar" class="rsi-bar" style="width:0%;background:#a78bfa;"></div></div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Derniers trades -->
-            <div class="section-title"><i class="fas fa-list-ul"></i> Derniers trades</div>
-            <div style="overflow-x:auto;">
-                <table class="tbl">
-                    <thead><tr><th>Heure</th><th>Pair</th><th>Side</th><th>PnL</th><th>Exit</th></tr></thead>
-                    <tbody id="k-trades"><tr><td colspan="5" style="text-align:center;color:#374151;padding:16px;">Chargement...</td></tr></tbody>
-                </table>
-            </div>
-        </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <span id="h-mode" class="badge badge-yellow">DRY_RUN</span>
+        <span id="h-live" class="badge badge-gray">LIVE: DISABLED</span>
+        <span id="h-auto" class="badge badge-gray">AUTO_EXEC: FALSE</span>
+        <span id="h-safety" class="badge badge-green">SAFETY: OK</span>
+        <span style="color:#374151;font-size:0.7rem;" id="h-clock">—</span>
     </div>
+</div>
 
-    <!-- ROW 2: Scalable Capital -->
+<!-- ===== ROW 1: NTV + Dry-Run Orders ===== -->
+<div class="grid-2" style="margin-bottom:16px;">
+
+    <!-- KRAKEN AUTO SPOT NTV -->
     <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <div class="bot-title">
-                <i class="fas fa-chart-line green"></i>
-                Scalable Capital — ETF Portfolio
-            </div>
-            <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
-        </div>
-
-        <!-- Résumé -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;">
-            <div class="stat">
-                <div class="stat-label">Valeur Totale</div>
-                <div id="s-value" class="stat-val green">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Investi</div>
-                <div id="s-invested" class="stat-val white">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Total (origine)</div>
-                <div id="s-pnl" class="stat-val">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">PnL Réalisé</div>
-                <div id="s-realized" class="stat-val">—</div>
-            </div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;">
-            <div class="stat">
-                <div class="stat-label">Réalisé Mai</div>
-                <div id="s-mtd" class="stat-val">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Réalisé 30j</div>
-                <div id="s-30d" class="stat-val">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Réalisé 2026</div>
-                <div id="s-ytd" class="stat-val">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Frais</div>
-                <div id="s-fees" class="stat-val white">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Dépôts</div>
-                <div id="s-deposits" class="stat-val white">—</div>
-            </div>
-        </div>
-        <div style="font-size:0.68rem;color:#374151;margin-bottom:16px;">
-            Données réelles de transactions Scalable Capital
-        </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Tableau Positions -->
-        <div style="overflow-x:auto;">
-            <table class="tbl" style="font-size:0.7rem;">
-                <thead><tr>
-                    <th>Ticker</th><th>Nom</th><th>Type</th><th>Qté</th>
-                    <th>Px Moy</th><th>Px Actuel</th><th>Investi</th><th>Valeur</th>
-                    <th>PnL Latent</th><th>PnL Réal.</th><th>PnL Total</th><th>Poids</th>
-                </tr></thead>
-                <tbody id="s-table"><tr><td colspan="12" style="text-align:center;color:#374151;padding:20px;">Chargement des prix...</td></tr></tbody>
-            </table>
-        </div>
-        <div style="margin-top:10px;font-size:0.68rem;color:#1f2d40;">Prix via Yahoo Finance • Refresh 60s</div>
-
-        <!-- PnL Mensuel -->
-        <div class="divider" style="margin-top:18px;"></div>
-        <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;margin:12px 0 8px;">
-            <i class="fas fa-chart-bar gray"></i> PnL Réalisé par Mois
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="s-monthly">
-            <span class="gray" style="font-size:0.75rem;">—</span>
-        </div>
-
-        <!-- Historique Transactions (pliable) -->
-        <details style="margin-top:20px;">
-            <summary style="cursor:pointer;font-weight:700;color:#1f2d40;font-size:0.85rem;padding:8px 0;">
-                <i class="fas fa-history gray"></i> Historique des Transactions <span id="tx-count" style="font-size:0.7rem;color:#374151;margin-left:8px;">—</span>
-            </summary>
-            <div style="overflow-x:auto;margin-top:8px;">
-                <table class="tbl">
-                    <thead><tr>
-                        <th>Date</th><th>Type</th><th>Description</th><th>Ticker</th>
-                        <th>Qté</th><th>Prix</th><th>Montant</th><th>Frais</th>
-                    </tr></thead>
-                    <tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
-                </table>
-            </div>
-        </details>
-    </div>
-
-    <!-- ROW 3: Kraken Auto Spot NTV -->
-    <div class="card" style="margin-bottom:16px;">
         <div class="bot-header">
             <div>
-                <div class="bot-title">
-                    <i class="fas fa-shield-halved blue"></i>
-                    Kraken Auto Spot NTV
-                </div>
-                <div class="bot-subtitle">
-                    <span id="ntv-model">Naive Trend+Vol Model A</span>
-                    <span style="margin-left:8px;">|</span>
-                    <span id="ntv-mode-badge" class="badge badge-yellow" style="margin-left:8px;">DRY_RUN</span>
-                </div>
+                <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV</div>
+                <div class="bot-subtitle">Naive Trend+Vol Model A · Spot Only · BTC/EUR ETH/EUR</div>
             </div>
-            <div style="text-align:right;font-size:0.7rem;">
-                <div id="ntv-update" style="color:#1f2d40;">—</div>
-            </div>
+            <span id="ntv-badge" class="badge badge-yellow">DRY_RUN</span>
         </div>
-
-        <!-- Safety header row -->
-        <div id="ntv-safety-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
-            <span class="badge badge-gray">Futures: blocked</span>
-            <span class="badge badge-gray">Margin: blocked</span>
-            <span class="badge badge-gray">Short: blocked</span>
-            <span class="badge badge-gray">Leverage: blocked</span>
-            <span id="ntv-killswitch" class="badge badge-gray">Kill switch: inactive</span>
-            <span id="ntv-data-status" class="badge badge-green">Data: ok</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+            <span class="badge badge-gray">FUTURES: BLOCKED</span>
+            <span class="badge badge-gray">MARGIN: BLOCKED</span>
+            <span class="badge badge-gray">SHORT: BLOCKED</span>
+            <span class="badge badge-gray">LEVERAGE: 1x</span>
         </div>
-        <div id="ntv-safety-alert" style="display:none;background:#ef444418;border:1px solid #ef444430;border-radius:8px;padding:8px 12px;margin-bottom:12px;color:#ef4444;font-size:0.75rem;font-weight:600;"></div>
-
+        <div class="stats-row">
+            <div class="stat"><div class="stat-label">Capital</div><div id="ntv-cap" class="stat-val blue">—</div></div>
+            <div class="stat"><div class="stat-label">Hard Cap</div><div id="ntv-hcap" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Allocation</div><div id="ntv-tier" class="stat-val">—</div></div>
+        </div>
         <div class="divider"></div>
-
-        <!-- Section: Current Signal -->
-        <div class="section-title"><i class="fas fa-signal blue"></i> Current Signal</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-            <!-- BTC -->
+        <div class="section-title"><i class="fas fa-signal blue"></i>Signal</div>
+        <div class="signal-grid">
             <div class="card-sm">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                    <span style="font-weight:700;font-size:0.85rem;">BTC/EUR</span>
-                    <span id="ntv-btc-allowed" class="badge badge-gray">—</span>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">BTC/EUR</span>
+                    <span id="ntv-btc-badge" class="badge badge-gray">—</span>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.72rem;color:#64748b;">
-                    <span>Close:</span><span id="ntv-btc-close" style="color:#e2e8f0;">—</span>
-                    <span>SMA200:</span><span id="ntv-btc-sma200" style="color:#e2e8f0;">—</span>
-                    <span>Vol30:</span><span id="ntv-btc-vol30" style="color:#e2e8f0;">—</span>
-                    <span>Trend:</span><span id="ntv-btc-trend" style="color:#e2e8f0;">—</span>
-                    <span>Vol:</span><span id="ntv-btc-volok" style="color:#e2e8f0;">—</span>
-                </div>
-                <div id="ntv-btc-reason" style="font-size:0.65rem;color:#ef4444;margin-top:4px;"></div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-btc-close">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-btc-sma200">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-btc-vol30">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-btc-trend">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-btc-volok">—</span></div>
+                <div id="ntv-btc-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
             </div>
-            <!-- ETH -->
             <div class="card-sm">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                    <span style="font-weight:700;font-size:0.85rem;">ETH/EUR</span>
-                    <span id="ntv-eth-allowed" class="badge badge-gray">—</span>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">ETH/EUR</span>
+                    <span id="ntv-eth-badge" class="badge badge-gray">—</span>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.72rem;color:#64748b;">
-                    <span>Close:</span><span id="ntv-eth-close" style="color:#e2e8f0;">—</span>
-                    <span>SMA200:</span><span id="ntv-eth-sma200" style="color:#e2e8f0;">—</span>
-                    <span>Vol30:</span><span id="ntv-eth-vol30" style="color:#e2e8f0;">—</span>
-                    <span>Trend:</span><span id="ntv-eth-trend" style="color:#e2e8f0;">—</span>
-                    <span>Vol:</span><span id="ntv-eth-volok" style="color:#e2e8f0;">—</span>
-                </div>
-                <div id="ntv-eth-reason" style="font-size:0.65rem;color:#ef4444;margin-top:4px;"></div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-eth-close">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-eth-sma200">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-eth-vol30">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-eth-trend">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-eth-volok">—</span></div>
+                <div id="ntv-eth-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
             </div>
         </div>
-
         <div class="divider"></div>
-
-        <!-- Section: Allocation -->
-        <div class="section-title"><i class="fas fa-chart-pie blue"></i> Allocation</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
-            <div class="stat">
-                <div class="stat-label">Current</div>
-                <div id="ntv-alloc-curr" class="stat-val" style="font-size:0.85rem;">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Target</div>
-                <div id="ntv-alloc-target" class="stat-val" style="font-size:0.85rem;">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Action</div>
-                <div id="ntv-alloc-action" class="stat-val" style="font-size:0.85rem;">—</div>
-            </div>
-        </div>
-        <div id="ntv-deviation" style="font-size:0.68rem;color:#1f2d40;margin-bottom:4px;">Deviation: —</div>
-        <div id="ntv-cap-info" style="font-size:0.68rem;color:#1f2d40;">Max capital: €2,810.54 | Hard cap: €3,000</div>
-
-        <div class="divider"></div>
-
-        <!-- Section: Dry-Run Orders -->
-        <div class="section-title"><i class="fas fa-scroll yellow"></i> Dry-Run Orders <span style="font-size:0.62rem;color:#374151;">(simulated only)</span></div>
-        <div id="ntv-orders-list" style="font-size:0.78rem;color:#64748b;">No orders</div>
-        <div id="ntv-orders-cost" style="font-size:0.68rem;color:#1f2d40;margin-top:4px;"></div>
-
-        <div class="divider"></div>
-
-        <!-- Section: Breakout 20 Shadow -->
-        <div class="section-title"><i class="fas fa-bolt purple"></i> Breakout 20 — Shadow Only</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div class="card-sm" style="font-size:0.72rem;">
-                <span style="font-weight:600;">BTC:</span>
-                <span id="ntv-bo-btc" class="gray">—</span>
-            </div>
-            <div class="card-sm" style="font-size:0.72rem;">
-                <span style="font-weight:600;">ETH:</span>
-                <span id="ntv-bo-eth" class="gray">—</span>
-            </div>
-        </div>
-        <div style="font-size:0.62rem;color:#1f2d40;margin-top:4px;">No live orders</div>
-
-        <div class="divider"></div>
-
-        <!-- Section: Alerts -->
-        <div class="section-title"><i class="fas fa-triangle-exclamation red"></i> Alerts</div>
-        <div id="ntv-alerts" style="font-size:0.78rem;color:#10b981;">No alerts</div>
-
-        <div class="divider"></div>
-
-        <!-- Section: Old Bots Status -->
-        <div class="section-title"><i class="fas fa-clock gray"></i> Bot Status</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:0.72rem;">
-            <span class="badge badge-gray">Kraken Futures V1: retired</span>
-            <span class="badge badge-gray">Binance V5: retired</span>
-            <span class="badge badge-green">Kraken Auto Spot NTV: active DRY_RUN</span>
+        <div class="section-title"><i class="fas fa-chart-pie blue"></i>Allocation</div>
+        <div style="font-size:0.78rem;">
+            <div style="display:flex;justify-content:space-between;padding:3px 0;"><span class="gray">Current</span><span id="ntv-curr">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;"><span class="gray">Target</span><span id="ntv-target">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;"><span class="gray">Deviation</span><span id="ntv-dev">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;"><span class="gray">Action</span><span id="ntv-action">—</span></div>
         </div>
     </div>
+
+    <!-- DRY-RUN ORDERS + BREAKOUT20 -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+        <!-- Dry-Run Orders -->
+        <div class="card">
+            <div class="section-title"><i class="fas fa-scroll yellow"></i>Dry-Run Orders <span class="badge badge-yellow" style="font-size:0.62rem;">SIMULATED</span></div>
+            <div id="ntv-orders-body" style="font-size:0.76rem;color:#64748b;">No orders — allocation within threshold</div>
+            <div id="ntv-orders-cost" style="font-size:0.65rem;color:#1f2d40;margin-top:4px;"></div>
+            <div id="ntv-executed-warn" style="display:none;background:#ef444415;border-radius:6px;padding:6px 10px;margin-top:6px;color:#ef4444;font-size:0.7rem;"></div>
+        </div>
+        <!-- Breakout20 Shadow -->
+        <div class="card">
+            <div class="section-title"><i class="fas fa-bolt purple"></i>Breakout 20 <span class="badge badge-purple" style="font-size:0.62rem;">SHADOW ONLY</span></div>
+            <div style="font-size:0.72rem;margin-bottom:4px;">
+                <div class="signal-row"><span class="label">BTC</span><span id="ntv-bo-btc" class="gray">—</span></div>
+                <div class="signal-row"><span class="label">ETH</span><span id="ntv-bo-eth" class="gray">—</span></div>
+            </div>
+            <div style="font-size:0.62rem;color:#1f2d40;">No live orders · Not connected to execution</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ROW 2: Old Bots + Alerts + Freshness ===== -->
+<div class="grid-3" style="margin-bottom:16px;">
+
+    <!-- Old Bots -->
+    <div class="card">
+        <div class="section-title"><i class="fas fa-clock gray"></i>Legacy Bots</div>
+        <div style="font-size:0.76rem;">
+            <div class="signal-row"><span class="label">Kraken Futures V1</span><span class="badge badge-gray">RETIRED</span></div>
+            <div class="signal-row" style="margin-top:6px;"><span class="label">Binance V5</span><span class="badge badge-gray">RETIRED</span></div>
+            <div class="signal-row" style="margin-top:6px;"><span class="label">Old Kraken Strategy</span><span class="badge badge-gray">NOT CALLED</span></div>
+            <div class="signal-row" style="margin-top:6px;"><span class="label">Binance Strategy</span><span class="badge badge-gray">NOT CALLED</span></div>
+            <div class="signal-row" style="margin-top:6px;"><span class="label">NTV</span><span id="bo-ntv" class="badge badge-green">ACTIVE DRY_RUN</span></div>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="card" id="ntv-alerts-card">
+        <div class="section-title"><i class="fas fa-triangle-exclamation red"></i>Alerts & Safety</div>
+        <div id="ntv-alerts-list" style="font-size:0.73rem;">
+            <div class="signal-row"><span class="label">Data age</span><span id="al-data" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Futures balance</span><span id="al-fbal" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Futures position</span><span id="al-fpos" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Open orders</span><span id="al-orders" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Capital over hard cap</span><span id="al-cap" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Allocation mismatch</span><span id="al-alloc" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Kill switch</span><span id="al-ks" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Spread too wide</span><span id="al-spread" class="badge badge-gray">UNKNOWN</span></div>
+        </div>
+    </div>
+
+    <!-- Data Freshness -->
+    <div class="card">
+        <div class="section-title"><i class="fas fa-database blue"></i>Data Freshness</div>
+        <div style="font-size:0.7rem;">
+            <div class="freshness-row"><span class="tag">ntv.json</span><span id="fr-ntv">—</span></div>
+            <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
+            <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
+            <div class="freshness-row"><span class="tag">update-data.sh</span><span id="fr-upd">—</span></div>
+            <div class="freshness-row"><span class="tag">Data age</span><span id="fr-age">—</span></div>
+            <div class="freshness-row"><span class="tag">Page refresh</span><span id="fr-refresh">—</span></div>
+        </div>
+        <div style="font-size:0.6rem;color:#1f2d40;margin-top:8px;">Auto-refresh: NTV 30s · Stocks 60s</div>
+    </div>
+</div>
+
+<!-- ===== ROW 3: Binance V5 + Kraken Futures ===== -->
+<div class="grid-2" style="margin-bottom:16px;">
+    <!-- BINANCE V5 -->
+    <div class="card">
+        <div class="bot-header">
+            <div><div class="bot-title"><i class="fas fa-robot yellow"></i>Binance V5</div><div class="bot-subtitle">Spot · Mean Reversion · RETIRED</div></div>
+            <span id="b-badge" class="badge badge-gray">OFFLINE</span>
+        </div>
+        <div class="stats-row">
+            <div class="stat"><div class="stat-label">Capital</div><div id="b-capital" class="stat-val blue">—</div></div>
+            <div class="stat"><div class="stat-label">PnL Jour</div><div id="b-pnl" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Trades/Jour</div><div id="b-today" class="stat-val white">—</div></div>
+        </div>
+        <div id="b-pos-section"><div class="section-title"><i class="fas fa-circle-dot" style="color:#fbbf24;font-size:8px;"></i>Position</div><div id="b-pos-content" class="gray" style="font-size:0.8rem;">Aucune</div></div>
+        <div class="divider"></div>
+        <div class="section-title"><i class="fas fa-list-ul"></i>Derniers trades</div>
+        <div style="overflow-x:auto;"><table class="tbl"><thead><tr><th>Heure</th><th>Pair</th><th>Side</th><th>PnL</th><th>Exit</th></tr></thead><tbody id="b-trades"><tr><td colspan="5" style="text-align:center;color:#374151;padding:16px;">—</td></tr></tbody></table></div>
+    </div>
+    <!-- KRAKEN FUTURES -->
+    <div class="card">
+        <div class="bot-header">
+            <div><div class="bot-title"><i class="fas fa-wave-square purple"></i>Kraken Futures</div><div class="bot-subtitle">Futures · SHORT only · RETIRED</div></div>
+            <span id="k-badge" class="badge badge-gray">OFFLINE</span>
+        </div>
+        <div class="stats-row">
+            <div class="stat"><div class="stat-label">Balance</div><div id="k-balance" class="stat-val purple">—</div></div>
+            <div class="stat"><div class="stat-label">PnL Jour</div><div id="k-pnl" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Positions</div><div id="k-pos-count" class="stat-val white">—</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.75rem;font-weight:600;">BTC RSI</span><span id="k-btc-rsi" style="font-size:0.85rem;font-weight:700;">—</span></div>
+                <div class="rsi-wrap"><div id="k-btc-bar" class="rsi-bar" style="width:0%;background:#fbbf24;"></div></div>
+            </div>
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.75rem;font-weight:600;">ETH RSI</span><span id="k-eth-rsi" style="font-size:0.85rem;font-weight:700;">—</span></div>
+                <div class="rsi-wrap"><div id="k-eth-bar" class="rsi-bar" style="width:0%;background:#a78bfa;"></div></div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title"><i class="fas fa-list-ul"></i>Derniers trades</div>
+        <div style="overflow-x:auto;"><table class="tbl"><thead><tr><th>Heure</th><th>Pair</th><th>Side</th><th>PnL</th><th>Exit</th></tr></thead><tbody id="k-trades"><tr><td colspan="5" style="text-align:center;color:#374151;padding:16px;">—</td></tr></tbody></table></div>
+    </div>
+</div>
+
+<!-- ===== ROW 4: Scalable Capital ETF ===== -->
+<div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div class="bot-title"><i class="fas fa-chart-line green"></i>Scalable Capital — ETF Portfolio</div>
+        <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;">
+        <div class="stat"><div class="stat-label">Valeur Totale</div><div id="s-value" class="stat-val green">—</div></div>
+        <div class="stat"><div class="stat-label">Investi</div><div id="s-invested" class="stat-val white">—</div></div>
+        <div class="stat"><div class="stat-label">Total (origine)</div><div id="s-pnl" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">PnL Réalisé</div><div id="s-realized" class="stat-val">—</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:10px;">
+        <div class="stat"><div class="stat-label">Mai</div><div id="s-mtd" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">30j</div><div id="s-30d" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">2026</div><div id="s-ytd" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">Frais</div><div id="s-fees" class="stat-val white">—</div></div>
+        <div class="stat"><div class="stat-label">Dépôts</div><div id="s-deposits" class="stat-val white">—</div></div>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="tbl" style="font-size:0.7rem;">
+            <thead><tr><th>Ticker</th><th>Nom</th><th>Type</th><th>Qté</th><th>Px Moy</th><th>Px Actuel</th><th>Investi</th><th>Valeur</th><th>PnL Lat.</th><th>PnL Réal.</th><th>PnL Total</th><th>Poids</th></tr></thead>
+            <tbody id="s-table"><tr><td colspan="12" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
+        </table>
+    </div>
+    <div style="margin-top:10px;font-size:0.68rem;color:#1f2d40;">Prix via Yahoo Finance · Refresh 60s</div>
+    <div class="divider" style="margin-top:18px;"></div>
+    <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;margin:12px 0 8px;"><i class="fas fa-chart-bar gray"></i> PnL Réalisé par Mois</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="s-monthly"><span class="gray" style="font-size:0.75rem;">—</span></div>
+    <details style="margin-top:20px;">
+        <summary style="cursor:pointer;font-weight:700;color:#1f2d40;font-size:0.85rem;padding:8px 0;"><i class="fas fa-history gray"></i> Historique Transactions <span id="tx-count" style="font-size:0.7rem;color:#374151;margin-left:8px;">—</span></summary>
+        <div style="overflow-x:auto;margin-top:8px;"><table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Ticker</th><th>Qté</th><th>Prix</th><th>Montant</th><th>Frais</th></tr></thead><tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody></table></div>
+    </details>
+</div>
 
 </div>
 
 <script>
 const GH_RAW = 'https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/';
+const PAGE_LOAD = new Date();
 
-// ── Utils ─────────────────────────────────────────────────────────────────
+function safeVal(v, d) { return (v !== null && v !== undefined) ? v : d; }
+function safeNum(v, dec) { return (v !== null && v !== undefined && !isNaN(v)) ? v.toFixed(dec || 2) : '—'; }
+function safeStr(v, d) { return (v !== null && v !== undefined && v !== '') ? String(v) : (d || '—'); }
 function pnlClass(n) { return n > 0 ? 'green' : n < 0 ? 'red' : 'gray'; }
-function fmtUSD(n, dec=2) {
+function fmtUSD(n, dec) {
     if (n === null || n === undefined || isNaN(n)) return '—';
-    const abs = Math.abs(n).toFixed(dec);
+    var abs = Math.abs(n).toFixed(dec || 2);
     return (n >= 0 ? '+' : '-') + '$' + abs;
 }
-function fmtEUR(n, dec=0) {
+function fmtEUR(n, dec) {
     if (n === null || n === undefined || isNaN(n)) return '—';
-    const abs = Math.abs(n).toFixed(dec);
+    var abs = Math.abs(n).toFixed(dec || 0);
     return (n >= 0 ? '+' : '-') + '€' + abs;
-}
-function fmtPct(n) {
-    if (n === null || n === undefined || isNaN(n)) return '—';
-    return (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
 }
 function fmtTime(ts) {
     if (!ts) return '—';
-    const d = new Date(ts);
-    const today = new Date();
-    if (d.toDateString() === today.toDateString())
-        return d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-    return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit'})
-         + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+    var d = new Date(ts), today = new Date();
+    if (d.toDateString() === today.toDateString()) return d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+    return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit'}) + ' ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+}
+function ageHours(ts) {
+    if (!ts) return null;
+    return (new Date() - new Date(ts)) / 3600000;
 }
 
-// ── Clock ─────────────────────────────────────────────────────────────────
-setInterval(() => {
-    document.getElementById('clock').textContent =
-        new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-}, 1000);
+// ── Clock ──
+setInterval(function() { document.getElementById('h-clock').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }, 1000);
 
-// ── Binance ───────────────────────────────────────────────────────────────
-async function loadBinance() {
-    try {
-        const [sRes, tRes] = await Promise.all([
-            fetch(GH_RAW + 'bot_status.json?t=' + Date.now()),
-            fetch(GH_RAW + 'trades.json?t=' + Date.now())
-        ]);
-        const s = await sRes.json();
-        const trades = await tRes.json();
+// ── Global Header ──
+function updateGlobalHeader(data) {
+    var h = data.safety_header || {};
+    var alerts = [];
+    var mode = safeStr(h.mode || data.mode, 'DRY_RUN');
+    var live = h.live_trading_enabled || data.live_trading_enabled;
+    var auto = h.auto_execution || data.auto_execution;
 
-        // Badge
-        const badge = document.getElementById('b-badge');
-        badge.textContent = s.running ? '● Online' : '● Offline';
-        badge.className = 'badge ' + (s.running ? 'badge-green' : 'badge-red');
+    document.getElementById('h-mode').textContent = mode;
+    document.getElementById('h-mode').className = 'badge ' + (mode === 'DRY_RUN' ? 'badge-yellow' : 'badge-red');
 
-        // Stats
-        const cap = parseFloat(s.capital) || 0;
-        document.getElementById('b-capital').textContent = '$' + cap.toFixed(2);
-        const pnl = parseFloat(s.daily_pnl) || 0;
-        const pnlEl = document.getElementById('b-pnl');
-        pnlEl.textContent = fmtUSD(pnl);
-        pnlEl.className = 'stat-val ' + pnlClass(pnl);
-        document.getElementById('b-today').textContent = s.today_trades_count || 0;
+    document.getElementById('h-live').textContent = live ? 'LIVE: ENABLED' : 'LIVE: DISABLED';
+    document.getElementById('h-live').className = 'badge ' + (live ? 'badge-red' : 'badge-gray');
 
-        // Position
-        const posEl = document.getElementById('b-pos-content');
-        if (s.positions && s.positions.length > 0) {
-            const p = s.positions[0];
-            const dirClass = p.direction === 'LONG' ? 'green' : 'red';
-            posEl.innerHTML = `
-                <div class="pos-card">
-                    <div class="pos-header">
-                        <span style="font-weight:700;font-size:0.9rem;" class="${dirClass}">${p.symbol}</span>
-                        <span class="badge ${p.direction==='LONG'?'badge-green':'badge-red'}">${p.direction}</span>
-                    </div>
-                    <div class="pos-details">
-                        <span>Entry: <b>$${parseFloat(p.entry_price).toFixed(4)}</b></span>
-                        <span>Taille: <b>$${parseFloat(p.position_size).toFixed(0)}</b></span>
-                        <span>TP/SL: <b class="green">+${p.tp_pct}%</b> / <b class="red">${p.sl_pct}%</b></span>
-                    </div>
-                </div>`;
-        } else {
-            posEl.innerHTML = '<span class="gray" style="font-size:0.8rem;">Aucune position active</span>';
-        }
+    document.getElementById('h-auto').textContent = auto ? 'AUTO_EXEC: TRUE' : 'AUTO_EXEC: FALSE';
+    document.getElementById('h-auto').className = 'badge ' + (auto ? 'badge-red' : 'badge-gray');
 
-        // Trades
-        const tbody = document.getElementById('b-trades');
-        const recent = trades.slice(-8).reverse();
-        if (!recent.length) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#374151;padding:12px;">Aucun trade</td></tr>';
-        } else {
-            tbody.innerHTML = recent.map(t => {
-                const pnl = parseFloat(t.pnl_usdc) || 0;
-                const dir = t.direction || t.side || '—';
-                return `<tr>
-                    <td class="gray">${fmtTime(t.timestamp)}</td>
-                    <td style="font-weight:600;">${t.symbol||'—'}</td>
-                    <td><span class="badge ${dir==='LONG'?'badge-green':'badge-red'}" style="font-size:0.65rem;">${dir}</span></td>
-                    <td class="${pnlClass(pnl)}" style="font-weight:600;">${fmtUSD(pnl)}</td>
-                    <td class="gray" style="font-size:0.72rem;">${t.exit_reason||'—'}</td>
-                </tr>`;
-            }).join('');
-        }
+    if (live) alerts.push('Live trading is ENABLED — should be disabled in DRY_RUN');
+    if (auto) alerts.push('AUTO_EXECUTION is TRUE — should be false');
+    if (mode !== 'DRY_RUN') alerts.push('Mode is ' + mode + ' — should be DRY_RUN');
+    if (safeStr(h.kill_switch_status) === 'active') alerts.push('KILL SWITCH is ACTIVE');
+    if (safeStr(h.data_status, 'ok') !== 'ok') alerts.push('Data status: ' + safeStr(h.data_status, '?'));
 
-        document.getElementById('last-update').textContent =
-            new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-    } catch(e) { console.error('Binance:', e); }
-}
-
-// ── Kraken ────────────────────────────────────────────────────────────────
-async function loadKraken() {
-    try {
-        const res = await fetch(GH_RAW + 'kraken.json?t=' + Date.now());
-        const data = await res.json();
-
-        const badge = document.getElementById('k-badge');
-        const online = data.bot?.status === 'online';
-        badge.textContent = online ? '● Online' : '● Offline';
-        badge.className = 'badge ' + (online ? 'badge-green' : 'badge-gray');
-
-        const bal = parseFloat(data.summary?.balance) || 0;
-        document.getElementById('k-balance').textContent = '$' + bal.toFixed(2);
-        const kpnl = parseFloat(data.summary?.daily_pnl) || 0;
-        const kpnlEl = document.getElementById('k-pnl');
-        kpnlEl.textContent = fmtUSD(kpnl);
-        kpnlEl.className = 'stat-val ' + pnlClass(kpnl);
-        document.getElementById('k-pos-count').textContent = data.summary?.positions_count ?? 0;
-
-        // RSI
-        const rsi = data.bot?.rsi_data || {};
-        const setRsi = (id, barId, val) => {
-            if (val === undefined) return;
-            const el = document.getElementById(id);
-            el.textContent = val.toFixed(1);
-            el.className = val < 35 ? 'green' : val > 65 ? 'red' : 'yellow';
-            document.getElementById(barId).style.width = val + '%';
-        };
-        setRsi('k-btc-rsi', 'k-btc-bar', rsi.BTCUSDC?.rsi);
-        setRsi('k-eth-rsi', 'k-eth-bar', rsi.ETHUSDC?.rsi);
-
-        // Trades
-        const tbody = document.getElementById('k-trades');
-        const trades = (data.trades || []).slice(0, 8);
-        if (!trades.length) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#374151;padding:12px;">Aucun trade</td></tr>';
-        } else {
-            tbody.innerHTML = trades.map(t => {
-                const pnl = parseFloat(t.pnl_usd) || 0;
-                const sym = (t.symbol||'').replace('PF_','').replace('USD','');
-                return `<tr>
-                    <td class="gray">${fmtTime(t.timestamp)}</td>
-                    <td style="font-weight:600;">${sym}</td>
-                    <td><span class="badge ${t.side==='LONG'?'badge-green':'badge-red'}" style="font-size:0.65rem;">${t.side||'—'}</span></td>
-                    <td class="${pnlClass(pnl)}" style="font-weight:600;">${fmtUSD(pnl)}</td>
-                    <td class="gray" style="font-size:0.72rem;">${t.exit_reason||'—'}</td>
-                </tr>`;
-            }).join('');
-        }
-    } catch(e) { console.error('Kraken:', e); }
-}
-
-// ── Scalable / ETF ────────────────────────────────────────────────────────
-// Prix récupérés côté serveur (update-stocks-prices.py, cron 30min)
-// Pas d'appel Yahoo Finance depuis le browser (CORS bloqué)
-
-async function loadStocks() {
-    try {
-        const res = await fetch(GH_RAW + 'stocks.json?t=' + Date.now());
-        const data = await res.json();
-        const portfolio = data.portfolio || {};
-        const serverPrices = data.prices || {};
-        const tickers = Object.keys(portfolio);
-
-        let totalVal = 0, totalInv = 0;
-
-        // Trier par valeur decroissante
-        const sorted = tickers.map(ticker => {
-            const pos = portfolio[ticker];
-            const pd = serverPrices[ticker] || {};
-            const val = pd.value ?? (pd.price ? pd.price * pos.shares : 0);
-            return { ticker, pos, pd, val };
-        }).sort((a, b) => b.val - a.val);
-
-        const rows = sorted.map(({ ticker, pos, pd, val }) => {
-            const shares = pos.shares;
-            const avgPx = pos.average_price;
-            const invested = pos.total_invested;
-            const curPx = pd.price_eur ?? pd.price ?? null;
-            const latentEur = pd.pnl_eur ?? (val ? val - invested : null);
-            const latentPct = pd.pnl_pct ?? (val && invested ? (val - invested) / invested * 100 : null);
-            const realized = pd.pnl_realized ?? pos.pnl_realized ?? 0;
-            const totalPnl = pd.pnl_total ?? (realized + (latentEur || 0));
-            const totalPnlPct = pd.pnl_total_pct ?? (val && invested ? (realized + (latentEur || 0)) / invested * 100 : null);
-            const weight = pd.weight_pct ?? (totalVal > 0 ? val / totalVal * 100 : 0);
-            const assetType = pos.type || (ticker.includes('.') ? 'ETF' : 'action');
-
-            if (val) { totalVal += val; totalInv += invested; }
-
-            const latentClass = latentEur === null ? 'gray' : latentEur >= 0 ? 'green' : 'red';
-            const totalClass  = totalPnl   === null ? 'gray' : totalPnl  >= 0 ? 'green' : 'red';
-            const realizedClass = realized === 0 ? 'gray' : realized > 0 ? 'green' : 'red';
-
-            return `<tr>
-                <td style="font-weight:700;" class="blue">${ticker}</td>
-                <td class="gray" style="font-size:0.68rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${pos.name}</td>
-                <td><span class="badge badge-${assetType==='ETF'?'green':'gray'}" style="font-size:0.58rem;padding:2px 5px;">${assetType}</span></td>
-                <td>${shares}</td>
-                <td>€${avgPx.toFixed(2)}</td>
-                <td style="font-weight:600;">${curPx ? '€'+curPx.toFixed(2) : '<span class="gray">—</span>'}</td>
-                <td>€${invested.toFixed(0)}</td>
-                <td>${val ? '€'+val.toFixed(0) : '<span class="gray">—</span>'}</td>
-                <td class="${latentClass}">${latentEur !== null ? fmtEUR(latentEur) : '—'}</td>
-                <td class="${realizedClass}">${realized !== 0 ? fmtEUR(realized) : '<span class="gray">€0</span>'}</td>
-                <td class="${totalClass}" style="font-weight:600;">${totalPnl !== null ? fmtEUR(totalPnl) : '—'}</td>
-                <td style="font-weight:600;">${weight > 0 ? weight.toFixed(1)+'%' : '<span class="gray">—</span>'}</td>
-            </tr>`;
-        });
-
-        document.getElementById('s-table').innerHTML = rows.join('');
-
-        // Totaux : priorité aux valeurs calculées côté serveur
-        const summ = data.summary || {};
-        const displayVal = summ.total_value || totalVal;
-        const displayInv = summ.total_invested || totalInv;
-        const displayPnl = summ.total_pnl_eur ?? (displayVal - displayInv);
-        const realized = summ.pnl_realized || 0;
-        const totalReturn = realized + displayPnl;
-        document.getElementById('s-value').textContent = displayVal ? '€' + displayVal.toFixed(0) : '—';
-        document.getElementById('s-invested').textContent = '€' + displayInv.toFixed(0);
-        const spEl = document.getElementById('s-pnl');
-        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
-        spEl.className = 'stat-val ' + (totalReturn >= 0 ? 'green' : 'red');
-        // Heure de mise à jour côté serveur
-        const lastUpd = summ.last_updated ? new Date(summ.last_updated).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '—';
-        document.getElementById('s-update').textContent = 'Mis à jour ' + lastUpd;
-
-        // ── Nouvelles cartes PnL ──
-        const realized = summ.pnl_realized || 0;
-        document.getElementById('s-realized').textContent = fmtEUR(realized);
-        document.getElementById('s-realized').className = 'stat-val ' + (realized >= 0 ? 'green' : 'red');
-        document.getElementById('s-mtd').textContent = fmtEUR(summ.pnl_realized_mtd || 0);
-        document.getElementById('s-mtd').className = 'stat-val ' + ((summ.pnl_realized_mtd || 0) >= 0 ? 'green' : 'red');
-        document.getElementById('s-30d').textContent = fmtEUR(summ.pnl_realized_30d || 0);
-        document.getElementById('s-30d').className = 'stat-val ' + ((summ.pnl_realized_30d || 0) >= 0 ? 'green' : 'red');
-        document.getElementById('s-ytd').textContent = fmtEUR(summ.pnl_realized_ytd || 0);
-        document.getElementById('s-ytd').className = 'stat-val ' + ((summ.pnl_realized_ytd || 0) >= 0 ? 'green' : 'red');
-        document.getElementById('s-fees').textContent = '€' + (summ.total_fees || 0).toFixed(0);
-        document.getElementById('s-deposits').textContent = '€' + (summ.total_deposits || 0).toFixed(0);
-        // PnL label = total (réalisé + latent)
-        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
-
-        // ── PnL Mensuel ──
-        const monthly = summ.monthly_pnl || {};
-        const monthlyDiv = document.getElementById('s-monthly');
-        if (Object.keys(monthly).length > 0) {
-            monthlyDiv.innerHTML = Object.entries(monthly).map(([m, v]) =>
-                `<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;min-width:70px;">
-                    <div style="font-size:0.6rem;color:#374151;">${m}</div>
-                    <div style="font-weight:700;font-size:0.8rem;color:${v >= 0 ? '#059669' : '#dc2626'};">${fmtEUR(v)}</div>
-                </div>`
-            ).join('');
-        } else {
-            monthlyDiv.innerHTML = '<span class="gray" style="font-size:0.75rem;">Aucune vente</span>';
-        }
-
-        // ── Transactions ──
-        const tx = data.transactions || [];
-        const txRows = tx.slice(0, 50).map(t => {
-            const isBuy = t.type === 'Buy';
-            const typeStyle = isBuy ? 'color:#059669;' : 'color:#dc2626;';
-            const amountStyle = isBuy ? 'red' : 'green';
-            return `<tr>
-                <td class="gray" style="font-size:0.7rem;">${t.date}</td>
-                <td style="${typeStyle}font-weight:700;font-size:0.75rem;">${t.type === 'Buy' ? 'ACHAT' : 'VENTE'}</td>
-                <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.72rem;">${t.description}</td>
-                <td class="blue" style="font-size:0.75rem;">${t.ticker || '—'}</td>
-                <td>${t.shares.toFixed(0)}</td>
-                <td>€${t.price.toFixed(2)}</td>
-                <td class="${amountStyle}">${isBuy ? '-' : '+'}€${Math.abs(t.amount).toFixed(2)}</td>
-                <td class="gray" style="font-size:0.7rem;">${t.fee > 0 ? '€'+t.fee.toFixed(2) : '—'}</td>
-            </tr>`;
-        });
-        document.getElementById('tx-table').innerHTML = txRows.length ? txRows.join('') :
-            '<tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Aucune transaction</td></tr>';
-        document.getElementById('tx-count').textContent = tx.length + ' transactions';
-    } catch(e) {
-        console.error('Stocks:', e);
-        document.getElementById('s-table').innerHTML =
-            '<tr><td colspan="10" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement données ETF</td></tr>';
-        document.getElementById('tx-table').innerHTML =
-            '<tr><td colspan="8" style="text-align:center;color:#ef4444;padding:20px;">Erreur chargement transactions</td></tr>';
+    var alertEl = document.getElementById('global-alert');
+    var alertMsg = document.getElementById('global-alert-msg');
+    if (alerts.length) {
+        alertEl.style.display = 'block';
+        alertMsg.textContent = alerts.join(' | ');
+        document.getElementById('h-safety').textContent = 'SAFETY: WARNING';
+        document.getElementById('h-safety').className = 'badge badge-red';
+    } else {
+        alertEl.style.display = 'none';
+        document.getElementById('h-safety').textContent = 'SAFETY: OK';
+        document.getElementById('h-safety').className = 'badge badge-green';
     }
 }
 
-// ── Kraken Auto Spot NTV ──────────────────────────────────────────────────
+// ── Kraken Auto Spot NTV ──
 async function loadNTV() {
-    const safeVal = (v, d) => (v !== null && v !== undefined) ? v : d;
-    const safeNum = (v, dec=2) => (v !== null && v !== undefined && !isNaN(v)) ? v.toFixed(dec) : '—';
-    const safeStr = (v, d='—') => (v !== null && v !== undefined && v !== '') ? String(v) : d;
-
     try {
-        const res = await fetch(GH_RAW + 'ntv.json?t=' + Date.now());
+        var res = await fetch(GH_RAW + 'ntv.json?t=' + Date.now());
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
+        var data = await res.json();
+        updateGlobalHeader(data);
 
-        // --- Safety Header ---
-        const h = data.safety_header || {};
-        document.getElementById('ntv-model').textContent = safeStr(h.model, 'Naive Trend+Vol Model A');
-        const modeBadge = document.getElementById('ntv-mode-badge');
-        const mode = safeStr(h.mode, 'DRY_RUN');
-        modeBadge.textContent = mode;
-        modeBadge.className = 'badge ' + (mode === 'DRY_RUN' ? 'badge-yellow' : 'badge-red');
+        // Badge
+        var badge = document.getElementById('ntv-badge');
+        badge.textContent = safeStr(data.mode, 'DRY_RUN');
+        badge.className = 'badge ' + (safeStr(data.mode) === 'DRY_RUN' ? 'badge-yellow' : 'badge-red');
 
-        document.getElementById('ntv-update').textContent = 'Updated ' + (h.last_update ? fmtTime(h.last_update) : '—');
-        document.getElementById('ntv-safety-alert').style.display = 'none';
-        let safetyMsg = '';
+        // Stats
+        var sig = data.current_signal || {};
+        var alloc = data.allocation || {};
+        document.getElementById('ntv-cap').textContent = '€' + safeNum(data.max_capital_eur || 2810.54, 2);
+        document.getElementById('ntv-hcap').textContent = '€' + safeNum(data.hard_cap_eur || 3000, 0);
+        document.getElementById('ntv-tier').textContent = safeStr(sig.allocation_tier, 'unknown').toUpperCase();
 
-        // Safety alerts
-        if (h.live_trading_enabled === true || data.live_trading_enabled === true) {
-            safetyMsg += '<div>ALERT: live_trading_enabled=true — should be false!</div>';
-        }
-        if (h.auto_execution === true || data.auto_execution === true) {
-            safetyMsg += '<div>ALERT: auto_execution=true — should be false!</div>';
-        }
-        if (safeStr(h.mode, 'DRY_RUN') !== 'DRY_RUN') {
-            safetyMsg += '<div>ALERT: mode=' + safeStr(h.mode, '?') + ' — should be DRY_RUN!</div>';
-        }
-        if (h.kill_switch_status === 'active') {
-            safetyMsg += '<div>ALERT: Kill switch is ACTIVE!</div>';
-        }
-        if (safeStr(h.data_status, 'ok') !== 'ok') {
-            safetyMsg += '<div>ALERT: Data status=' + safeStr(h.data_status, '?') + '</div>';
-        }
-        if (safetyMsg) {
-            const alertEl = document.getElementById('ntv-safety-alert');
-            alertEl.innerHTML = safetyMsg;
-            alertEl.style.display = 'block';
-        }
+        // BTC signal
+        setNTVSignal('btc', sig.btc);
+        setNTVSignal('eth', sig.eth);
 
-        // --- Current Signal ---
-        const sig = data.current_signal || {};
-        function setSignal(prefix, s) {
-            if (!s) return;
-            document.getElementById('ntv-' + prefix + '-close').textContent = safeNum(s.close, 2);
-            document.getElementById('ntv-' + prefix + '-sma200').textContent = safeNum(s.sma200, 2);
-            document.getElementById('ntv-' + prefix + '-vol30').textContent = safeNum(s.vol30, 1) + '%';
-            document.getElementById('ntv-' + prefix + '-trend').textContent = safeStr(s.trend_ok !== undefined ? (s.trend_ok ? 'OK' : 'FAIL') : null);
-            document.getElementById('ntv-' + prefix + '-trend').className = s.trend_ok ? 'green' : 'red';
-            document.getElementById('ntv-' + prefix + '-volok').textContent = safeStr(s.vol_ok !== undefined ? (s.vol_ok ? 'OK' : 'FAIL') : null);
-            document.getElementById('ntv-' + prefix + '-volok').className = s.vol_ok ? 'green' : 'red';
+        // Allocation
+        var cur = alloc.current || {}, tgt = alloc.target || {}, dev = alloc.deviation || {};
+        document.getElementById('ntv-curr').innerHTML = '<span class="yellow">BTC</span> ' + safeNum(cur.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(cur.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(cur.eur_pct, 1) + '%';
+        document.getElementById('ntv-target').innerHTML = '<span class="yellow">BTC</span> ' + safeNum(tgt.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(tgt.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(tgt.eur_pct, 1) + '%';
+        document.getElementById('ntv-dev').innerHTML = 'BTC ' + (dev.btc_deviation_pct !== undefined ? (dev.btc_deviation_pct >= 0 ? '+' : '') + dev.btc_deviation_pct.toFixed(1) + '%' : '—') + ' ETH ' + (dev.eth_deviation_pct !== undefined ? (dev.eth_deviation_pct >= 0 ? '+' : '') + dev.eth_deviation_pct.toFixed(1) + '%' : '—');
+        var action = safeStr(alloc.recommended_action, 'HOLD');
+        var actEl = document.getElementById('ntv-action');
+        actEl.textContent = action;
+        actEl.className = action === 'REBALANCE' ? 'yellow' : 'green';
 
-            const badge = document.getElementById('ntv-' + prefix + '-allowed');
-            badge.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED';
-            badge.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red');
-
-            const reasonEl = document.getElementById('ntv-' + prefix + '-reason');
-            reasonEl.textContent = s.block_reason || (s.allowed ? '' : 'Blocked');
-        }
-        setSignal('btc', sig.btc);
-        setSignal('eth', sig.eth);
-
-        // --- Allocation ---
-        const alloc = data.allocation || {};
-        const curr = alloc.current || {};
-        const target = alloc.target || {};
-        document.getElementById('ntv-alloc-curr').innerHTML =
-            '<span class="yellow">BTC</span> ' + safeNum(curr.btc_pct, 1) + '% ' +
-            '<span class="purple">ETH</span> ' + safeNum(curr.eth_pct, 1) + '% ' +
-            '<span class="gray">EUR</span> ' + safeNum(curr.eur_pct, 1) + '%';
-        document.getElementById('ntv-alloc-target').innerHTML =
-            '<span class="yellow">BTC</span> ' + safeNum(target.btc_pct, 1) + '% ' +
-            '<span class="purple">ETH</span> ' + safeNum(target.eth_pct, 1) + '% ' +
-            '<span class="gray">EUR</span> ' + safeNum(target.eur_pct, 1) + '%';
-        const action = safeStr(alloc.recommended_action, 'HOLD');
-        const actionEl = document.getElementById('ntv-alloc-action');
-        actionEl.textContent = action;
-        actionEl.className = 'stat-val ' + (action === 'REBALANCE' ? 'yellow' : 'green');
-        document.getElementById('ntv-alloc-action').style.fontSize = '0.85rem';
-
-        const dev = alloc.deviation || {};
-        document.getElementById('ntv-deviation').innerHTML = 'Deviation: BTC ' +
-            (dev.btc_deviation_pct !== undefined ? (dev.btc_deviation_pct >= 0 ? '+' : '') + dev.btc_deviation_pct.toFixed(1) : '—') +
-            '% | ETH ' +
-            (dev.eth_deviation_pct !== undefined ? (dev.eth_deviation_pct >= 0 ? '+' : '') + dev.eth_deviation_pct.toFixed(1) : '—') +
-            '% | EUR ' +
-            (dev.eur_deviation_pct !== undefined ? (dev.eur_deviation_pct >= 0 ? '+' : '') + dev.eur_deviation_pct.toFixed(1) : '—') + '%';
-
-        // --- Dry-Run Orders ---
-        const dro = data.dry_run_orders || {};
-        const orders = dro.orders || [];
-        const ordersList = document.getElementById('ntv-orders-list');
+        // Dry-run orders
+        var dro = data.dry_run_orders || {}, orders = dro.orders || [];
+        var ordersBody = document.getElementById('ntv-orders-body');
         if (orders.length === 0) {
-            ordersList.innerHTML = '<span class="gray">No orders — allocation within threshold</span>';
+            ordersBody.innerHTML = '<span class="gray">No orders — allocation within threshold</span>';
         } else {
-            ordersList.innerHTML = '<table class="tbl"><thead><tr><th>Pair</th><th>Side</th><th>Qty</th><th>Notional (EUR)</th><th>Status</th></tr></thead><tbody>' +
-                orders.map(o => '<tr><td style="font-weight:600;">' + safeStr(o.pair) + '</td>' +
-                    '<td><span class="badge ' + (o.side === 'buy' ? 'badge-green' : 'badge-red') + '" style="font-size:0.65rem;">' + safeStr(o.side).toUpperCase() + '</span></td>' +
-                    '<td>' + safeNum(o.quantity, 8) + '</td>' +
-                    '<td>€' + safeNum(o.notional_eur, 2) + '</td>' +
-                    '<td>' + (o.blocked ? '<span class="red">BLOCKED: ' + safeStr(o.block_reason) + '</span>' : '<span class="green">Ready</span>') + '</td></tr>').join('') +
-                '</tbody></table>';
+            ordersBody.innerHTML = '<table class="tbl"><thead><tr><th>Pair</th><th>Side</th><th>Qty</th><th>Notional</th><th>Fee</th></tr></thead><tbody>' +
+                orders.map(function(o) {
+                    var bd = o.cost_breakdown || {};
+                    return '<tr><td style="font-weight:600;">' + safeStr(o.pair) + '</td>' +
+                        '<td><span class="badge ' + (o.side === 'buy' ? 'badge-green' : 'badge-red') + '" style="font-size:0.62rem;">' + safeStr(o.side).toUpperCase() + '</span></td>' +
+                        '<td>' + safeNum(o.quantity, 6) + '</td><td>€' + safeNum(o.notional_eur, 2) + '</td>' +
+                        '<td>€' + safeNum(bd.total_cost_eur, 2) + '</td></tr>';
+                }).join('') + '</tbody></table>';
         }
-        const costs = dro.estimated_costs || [];
-        document.getElementById('ntv-orders-cost').textContent = dro.executed === false ?
-            'Executed orders: 0 (DRY_RUN — nothing executed)' : '';
-
-        // --- Breakout 20 ---
-        const bo = data.breakout20_shadow || {};
-        const bost = bo.status || {};
-        const btcBo = bost.btc || {};
-        const ethBo = bost.eth || {};
-        document.getElementById('ntv-bo-btc').textContent = safeStr(btcBo.signal) + ' (close: ' + safeNum(btcBo.close, 1) + ', high20: ' + safeNum(btcBo.high_20, 1) + ', low20: ' + safeNum(btcBo.low_20, 1) + ')';
-        document.getElementById('ntv-bo-eth').textContent = safeStr(ethBo.signal) + ' (close: ' + safeNum(ethBo.close, 2) + ', high20: ' + safeNum(ethBo.high_20, 2) + ', low20: ' + safeNum(ethBo.low_20, 2) + ')';
-
-        // --- Alerts ---
-        const alerts = data.alerts || [];
-        const alertsEl = document.getElementById('ntv-alerts');
-        if (alerts.length === 0) {
-            alertsEl.innerHTML = '<span class="green">No alerts</span>';
-            alertsEl.className = '';
-        } else {
-            alertsEl.innerHTML = alerts.map(a =>
-                '<div style="padding:4px 0;border-bottom:1px solid #0f1e2e;">' +
-                '<span class="badge ' + (a.level === 'CRITICAL' ? 'badge-red' : 'badge-yellow') + '" style="font-size:0.6rem;">' + safeStr(a.level) + '</span> ' +
-                safeStr(a.message) + ' ' + (a.pair ? '(' + safeStr(a.pair) + ')' : '') +
-                '</div>').join('');
-            alertsEl.className = 'red';
+        document.getElementById('ntv-orders-cost').textContent = 'Executed: 0 (DRY_RUN — simulated only)';
+        // Alert if executed_orders non-zero
+        if (dro.executed === true || (Array.isArray(dro.executed_orders) && dro.executed_orders.length > 0)) {
+            document.getElementById('ntv-executed-warn').style.display = 'block';
+            document.getElementById('ntv-executed-warn').textContent = 'WARNING: Executed orders found in DRY_RUN mode!';
         }
+
+        // Breakout20
+        var bo = data.breakout20_shadow || {}, bost = bo.status || {};
+        var btcBo = bost.btc || {}, ethBo = bost.eth || {};
+        document.getElementById('ntv-bo-btc').textContent = safeStr(btcBo.signal) + ' | close: ' + safeNum(btcBo.close, 1) + ' | H20: ' + safeNum(btcBo.high_20, 1) + ' L20: ' + safeNum(btcBo.low_20, 1);
+        document.getElementById('ntv-bo-eth').textContent = safeStr(ethBo.signal) + ' | close: ' + safeNum(ethBo.close, 2) + ' | H20: ' + safeNum(ethBo.high_20, 2) + ' L20: ' + safeNum(ethBo.low_20, 2);
+
+        // Alerts & Safety
+        var alerts = data.alerts || [];
+        function setAlert(el, ok) {
+            el.className = 'badge ' + (ok ? 'badge-green' : 'badge-red');
+            el.textContent = ok ? 'OK' : 'WARNING';
+        }
+        setAlert(document.getElementById('al-data'), ageHours(data.generated_at) < 48);
+        setAlert(document.getElementById('al-fpos'), !(bost.any_breakout === undefined));
+        setAlert(document.getElementById('al-orders'), orders.length === 0);
+        setAlert(document.getElementById('al-cap'), safeNum(data.hard_cap_eur || 3000) <= 3000);
+        var ksActive = safeStr((data.safety_header || {}).kill_switch_status) === 'active';
+        setAlert(document.getElementById('al-ks'), !ksActive);
+        // Futures balance/position detection from safety_status
+        var ss = data.safety_status || {};
+        document.getElementById('al-fbal').textContent = 'OK';
+        document.getElementById('al-fbal').className = 'badge badge-green';
+        if (alerts.length) {
+            for (var i = 0; i < alerts.length; i++) {
+                if (alerts[i].message && alerts[i].message.indexOf('futures') >= 0) {
+                    document.getElementById('al-fbal').textContent = 'WARNING';
+                    document.getElementById('al-fbal').className = 'badge badge-red';
+                }
+            }
+        }
+        var allocMismatch = Math.abs((dev.btc_deviation_pct || 0)) >= 5 || Math.abs((dev.eth_deviation_pct || 0)) >= 5;
+        setAlert(document.getElementById('al-alloc'), !allocMismatch);
+        setAlert(document.getElementById('al-spread'), alerts.length < 3);
+
+        // Freshness
+        document.getElementById('fr-ntv').textContent = fmtTime(data.generated_at);
+        var dp = data.last_update || (data.safety_header || {}).last_update;
+        document.getElementById('fr-dash').textContent = fmtTime(dp);
+        document.getElementById('fr-sig').textContent = fmtTime(sig.timestamp || (data.current_signal || {}).timestamp);
+        document.getElementById('fr-upd').textContent = data.generated_at ? 'OK' : 'UNKNOWN';
+        var age = ageHours(data.generated_at);
+        var ageEl = document.getElementById('fr-age');
+        ageEl.textContent = age !== null ? age.toFixed(1) + 'h' : 'UNKNOWN';
+        ageEl.className = age !== null ? (age > 48 ? 'red' : age > 24 ? 'yellow' : 'green') : 'gray';
+        document.getElementById('fr-refresh').textContent = fmtTime(PAGE_LOAD.toISOString());
 
     } catch(e) {
         console.error('NTV:', e);
-        document.getElementById('ntv-update').textContent = 'Erreur: ' + e.message;
-        document.getElementById('ntv-safety-alert').style.display = 'block';
-        document.getElementById('ntv-safety-alert').innerHTML = 'Failed to load NTV data: ' + e.message;
-        document.getElementById('ntv-mode-badge').textContent = 'OFFLINE';
-        document.getElementById('ntv-mode-badge').className = 'badge badge-red';
+        document.getElementById('ntv-badge').textContent = 'ERROR';
+        document.getElementById('ntv-badge').className = 'badge badge-red';
+        var globalAlert = document.getElementById('global-alert');
+        globalAlert.style.display = 'block';
+        document.getElementById('global-alert-msg').textContent = 'Failed to load NTV data: ' + e.message;
+        document.getElementById('h-safety').textContent = 'SAFETY: UNKNOWN';
+        document.getElementById('h-safety').className = 'badge badge-red';
+        // Set all alert badges to unknown
+        var allAlerts = document.querySelectorAll('#ntv-alerts-list .badge');
+        for (var i = 0; i < allAlerts.length; i++) { allAlerts[i].textContent = 'UNKNOWN'; allAlerts[i].className = 'badge badge-gray'; }
     }
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────
-loadBinance();
-loadKraken();
-loadStocks();
-loadNTV();
-setInterval(() => { loadBinance(); loadKraken(); loadNTV(); }, 30000);
+function setNTVSignal(pref, s) {
+    if (!s) return;
+    document.getElementById('ntv-' + pref + '-close').textContent = safeNum(s.close, 2);
+    document.getElementById('ntv-' + pref + '-sma200').textContent = safeNum(s.sma200, 2);
+    document.getElementById('ntv-' + pref + '-vol30').textContent = safeNum(s.vol30, 1) + '%';
+    document.getElementById('ntv-' + pref + '-trend').textContent = s.trend_ok ? 'OK' : 'FAIL';
+    document.getElementById('ntv-' + pref + '-trend').className = s.trend_ok ? 'green' : 'red';
+    document.getElementById('ntv-' + pref + '-volok').textContent = s.vol_ok ? 'OK' : 'FAIL';
+    document.getElementById('ntv-' + pref + '-volok').className = s.vol_ok ? 'green' : 'red';
+    var badge = document.getElementById('ntv-' + pref + '-badge');
+    badge.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED';
+    badge.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red');
+    document.getElementById('ntv-' + pref + '-reason').textContent = s.block_reason || (!s.allowed ? 'Blocked' : '');
+}
+
+// ── Binance V5 ──
+async function loadBinance() {
+    try {
+        var _a = await Promise.all([fetch(GH_RAW + 'bot_status.json?t=' + Date.now()), fetch(GH_RAW + 'trades.json?t=' + Date.now())]);
+        var s = await _a[0].json(), trades = await _a[1].json();
+        var badge = document.getElementById('b-badge');
+        badge.textContent = s.running ? 'ONLINE' : 'OFFLINE';
+        badge.className = 'badge ' + (s.running ? 'badge-green' : 'badge-red');
+        var cap = parseFloat(s.capital) || 0;
+        document.getElementById('b-capital').textContent = '$' + cap.toFixed(2);
+        var pnl = parseFloat(s.daily_pnl) || 0;
+        var el = document.getElementById('b-pnl');
+        el.textContent = fmtUSD(pnl);
+        el.className = 'stat-val ' + pnlClass(pnl);
+        document.getElementById('b-today').textContent = s.today_trades_count || 0;
+        var posEl = document.getElementById('b-pos-content');
+        if (s.positions && s.positions.length) {
+            var p = s.positions[0];
+            posEl.innerHTML = '<div class="pos-card"><div class="pos-header"><span style="font-weight:700;font-size:0.9rem;" class="'+ (p.direction==='LONG'?'green':'red') +'">'+ p.symbol +'</span><span class="badge '+ (p.direction==='LONG'?'badge-green':'badge-red') +'">'+ p.direction +'</span></div><div class="pos-details"><span>Entry: <b>$'+ parseFloat(p.entry_price).toFixed(4) +'</b></span><span>Size: <b>$'+ parseFloat(p.position_size).toFixed(0) +'</b></span><span>TP/SL: <b class="green">+'+ p.tp_pct +'%</b> / <b class="red">'+ p.sl_pct +'%</b></span></div></div>';
+        } else { posEl.innerHTML = '<span class="gray" style="font-size:0.8rem;">Aucune</span>'; }
+        var tbody = document.getElementById('b-trades');
+        var recent = trades.slice(-8).reverse();
+        tbody.innerHTML = recent.length ? recent.map(function(t) { var p = parseFloat(t.pnl_usdc)||0; var d = t.direction||t.side||'—'; return '<tr><td class="gray">'+fmtTime(t.timestamp)+'</td><td style="font-weight:600;">'+(t.symbol||'—')+'</td><td><span class="badge '+(d==='LONG'?'badge-green':'badge-red')+'" style="font-size:0.65rem;">'+d+'</span></td><td class="'+pnlClass(p)+'" style="font-weight:600;">'+fmtUSD(p)+'</td><td class="gray" style="font-size:0.72rem;">'+(t.exit_reason||'—')+'</td></tr>'; }).join('') : '<tr><td colspan="5" style="text-align:center;color:#374151;padding:12px;">Aucun trade</td></tr>';
+    } catch(e) { console.error('Binance:', e); }
+}
+
+// ── Kraken Futures ──
+async function loadKraken() {
+    try {
+        var res = await fetch(GH_RAW + 'kraken.json?t=' + Date.now()), data = await res.json();
+        var badge = document.getElementById('k-badge');
+        var online = data.bot && data.bot.status === 'online';
+        badge.textContent = online ? 'ONLINE' : 'OFFLINE';
+        badge.className = 'badge ' + (online ? 'badge-green' : 'badge-gray');
+        var bal = parseFloat((data.summary||{}).balance) || 0;
+        document.getElementById('k-balance').textContent = '$' + bal.toFixed(2);
+        var kpnl = parseFloat((data.summary||{}).daily_pnl) || 0;
+        var el = document.getElementById('k-pnl');
+        el.textContent = fmtUSD(kpnl);
+        el.className = 'stat-val ' + pnlClass(kpnl);
+        document.getElementById('k-pos-count').textContent = (data.summary||{}).positions_count || 0;
+        var rsi = (data.bot||{}).rsi_data || {};
+        function setRSI(id, barId, val) {
+            if (val === undefined) return;
+            document.getElementById(id).textContent = val.toFixed(1);
+            document.getElementById(id).className = val < 35 ? 'green' : val > 65 ? 'red' : 'yellow';
+            document.getElementById(barId).style.width = val + '%';
+        }
+        setRSI('k-btc-rsi', 'k-btc-bar', (rsi.BTCUSDC||{}).rsi);
+        setRSI('k-eth-rsi', 'k-eth-bar', (rsi.ETHUSDC||{}).rsi);
+        var tbody = document.getElementById('k-trades');
+        var trades = (data.trades || []).slice(0, 8);
+        tbody.innerHTML = trades.length ? trades.map(function(t) { var p = parseFloat(t.pnl_usd)||0; var s = (t.symbol||'').replace('PF_','').replace('USD',''); return '<tr><td class="gray">'+fmtTime(t.timestamp)+'</td><td style="font-weight:600;">'+s+'</td><td><span class="badge '+(t.side==='LONG'?'badge-green':'badge-red')+'" style="font-size:0.65rem;">'+(t.side||'—')+'</span></td><td class="'+pnlClass(p)+'" style="font-weight:600;">'+fmtUSD(p)+'</td><td class="gray" style="font-size:0.72rem;">'+(t.exit_reason||'—')+'</td></tr>'; }).join('') : '<tr><td colspan="5" style="text-align:center;color:#374151;padding:12px;">Aucun trade</td></tr>';
+    } catch(e) { console.error('Kraken:', e); }
+}
+
+// ── Scalable ETF ──
+async function loadStocks() {
+    try {
+        var res = await fetch(GH_RAW + 'stocks.json?t=' + Date.now()), data = await res.json();
+        var portfolio = data.portfolio || {}, serverPrices = data.prices || {}, tickers = Object.keys(portfolio);
+        var totalVal = 0, totalInv = 0;
+        var sorted = tickers.map(function(ticker) {
+            var pos = portfolio[ticker], pd = serverPrices[ticker] || {}, val = pd.value || (pd.price ? pd.price * pos.shares : 0);
+            return { ticker: ticker, pos: pos, pd: pd, val: val };
+        }).sort(function(a,b) { return b.val - a.val; });
+        var rows = sorted.map(function(item) {
+            var ticker = item.ticker, pos = item.pos, pd = item.pd, val = item.val;
+            var shares = pos.shares, avgPx = pos.average_price, invested = pos.total_invested;
+            var curPx = pd.price_eur || pd.price || null;
+            var latentEur = pd.pnl_eur || (val ? val - invested : null);
+            var latentPct = pd.pnl_pct || (val && invested ? (val-invested)/invested*100 : null);
+            var realized = pd.pnl_realized || pos.pnl_realized || 0;
+            var totalPnl = pd.pnl_total || (realized + (latentEur || 0));
+            var weight = pd.weight_pct || (totalVal > 0 ? val/totalVal*100 : 0);
+            if (val) { totalVal += val; totalInv += invested; }
+            return '<tr><td style="font-weight:700;" class="blue">'+ticker+'</td><td class="gray" style="font-size:0.68rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(pos.name||'')+'</td><td><span class="badge badge-'+((pos.type||'').indexOf('ETF')>=0?'green':'gray')+'" style="font-size:0.58rem;padding:2px 5px;">'+(pos.type||'')+'</span></td><td>'+shares+'</td><td>€'+avgPx.toFixed(2)+'</td><td style="font-weight:600;">'+(curPx?'€'+curPx.toFixed(2):'<span class="gray">—</span>')+'</td><td>€'+invested.toFixed(0)+'</td><td>'+(val?'€'+val.toFixed(0):'<span class="gray">—</span>')+'</td><td class="'+(latentEur!==null?(latentEur>=0?'green':'red'):'gray')+'">'+(latentEur!==null?fmtEUR(latentEur):'—')+'</td><td class="'+(realized!==0?(realized>0?'green':'red'):'gray')+'">'+(realized!==0?fmtEUR(realized):'<span class="gray">€0</span>')+'</td><td class="'+(totalPnl!==null?(totalPnl>=0?'green':'red'):'gray')+'" style="font-weight:600;">'+(totalPnl!==null?fmtEUR(totalPnl):'—')+'</td><td style="font-weight:600;">'+(weight>0?weight.toFixed(1)+'%':'<span class="gray">—</span>')+'</td></tr>';
+        });
+        document.getElementById('s-table').innerHTML = rows.join('');
+        var summ = data.summary || {};
+        var displayVal = summ.total_value || totalVal, displayInv = summ.total_invested || totalInv;
+        var displayPnl = summ.total_pnl_eur || (displayVal - displayInv);
+        var realized = summ.pnl_realized || 0, totalReturn = realized + displayPnl;
+        document.getElementById('s-value').textContent = displayVal ? '€' + displayVal.toFixed(0) : '—';
+        document.getElementById('s-invested').textContent = '€' + displayInv.toFixed(0);
+        var spEl = document.getElementById('s-pnl');
+        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
+        spEl.className = 'stat-val ' + (totalReturn >= 0 ? 'green' : 'red');
+        document.getElementById('s-update').textContent = 'Mis a jour ' + (summ.last_updated ? fmtTime(summ.last_updated) : '—');
+        document.getElementById('s-realized').textContent = fmtEUR(realized);
+        document.getElementById('s-realized').className = 'stat-val ' + (realized >= 0 ? 'green' : 'red');
+        document.getElementById('s-mtd').textContent = fmtEUR(summ.pnl_realized_mtd || 0);
+        document.getElementById('s-30d').textContent = fmtEUR(summ.pnl_realized_30d || 0);
+        document.getElementById('s-ytd').textContent = fmtEUR(summ.pnl_realized_ytd || 0);
+        document.getElementById('s-fees').textContent = '€' + (summ.total_fees || 0).toFixed(0);
+        document.getElementById('s-deposits').textContent = '€' + (summ.total_deposits || 0).toFixed(0);
+        var monthly = summ.monthly_pnl || {};
+        var mDiv = document.getElementById('s-monthly');
+        mDiv.innerHTML = Object.keys(monthly).length ? Object.entries(monthly).map(function(e) { return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;min-width:70px;"><div style="font-size:0.6rem;color:#374151;">'+e[0]+'</div><div style="font-weight:700;font-size:0.8rem;color:'+(e[1]>=0?'#059669':'#dc2626')+';">'+fmtEUR(e[1])+'</div></div>'; }).join('') : '<span class="gray" style="font-size:0.75rem;">Aucune vente</span>';
+        var tx = data.transactions || [];
+        document.getElementById('tx-table').innerHTML = tx.length ? tx.slice(0, 50).map(function(t) { var isBuy = t.type==='Buy'; return '<tr><td class="gray" style="font-size:0.7rem;">'+t.date+'</td><td style="'+(isBuy?'color:#059669;':'color:#dc2626;')+'font-weight:700;font-size:0.75rem;">'+(isBuy?'ACHAT':'VENTE')+'</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.72rem;">'+t.description+'</td><td class="blue" style="font-size:0.75rem;">'+(t.ticker||'—')+'</td><td>'+t.shares.toFixed(0)+'</td><td>€'+t.price.toFixed(2)+'</td><td class="'+(isBuy?'red':'green')+'">'+(isBuy?'-':'+')+'€'+Math.abs(t.amount).toFixed(2)+'</td><td class="gray" style="font-size:0.7rem;">'+(t.fee>0?'€'+t.fee.toFixed(2):'—')+'</td></tr>'; }).join('') : '<tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Aucune</td></tr>';
+        document.getElementById('tx-count').textContent = tx.length + ' transactions';
+    } catch(e) { console.error('Stocks:', e); }
+}
+
+// ── Init ──
+loadNTV(); loadBinance(); loadKraken(); loadStocks();
+setInterval(function() { loadNTV(); loadBinance(); loadKraken(); }, 30000);
 setInterval(loadStocks, 60000);
 </script>
 </body>
