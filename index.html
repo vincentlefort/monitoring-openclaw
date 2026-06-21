@@ -178,12 +178,13 @@
     <div class="card">
         <div class="section-title"><i class="fas fa-clock gray"></i>Legacy Bots</div>
         <div style="font-size:0.76rem;">
-            <div class="signal-row"><span class="label">Kraken Futures V1</span><span class="badge badge-gray">RETIRED</span></div>
-            <div class="signal-row" style="margin-top:6px;"><span class="label">Binance V5</span><span class="badge badge-gray">RETIRED</span></div>
+            <div class="signal-row"><span class="label">Kraken Futures V1</span><span id="bo-kraken" class="badge badge-gray">—</span></div>
+            <div class="signal-row" style="margin-top:6px;"><span class="label">Binance V5</span><span id="bo-v5" class="badge badge-gray">—</span></div>
             <div class="signal-row" style="margin-top:6px;"><span class="label">Old Kraken Strategy</span><span class="badge badge-gray">NOT CALLED</span></div>
             <div class="signal-row" style="margin-top:6px;"><span class="label">Binance Strategy</span><span class="badge badge-gray">NOT CALLED</span></div>
             <div class="signal-row" style="margin-top:6px;"><span class="label">NTV</span><span id="bo-ntv" class="badge badge-green">ACTIVE DRY_RUN</span></div>
         </div>
+        <div id="legacy-warning" style="display:none;background:#ef444415;border:1px solid #ef444435;border-radius:6px;padding:6px 10px;margin-top:8px;color:#ef4444;font-size:0.7rem;font-weight:600;"></div>
     </div>
 
     <!-- Alerts -->
@@ -516,14 +517,25 @@ async function loadNTV() {
 
     } catch(e) {
         console.error('NTV:', e);
-        document.getElementById('ntv-badge').textContent = 'ERROR';
+        document.getElementById('ntv-badge').textContent = 'DATA MISSING';
         document.getElementById('ntv-badge').className = 'badge badge-red';
+        document.getElementById('ntv-cap').textContent = '—';
+        document.getElementById('ntv-hcap').textContent = '—';
+        document.getElementById('ntv-tier').textContent = 'UNKNOWN';
+        document.getElementById('ntv-btc-badge').textContent = '—';
+        document.getElementById('ntv-btc-badge').className = 'badge badge-gray';
+        document.getElementById('ntv-eth-badge').textContent = '—';
+        document.getElementById('ntv-eth-badge').className = 'badge badge-gray';
+        document.getElementById('ntv-curr').textContent = 'DATA UNAVAILABLE';
+        document.getElementById('ntv-target').textContent = 'DATA UNAVAILABLE';
+        document.getElementById('ft-verdict').textContent = 'UNKNOWN';
+        document.getElementById('ft-badge').textContent = 'UNKNOWN';
+        document.getElementById('ft-badge').className = 'badge badge-gray';
         var globalAlert = document.getElementById('global-alert');
         globalAlert.style.display = 'block';
-        document.getElementById('global-alert-msg').textContent = 'Failed to load NTV data: ' + e.message;
-        document.getElementById('h-safety').textContent = 'SAFETY: UNKNOWN';
+        document.getElementById('global-alert-msg').textContent = 'Kraken Auto Spot NTV data unavailable — check update-data.sh pipeline';
+        document.getElementById('h-safety').textContent = 'SAFETY: DATA MISSING';
         document.getElementById('h-safety').className = 'badge badge-red';
-        // Set all alert badges to unknown
         var allAlerts = document.querySelectorAll('#ntv-alerts-list .badge');
         for (var i = 0; i < allAlerts.length; i++) { allAlerts[i].textContent = 'UNKNOWN'; allAlerts[i].className = 'badge badge-gray'; }
     }
@@ -649,10 +661,58 @@ async function loadStocks() {
     } catch(e) { console.error('Stocks:', e); }
 }
 
+// ── Legacy Bots Real Status ──
+async function loadLegacyBots() {
+    try {
+        var res = await fetch(GH_RAW + 'legacy_bots_status.json?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var data = await res.json();
+        var bots = data.bots || [];
+        var anyActive = false;
+        var anyWarn = false;
+        for (var i = 0; i < bots.length; i++) {
+            var b = bots[i];
+            var elId = b.bot.indexOf('Binance') >= 0 ? 'bo-v5' : 'bo-kraken';
+            var el = document.getElementById(elId);
+            var status = b.status || 'UNKNOWN';
+            if (status === 'ACTIVE') {
+                el.textContent = 'ACTIVE';
+                el.className = 'badge badge-red';
+                anyActive = true;
+                anyWarn = true;
+            } else if (status === 'RETIRED_STOPPED') {
+                el.textContent = 'RETIRED_STOPPED';
+                el.className = 'badge badge-gray';
+            } else if (status === 'RETIRED_NOT_RUNNING') {
+                el.textContent = 'RETIRED';
+                el.className = 'badge badge-gray';
+            } else {
+                el.textContent = status;
+                el.className = 'badge badge-yellow';
+                anyWarn = true;
+            }
+        }
+        var warnEl = document.getElementById('legacy-warning');
+        if (anyActive) {
+            warnEl.style.display = 'block';
+            warnEl.innerHTML = '<i class="fas fa-triangle-exclamation"></i> CRITICAL: Legacy bot(s) still ACTIVE — should be retired';
+        } else {
+            warnEl.style.display = 'none';
+        }
+    } catch(e) {
+        console.error('Legacy bots:', e);
+        document.getElementById('bo-v5').textContent = 'UNKNOWN';
+        document.getElementById('bo-v5').className = 'badge badge-yellow';
+        document.getElementById('bo-kraken').textContent = 'UNKNOWN';
+        document.getElementById('bo-kraken').className = 'badge badge-yellow';
+    }
+}
+
 // ── Init ──
-loadNTV(); loadBinance(); loadKraken(); loadStocks();
+loadNTV(); loadBinance(); loadKraken(); loadStocks(); loadLegacyBots();
 setInterval(function() { loadNTV(); loadBinance(); loadKraken(); }, 30000);
 setInterval(loadStocks, 60000);
+setInterval(loadLegacyBots, 120000);
 </script>
 </body>
 </html>
