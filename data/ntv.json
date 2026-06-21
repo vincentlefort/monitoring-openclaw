@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-06-21T07:45:03.525248+00:00",
+  "mode": "DRY_RUN",
+  "auto_execution": false,
+  "dry_run": true,
+  "safety_header": {
+    "model": "Naive Trend+Vol Model A (Kraken Auto Spot NTV)",
+    "mode": "DRY_RUN",
+    "live_trading_enabled": false,
+    "auto_execution": false,
+    "futures": "blocked",
+    "margin": "blocked",
+    "short": "blocked",
+    "leverage": "blocked",
+    "kill_switch_status": "inactive",
+    "data_status": "ok",
+    "last_update": "2026-06-21T07:42:08.132597+00:00"
+  },
+  "current_signal": {
+    "btc": {
+      "close": 76980.4,
+      "sma200": 79301.7005,
+      "vol30": 67.88,
+      "trend_ok": false,
+      "vol_ok": true,
+      "allowed": false,
+      "block_reason": "close < SMA200"
+    },
+    "eth": {
+      "close": 1764.34,
+      "sma200": 2713.73065,
+      "vol30": 100.49,
+      "trend_ok": false,
+      "vol_ok": false,
+      "allowed": false,
+      "block_reason": "close < SMA200 and vol30 > 100%"
+    },
+    "allocation_tier": "none"
+  },
+  "allocation": {
+    "current": {
+      "btc_pct": 0.0,
+      "eth_pct": 0.0,
+      "eur_pct": 100.0
+    },
+    "target": {
+      "btc_pct": 0.0,
+      "eth_pct": 0.0,
+      "eur_pct": 100.0
+    },
+    "deviation": {
+      "btc_deviation_pct": 0.0,
+      "eth_deviation_pct": 0.0,
+      "eur_deviation_pct": 0.0
+    },
+    "recommended_action": "HOLD"
+  },
+  "dry_run_orders": {
+    "mode": "DRY_RUN \u2014 simulated only",
+    "orders": [],
+    "executed": false,
+    "estimated_costs": []
+  },
+  "breakout20_shadow": {
+    "mode": "SHADOW_ONLY",
+    "no_live_orders": true,
+    "status": {
+      "timestamp": "2026-06-21T07:42:08.075331+00:00",
+      "mode": "SHADOW_ONLY",
+      "btc": {
+        "high_20": 90595.9,
+        "low_20": 72461.6,
+        "prev_high_20": 90595.9,
+        "prev_low_20": 72461.6,
+        "close": 76980.4,
+        "prev_close": 75929.9,
+        "signal": "NONE",
+        "breakout_pct": 0.0,
+        "period": 20
+      },
+      "eth": {
+        "high_20": 2420.65,
+        "low_20": 1717.61,
+        "prev_high_20": 2420.65,
+        "prev_low_20": 1717.61,
+        "close": 1764.34,
+        "prev_close": 1735.41,
+        "signal": "NONE",
+        "breakout_pct": 0.0,
+        "period": 20
+      },
+      "summary": {
+        "btc_signal": "NONE",
+        "eth_signal": "NONE",
+        "any_breakout": false
+      }
+    }
+  },
+  "alerts": [],
+  "old_bots_status": {
+    "kraken_futures_v1": "retired",
+    "binance_v5": "retired",
+    "kraken_auto_spot_ntv": "active \u2014 DRY_RUN"
+  },
+  "safety_status": {
+    "guards_passed": 18,
+    "guards_failed": 0,
+    "all_clear": true,
+    "details": []
+  }
+}
