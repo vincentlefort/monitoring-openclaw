@@ -159,7 +159,10 @@
                 <div class="bot-title"><i class="fas fa-flask blue"></i>Forward-Test Monitoring</div>
                 <div class="bot-subtitle" id="ft-subtitle">DRY_RUN observation · Read-only</div>
             </div>
-            <span id="ft-badge" class="badge badge-gray">—</span>
+            <div style="display:flex;gap:6px;">
+                <span id="ft-tick-badge" class="badge badge-gray" style="font-size:0.62rem;">TICK: —</span>
+                <span id="ft-badge" class="badge badge-gray">—</span>
+            </div>
         </div>
         <div class="stats-row">
             <div class="stat"><div class="stat-label">Verdict</div><div id="ft-verdict" class="stat-val">—</div></div>
@@ -282,8 +285,10 @@
     <div class="card">
         <div class="section-title"><i class="fas fa-database blue"></i>Data Freshness</div>
         <div style="font-size:0.7rem;">
+            <div class="freshness-row"><span class="tag">NTV tick</span><span id="fr-tick">—</span></div>
             <div class="freshness-row"><span class="tag">ntv.json</span><span id="fr-ntv">—</span></div>
             <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
+            <div class="freshness-row"><span class="tag">Source payload age</span><span id="fr-src-age">—</span></div>
             <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
             <div class="freshness-row"><span class="tag">Legacy bots status</span><span id="fr-legacy">—</span></div>
             <div class="freshness-row"><span class="tag">Stocks/ETF data</span><span id="fr-stocks">—</span></div>
@@ -493,9 +498,20 @@ async function loadNTV() {
         setAlert(document.getElementById('al-spread'), alerts.length < 3);
 
         // Data Freshness
+        var tick = data.ntv_tick || {};
+        var tickTime = tick.last_tick_time || '';
+        var tickAge = tick.source_ages_minutes ? tick.source_ages_minutes.dashboard_payload : null;
+        var tickStatus = safeStr(tick.freshness_status, 'UNKNOWN');
+        var frTick = document.getElementById('fr-tick');
+        frTick.textContent = tickTime ? fmtTime(tickTime) : 'NEVER';
+        frTick.className = tick.last_tick_ok ? 'green' : 'red';
+
         document.getElementById('fr-ntv').textContent = fmtTime(data.generated_at);
         var dp = data.last_update || (data.safety_header || {}).last_update;
         document.getElementById('fr-dash').textContent = fmtTime(dp);
+        var srcAge = document.getElementById('fr-src-age');
+        srcAge.textContent = tickAge !== null && tickAge !== undefined ? tickAge.toFixed(1) + ' min' : 'UNKNOWN';
+        srcAge.className = tickAge !== null ? (tickAge > 120 ? 'red' : tickAge > 30 ? 'yellow' : 'green') : 'gray';
         document.getElementById('fr-sig').textContent = fmtTime(sig.timestamp || (data.current_signal || {}).timestamp);
         if (legacyData) {
             document.getElementById('fr-legacy').textContent = fmtTime(legacyData.generated_at);
@@ -513,6 +529,10 @@ async function loadNTV() {
         document.getElementById('ft-verdict').className = 'stat-val ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'yellow' : 'red');
         document.getElementById('ft-badge').textContent = ftVerdict;
         document.getElementById('ft-badge').className = 'badge ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'badge-green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'badge-yellow' : 'badge-red');
+
+        var tickBadge = document.getElementById('ft-tick-badge');
+        tickBadge.textContent = 'TICK: ' + tickStatus;
+        tickBadge.className = 'badge ' + (tickStatus === 'OK' ? 'badge-green' : tickStatus.indexOf('WARNING') >= 0 || tickStatus.indexOf('STALE') >= 0 ? 'badge-yellow' : 'badge-red');
         document.getElementById('ft-days').textContent = ft.days_observed !== undefined ? ft.days_observed : '—';
         document.getElementById('ft-last').textContent = fmtTime(ft.last_snapshot_time);
         document.getElementById('ft-snaps').textContent = ft.total_snapshots !== undefined ? ft.total_snapshots : '—';
@@ -525,6 +545,19 @@ async function loadNTV() {
         var dr = ft.date_range || {};
         document.getElementById('ft-range').textContent = dr.start ? (dr.start + ' \u2192 ' + (dr.end || dr.start)) : '—';
         document.getElementById('ft-subtitle').textContent = 'DRY_RUN observation \u00B7 ' + (ft.days_observed || 0) + ' days tracked';
+
+        // Global alert if NTV source is stale
+        if (tickStatus !== 'OK' && tickStatus !== 'UNKNOWN') {
+            var globalAlert = document.getElementById('global-alert');
+            globalAlert.style.display = 'block';
+            var existingMsg = document.getElementById('global-alert-msg').textContent;
+            var staleMsg = 'NTV SOURCE STALE: ' + tickStatus;
+            if (existingMsg.indexOf('NTV SOURCE STALE') < 0) {
+                document.getElementById('global-alert-msg').textContent = existingMsg ? existingMsg + ' | ' + staleMsg : staleMsg;
+            }
+            document.getElementById('h-safety').textContent = 'SAFETY: NTV STALE';
+            document.getElementById('h-safety').className = 'badge badge-yellow';
+        }
 
     } catch(e) {
         console.error('NTV:', e);

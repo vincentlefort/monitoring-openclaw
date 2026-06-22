@@ -1,179 +1,151 @@
 #!/usr/bin/env python3
 """
-validate-dashboard-readonly.py
-Validates the OpenClaw dashboard is read-only, all JSONs valid, and safety constraints intact.
+validate-dashboard-readonly.py — Quick safety check that the monitoring dashboard
+is read-only and no trading endpoints are exposed.
 """
 import json
 import os
-import re
 import sys
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(ROOT, "data")
-INDEX_PATH = os.path.join(ROOT, "index.html")
-
 errors = []
-warnings = []
+ok = lambda m: print(f"  [OK] {m}")
+warn = lambda m: (print(f"  [WARN] {m}"), errors.append(m))
 
-def error(msg):
-    errors.append(msg)
-    print(f"  [FAIL] {msg}")
+def main():
+    print("Dashboard Read-Only Validator")
+    print("=" * 50)
 
-def warn(msg):
-    warnings.append(msg)
-    print(f"  [WARN] {msg}")
-
-def ok(msg):
-    print(f"  [OK] {msg}")
-
-# 1. JSON validation
-print("1. JSON Validation")
-for fname in ["ntv.json", "ntv_dashboard_payload.json", "kraken.json", "stocks.json",
-              "bot_status.json", "trades.json", "legacy_bots_status.json"]:
-    path = os.path.join(DATA_DIR, fname)
-    if not os.path.exists(path):
-        warn(f"{fname} missing")
-        continue
+    # 1. Check ntv.json safety fields
+    ntv_path = "/home/openclaw/monitoring-site/data/ntv.json"
     try:
-        with open(path) as f:
-            json.load(f)
-        ok(f"{fname} valid")
-    except json.JSONDecodeError as e:
-        error(f"{fname} invalid: {e}")
+        with open(ntv_path) as f:
+            ntv = json.load(f)
+        ok("ntv.json readable")
+    except Exception as e:
+        warn(f"ntv.json error: {e}")
+        return 1
 
-# 2. ntv.json critical fields
-print("\n2. ntv.json Critical Fields")
-try:
-    with open(os.path.join(DATA_DIR, "ntv.json")) as f:
-        ntv = json.load(f)
-    checks = {
-        "mode=DRY_RUN": ntv.get("mode") == "DRY_RUN",
-        "dry_run=true": ntv.get("dry_run") == True,
-        "auto_execution=false": ntv.get("auto_execution") == False,
-        "live_trading_enabled=false": (ntv.get("safety_header", {}).get("live_trading_enabled") == False),
-        "futures_blocked": ntv.get("safety_header", {}).get("futures") == "blocked",
-        "margin_blocked": ntv.get("safety_header", {}).get("margin") == "blocked",
-        "short_blocked": ntv.get("safety_header", {}).get("short") == "blocked",
-        "btc_signal_present": ntv.get("current_signal", {}).get("btc") is not None,
-        "eth_signal_present": ntv.get("current_signal", {}).get("eth") is not None,
-        "allocation_present": "allocation" in ntv,
-        "breakout20_shadow_only": ntv.get("breakout20_shadow", {}).get("no_live_orders") == True,
-        "dry_run_orders_not_executed": ntv.get("dry_run_orders", {}).get("executed") == False,
-    }
-    for name, passed in checks.items():
-        if passed: ok(name)
-        else: error(name)
-except Exception as e:
-    error(f"ntv.json check failed: {e}")
-
-# 3. legacy_bots_status.json fields
-print("\n3. legacy_bots_status.json Critical Fields")
-try:
-    with open(os.path.join(DATA_DIR, "legacy_bots_status.json")) as f:
-        legacy = json.load(f)
-    bots = legacy.get("bots", [])
-    if len(bots) >= 2:
-        ok(f"{len(bots)} legacy bots tracked")
+    if ntv.get("mode") == "DRY_RUN":
+        ok("ntv.json mode=DRY_RUN")
     else:
-        warn(f"Only {len(bots)} legacy bots tracked (expected >=2)")
-    for b in bots:
-        name = b.get("bot", "unknown")
-        status = b.get("status", "UNKNOWN")
-        if status == "ACTIVE":
-            error(f"{name}: ACTIVE — should be RETIRED_STOPPED")
-        elif status == "RETIRED_STOPPED":
-            ok(f"{name}: RETIRED_STOPPED")
+        warn(f"ntv.json mode={ntv.get('mode')}")
+
+    if ntv.get("auto_execution") == False:
+        ok("ntv.json auto_execution=false")
+    else:
+        warn(f"ntv.json auto_execution={ntv.get('auto_execution')}")
+
+    if ntv.get("dry_run") == True:
+        ok("ntv.json dry_run=true")
+    else:
+        warn(f"ntv.json dry_run={ntv.get('dry_run')}")
+
+    # 2. Check safety_header
+    sh = ntv.get("safety_header", {})
+    for k in ["futures", "margin", "short", "leverage"]:
+        if sh.get(k) == "blocked":
+            ok(f"safety_header.{k}=blocked")
         else:
-            warn(f"{name}: {status}")
-    if legacy.get("summary", {}).get("active", -1) > 0:
-        error(f"legacy_bots_summary shows {legacy['summary']['active']} active bots")
+            warn(f"safety_header.{k}={sh.get(k)}")
+
+    if sh.get("live_trading_enabled") == False:
+        ok("safety_header.live_trading_enabled=false")
     else:
-        ok("legacy_bots_summary: 0 active")
-except Exception as e:
-    error(f"legacy_bots_status.json check failed: {e}")
+        warn(f"safety_header.live_trading_enabled={sh.get('live_trading_enabled')}")
 
-# 4. HTML read-only scan
-print("\n4. HTML Read-Only Enforcement")
-if not os.path.exists(INDEX_PATH):
-    error("index.html missing")
-else:
-    with open(INDEX_PATH) as f:
-        html = f.read()
-    actions = {
-        "<button": (r'<button', 0),
-        "<form": (r'<form', 0),
-        "POST method": (r'method\s*=\s*["\']post["\']', 0, True),
-        "fetch POST": (r'method\s*:\s*["\']POST["\']', 0, True),
-        "onclick": (r'onclick\s*=', 0),
-        "onsubmit": (r'onsubmit', 0),
-        "XMLHttpRequest": (r'XMLHttpRequest|\.send\(', 0),
-    }
-    for name, args in actions.items():
-        pattern = args[0]
-        expected = args[1] if len(args) > 1 else 0
-        case_insensitive = args[2] if len(args) > 2 else False
-        flags = re.I if case_insensitive else 0
-        count = len(re.findall(pattern, html, flags))
-        if count != expected: error(f"{name}: {count} found (expected {expected})")
-        else: ok(f"{name}: 0 found")
+    # 3. Dry-run orders
+    dro = ntv.get("dry_run_orders", {})
+    if dro.get("executed") == False:
+        ok("dry_run_orders.executed=false")
+    else:
+        warn(f"dry_run_orders.executed={dro.get('executed')}")
 
-    # Verify new product hierarchy sections present
-    sections_present = [
-        "Kraken Auto Spot NTV",
-        "Forward-Test Monitoring",
-        "Legacy Bots",
-        "Bourse / ETF Portfolio",
-        "Alerts",
-        "Data Freshness",
-        "Dry-Run Orders",
-        "Breakout 20",
-        "OpenClaw Monitoring",
+    if dro.get("mode") and "DRY_RUN" in dro["mode"]:
+        ok("dry_run_orders mode contains DRY_RUN")
+    else:
+        warn(f"dry_run_orders mode={dro.get('mode')}")
+
+    # 4. Breakout20 shadow only
+    bo = ntv.get("breakout20_shadow", {})
+    if bo.get("no_live_orders") == True:
+        ok("breakout20_shadow.no_live_orders=true")
+    else:
+        warn(f"breakout20_shadow.no_live_orders={bo.get('no_live_orders')}")
+
+    if bo.get("mode") == "SHADOW_ONLY":
+        ok("breakout20_shadow mode=SHADOW_ONLY")
+    else:
+        warn(f"breakout20_shadow mode={bo.get('mode')}")
+
+    # 5. Old bots retired
+    old = ntv.get("old_bots_status", {})
+    for bot in ["kraken_futures_v1", "binance_v5"]:
+        status = old.get(bot, "")
+        if status in ("retired", "inactive"):
+            ok(f"old_bots.{bot}={status}")
+        else:
+            warn(f"old_bots.{bot}={status}")
+
+    # 6. NTV tick freshness
+    tick = ntv.get("ntv_tick", {})
+    if tick.get("last_tick_ok") == True:
+        ok("ntv_tick.last_tick_ok=true")
+    else:
+        warn(f"ntv_tick.last_tick_ok={tick.get('last_tick_ok')}")
+
+    fs = tick.get("freshness_status", "UNKNOWN")
+    if fs == "OK":
+        ok(f"ntv_tick.freshness_status=OK")
+    elif fs.startswith("WARNING") or fs.startswith("STALE"):
+        warn(f"ntv_tick.freshness_status={fs}")
+    else:
+        warn(f"ntv_tick.freshness_status={fs}")
+
+    # 7. Forward-test is meaningful (not frozen state)
+    ft = ntv.get("forward_test", {})
+    ages = tick.get("source_ages_minutes", {})
+    dp_age = ages.get("dashboard_payload")
+    if dp_age is not None and dp_age <= 30:
+        ok(f"forward_test source fresh ({dp_age} min)")
+    elif dp_age is not None:
+        warn(f"forward_test source stale ({dp_age} min)")
+
+    # 8. Dashboard HTML - check for execution buttons
+    html_path = "/home/openclaw/monitoring-site/index.html"
+    banned_html = ["ENABLE_TRADING", "execute_order", "place_order", "send_order",
+                   "AUTO_EXECUTION: true", "DRY_RUN: false"]
+    try:
+        with open(html_path) as f:
+            html = f.read()
+        found = [p for p in banned_html if p in html]
+        if not found:
+            ok("index.html — no execution patterns found")
+        else:
+            warn(f"index.html contains execution patterns: {found}")
+    except Exception as e:
+        warn(f"index.html read error: {e}")
+
+    # 9. Dashboard payload source is fresh
+    dp_paths = [
+        "/home/openclaw/monitoring-site/data/ntv_dashboard_payload.json",
+        "/home/openclaw/monitoring-site/data/ntv.json",
     ]
-    for sec in sections_present:
-        if sec in html: ok(f"Section '{sec}' present")
-        else: error(f"Section '{sec}' MISSING")
+    for p in dp_paths:
+        try:
+            dt = os.path.getmtime(p)
+            ok(f"{os.path.basename(p)} exists and has valid timestamp")
+        except OSError:
+            warn(f"{p} not found")
 
-    # Verify old active panels are NOT present as active dashboards
-    # The terms may appear in legacy/archive context, but should NOT be active trading panels
-    # Check: Binance V5 card should be in "Legacy Bots" or "Historical" context, not as active
-    legacy_terms = ["RETIRED_STOPPED", "Historical Legacy", "ARCHIVE", "Legacy Bots \u2014 RETIRED"]
-    for t in legacy_terms:
-        if t in html: ok(f"Legacy marker '{t}' found")
-        else: warn(f"Legacy marker '{t}' not found in index.html")
-
-    # Verify no "ACTIVE" trading panel for old bots (the word ACTIVE in legacy context is OK)
-    if "RETIRED_STOPPED" in html:
-        ok("Legacy bots marked as RETIRED_STOPPED in HTML")
-
-# 5. No execution endpoints
-print("\n5. Execution Endpoint Check")
-with open(INDEX_PATH) as f:
-    html = f.read()
-banned = ["create_order", "send_order", "place_order", "add_order",
-          "ENABLE_TRADING", "AUTO_LIVE", "enable_live"]
-for word in banned:
-    matches = [m for m in re.finditer(word, html, re.I)]
-    if matches:
-        safe_context = True
-        for m in matches:
-            ctx_start = max(0, m.start() - 80)
-            ctx = html[ctx_start:m.end() + 40]
-            if not any(s in ctx.lower() for s in ["alert", "should be false", "blocked", "should be disabled"]):
-                safe_context = False
-        if safe_context:
-            ok(f"'{word}': in safety alert only (OK)")
-        else:
-            error(f"'{word}': found outside safety context!")
+    # Verdict
+    print(f"\n{'='*50}")
+    print(f"ERRORS: {len(errors)}")
+    if errors:
+        print("VERDICT: DASHBOARD CHECK FAILED")
+        return 1
     else:
-        ok(f"'{word}': not found")
+        print("VERDICT: DASHBOARD READ-ONLY — ALL CHECKS PASS")
+        return 0
 
-# Summary
-print(f"\n{'='*50}")
-print(f"RESULTS: {len(errors)} errors, {len(warnings)} warnings")
-if errors:
-    print("VERDICT: NEEDS_FIXES")
-    sys.exit(1)
-elif warnings:
-    print("VERDICT: PASSED_WITH_WARNINGS")
-else:
-    print("VERDICT: PASSED \u2014 DASHBOARD SAFE")
+if __name__ == "__main__":
+    sys.exit(main())

@@ -89,6 +89,16 @@ if [ -f /home/openclaw/kraken_bot_v1/bot.log ]; then
     python3 ./update-kraken-data.py 2>/dev/null || echo "Analyse Kraken échouée"
 fi
 
+# Tick NTV en DRY_RUN — lance un vrai cycle de signal frais avant export
+NTV_TICK_OK=false
+if ( cd /home/openclaw/kraken_auto_spot_ntv && python3 src/main.py ) 2>&1; then
+    NTV_TICK_OK=true
+else
+    echo "NTV TICK FAILED — export will carry stale data and freshness warning" >&2
+fi
+# Enregistrer le statut du tick pour les consommateurs downstream
+echo "{\"ntv_tick_ok\": $NTV_TICK_OK, \"ntv_tick_ts\": \"$(date -Iseconds)\"}" > /home/openclaw/kraken_auto_spot_ntv/output/.tick_status.json
+
 # Exporter les données Kraken Auto Spot NTV
 python3 ./update-ntv-data.py 2>/dev/null || echo "Export NTV échoué"
 
