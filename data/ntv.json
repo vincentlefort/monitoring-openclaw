@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T17:20:03.910293+00:00",
+  "generated_at": "2026-06-22T18:10:03.670693+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,22 +14,22 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-06-21T07:42:08.132597+00:00"
+    "last_update": "2026-06-22T18:10:03.638767+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 76980.4,
-      "sma200": 79301.7005,
-      "vol30": 67.88,
+      "close": 75593.9,
+      "sma200": 79411.94099999999,
+      "vol30": 67.95,
       "trend_ok": false,
       "vol_ok": true,
       "allowed": false,
       "block_reason": "close < SMA200"
     },
     "eth": {
-      "close": 1764.34,
-      "sma200": 2713.73065,
-      "vol30": 100.49,
+      "close": 1766.25,
+      "sma200": 2711.1234999999997,
+      "vol30": 100.61,
       "trend_ok": false,
       "vol_ok": false,
       "allowed": false,
@@ -65,15 +65,15 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-06-21T07:42:08.075331+00:00",
+      "timestamp": "2026-06-22T18:10:03.535776+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 90595.9,
         "low_20": 72461.6,
         "prev_high_20": 90595.9,
         "prev_low_20": 72461.6,
-        "close": 76980.4,
-        "prev_close": 75929.9,
+        "close": 75593.9,
+        "prev_close": 76980.4,
         "signal": "NONE",
         "breakout_pct": 0.0,
         "period": 20
@@ -83,8 +83,8 @@
         "low_20": 1717.61,
         "prev_high_20": 2420.65,
         "prev_low_20": 1717.61,
-        "close": 1764.34,
-        "prev_close": 1735.41,
+        "close": 1766.25,
+        "prev_close": 1764.34,
         "signal": "NONE",
         "breakout_pct": 0.0,
         "period": 20
@@ -108,14 +108,31 @@
     "all_clear": true,
     "details": []
   },
+  "ntv_tick": {
+    "last_tick_ok": true,
+    "last_tick_time": "2026-06-22T20:10:03+02:00",
+    "source_timestamps": {
+      "dashboard_payload": "2026-06-22T18:10:03.638972+00:00",
+      "signal": "2026-06-22T18:10:03.535653+00:00",
+      "orders_dry_run": "2026-06-22T18:10:03.635324+00:00",
+      "alerts": "2026-06-22T18:10:03.635448+00:00"
+    },
+    "source_ages_minutes": {
+      "dashboard_payload": 0.0,
+      "signal": 0.0,
+      "orders_dry_run": 0.0,
+      "alerts": 0.0
+    },
+    "freshness_status": "OK"
+  },
   "forward_test": {
     "status": "FORWARD_TEST_OK",
     "days_observed": 2,
-    "last_snapshot_time": "2026-06-22T17:15:05.148714+00:00",
+    "last_snapshot_time": "2026-06-22T18:05:04.030671+00:00",
     "last_verdict": "FORWARD_TEST_OK",
     "warnings_count": 0,
     "unsafe_count": 0,
-    "total_snapshots": 349,
+    "total_snapshots": 361,
     "date_range": {
       "start": "2026-06-21",
       "end": "2026-06-22"
