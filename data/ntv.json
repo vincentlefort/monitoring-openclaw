@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T01:55:03.439320+00:00",
+  "generated_at": "2026-06-23T02:00:03.460124+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -110,29 +110,29 @@
   },
   "ntv_tick": {
     "last_tick_ok": false,
-    "last_tick_time": "2026-06-23T03:55:03+02:00",
+    "last_tick_time": "2026-06-23T04:00:03+02:00",
     "source_timestamps": {
       "dashboard_payload": "2026-06-22T23:55:02.577402+00:00",
-      "signal": "2026-06-23T01:55:03.241987+00:00",
+      "signal": "2026-06-23T02:00:03.280348+00:00",
       "orders_dry_run": "2026-06-22T23:55:02.575014+00:00",
       "alerts": "2026-06-22T23:55:02.575142+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 120.0,
+      "dashboard_payload": 125.0,
       "signal": 0.0,
-      "orders_dry_run": 120.0,
-      "alerts": 120.0
+      "orders_dry_run": 125.0,
+      "alerts": 125.0
     },
-    "freshness_status": "STALE \u2014 NTV source > 30min"
+    "freshness_status": "WARNING \u2014 NTV source > 2h stale"
   },
   "forward_test": {
     "status": "FORWARD_TEST_WARNING",
     "days_observed": 3,
-    "last_snapshot_time": "2026-06-23T01:50:03.184619+00:00",
+    "last_snapshot_time": "2026-06-23T01:55:03.451265+00:00",
     "last_verdict": "FORWARD_TEST_WARNING",
-    "warnings_count": 23,
+    "warnings_count": 24,
     "unsafe_count": 0,
-    "total_snapshots": 455,
+    "total_snapshots": 456,
     "date_range": {
       "start": "2026-06-21",
       "end": "2026-06-23"
