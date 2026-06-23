@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-22T23:55:02.578142+00:00",
+  "timestamp": "2026-06-23T08:30:03.908825+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -15,40 +15,81 @@
     "eur_pct": 100.0
   },
   "target_allocation": {
-    "btc_pct": 0.0,
+    "btc_pct": 50.0,
     "eth_pct": 0.0,
-    "eur_pct": 100.0
+    "eur_pct": 50.0
   },
   "allocation_deviation": {
-    "btc_deviation_pct": 0.0,
+    "btc_deviation_pct": -50.0,
     "eth_deviation_pct": 0.0,
-    "eur_deviation_pct": 0.0
+    "eur_deviation_pct": 50.0
   },
-  "recommended_orders": [],
-  "estimated_costs": [],
+  "recommended_orders": [
+    {
+      "pair": "BTC/EUR",
+      "side": "buy",
+      "asset": "BTC",
+      "quantity": 0.02586621,
+      "notional_eur": 1405.27,
+      "deviation_pct": -50.0,
+      "estimated_cost_eur": 1409.6289,
+      "cost_breakdown": {
+        "maker_fee_pct": 0.16,
+        "taker_fee_pct": 0.26,
+        "spread_estimate_pct": 100.0002,
+        "slippage_estimate_pct": 0.05,
+        "fee_eur": 3.6537,
+        "spread_eur": 1405.2726,
+        "slippage_eur": 0.7026,
+        "total_cost_eur": 1409.6289,
+        "cost_pct_of_order": 100.3102,
+        "cost_pct_of_portfolio": 50.1551,
+        "trade_allowed": false,
+        "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+      },
+      "blocked": true,
+      "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+    }
+  ],
+  "estimated_costs": [
+    {
+      "maker_fee_pct": 0.16,
+      "taker_fee_pct": 0.26,
+      "spread_estimate_pct": 100.0002,
+      "slippage_estimate_pct": 0.05,
+      "fee_eur": 3.6537,
+      "spread_eur": 1405.2726,
+      "slippage_eur": 0.7026,
+      "total_cost_eur": 1409.6289,
+      "cost_pct_of_order": 100.3102,
+      "cost_pct_of_portfolio": 50.1551,
+      "trade_allowed": false,
+      "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+    }
+  ],
   "executed_orders": [],
   "last_signal": {
-    "btc_close": 75593.9,
-    "btc_sma200": 79411.94099999999,
-    "btc_vol30": 67.95,
-    "btc_allowed": false,
-    "eth_close": 1766.25,
-    "eth_sma200": 2711.1234999999997,
-    "eth_vol30": 100.61,
+    "btc_close": 79618.7,
+    "btc_sma200": 79543.1345,
+    "btc_vol30": 70.93,
+    "btc_allowed": true,
+    "eth_close": 1885.34,
+    "eth_sma200": 2709.1746499999995,
+    "eth_vol30": 103.17,
     "eth_allowed": false,
-    "allocation_tier": "none",
-    "timestamp": "2026-06-22T23:55:02.528704+00:00"
+    "allocation_tier": "btc_only",
+    "timestamp": "2026-06-23T08:30:03.738411+00:00"
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-06-22T23:55:02.528987+00:00",
+    "timestamp": "2026-06-23T08:30:03.738969+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 90595.9,
       "low_20": 72461.6,
       "prev_high_20": 90595.9,
       "prev_low_20": 72461.6,
-      "close": 75593.9,
-      "prev_close": 76980.4,
+      "close": 79618.7,
+      "prev_close": 75593.9,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
@@ -58,8 +99,8 @@
       "low_20": 1717.61,
       "prev_high_20": 2420.65,
       "prev_low_20": 1717.61,
-      "close": 1766.25,
-      "prev_close": 1764.34,
+      "close": 1885.34,
+      "prev_close": 1766.25,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
@@ -70,12 +111,52 @@
       "any_breakout": false
     }
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "level": "WARN",
+      "guard": "G10",
+      "message": "Spread 100.0002% exceeds max 1.0%",
+      "pair": "BTC/EUR"
+    },
+    {
+      "level": "WARN",
+      "message": "Cost block: Cost 50.1551% of portfolio exceeds max 0.1%",
+      "pair": "BTC/EUR"
+    },
+    {
+      "level": "FAIL",
+      "guard": "G1",
+      "message": "Post-order total 4215.81 EUR exceeds max capital 2810.54 EUR"
+    },
+    {
+      "level": "FAIL",
+      "guard": "G2",
+      "message": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
+    },
+    {
+      "level": "FAIL",
+      "guard": "G10",
+      "message": "Spread 100.0002% exceeds max 1.0%"
+    }
+  ],
   "safety_status": {
-    "guards_passed": 18,
-    "guards_failed": 0,
-    "all_clear": true,
-    "details": []
+    "guards_passed": 10,
+    "guards_failed": 3,
+    "all_clear": false,
+    "details": [
+      {
+        "id": "G1",
+        "reason": "Post-order total 4215.81 EUR exceeds max capital 2810.54 EUR"
+      },
+      {
+        "id": "G2",
+        "reason": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
+      },
+      {
+        "id": "G10",
+        "reason": "Spread 100.0002% exceeds max 1.0%"
+      }
+    ]
   },
   "old_bots_status": {
     "kraken_futures_v1": "retired",
