@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T11:00:04.296807+00:00",
+  "generated_at": "2026-07-01T11:05:03.598437+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,7 +14,7 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-07-01T11:00:04.267171+00:00"
+    "last_update": "2026-07-01T11:05:03.546012+00:00"
   },
   "current_signal": {
     "btc": {
@@ -62,26 +62,26 @@
         "pair": "BTC/EUR",
         "side": "buy",
         "asset": "BTC",
-        "quantity": 0.02733239,
+        "quantity": 0.02732718,
         "notional_eur": 1405.27,
         "deviation_pct": -50.0,
-        "estimated_cost_eur": 4.3591,
+        "estimated_cost_eur": 4.5504,
         "cost_breakdown": {
           "maker_fee_pct": 0.16,
           "taker_fee_pct": 0.26,
-          "spread_estimate_pct": 0.0002,
+          "spread_estimate_pct": 0.0138,
           "slippage_estimate_pct": 0.05,
           "fee_eur": 3.6537,
-          "spread_eur": 0.0027,
+          "spread_eur": 0.194,
           "slippage_eur": 0.7026,
-          "total_cost_eur": 4.3591,
-          "cost_pct_of_order": 0.3102,
-          "cost_pct_of_portfolio": 0.1551,
+          "total_cost_eur": 4.5504,
+          "cost_pct_of_order": 0.3238,
+          "cost_pct_of_portfolio": 0.1619,
           "trade_allowed": false,
-          "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
+          "block_reason": "Cost 0.1619% of portfolio exceeds max 0.1%"
         },
         "blocked": true,
-        "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
+        "block_reason": "Cost 0.1619% of portfolio exceeds max 0.1%"
       }
     ],
     "executed": false,
@@ -89,16 +89,16 @@
       {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 0.0002,
+        "spread_estimate_pct": 0.0138,
         "slippage_estimate_pct": 0.05,
         "fee_eur": 3.6537,
-        "spread_eur": 0.0027,
+        "spread_eur": 0.194,
         "slippage_eur": 0.7026,
-        "total_cost_eur": 4.3591,
-        "cost_pct_of_order": 0.3102,
-        "cost_pct_of_portfolio": 0.1551,
+        "total_cost_eur": 4.5504,
+        "cost_pct_of_order": 0.3238,
+        "cost_pct_of_portfolio": 0.1619,
         "trade_allowed": false,
-        "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
+        "block_reason": "Cost 0.1619% of portfolio exceeds max 0.1%"
       }
     ]
   },
@@ -106,7 +106,7 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-07-01T11:00:04.001583+00:00",
+      "timestamp": "2026-07-01T11:05:03.305374+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 81127.0,
@@ -140,7 +140,7 @@
   "alerts": [
     {
       "level": "WARN",
-      "message": "Cost block: Cost 0.1551% of portfolio exceeds max 0.1%",
+      "message": "Cost block: Cost 0.1619% of portfolio exceeds max 0.1%",
       "pair": "BTC/EUR"
     },
     {
@@ -176,12 +176,12 @@
   },
   "ntv_tick": {
     "last_tick_ok": true,
-    "last_tick_time": "2026-07-01T13:00:04+02:00",
+    "last_tick_time": "2026-07-01T13:05:03+02:00",
     "source_timestamps": {
-      "dashboard_payload": "2026-07-01T11:00:04.267329+00:00",
-      "signal": "2026-07-01T11:00:04.001516+00:00",
-      "orders_dry_run": "2026-07-01T11:00:04.264126+00:00",
-      "alerts": "2026-07-01T11:00:04.264391+00:00"
+      "dashboard_payload": "2026-07-01T11:05:03.545382+00:00",
+      "signal": "2026-07-01T11:05:03.305271+00:00",
+      "orders_dry_run": "2026-07-01T11:05:03.532727+00:00",
+      "alerts": "2026-07-01T11:05:03.533483+00:00"
     },
     "source_ages_minutes": {
       "dashboard_payload": 0.0,
@@ -194,11 +194,11 @@
   "forward_test": {
     "status": "FORWARD_TEST_WARNING",
     "days_observed": 11,
-    "last_snapshot_time": "2026-07-01T10:55:03.890184+00:00",
+    "last_snapshot_time": "2026-07-01T11:00:04.310543+00:00",
     "last_verdict": "FORWARD_TEST_WARNING",
-    "warnings_count": 1365,
+    "warnings_count": 1366,
     "unsafe_count": 0,
-    "total_snapshots": 2871,
+    "total_snapshots": 2872,
     "date_range": {
       "start": "2026-06-21",
       "end": "2026-07-01"
