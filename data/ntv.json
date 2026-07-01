@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T10:15:03.342000+00:00",
+  "generated_at": "2026-07-01T10:20:03.555503+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,7 +14,7 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-07-01T10:15:03.300789+00:00"
+    "last_update": "2026-07-01T10:20:03.527431+00:00"
   },
   "current_signal": {
     "btc": {
@@ -62,26 +62,26 @@
         "pair": "BTC/EUR",
         "side": "buy",
         "asset": "BTC",
-        "quantity": 0.0272652,
+        "quantity": 0.02727086,
         "notional_eur": 1405.27,
         "deviation_pct": -50.0,
-        "estimated_cost_eur": 1409.6291,
+        "estimated_cost_eur": 4.3591,
         "cost_breakdown": {
           "maker_fee_pct": 0.16,
           "taker_fee_pct": 0.26,
-          "spread_estimate_pct": 100.0002,
+          "spread_estimate_pct": 0.0002,
           "slippage_estimate_pct": 0.05,
           "fee_eur": 3.6537,
-          "spread_eur": 1405.2727,
+          "spread_eur": 0.0027,
           "slippage_eur": 0.7026,
-          "total_cost_eur": 1409.6291,
-          "cost_pct_of_order": 100.3102,
-          "cost_pct_of_portfolio": 50.1551,
+          "total_cost_eur": 4.3591,
+          "cost_pct_of_order": 0.3102,
+          "cost_pct_of_portfolio": 0.1551,
           "trade_allowed": false,
-          "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+          "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
         },
         "blocked": true,
-        "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+        "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
       }
     ],
     "executed": false,
@@ -89,16 +89,16 @@
       {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 100.0002,
+        "spread_estimate_pct": 0.0002,
         "slippage_estimate_pct": 0.05,
         "fee_eur": 3.6537,
-        "spread_eur": 1405.2727,
+        "spread_eur": 0.0027,
         "slippage_eur": 0.7026,
-        "total_cost_eur": 1409.6291,
-        "cost_pct_of_order": 100.3102,
-        "cost_pct_of_portfolio": 50.1551,
+        "total_cost_eur": 4.3591,
+        "cost_pct_of_order": 0.3102,
+        "cost_pct_of_portfolio": 0.1551,
         "trade_allowed": false,
-        "block_reason": "Cost 50.1551% of portfolio exceeds max 0.1%"
+        "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
       }
     ]
   },
@@ -106,7 +106,7 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-07-01T10:15:03.096542+00:00",
+      "timestamp": "2026-07-01T10:20:03.312571+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 81127.0,
@@ -140,13 +140,7 @@
   "alerts": [
     {
       "level": "WARN",
-      "guard": "G10",
-      "message": "Spread 100.0002% exceeds max 1.0%",
-      "pair": "BTC/EUR"
-    },
-    {
-      "level": "WARN",
-      "message": "Cost block: Cost 50.1551% of portfolio exceeds max 0.1%",
+      "message": "Cost block: Cost 0.1551% of portfolio exceeds max 0.1%",
       "pair": "BTC/EUR"
     },
     {
@@ -158,11 +152,6 @@
       "level": "FAIL",
       "guard": "G2",
       "message": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
-    },
-    {
-      "level": "FAIL",
-      "guard": "G10",
-      "message": "Spread 100.0002% exceeds max 1.0%"
     }
   ],
   "old_bots_status": {
@@ -171,8 +160,8 @@
     "kraken_auto_spot_ntv": "active \u2014 DRY_RUN"
   },
   "safety_status": {
-    "guards_passed": 10,
-    "guards_failed": 3,
+    "guards_passed": 11,
+    "guards_failed": 2,
     "all_clear": false,
     "details": [
       {
@@ -182,21 +171,17 @@
       {
         "id": "G2",
         "reason": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
-      },
-      {
-        "id": "G10",
-        "reason": "Spread 100.0002% exceeds max 1.0%"
       }
     ]
   },
   "ntv_tick": {
     "last_tick_ok": true,
-    "last_tick_time": "2026-07-01T12:15:03+02:00",
+    "last_tick_time": "2026-07-01T12:20:03+02:00",
     "source_timestamps": {
-      "dashboard_payload": "2026-07-01T10:15:03.301074+00:00",
-      "signal": "2026-07-01T10:15:03.096473+00:00",
-      "orders_dry_run": "2026-07-01T10:15:03.292165+00:00",
-      "alerts": "2026-07-01T10:15:03.292573+00:00"
+      "dashboard_payload": "2026-07-01T10:20:03.527601+00:00",
+      "signal": "2026-07-01T10:20:03.312505+00:00",
+      "orders_dry_run": "2026-07-01T10:20:03.523988+00:00",
+      "alerts": "2026-07-01T10:20:03.524159+00:00"
     },
     "source_ages_minutes": {
       "dashboard_payload": 0.0,
@@ -209,11 +194,11 @@
   "forward_test": {
     "status": "FORWARD_TEST_WARNING",
     "days_observed": 11,
-    "last_snapshot_time": "2026-07-01T10:10:04.106865+00:00",
+    "last_snapshot_time": "2026-07-01T10:15:03.356585+00:00",
     "last_verdict": "FORWARD_TEST_WARNING",
-    "warnings_count": 1354,
+    "warnings_count": 1355,
     "unsafe_count": 0,
-    "total_snapshots": 2860,
+    "total_snapshots": 2861,
     "date_range": {
       "start": "2026-06-21",
       "end": "2026-07-01"
