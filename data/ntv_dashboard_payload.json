@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-01T08:40:03.422356+00:00",
+  "timestamp": "2026-07-01T08:45:03.347632+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -29,42 +29,42 @@
       "pair": "BTC/EUR",
       "side": "buy",
       "asset": "BTC",
-      "quantity": 0.02735564,
+      "quantity": 0.02730599,
       "notional_eur": 1405.27,
       "deviation_pct": -50.0,
-      "estimated_cost_eur": 1409.6318,
+      "estimated_cost_eur": 1409.7519,
       "cost_breakdown": {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 100.0004,
+        "spread_estimate_pct": 100.0089,
         "slippage_estimate_pct": 0.05,
         "fee_eur": 3.6537,
-        "spread_eur": 1405.2755,
+        "spread_eur": 1405.3956,
         "slippage_eur": 0.7026,
-        "total_cost_eur": 1409.6318,
-        "cost_pct_of_order": 100.3104,
-        "cost_pct_of_portfolio": 50.1552,
+        "total_cost_eur": 1409.7519,
+        "cost_pct_of_order": 100.3189,
+        "cost_pct_of_portfolio": 50.1595,
         "trade_allowed": false,
-        "block_reason": "Cost 50.1552% of portfolio exceeds max 0.1%"
+        "block_reason": "Cost 50.1595% of portfolio exceeds max 0.1%"
       },
       "blocked": true,
-      "block_reason": "Cost 50.1552% of portfolio exceeds max 0.1%"
+      "block_reason": "Cost 50.1595% of portfolio exceeds max 0.1%"
     }
   ],
   "estimated_costs": [
     {
       "maker_fee_pct": 0.16,
       "taker_fee_pct": 0.26,
-      "spread_estimate_pct": 100.0004,
+      "spread_estimate_pct": 100.0089,
       "slippage_estimate_pct": 0.05,
       "fee_eur": 3.6537,
-      "spread_eur": 1405.2755,
+      "spread_eur": 1405.3956,
       "slippage_eur": 0.7026,
-      "total_cost_eur": 1409.6318,
-      "cost_pct_of_order": 100.3104,
-      "cost_pct_of_portfolio": 50.1552,
+      "total_cost_eur": 1409.7519,
+      "cost_pct_of_order": 100.3189,
+      "cost_pct_of_portfolio": 50.1595,
       "trade_allowed": false,
-      "block_reason": "Cost 50.1552% of portfolio exceeds max 0.1%"
+      "block_reason": "Cost 50.1595% of portfolio exceeds max 0.1%"
     }
   ],
   "executed_orders": [],
@@ -78,10 +78,10 @@
     "eth_vol30": 96.05,
     "eth_allowed": false,
     "allocation_tier": "btc_only",
-    "timestamp": "2026-07-01T08:40:03.185176+00:00"
+    "timestamp": "2026-07-01T08:45:03.179571+00:00"
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-07-01T08:40:03.185672+00:00",
+    "timestamp": "2026-07-01T08:45:03.179879+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 81127.0,
@@ -115,12 +115,12 @@
     {
       "level": "WARN",
       "guard": "G10",
-      "message": "Spread 100.0004% exceeds max 1.0%",
+      "message": "Spread 100.0089% exceeds max 1.0%",
       "pair": "BTC/EUR"
     },
     {
       "level": "WARN",
-      "message": "Cost block: Cost 50.1552% of portfolio exceeds max 0.1%",
+      "message": "Cost block: Cost 50.1595% of portfolio exceeds max 0.1%",
       "pair": "BTC/EUR"
     },
     {
@@ -136,7 +136,7 @@
     {
       "level": "FAIL",
       "guard": "G10",
-      "message": "Spread 100.0004% exceeds max 1.0%"
+      "message": "Spread 100.0089% exceeds max 1.0%"
     }
   ],
   "safety_status": {
@@ -154,7 +154,7 @@
       },
       {
         "id": "G10",
-        "reason": "Spread 100.0004% exceeds max 1.0%"
+        "reason": "Spread 100.0089% exceeds max 1.0%"
       }
     ]
   },
