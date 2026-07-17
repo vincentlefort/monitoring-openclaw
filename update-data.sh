@@ -5,6 +5,17 @@ set -e
 
 cd "$(dirname "$0")"
 
+# HOTFIX 2026-07-17: single-instance lock. The systemd timer
+# (ntv-monitoring.timer, every 5 min) is the primary scheduler; a legacy
+# 6-hourly crontab entry may coexist (crontab gets rewritten by agents —
+# root cause of INC-2). The lock makes any concurrent/duplicate invocation
+# a harmless no-op instead of a double-run.
+exec 9>/tmp/ntv_update_data.lock
+if ! flock -n 9; then
+    echo "update-data.sh: another instance is running — skipping (lock held)"
+    exit 0
+fi
+
 # Copier les données du bot
 cp ~/binance_bot_v5/bot_status_v5.json ./data/bot_status.json 2>/dev/null || echo "Fichier bot_status_v5.json non trouvé"
 cp ~/binance_bot_v5/trades_v5.csv ./data/trades.csv 2>/dev/null || echo "Fichier trades_v5.csv non trouvé"

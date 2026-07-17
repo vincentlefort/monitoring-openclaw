@@ -109,6 +109,9 @@ def main():
             "estimated_costs": dashboard.get("estimated_costs", []) if dashboard else [],
         },
 
+        # HOTFIX 2026-07-17: persisted DRY_RUN portfolio simulation summary
+        "dry_run_portfolio": dashboard.get("dry_run_portfolio", {}) if dashboard else {},
+
         "breakout20_shadow": {
             "mode": "SHADOW_ONLY",
             "no_live_orders": True,
@@ -127,6 +130,16 @@ def main():
     }
 
     # ── NTV Tick Freshness ──
+    # HOTFIX 2026-07-17 (audit INC-7): the old logic only looked at file
+    # mtimes at EXPORT time (always ~0 min since the export runs right after
+    # the tick) and displayed a frozen "OK" forever. New rules:
+    #   OK       tick <= 15 min old  AND candle data <= 2 days old
+    #   DELAYED  tick <= 120 min old
+    #   STALE    tick  > 120 min old
+    #   NO_RUN   no tick recorded
+    #   ERROR    missing/incoherent data OR signal computed on candles > 2 days
+    # The frontend additionally recomputes the age client-side so a frozen
+    # ntv.json can never display OK (see index.html loadNTV()).
     ts = tick_status() or {}
     tick_ok = ts.get("ntv_tick_ok", False)
     tick_time = ts.get("ntv_tick_ts", "")
@@ -145,21 +158,64 @@ def main():
         except OSError:
             source_timestamps[k] = None
 
-    dp_age = source_ages.get("dashboard_payload")
-    if dp_age is None:
-        freshness_status = "UNKNOWN"
-    elif dp_age > 1440:  # > 24h
-        freshness_status = "UNSAFE — NTV source > 24h stale"
-    elif dp_age > 120:   # > 2h
-        freshness_status = "WARNING — NTV source > 2h stale"
-    elif dp_age > 30:    # > 30min
-        freshness_status = "STALE — NTV source > 30min"
+    now_utc = datetime.now(timezone.utc)
+
+    def _parse_iso(value):
+        if not value:
+            return None
+        try:
+            return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        except ValueError:
+            return None
+
+    tick_dt = _parse_iso(tick_time)
+    if tick_dt is not None and tick_dt.tzinfo is None:
+        tick_dt = tick_dt.replace(tzinfo=timezone.utc)
+    tick_age_min = (
+        round((now_utc - tick_dt.astimezone(timezone.utc)).total_seconds() / 60.0, 1)
+        if tick_dt else None
+    )
+
+    data_last_candle_date = signal.get("data_last_candle_date") if signal else None
+    signal_data_age_days = None
+    candle_dt = _parse_iso(signal.get("data_last_candle_utc")) if signal else None
+    if candle_dt is not None:
+        if candle_dt.tzinfo is None:
+            candle_dt = candle_dt.replace(tzinfo=timezone.utc)
+        signal_data_age_days = round(
+            (now_utc - candle_dt.astimezone(timezone.utc)).total_seconds() / 86400.0, 2)
+
+    if tick_age_min is None:
+        freshness_status = "NO_RUN"
+    elif not tick_ok:
+        freshness_status = "ERROR"
+    elif signal is None or dashboard is None:
+        freshness_status = "ERROR"
+    elif signal_data_age_days is not None and signal_data_age_days > 2.0:
+        freshness_status = "ERROR"
+    elif candle_dt is None:
+        # tick ran but signal has no data provenance -> incoherent (pre-hotfix)
+        freshness_status = "ERROR"
+    elif tick_age_min > 120:
+        freshness_status = "STALE"
+    elif tick_age_min > 15:
+        freshness_status = "DELAYED"
     else:
         freshness_status = "OK"
 
     fused["ntv_tick"] = {
         "last_tick_ok": tick_ok,
-        "last_tick_time": tick_time,
+        "last_tick_at": tick_time,
+        "last_tick_time": tick_time,  # legacy key kept for frontend compat
+        "age_minutes": tick_age_min,
+        "expected_interval_minutes": 5,
+        "thresholds": {
+            "ok_max_age_minutes": 15,
+            "delayed_max_age_minutes": 120,
+            "max_candle_age_days": 2.0,
+        },
+        "data_last_candle_date": data_last_candle_date,
+        "signal_data_age_days": signal_data_age_days,
         "source_timestamps": source_timestamps,
         "source_ages_minutes": source_ages,
         "freshness_status": freshness_status,
@@ -170,12 +226,12 @@ def main():
     ft_summary = safe_read_json(ft_summary_path)
     if ft_summary:
         ft_verdict = ft_summary.get("last_verdict", "UNKNOWN")
-        # Downgrade verdict if source is stale
-        if freshness_status.startswith("UNSAFE"):
+        # Downgrade verdict if the pipeline is not fresh (HOTFIX 2026-07-17)
+        if freshness_status in ("ERROR", "NO_RUN"):
             ft_verdict = "FORWARD_TEST_UNSAFE"
-        elif freshness_status.startswith("WARNING"):
+        elif freshness_status == "STALE":
             ft_verdict = "FORWARD_TEST_WARNING"
-        elif freshness_status.startswith("STALE") and ft_verdict == "FORWARD_TEST_OK":
+        elif freshness_status == "DELAYED" and ft_verdict == "FORWARD_TEST_OK":
             ft_verdict = "FORWARD_TEST_WARNING"
 
         fused["forward_test"] = {

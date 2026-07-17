@@ -261,6 +261,7 @@
             <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
             <div class="freshness-row"><span class="tag">Source payload age</span><span id="fr-src-age">—</span></div>
             <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
+            <div class="freshness-row"><span class="tag">NTV last candle (UTC)</span><span id="fr-candle">—</span></div>
             <div class="freshness-row"><span class="tag">Stocks/ETF data</span><span id="fr-stocks">—</span></div>
             <div class="freshness-row"><span class="tag">Data age</span><span id="fr-age">—</span></div>
             <div class="freshness-row"><span class="tag">Page refresh</span><span id="fr-refresh">—</span></div>
@@ -430,25 +431,68 @@ async function loadNTV() {
         setAlert(document.getElementById('al-spread'), alerts.length < 3);
 
         // Data Freshness
+        // HOTFIX 2026-07-17 (audit INC-7): freshness_status stored in ntv.json
+        // is a snapshot taken at export time — if the pipeline dies, the file
+        // freezes with "OK" forever. The age and status are therefore
+        // recomputed CLIENT-SIDE at render time; a frozen file can never
+        // display OK again. Rules: OK <=15min, DELAYED <=120min, STALE >120min,
+        // NO_RUN if never ticked, ERROR if candle data > 2 days old.
         var tick = data.ntv_tick || {};
-        var tickTime = tick.last_tick_time || '';
-        var tickAge = tick.source_ages_minutes ? tick.source_ages_minutes.dashboard_payload : null;
-        var tickStatus = safeStr(tick.freshness_status, 'UNKNOWN');
+        var tickTime = tick.last_tick_at || tick.last_tick_time || '';
+        var tickAgeMin = null;
+        if (tickTime) {
+            var t = new Date(tickTime).getTime();
+            if (!isNaN(t)) tickAgeMin = (Date.now() - t) / 60000.0;
+        }
+        var candleAgeDays = (tick.signal_data_age_days !== undefined && tick.signal_data_age_days !== null)
+            ? Number(tick.signal_data_age_days) : null;
+        if (candleAgeDays !== null && tick.data_last_candle_date) {
+            // recompute candle age client-side too (stored value also freezes)
+            var candleT = new Date(tick.data_last_candle_date + 'T00:00:00Z').getTime();
+            if (!isNaN(candleT)) candleAgeDays = (Date.now() - candleT) / 86400000.0;
+        }
+        var storedStatus = safeStr(tick.freshness_status, 'UNKNOWN');
+        var tickStatus;
+        if (tickAgeMin === null) {
+            tickStatus = 'NO_RUN';
+        } else if (storedStatus === 'ERROR' || storedStatus === 'NO_RUN') {
+            tickStatus = storedStatus;
+        } else if (candleAgeDays !== null && candleAgeDays > 2.0) {
+            tickStatus = 'ERROR';
+        } else if (tickAgeMin > 120) {
+            tickStatus = 'STALE';
+        } else if (tickAgeMin > 15) {
+            tickStatus = 'DELAYED';
+        } else {
+            tickStatus = 'OK';
+        }
         var frTick = document.getElementById('fr-tick');
-        frTick.textContent = tickTime ? fmtTime(tickTime) : 'NEVER';
-        frTick.className = tick.last_tick_ok ? 'green' : 'red';
+        frTick.textContent = (tickTime ? fmtTime(tickTime) : 'NEVER') + ' [' + tickStatus + ']';
+        frTick.className = (tickStatus === 'OK' && tick.last_tick_ok) ? 'green'
+            : (tickStatus === 'DELAYED' ? 'yellow' : 'red');
 
         document.getElementById('fr-ntv').textContent = fmtTime(data.generated_at);
         var dp = data.last_update || (data.safety_header || {}).last_update;
         document.getElementById('fr-dash').textContent = fmtTime(dp);
         var srcAge = document.getElementById('fr-src-age');
-        srcAge.textContent = tickAge !== null && tickAge !== undefined ? tickAge.toFixed(1) + ' min' : 'UNKNOWN';
-        srcAge.className = tickAge !== null ? (tickAge > 120 ? 'red' : tickAge > 30 ? 'yellow' : 'green') : 'gray';
+        srcAge.textContent = tickAgeMin !== null ? tickAgeMin.toFixed(1) + ' min' : 'NO_RUN';
+        srcAge.className = tickAgeMin !== null ? (tickAgeMin > 120 ? 'red' : tickAgeMin > 15 ? 'yellow' : 'green') : 'red';
         document.getElementById('fr-sig').textContent = fmtTime(sig.timestamp || (data.current_signal || {}).timestamp);
+        var candleEl = document.getElementById('fr-candle');
+        if (candleEl) {
+            if (tick.data_last_candle_date) {
+                candleEl.textContent = tick.data_last_candle_date +
+                    (candleAgeDays !== null ? ' (' + candleAgeDays.toFixed(1) + 'd)' : '');
+                candleEl.className = (candleAgeDays !== null && candleAgeDays > 2.0) ? 'red' : 'green';
+            } else {
+                candleEl.textContent = 'UNKNOWN';
+                candleEl.className = 'red';
+            }
+        }
         var age = ageHours(data.generated_at);
         var ageEl = document.getElementById('fr-age');
         ageEl.textContent = age !== null ? age.toFixed(1) + 'h' : 'UNKNOWN';
-        ageEl.className = age !== null ? (age > 48 ? 'red' : age > 24 ? 'yellow' : 'green') : 'gray';
+        ageEl.className = age !== null ? (age > 2 ? 'red' : age > 0.25 ? 'yellow' : 'green') : 'gray';
         document.getElementById('fr-refresh').textContent = fmtTime(PAGE_LOAD.toISOString());
 
         // Forward-test status
@@ -461,7 +505,7 @@ async function loadNTV() {
 
         var tickBadge = document.getElementById('ft-tick-badge');
         tickBadge.textContent = 'TICK: ' + tickStatus;
-        tickBadge.className = 'badge ' + (tickStatus === 'OK' ? 'badge-green' : tickStatus.indexOf('WARNING') >= 0 || tickStatus.indexOf('STALE') >= 0 ? 'badge-yellow' : 'badge-red');
+        tickBadge.className = 'badge ' + (tickStatus === 'OK' ? 'badge-green' : tickStatus === 'DELAYED' ? 'badge-yellow' : 'badge-red');
         document.getElementById('ft-days').textContent = ft.days_observed !== undefined ? ft.days_observed : '—';
         document.getElementById('ft-last').textContent = fmtTime(ft.last_snapshot_time);
         document.getElementById('ft-snaps').textContent = ft.total_snapshots !== undefined ? ft.total_snapshots : '—';
@@ -475,17 +519,18 @@ async function loadNTV() {
         document.getElementById('ft-range').textContent = dr.start ? (dr.start + ' \u2192 ' + (dr.end || dr.start)) : '—';
         document.getElementById('ft-subtitle').textContent = 'DRY_RUN observation \u00B7 ' + (ft.days_observed || 0) + ' days tracked';
 
-        // Global alert if NTV source is stale
-        if (tickStatus !== 'OK' && tickStatus !== 'UNKNOWN') {
+        // Global alert if NTV pipeline is not healthy (client-side computed)
+        if (tickStatus !== 'OK') {
             var globalAlert = document.getElementById('global-alert');
             globalAlert.style.display = 'block';
             var existingMsg = document.getElementById('global-alert-msg').textContent;
-            var staleMsg = 'NTV SOURCE STALE: ' + tickStatus;
-            if (existingMsg.indexOf('NTV SOURCE STALE') < 0) {
+            var staleMsg = 'NTV PIPELINE ' + tickStatus +
+                (tickAgeMin !== null ? ' (last tick ' + tickAgeMin.toFixed(0) + ' min ago)' : '');
+            if (existingMsg.indexOf('NTV PIPELINE') < 0) {
                 document.getElementById('global-alert-msg').textContent = existingMsg ? existingMsg + ' | ' + staleMsg : staleMsg;
             }
-            document.getElementById('h-safety').textContent = 'SAFETY: NTV STALE';
-            document.getElementById('h-safety').className = 'badge badge-yellow';
+            document.getElementById('h-safety').textContent = 'SAFETY: NTV ' + tickStatus;
+            document.getElementById('h-safety').className = 'badge ' + (tickStatus === 'DELAYED' ? 'badge-yellow' : 'badge-red');
         }
 
     } catch(e) {
