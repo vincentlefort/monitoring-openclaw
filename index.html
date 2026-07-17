@@ -197,36 +197,7 @@
     </div>
 </div>
 
-<!-- ===== ROW 3 — LEGACY BOTS STATUS ===== -->
-<div class="section-title" style="margin-bottom:10px;"><i class="fas fa-clock gray"></i>Legacy Bots — RETIRED / STOPPED</div>
-<div class="grid-2" style="margin-bottom:16px;">
-    <!-- Binance V5 Legacy -->
-    <div class="card-legacy">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-weight:700;font-size:0.85rem;color:#64748b;"><i class="fas fa-robot yellow" style="margin-right:6px;"></i>Binance V5</span>
-            <span id="bo-v5" class="badge badge-gray">—</span>
-        </div>
-        <div class="signal-row"><span class="label">Status</span><span id="lv5-status" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Checked</span><span id="lv5-checked" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Restart</span><span id="lv5-restart" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Orders</span><span id="lv5-orders" class="gray">—</span></div>
-        <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">Legacy · No orders executed · Read-only</div>
-    </div>
 
-    <!-- Kraken Futures Legacy -->
-    <div class="card-legacy">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-weight:700;font-size:0.85rem;color:#64748b;"><i class="fas fa-wave-square purple" style="margin-right:6px;"></i>Kraken Futures V1</span>
-            <span id="bo-kraken" class="badge badge-gray">—</span>
-        </div>
-        <div class="signal-row"><span class="label">Status</span><span id="lk-status" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Checked</span><span id="lk-checked" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Restart</span><span id="lk-restart" class="gray">—</span></div>
-        <div class="signal-row"><span class="label">Orders</span><span id="lk-orders" class="gray">—</span></div>
-        <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">Legacy · No orders executed · Read-only</div>
-    </div>
-</div>
-<div id="legacy-warning" style="display:none;background:#ef444415;border:1px solid #ef444435;border-radius:6px;padding:6px 10px;margin-bottom:16px;color:#ef4444;font-size:0.7rem;font-weight:600;"></div>
 
 <!-- ===== ROW 4 — BOURSE / ETF / SCALABLE CAPITAL ===== -->
 <div class="card" style="margin-bottom:16px;">
@@ -290,7 +261,6 @@
             <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
             <div class="freshness-row"><span class="tag">Source payload age</span><span id="fr-src-age">—</span></div>
             <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
-            <div class="freshness-row"><span class="tag">Legacy bots status</span><span id="fr-legacy">—</span></div>
             <div class="freshness-row"><span class="tag">Stocks/ETF data</span><span id="fr-stocks">—</span></div>
             <div class="freshness-row"><span class="tag">Data age</span><span id="fr-age">—</span></div>
             <div class="freshness-row"><span class="tag">Page refresh</span><span id="fr-refresh">—</span></div>
@@ -299,32 +269,7 @@
     </div>
 </div>
 
-<!-- ===== HISTORICAL LEGACY DATA (Collapsed) ===== -->
-<details style="margin-bottom:16px;opacity:0.6;">
-    <summary style="cursor:pointer;font-weight:700;color:#374151;font-size:0.78rem;padding:6px 0;"><i class="fas fa-archive gray" style="margin-right:6px;"></i>Historical Legacy Data (Binance V5 &amp; Kraken Futures — read-only archive)</summary>
-    <div class="grid-2" style="margin-top:12px;">
-        <!-- Binance V5 Historical -->
-        <div class="card-legacy">
-            <div class="section-title"><i class="fas fa-robot yellow"></i>Binance V5 — Historical <span class="badge badge-gray" style="font-size:0.6rem;">ARCHIVE</span></div>
-            <div class="stats-row">
-                <div class="stat"><div class="stat-label">Capital</div><div id="b-capital" class="stat-val blue">—</div></div>
-                <div class="stat"><div class="stat-label">PnL Jour</div><div id="b-pnl" class="stat-val">—</div></div>
-                <div class="stat"><div class="stat-label">Trades/Jour</div><div id="b-today" class="stat-val white">—</div></div>
-            </div>
-            <div style="font-size:0.65rem;color:#1f2d40;">Historical data · Bot is RETIRED_STOPPED · Not executing orders</div>
-        </div>
-        <!-- Kraken Futures Historical -->
-        <div class="card-legacy">
-            <div class="section-title"><i class="fas fa-wave-square purple"></i>Kraken Futures — Historical <span class="badge badge-gray" style="font-size:0.6rem;">ARCHIVE</span></div>
-            <div class="stats-row">
-                <div class="stat"><div class="stat-label">Balance</div><div id="k-balance" class="stat-val purple">—</div></div>
-                <div class="stat"><div class="stat-label">PnL Jour</div><div id="k-pnl" class="stat-val">—</div></div>
-                <div class="stat"><div class="stat-label">Positions</div><div id="k-pos-count" class="stat-val white">—</div></div>
-            </div>
-            <div style="font-size:0.65rem;color:#1f2d40;">Historical data · Bot is RETIRED_STOPPED · Not executing orders</div>
-        </div>
-    </div>
-</details>
+
 
 </div>
 
@@ -361,7 +306,7 @@ function ageHours(ts) {
 setInterval(function() { document.getElementById('h-clock').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }, 1000);
 
 // ── Global Safety Header ──
-function updateGlobalHeader(data, legacyData) {
+function updateGlobalHeader(data) {
     var h = data.safety_header || {};
     var alerts = [];
     var mode = safeStr(h.mode || data.mode, 'DRY_RUN');
@@ -382,16 +327,6 @@ function updateGlobalHeader(data, legacyData) {
     if (mode !== 'DRY_RUN') alerts.push('CRITICAL: Mode is ' + mode + ' — should be DRY_RUN');
     if (safeStr(h.kill_switch_status) === 'active') alerts.push('KILL SWITCH is ACTIVE');
     if (safeStr(h.data_status, 'ok') !== 'ok') alerts.push('Data status: ' + safeStr(h.data_status, '?'));
-
-    // Check legacy bots active
-    if (legacyData) {
-        var bots = legacyData.bots || [];
-        for (var i = 0; i < bots.length; i++) {
-            if (bots[i].status === 'ACTIVE') {
-                alerts.push('CRITICAL: ' + bots[i].bot + ' is ACTIVE — should be RETIRED_STOPPED');
-            }
-        }
-    }
 
     var alertEl = document.getElementById('global-alert');
     var alertMsg = document.getElementById('global-alert-msg');
@@ -414,10 +349,7 @@ async function loadNTV() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         var data = await res.json();
 
-        // Load legacy status first to feed global header
-        var legacyRes = await fetch(GH_RAW + 'legacy_bots_status.json?t=' + Date.now()).catch(function(){return null});
-        var legacyData = legacyRes ? await legacyRes.json() : null;
-        updateGlobalHeader(data, legacyData);
+        updateGlobalHeader(data);
 
         // Badge
         var badge = document.getElementById('ntv-badge');
@@ -513,9 +445,6 @@ async function loadNTV() {
         srcAge.textContent = tickAge !== null && tickAge !== undefined ? tickAge.toFixed(1) + ' min' : 'UNKNOWN';
         srcAge.className = tickAge !== null ? (tickAge > 120 ? 'red' : tickAge > 30 ? 'yellow' : 'green') : 'gray';
         document.getElementById('fr-sig').textContent = fmtTime(sig.timestamp || (data.current_signal || {}).timestamp);
-        if (legacyData) {
-            document.getElementById('fr-legacy').textContent = fmtTime(legacyData.generated_at);
-        }
         var age = ageHours(data.generated_at);
         var ageEl = document.getElementById('fr-age');
         ageEl.textContent = age !== null ? age.toFixed(1) + 'h' : 'UNKNOWN';
@@ -596,93 +525,6 @@ function setNTVSignal(pref, s) {
     document.getElementById('ntv-' + pref + '-reason').textContent = s.block_reason || (!s.allowed ? 'Blocked' : '');
 }
 
-// ── Legacy Bots Real Status ──
-async function loadLegacyBots() {
-    try {
-        var res = await fetch(GH_RAW + 'legacy_bots_status.json?t=' + Date.now());
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        var data = await res.json();
-        var bots = data.bots || [];
-        var anyActive = false;
-
-        var b2 = {v5:{}, kraken:{}};
-        for (var i = 0; i < bots.length; i++) {
-            var b = bots[i];
-            if (b.bot.indexOf('Binance') >= 0) b2.v5 = b;
-            else b2.kraken = b;
-        }
-
-        function renderLegacyBot(prefix, b) {
-            var el = document.getElementById(prefix + 'status-row');
-            var statusClass = 'badge-gray';
-            var statusText = b.status || 'UNKNOWN';
-            if (b.status === 'ACTIVE') { statusClass = 'badge-red'; anyActive = true; }
-            else if (b.status === 'RETIRED_STOPPED') statusClass = 'badge-gray';
-            else if (b.status === 'RETIRED_NOT_RUNNING') { statusClass = 'badge-gray'; statusText = 'RETIRED'; }
-            else statusClass = 'badge-yellow';
-
-            document.getElementById('bo-' + (prefix === 'lv5' ? 'v5' : 'kraken')).textContent = statusText;
-            document.getElementById('bo-' + (prefix === 'lv5' ? 'v5' : 'kraken')).className = 'badge ' + statusClass;
-            document.getElementById(prefix + '-status').textContent = b.status || 'UNKNOWN';
-            document.getElementById(prefix + '-checked').textContent = fmtTime(b.checked_at || b.stopped_at || '');
-            document.getElementById(prefix + '-restart').textContent = b.restart_disabled ? 'DISABLED' : (b.status === 'ACTIVE' ? 'ACTIVE' : 'UNKNOWN');
-            document.getElementById(prefix + '-restart').className = b.restart_disabled ? 'green' : 'red';
-            document.getElementById(prefix + '-orders').textContent = b.no_orders_executed === true ? 'NO ORDERS' : (b.no_orders_executed === false ? 'HAD ORDERS' : 'UNKNOWN');
-            document.getElementById(prefix + '-orders').className = b.no_orders_executed === true ? 'green' : 'red';
-        }
-
-        if (b2.v5.bot) renderLegacyBot('lv5', b2.v5);
-        if (b2.kraken.bot) renderLegacyBot('lk', b2.kraken);
-
-        // Freshness
-        document.getElementById('fr-legacy').textContent = fmtTime(data.generated_at);
-
-        var warnEl = document.getElementById('legacy-warning');
-        if (anyActive) {
-            warnEl.style.display = 'block';
-            warnEl.innerHTML = '<i class="fas fa-triangle-exclamation"></i> CRITICAL: Legacy bot(s) still ACTIVE \u2014 should be RETIRED_STOPPED';
-        } else {
-            warnEl.style.display = 'none';
-        }
-    } catch(e) {
-        console.error('Legacy bots:', e);
-        ['bo-v5','bo-kraken'].forEach(function(id){document.getElementById(id).textContent='UNKNOWN';document.getElementById(id).className='badge badge-yellow';});
-    }
-}
-
-// ── Binance V5 Historical (collapsed, lazy) ──
-var binanceLoaded = false;
-async function loadBinanceHistorical() {
-    if (binanceLoaded) return;
-    try {
-        var _a = await Promise.all([fetch(GH_RAW + 'bot_status.json?t=' + Date.now()), fetch(GH_RAW + 'trades.json?t=' + Date.now())]);
-        var s = await _a[0].json(), trades = await _a[1].json();
-        document.getElementById('b-capital').textContent = '$' + (parseFloat(s.capital) || 0).toFixed(2);
-        var pnl = parseFloat(s.daily_pnl) || 0;
-        var el = document.getElementById('b-pnl');
-        el.textContent = fmtUSD(pnl);
-        el.className = 'stat-val ' + pnlClass(pnl);
-        document.getElementById('b-today').textContent = s.today_trades_count || 0;
-        binanceLoaded = true;
-    } catch(e) { console.error('Binance historical:', e); }
-}
-
-// ── Kraken Futures Historical (collapsed, lazy) ──
-var krakenLoaded = false;
-async function loadKrakenHistorical() {
-    if (krakenLoaded) return;
-    try {
-        var res = await fetch(GH_RAW + 'kraken.json?t=' + Date.now()), data = await res.json();
-        document.getElementById('k-balance').textContent = '$' + ((parseFloat((data.summary||{}).balance) || 0)).toFixed(2);
-        var kpnl = parseFloat((data.summary||{}).daily_pnl) || 0;
-        var el = document.getElementById('k-pnl');
-        el.textContent = fmtUSD(kpnl);
-        el.className = 'stat-val ' + pnlClass(kpnl);
-        document.getElementById('k-pos-count').textContent = (data.summary||{}).positions_count || 0;
-        krakenLoaded = true;
-    } catch(e) { console.error('Kraken historical:', e); }
-}
-
 // ── Scalable ETF ──
 var stocksFresh = true;
 async function loadStocks() {
@@ -734,14 +576,9 @@ async function loadStocks() {
 }
 
 // ── Init ──
-loadNTV(); loadLegacyBots(); loadStocks();
-// Lazy load historical legacy data when user expands the details
-document.querySelector('details').addEventListener('toggle', function() {
-    if (this.open) { loadBinanceHistorical(); loadKrakenHistorical(); }
-});
+loadNTV(); loadStocks();
 setInterval(function() { loadNTV(); }, 30000);
 setInterval(loadStocks, 60000);
-setInterval(loadLegacyBots, 120000);
 </script>
 </body>
 </html>
