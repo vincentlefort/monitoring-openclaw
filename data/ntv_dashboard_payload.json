@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-01T12:20:05.229584+00:00",
+  "timestamp": "2026-07-17T18:57:39.305664+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -15,92 +15,51 @@
     "eur_pct": 100.0
   },
   "target_allocation": {
-    "btc_pct": 50.0,
+    "btc_pct": 0.0,
     "eth_pct": 0.0,
-    "eur_pct": 50.0
+    "eur_pct": 100.0
   },
   "allocation_deviation": {
-    "btc_deviation_pct": -50.0,
+    "btc_deviation_pct": 0.0,
     "eth_deviation_pct": 0.0,
-    "eur_deviation_pct": 50.0
+    "eur_deviation_pct": 0.0
   },
-  "recommended_orders": [
-    {
-      "pair": "BTC/EUR",
-      "side": "buy",
-      "asset": "BTC",
-      "quantity": 0.02736874,
-      "notional_eur": 1405.27,
-      "deviation_pct": -50.0,
-      "estimated_cost_eur": 4.3591,
-      "cost_breakdown": {
-        "maker_fee_pct": 0.16,
-        "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 0.0002,
-        "slippage_estimate_pct": 0.05,
-        "fee_eur": 3.6537,
-        "spread_eur": 0.0027,
-        "slippage_eur": 0.7026,
-        "total_cost_eur": 4.3591,
-        "cost_pct_of_order": 0.3102,
-        "cost_pct_of_portfolio": 0.1551,
-        "trade_allowed": false,
-        "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
-      },
-      "blocked": true,
-      "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
-    }
-  ],
-  "estimated_costs": [
-    {
-      "maker_fee_pct": 0.16,
-      "taker_fee_pct": 0.26,
-      "spread_estimate_pct": 0.0002,
-      "slippage_estimate_pct": 0.05,
-      "fee_eur": 3.6537,
-      "spread_eur": 0.0027,
-      "slippage_eur": 0.7026,
-      "total_cost_eur": 4.3591,
-      "cost_pct_of_order": 0.3102,
-      "cost_pct_of_portfolio": 0.1551,
-      "trade_allowed": false,
-      "block_reason": "Cost 0.1551% of portfolio exceeds max 0.1%"
-    }
-  ],
+  "recommended_orders": [],
+  "estimated_costs": [],
   "executed_orders": [],
   "last_signal": {
-    "btc_close": 80749.6,
-    "btc_sma200": 80685.713,
-    "btc_vol30": 68.97,
-    "btc_allowed": true,
-    "eth_close": 1854.94,
-    "eth_sma200": 2697.8191500000003,
-    "eth_vol30": 96.05,
+    "btc_close": 75155.1,
+    "btc_sma200": 82301.7305,
+    "btc_vol30": 62.45,
+    "btc_allowed": false,
+    "eth_close": 1448.65,
+    "eth_sma200": 2646.8354,
+    "eth_vol30": 98.25,
     "eth_allowed": false,
-    "allocation_tier": "btc_only",
-    "timestamp": "2026-07-01T12:20:05.028210+00:00"
+    "allocation_tier": "none",
+    "timestamp": "2026-07-17T18:57:39.230004+00:00"
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-07-01T12:20:05.028572+00:00",
+    "timestamp": "2026-07-17T18:57:39.230571+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 81127.0,
-      "low_20": 72461.6,
-      "prev_high_20": 83398.7,
-      "prev_low_20": 72461.6,
-      "close": 80749.6,
-      "prev_close": 80893.7,
+      "low_20": 69467.3,
+      "prev_high_20": 81127.0,
+      "prev_low_20": 69467.3,
+      "close": 75155.1,
+      "prev_close": 73409.9,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
     },
     "eth": {
-      "high_20": 2034.59,
-      "low_20": 1717.61,
-      "prev_high_20": 2042.12,
-      "prev_low_20": 1717.61,
-      "close": 1854.94,
-      "prev_close": 1869.99,
+      "high_20": 1927.82,
+      "low_20": 1341.48,
+      "prev_high_20": 1927.82,
+      "prev_low_20": 1341.48,
+      "close": 1448.65,
+      "prev_close": 1379.16,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
@@ -111,41 +70,16 @@
       "any_breakout": false
     }
   },
-  "alerts": [
-    {
-      "level": "WARN",
-      "message": "Cost block: Cost 0.1551% of portfolio exceeds max 0.1%",
-      "pair": "BTC/EUR"
-    },
-    {
-      "level": "FAIL",
-      "guard": "G1",
-      "message": "Post-order total 4215.81 EUR exceeds max capital 2810.54 EUR"
-    },
-    {
-      "level": "FAIL",
-      "guard": "G2",
-      "message": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
-    }
-  ],
+  "alerts": [],
   "safety_status": {
-    "guards_passed": 11,
-    "guards_failed": 2,
-    "all_clear": false,
-    "details": [
-      {
-        "id": "G1",
-        "reason": "Post-order total 4215.81 EUR exceeds max capital 2810.54 EUR"
-      },
-      {
-        "id": "G2",
-        "reason": "Post-order total 4215.81 EUR exceeds hard cap 3000.00 EUR"
-      }
-    ]
+    "guards_passed": 18,
+    "guards_failed": 0,
+    "all_clear": true,
+    "details": []
   },
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
-    "gaston_telegram": ""
+    "gaston_telegram": "inactive"
   }
 }
