@@ -271,12 +271,18 @@ def main():
         # Préserver les prix existants pour éviter perte si Yahoo rate-limite
         prev_prices = {}
         prev_transactions = []
+        prev_stops_positions = {}
+        prev_stops_prices = {}
+        prev_stops_summary = {}
         try:
             if os.path.exists(OUTPUT_JSON):
                 with open(OUTPUT_JSON, 'r') as f:
                     prev = json.load(f)
                     prev_prices = prev.get('prices', {})
                     prev_transactions = prev.get('transactions', [])
+                    prev_stops_positions = prev.get('stops_positions', {})
+                    prev_stops_prices = prev.get('stops_prices', {})
+                    prev_stops_summary = prev.get('stops_summary', {})
         except Exception:
             pass
 
@@ -295,6 +301,9 @@ def main():
             'portfolio': portfolio,
             'prices': prev_prices,
             'transactions': transactions,
+            'stops_positions': prev_stops_positions,
+            'stops_prices': prev_stops_prices,
+            'stops_summary': prev_stops_summary,
             'summary': {
                 'positions_count': len(portfolio),
                 'total_shares': sum(p['shares'] for p in portfolio.values()),

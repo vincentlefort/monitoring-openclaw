@@ -95,6 +95,9 @@ if [ -f /home/openclaw/.openclaw/workspace-bourse/scalable_export.csv ]; then
     python3 ./update-stocks-data-simple.py 2>/dev/null || echo "Analyse boursière échouée"
 fi
 
+# Intégrer les stops actifs (positions non-Scalable)
+python3 ./update-stops-dashboard.py 2>/dev/null || echo "Stops dashboard échoué"
+
 # Analyser les données Kraken
 if [ -f /home/openclaw/kraken_bot_v1/bot.log ]; then
     python3 ./update-kraken-data.py 2>/dev/null || echo "Analyse Kraken échouée"

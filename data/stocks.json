@@ -215,6 +215,66 @@
   },
   "transactions": [
     {
+      "date": "2026-07-20",
+      "time": "",
+      "type": "Buy",
+      "description": "Airbus SE",
+      "ticker": "AIR.PA",
+      "isin": "STOP:AIR.PA",
+      "shares": 16,
+      "price": 193.04,
+      "amount": -3088.64,
+      "fee": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "time": "",
+      "type": "Buy",
+      "description": "BNP Paribas",
+      "ticker": "BNP.PA",
+      "isin": "STOP:BNP.PA",
+      "shares": 26,
+      "price": 103.26,
+      "amount": -2684.76,
+      "fee": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "time": "",
+      "type": "Buy",
+      "description": "Nestlé SA",
+      "ticker": "NESN.SW",
+      "isin": "STOP:NESN.SW",
+      "shares": 32,
+      "price": 91.98,
+      "amount": -2943.36,
+      "fee": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "time": "",
+      "type": "Buy",
+      "description": "Allianz SE",
+      "ticker": "ALV.DE",
+      "isin": "STOP:ALV.DE",
+      "shares": 6,
+      "price": 423.2,
+      "amount": -2539.2,
+      "fee": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "time": "",
+      "type": "Buy",
+      "description": "MTU Aero Engines",
+      "ticker": "MTX.DE",
+      "isin": "STOP:MTX.DE",
+      "shares": 7,
+      "price": 337.6,
+      "amount": -2363.2,
+      "fee": 0.0
+    },
+    {
       "date": "2026-07-16",
       "time": "21:02:11",
       "type": "Buy",
@@ -1128,5 +1188,138 @@
     "total_pnl_pct": -95.08
   },
   "note": "Les prix actuels et signaux seront recuperes cote client via Yahoo Finance API",
-  "prix_warning": "Donn\u00e9es partielles (1/2 indisponibles) \u2014 rate-limit probable"
+  "prix_warning": "Données partielles (1/2 indisponibles) — rate-limit probable",
+  "stops_positions": {
+    "MRK.DE": {
+      "name": "Merck KGaA",
+      "ticker": "MRK.DE",
+      "shares": 22,
+      "prix_entree": 138.4,
+      "stop": 133.42,
+      "invested": 3044.8,
+      "date_entree": "2026-07-16"
+    },
+    "AIR.PA": {
+      "name": "Airbus SE",
+      "ticker": "AIR.PA",
+      "shares": 16,
+      "prix_entree": 193.04,
+      "stop": 184.73,
+      "invested": 3088.64,
+      "date_entree": "2026-07-20"
+    },
+    "BNP.PA": {
+      "name": "BNP Paribas",
+      "ticker": "BNP.PA",
+      "shares": 26,
+      "prix_entree": 103.26,
+      "stop": 96.84,
+      "invested": 2684.76,
+      "date_entree": "2026-07-20"
+    },
+    "NESN.SW": {
+      "name": "Nestlé SA",
+      "ticker": "NESN.SW",
+      "shares": 32,
+      "prix_entree": 91.98,
+      "stop": 86.8,
+      "invested": 2943.36,
+      "date_entree": "2026-07-20"
+    },
+    "ALV.DE": {
+      "name": "Allianz SE",
+      "ticker": "ALV.DE",
+      "shares": 6,
+      "prix_entree": 423.2,
+      "stop": 396.93,
+      "invested": 2539.2,
+      "date_entree": "2026-07-20"
+    },
+    "MTX.DE": {
+      "name": "MTU Aero Engines",
+      "ticker": "MTX.DE",
+      "shares": 7,
+      "prix_entree": 337.6,
+      "stop": 325.86,
+      "invested": 2363.2,
+      "date_entree": "2026-07-20"
+    }
+  },
+  "stops_prices": {
+    "MRK.DE": {
+      "price": 136.35,
+      "price_eur": 136.35,
+      "change_pct": -1.16,
+      "currency": "EUR",
+      "value": 2999.7,
+      "pnl_pct": -1.48,
+      "pnl_eur": -45.1,
+      "distance_stop_pct": 2.15,
+      "fresh": true
+    },
+    "AIR.PA": {
+      "price": 192.58,
+      "price_eur": 192.58,
+      "change_pct": -0.9,
+      "currency": "EUR",
+      "value": 3081.28,
+      "pnl_pct": -0.24,
+      "pnl_eur": -7.36,
+      "distance_stop_pct": 4.08,
+      "fresh": true
+    },
+    "BNP.PA": {
+      "price": 102.54,
+      "price_eur": 102.54,
+      "change_pct": 0.59,
+      "currency": "EUR",
+      "value": 2666.04,
+      "pnl_pct": -0.7,
+      "pnl_eur": -18.72,
+      "distance_stop_pct": 5.56,
+      "fresh": true
+    },
+    "NESN.SW": {
+      "price": 84.91,
+      "price_eur": 91.8981,
+      "change_pct": -0.75,
+      "currency": "CHF",
+      "value": 2940.74,
+      "pnl_pct": -0.09,
+      "pnl_eur": -2.62,
+      "distance_stop_pct": 5.55,
+      "fresh": true
+    },
+    "ALV.DE": {
+      "price": 422.4,
+      "price_eur": 422.4,
+      "change_pct": 0.67,
+      "currency": "EUR",
+      "value": 2534.4,
+      "pnl_pct": -0.19,
+      "pnl_eur": -4.8,
+      "distance_stop_pct": 6.03,
+      "fresh": true
+    },
+    "MTX.DE": {
+      "price": 335.7,
+      "price_eur": 335.7,
+      "change_pct": -3.0,
+      "currency": "EUR",
+      "value": 2349.9,
+      "pnl_pct": -0.56,
+      "pnl_eur": -13.3,
+      "distance_stop_pct": 2.93,
+      "fresh": true
+    }
+  },
+  "stops_summary": {
+    "positions_count": 6,
+    "total_invested": 16663.96,
+    "total_value": 16572.06,
+    "total_risk_eur": 815.0,
+    "total_pnl_eur": -91.9,
+    "total_pnl_pct": -0.55,
+    "last_updated": "2026-07-20T12:54:33.915031"
+  }
 }
