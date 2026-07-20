@@ -28,6 +28,13 @@ ISIN_TO_DATA = {
     "US74762E1029": {"ticker": "PWR",     "name": "Quanta Services"},
     "US7475251036": {"ticker": "QCOM",    "name": "Qualcomm"},
     "US1717793095": {"ticker": "CIEN",    "name": "Ciena Co"},
+    # Actions stops — stock picking
+    "DE0006599905": {"ticker": "MRK.DE",  "name": "Merck KGaA"},
+    "FR0000131104": {"ticker": "BNP.PA",  "name": "BNP Paribas"},
+    "NL0000235190": {"ticker": "AIR.PA",  "name": "Airbus SE"},
+    "CH0038863350": {"ticker": "NESN.SW", "name": "Nestlé SA"},
+    "DE000A0D9PT0": {"ticker": "MTX.DE",  "name": "MTU Aero Engines"},
+    "DE0008404005": {"ticker": "ALV.DE",  "name": "Allianz SE"},
 }
 
 

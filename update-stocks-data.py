@@ -15,14 +15,15 @@ OUTPUT_JSON = "/home/openclaw/monitoring-site/data/stocks.json"
 
 # Mapping ISIN -> Ticker et noms
 ISIN_TO_DATA = {
-    "IE00BF4RFH31": {"ticker": "WSML.L", "name": "iShares MSCI World Small Cap"},
-    "IE00BKM4GZ66": {"ticker": "EIMI.L", "name": "iShares Core MSCI Emerging Markets IMI"},
-    "IE00B5BMR087": {"ticker": "CSPX.L", "name": "iShares Core S&P 500"},
-    "IE00BK5BQT80": {"ticker": "VWRA.L", "name": "Vanguard FTSE All-World"},
-    "IE000BI8OT95": {"ticker": "LCUW.DE", "name": "Amundi MSCI World ESG"},
-    "IE000I8KRLL9": {"ticker": "XDWH.DE", "name": "iShares MSCI Global Semiconductors"},
+    "IE00BF4RFH31": {"ticker": "WSML.L",  "name": "iShares MSCI World Small Cap"},
+    "IE00BKM4GZ66": {"ticker": "EIMI.L",  "name": "iShares Core MSCI Emerging Markets IMI"},
+    "IE00B5BMR087": {"ticker": "CSPX.L",  "name": "iShares Core S&P 500"},
+    "IE00BK5BQT80": {"ticker": "VWRA.L",  "name": "Vanguard FTSE All-World"},
+    "IE000BI8OT95": {"ticker": "WRDU.AS", "name": "Amundi Core MSCI World"},          # fix: LCUW.DE retournait 19€ (mauvais ETF)
+    "IE000I8KRLL9": {"ticker": "SEMI.L",  "name": "iShares MSCI Global Semiconductors"},  # fix: était XDWH.DE (Health Care ~48€)
+    "IE00BM67HK77": {"ticker": "XDWH.DE", "name": "Xtrackers MSCI World Health Care"},    # nouveau: 1 part ~48€
     "IE00BMW42413": {"ticker": "IQQH.DE", "name": "iShares MSCI Europe IT Sector"},
-    "IE00BMW42306": {"ticker": "IEMM.L", "name": "iShares MSCI Europe Financials"},
+    "IE00BMW42306": {"ticker": "ESIF.L",  "name": "iShares MSCI Europe Financials"},  # fix: IEMM.L→IEMM.AS était un ETF EM à 53€
 }
 
 def get_current_price_yahoo(ticker):
