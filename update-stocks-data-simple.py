@@ -11,6 +11,8 @@ from datetime import datetime
 # Chemins des fichiers
 SCALABLE_CSV = "/home/openclaw/.openclaw/workspace-bourse/scalable_export.csv"
 OUTPUT_JSON = "/home/openclaw/monitoring-site/data/stocks.json"
+STOPS_ACTIFS = "/home/openclaw/.openclaw/workspace-bourse/stops_actifs.json"
+ETF_PERMANENT = ['MWRD.PA']
 
 # Mapping ISIN -> Ticker Yahoo Finance et nom
 ISIN_TO_DATA = {
@@ -232,6 +234,40 @@ def analyze_portfolio_simple():
     return portfolio
 
 
+def load_allowed_tickers():
+    """Charge les tickers autorisés depuis stops_actifs.json + ETF permanent.
+    Même principe que lancer_rapport.py : stops_actifs.json est la source de vérité."""
+    allowed = set(ETF_PERMANENT)
+    try:
+        if os.path.exists(STOPS_ACTIFS):
+            with open(STOPS_ACTIFS, 'r') as f:
+                stops = json.load(f)
+            for p in stops.get("positions", []):
+                ticker = p.get("ticker", "")
+                if ticker:
+                    allowed.add(ticker)
+        else:
+            print(f"\u26a0\ufe0f stops_actifs.json introuvable à {STOPS_ACTIFS}")
+    except Exception as e:
+        print(f"\u26a0\ufe0f Erreur lecture stops_actifs.json: {e}")
+    return allowed
+
+
+def filter_portfolio(portfolio, allowed_tickers):
+    """Filtre le portfolio : seules les positions dont le ticker est dans
+    allowed_tickers (stops_actifs.json + ETF permanent) sont conservées."""
+    filtered = {}
+    removed = []
+    for ticker, pos in portfolio.items():
+        if ticker in allowed_tickers:
+            filtered[ticker] = pos
+        else:
+            removed.append(ticker)
+    if removed:
+        print(f"   \U0001f6ab Positions filtrées (absentes de stops_actifs.json) : {', '.join(removed)}")
+    return filtered
+
+
 def get_transactions():
     """Extrait l'historique des transactions (Buy/Sell) depuis le CSV Scalable."""
     transactions = []
@@ -273,6 +309,13 @@ def main():
 
     try:
         portfolio = analyze_portfolio_simple()
+
+        # Filtrage : seules les positions présentes dans stops_actifs.json
+        # (+ ETF permanent MWRD.PA) sont conservées dans stocks.json
+        allowed = load_allowed_tickers()
+        print(f"   Tickers autorisés : {sorted(allowed)}")
+        portfolio = filter_portfolio(portfolio, allowed)
+
         transactions = get_transactions()
 
         # Préserver les prix existants pour éviter perte si Yahoo rate-limite
