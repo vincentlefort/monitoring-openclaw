@@ -122,6 +122,9 @@ python3 /home/openclaw/kraken_auto_spot_ntv/src/forward_test_snapshot.py 2>/dev/
 # Exporter le statut reel des legacy bots
 python3 ./export_legacy_bots_status.py 2>/dev/null || echo "Export legacy bots status échoué"
 
+# Tick Swing Paper Trading (read-only, no orders)
+python3 /tmp/opencode/kraken_swing_paper_trading/engine.py --tick 2>/dev/null || echo "Swing tick failed"
+
 # Mettre à jour les prix ETF (Yahoo Finance côté serveur)
 python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
 
