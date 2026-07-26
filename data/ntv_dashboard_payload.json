@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-26T22:00:05.126001+00:00",
+  "timestamp": "2026-07-26T22:00:24.578929+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -47,29 +47,29 @@
     "simulated_fills_this_tick": []
   },
   "last_signal": {
-    "btc_close": 57039.9,
-    "btc_sma200": 62007.1925,
-    "btc_vol30": 28.7,
+    "btc_close": 57050.0,
+    "btc_sma200": 62007.242999999995,
+    "btc_vol30": 28.71,
     "btc_allowed": false,
-    "eth_close": 1693.22,
-    "eth_sma200": 1838.9503000000002,
-    "eth_vol30": 40.26,
+    "eth_close": 1697.27,
+    "eth_sma200": 1838.97055,
+    "eth_vol30": 40.42,
     "eth_allowed": false,
     "allocation_tier": "none",
-    "timestamp": "2026-07-26T22:00:05.073127+00:00",
+    "timestamp": "2026-07-26T22:00:24.513517+00:00",
     "data_last_candle_utc": "2026-07-26T00:00:00+00:00",
     "data_last_candle_date": "2026-07-26",
     "signal_data_age_days": 0.92
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-07-26T22:00:05.073447+00:00",
+    "timestamp": "2026-07-26T22:00:24.513858+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 58332.8,
       "low_20": 54524.1,
       "prev_high_20": 58332.8,
       "prev_low_20": 54524.1,
-      "close": 57039.9,
+      "close": 57050.0,
       "prev_close": 56586.5,
       "signal": "NONE",
       "breakout_pct": 0.0,
@@ -80,16 +80,16 @@
       "low_20": 1526.17,
       "prev_high_20": 1694.43,
       "prev_low_20": 1526.17,
-      "close": 1693.22,
+      "close": 1697.27,
       "prev_close": 1648.14,
-      "signal": "NONE",
-      "breakout_pct": 0.0,
+      "signal": "BREAKOUT_UP",
+      "breakout_pct": 0.17,
       "period": 20
     },
     "summary": {
       "btc_signal": "NONE",
-      "eth_signal": "NONE",
-      "any_breakout": false
+      "eth_signal": "BREAKOUT_UP",
+      "any_breakout": true
     }
   },
   "alerts": [],
@@ -102,6 +102,6 @@
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
-    "gaston_telegram": ""
+    "gaston_telegram": "inactive"
   }
 }
