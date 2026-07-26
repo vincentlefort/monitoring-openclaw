@@ -125,6 +125,9 @@ python3 ./export_legacy_bots_status.py 2>/dev/null || echo "Export legacy bots s
 # Mettre à jour les prix ETF (Yahoo Finance côté serveur)
 python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
 
+# Exporter dashboard_full.json (agregation Swing Paper + Market Context + Freshness globale)
+python3 ./export_dashboard_full.py 2>/dev/null || echo "Export dashboard_full échoué"
+
 # Mettre à jour le timestamp
 echo '{"last_updated": "'$(date -Iseconds)'"}' > ./data/last_updated.json
 

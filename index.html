@@ -74,20 +74,28 @@
 <!-- ===== ROW 0 — GLOBAL SAFETY HEADER ===== -->
 <div id="global-alert" class="global-alert"><i class="fas fa-triangle-exclamation"></i><span id="global-alert-msg"></span></div>
 
-<div style="background:#0d1825;border:1px solid #1f2d40;border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-    <div>
-        <h1 style="font-size:1.2rem;font-weight:800;margin:0;">
-            <span class="dot-pulse" style="margin-right:8px;"></span>
-            OpenClaw <span class="blue">Monitoring</span>
-        </h1>
-        <div style="color:#374151;font-size:0.68rem;margin-top:2px;">Kraken Auto Spot NTV · DRY_RUN · Munich</div>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
-        <span id="h-mode" class="badge badge-yellow">DRY_RUN</span>
-        <span id="h-live" class="badge badge-gray">LIVE: DISABLED</span>
-        <span id="h-auto" class="badge badge-gray">AUTO_EXEC: FALSE</span>
-        <span id="h-safety" class="badge badge-green">SAFETY: OK</span>
-        <span style="color:#374151;font-size:0.7rem;" id="h-clock">—</span>
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- PERMANENT SAFETY HEADER — always visible, color-coded          -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div id="safety-banner" style="background:#0d1825;border:2px solid #1f2d40;border-radius:12px;padding:14px 20px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div>
+            <h1 style="font-size:1.2rem;font-weight:800;margin:0;">
+                <span class="dot-pulse" style="margin-right:8px;"></span>
+                OpenClaw <span class="blue">Monitoring</span>
+            </h1>
+            <div style="color:#374151;font-size:0.68rem;margin-top:2px;">Kraken Auto Spot NTV · DRY_RUN · Munich</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+            <span id="h-global" class="badge badge-green">GLOBAL: HEALTHY</span>
+            <span id="h-mode" class="badge badge-yellow">DRY_RUN</span>
+            <span id="h-live" class="badge badge-gray">LIVE: DISABLED</span>
+            <span id="h-auto" class="badge badge-gray">AUTO_EXEC: FALSE</span>
+            <span id="h-orders" class="badge badge-green">REAL ORDERS: 0</span>
+            <span id="h-legacy" class="badge badge-gray">LEGACY: STOPPED</span>
+            <span id="h-safety" class="badge badge-green">SAFETY: OK</span>
+            <span style="color:#374151;font-size:0.7rem;" id="h-clock">—</span>
+        </div>
     </div>
 </div>
 
@@ -95,7 +103,7 @@
 <div class="card" style="margin-bottom:16px;">
     <div class="bot-header">
         <div>
-            <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV</div>
+            <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
             <div class="bot-subtitle">Naive Trend+Vol Model A · Spot Only · BTC/EUR ETH/EUR · DRY_RUN</div>
         </div>
         <span id="ntv-badge" class="badge badge-yellow">DRY_RUN</span>
@@ -150,13 +158,39 @@
     </div>
 </div>
 
+<!-- ===== SWING FUTURES PAPER TRADING ===== -->
+<div class="card" style="margin-bottom:16px;" id="swing-card">
+    <div class="bot-header">
+        <div>
+            <div class="bot-title"><i class="fas fa-chart-candlestick purple"></i>Swing Futures Paper Trading</div>
+            <div class="bot-subtitle">S1 Donchian Breakout · Fixed Duration · Paper A (BTC/SOL/XRP) · Paper B (SOL/DOGE/XRP) · <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+        </div>
+        <span id="swing-badge" class="badge badge-gray">—</span>
+    </div>
+    <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
+        <div class="stat"><div class="stat-label">Paper A Net</div><div id="sw-a-net" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">Paper A Closed</div><div id="sw-a-trades" class="stat-val white">—</div></div>
+        <div class="stat"><div class="stat-label">Paper B Net</div><div id="sw-b-net" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">Paper B Closed</div><div id="sw-b-trades" class="stat-val white">—</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="section-title"><i class="fas fa-signal purple"></i>Derniers Signaux S1 (4h Donchian)</div>
+    <div class="grid-4" style="margin-bottom:8px;">
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="sw-sig-btc" class="gray">—</div><div id="sw-det-btc" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="sw-sig-sol" class="gray">—</div><div id="sw-det-sol" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp" class="gray">—</div><div id="sw-det-xrp" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge" class="gray">—</div><div id="sw-det-doge" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+    </div>
+    <div style="font-size:0.6rem;color:#1f2d40;">S1: Close > Donchian High 20 · Volume > SMA 20 · Daily > SMA200 · Capital théorique 6 500 EUR · Read-only</div>
+</div>
+
 <!-- ===== ROW 2 — FORWARD-TEST + DRY-RUN ORDERS + BREAKOUT20 ===== -->
 <div class="grid-2" style="margin-bottom:16px;">
     <!-- Forward-Test Monitoring -->
     <div class="card" id="forward-test-card">
         <div class="bot-header">
             <div>
-                <div class="bot-title"><i class="fas fa-flask blue"></i>Forward-Test Monitoring</div>
+                <div class="bot-title"><i class="fas fa-flask blue"></i>Forward-Test Monitoring <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
                 <div class="bot-subtitle" id="ft-subtitle">DRY_RUN observation · Read-only</div>
             </div>
             <div style="display:flex;gap:6px;">
@@ -203,7 +237,7 @@
 <div class="card" style="margin-bottom:16px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <div>
-            <div class="bot-title"><i class="fas fa-chart-line green"></i>Bourse / ETF Portfolio</div>
+            <div class="bot-title"><i class="fas fa-chart-line green"></i>Bourse / ETF Portfolio <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
             <div class="bot-subtitle">Scalable Capital · ETF &amp; Actions · Monitoring only</div>
         </div>
         <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
@@ -672,9 +706,92 @@ async function loadStocks() {
 }
 
 // ── Init ──
-loadNTV(); loadStocks();
+loadNTV(); loadStocks(); loadFull();
 setInterval(function() { loadNTV(); }, 30000);
 setInterval(loadStocks, 60000);
+setInterval(loadFull, 120000);
+
+// ── Dashboard Full (Swing + Market + Global) ──
+async function loadFull() {
+    try {
+        var res = await fetch(GH_RAW + 'dashboard_full.json?t=' + Date.now()), data = await res.json();
+        renderSwingPaper(data.swing_paper || {});
+        renderGlobalHeader(data);
+        renderGlobalFreshness(data.global_freshness || {});
+    } catch(e) { console.error('Full:', e); }
+}
+
+function renderSwingPaper(sw) {
+    var badge = document.getElementById('swing-badge');
+    if (!badge) return;
+    badge.textContent = sw.status === 'OK' ? 'LIVE TICK' : sw.status;
+    badge.className = 'badge ' + (sw.status === 'OK' ? 'badge-green' : sw.status === 'DELAYED' ? 'badge-yellow' : 'badge-red');
+
+    var pa = (sw.portfolios || {})['PaperA_Conservative'] || {};
+    var pb = (sw.portfolios || {})['PaperB_Aggressive'] || {};
+    document.getElementById('sw-a-net').textContent = pa.total_net_eur !== undefined ? '\u20AC' + pa.total_net_eur.toFixed(0) : '—';
+    document.getElementById('sw-a-net').className = 'stat-val ' + (pa.total_net_eur > 0 ? 'green' : pa.total_net_eur < 0 ? 'red' : 'white');
+    document.getElementById('sw-a-trades').textContent = pa.closed_trades !== undefined ? pa.closed_trades : '—';
+    document.getElementById('sw-b-net').textContent = pb.total_net_eur !== undefined ? '\u20AC' + pb.total_net_eur.toFixed(0) : '—';
+    document.getElementById('sw-b-net').className = 'stat-val ' + (pb.total_net_eur > 0 ? 'green' : pb.total_net_eur < 0 ? 'red' : 'white');
+    document.getElementById('sw-b-trades').textContent = pb.closed_trades !== undefined ? pb.closed_trades : '—';
+
+    // Signals
+    var sigs = sw.signals || {};
+    ['BTC','SOL','XRP','DOGE'].forEach(function(a) {
+        var s = sigs[a] || {};
+        var el = document.getElementById('sw-sig-' + a.toLowerCase());
+        if (el) {
+            el.textContent = s.signal || 'NONE';
+            el.className = s.signal === 'LONG_S1' ? 'green' : 'gray';
+        }
+        var det = document.getElementById('sw-det-' + a.toLowerCase());
+        if (det && s.bar_close) {
+            det.textContent = (s.bar_close ? 'close=' + Number(s.bar_close).toFixed(2) : '') +
+                (s.dc_high ? ' H20=' + Number(s.dc_high).toFixed(2) : '') +
+                (s.vol_ratio ? ' vol=' + Number(s.vol_ratio).toFixed(1) + 'x' : '');
+        }
+    });
+
+    // Active trades
+    var at = sw.active_trades || {};
+    if (Object.keys(at).length > 0) {
+        var alert = document.getElementById('global-alert');
+        if (alert) { alert.style.display = 'block'; }
+    }
+}
+
+function renderGlobalHeader(data) {
+    var gs = data.global_status || 'UNKNOWN';
+    var el = document.getElementById('h-global');
+    if (el) {
+        el.textContent = 'GLOBAL: ' + gs;
+        el.className = 'badge ' + (gs === 'HEALTHY' ? 'badge-green' : gs === 'WARNING' || gs === 'STALE' ? 'badge-yellow' : 'badge-red');
+    }
+    var safety = data.global_safety || {};
+    var sEl = document.getElementById('h-safety');
+    if (sEl && safety.overall) {
+        sEl.textContent = 'SAFETY: ' + safety.overall;
+        sEl.className = 'badge ' + (safety.overall === 'OK' ? 'badge-green' : 'badge-yellow');
+    }
+}
+
+function renderGlobalFreshness(fr) {
+    var srcs = fr.sources || {};
+    ['stocks_json','swing_paper','market_context'].forEach(function(k) {
+        var el = document.getElementById('fr-' + k);
+        if (!el) {
+            // Add freshness rows dynamically if container exists
+            var container = document.querySelector('#ntv-alerts-card + .card .freshness-row');
+            return;
+        }
+    });
+    // Update stocks freshness
+    var stocksEl = document.getElementById('fr-stocks');
+    if (stocksEl && srcs.stocks_json) {
+        stocksEl.textContent = (srcs.stocks_json.age !== null ? srcs.stocks_json.age.toFixed(0) + ' min' : '?') + ' [' + (srcs.stocks_json.status || '?') + ']';
+    }
+}
 </script>
 </body>
 </html>
