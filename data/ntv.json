@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-26T02:31:16.822095+00:00",
+  "generated_at": "2026-07-26T02:35:24.565307+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,12 +14,12 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-07-26T02:25:24.886355+00:00"
+    "last_update": "2026-07-26T02:35:24.533836+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 56654.6,
-      "sma200": 62005.265999999996,
+      "close": 56653.0,
+      "sma200": 62005.258,
       "vol30": 28.64,
       "trend_ok": false,
       "vol_ok": true,
@@ -27,8 +27,8 @@
       "block_reason": "close < SMA200"
     },
     "eth": {
-      "close": 1651.39,
-      "sma200": 1838.7411499999998,
+      "close": 1650.77,
+      "sma200": 1838.73805,
       "vol30": 39.62,
       "trend_ok": false,
       "vol_ok": true,
@@ -84,14 +84,14 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-07-26T02:25:24.809672+00:00",
+      "timestamp": "2026-07-26T02:35:24.484095+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 58332.8,
         "low_20": 54524.1,
         "prev_high_20": 58332.8,
         "prev_low_20": 54524.1,
-        "close": 56654.6,
+        "close": 56653.0,
         "prev_close": 56586.5,
         "signal": "NONE",
         "breakout_pct": 0.0,
@@ -102,7 +102,7 @@
         "low_20": 1526.17,
         "prev_high_20": 1694.43,
         "prev_low_20": 1526.17,
-        "close": 1651.39,
+        "close": 1650.77,
         "prev_close": 1648.14,
         "signal": "NONE",
         "breakout_pct": 0.0,
@@ -115,12 +115,7 @@
       }
     }
   },
-  "alerts": [
-    {
-      "level": "ERROR",
-      "message": "OHLC fetch failed"
-    }
-  ],
+  "alerts": [],
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
@@ -133,9 +128,9 @@
     "details": []
   },
   "ntv_tick": {
-    "last_tick_ok": false,
-    "last_tick_at": "2026-07-26T04:31:16+02:00",
-    "last_tick_time": "2026-07-26T04:31:16+02:00",
+    "last_tick_ok": true,
+    "last_tick_at": "2026-07-26T04:35:24+02:00",
+    "last_tick_time": "2026-07-26T04:35:24+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -146,27 +141,27 @@
     "data_last_candle_date": "2026-07-26",
     "signal_data_age_days": 0.11,
     "source_timestamps": {
-      "dashboard_payload": "2026-07-26T02:25:24.886566+00:00",
-      "signal": "2026-07-26T02:25:24.809593+00:00",
-      "orders_dry_run": "2026-07-26T02:25:24.878655+00:00",
-      "alerts": "2026-07-26T02:31:16.763998+00:00"
+      "dashboard_payload": "2026-07-26T02:35:24.533970+00:00",
+      "signal": "2026-07-26T02:35:24.484020+00:00",
+      "orders_dry_run": "2026-07-26T02:35:24.528310+00:00",
+      "alerts": "2026-07-26T02:35:24.528436+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 5.9,
-      "signal": 5.9,
-      "orders_dry_run": 5.9,
+      "dashboard_payload": 0.0,
+      "signal": 0.0,
+      "orders_dry_run": 0.0,
       "alerts": 0.0
     },
-    "freshness_status": "ERROR"
+    "freshness_status": "OK"
   },
   "forward_test": {
-    "status": "FORWARD_TEST_UNSAFE",
+    "status": "FORWARD_TEST_WARNING",
     "days_observed": 10,
-    "last_snapshot_time": "2026-07-26T02:25:24.937508+00:00",
-    "last_verdict": "FORWARD_TEST_UNSAFE",
-    "warnings_count": 0,
+    "last_snapshot_time": "2026-07-26T02:31:16.835667+00:00",
+    "last_verdict": "FORWARD_TEST_WARNING",
+    "warnings_count": 1,
     "unsafe_count": 0,
-    "total_snapshots": 2422,
+    "total_snapshots": 2423,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-07-26"
