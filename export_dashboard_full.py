@@ -11,6 +11,7 @@ from datetime import datetime, timezone, timedelta
 DASHBOARD_DATA_DIR = "/home/openclaw/monitoring-site/data"
 NTV_OUTPUT_DIR = "/home/openclaw/kraken_auto_spot_ntv/output"
 SWING_DIR = "/tmp/opencode/kraken_swing_paper_trading"
+RECOVERY_DIR = "/tmp/opencode/kraken_recovery_paper_trading"
 MARKET_STATE_PATH = "/home/openclaw/shared/market_state.json"
 OUTPUT_FILE = os.path.join(DASHBOARD_DATA_DIR, "dashboard_full.json")
 
@@ -99,6 +100,84 @@ def main():
 
     fused["swing_paper"] = swing
 
+    # ── 2b. Recovery Paper data ──
+    recovery = {"status": "UNAVAILABLE", "portfolios": {}, "signals": {}}
+    recovery_tick = safe_read(os.path.join(RECOVERY_DIR, "tick_result.json"))
+    recovery_state_a = safe_read(os.path.join(RECOVERY_DIR, "paper_state_recovery_a.json"))
+    recovery_state_b = safe_read(os.path.join(RECOVERY_DIR, "paper_state_recovery_b.json"))
+    recovery_results = safe_read(os.path.join(RECOVERY_DIR, "results.json"))
+    recovery_csv_age = file_age_minutes(os.path.join(RECOVERY_DIR, "dashboard.csv"))
+
+    if recovery_tick:
+        recovery["status"] = "OK"
+        recovery["last_tick"] = recovery_tick.get("timestamp", "")
+        recovery["tick_status"] = recovery_tick.get("status", "UNKNOWN")
+        recovery["paper_only"] = True
+        recovery["strategy"] = "R1 Recovery Rebound (sub-SMA200 bear regime)"
+
+        # Portfolios
+        for pf_key, pf_data in recovery_tick.get("portfolios", {}).items():
+            s = pf_data.get("summary", {})
+            pf_name = {"recovery_a": "Recovery A Conservative (48h)", "recovery_b": "Recovery B Aggressive (24h)"}.get(pf_key, pf_key)
+            pf_assets = {"recovery_a": ["BTC", "SOL", "XRP"], "recovery_b": ["SOL", "XRP", "DOGE"]}.get(pf_key, [])
+            recovery["portfolios"][pf_key] = {
+                "name": pf_name,
+                "badge": "PAPER",
+                "duration": "48h" if pf_key == "recovery_a" else "24h",
+                "assets": pf_assets,
+                "capital": s.get("capital", 6500),
+                "cash": s.get("cash", 6500),
+                "active_positions": s.get("active_positions", 0),
+                "closed_trades": s.get("total_closed", 0),
+                "total_net_eur": s.get("total_net_eur", 0),
+                "win_rate": s.get("win_rate", 0),
+                "active_assets": s.get("active_assets", []),
+            }
+
+        # Signals with condition detail
+        raw_signals = recovery_tick.get("signals", {})
+        recovery["signals"] = {}
+        for asset, sig in raw_signals.items():
+            conds = sig.get("conditions", {})
+            passed = sum(1 for v in conds.values() if v)
+            total = len(conds)
+            blocked = [k for k, v in conds.items() if not v]
+            recovery["signals"][asset] = {
+                "status": sig.get("signal", "NONE"),
+                "close": sig.get("close"),
+                "conditions_passed": passed,
+                "conditions_total": total,
+                "conditions": conds,
+                "daily_close": sig.get("daily_close"),
+                "sma200": sig.get("sma200"),
+                "sma20_daily": sig.get("sma20"),
+                "sma50_4h": sig.get("sma50_4h"),
+                "blocking_reason": ", ".join(blocked) if blocked else "NONE_ALL_PASSED",
+            }
+
+        recovery["open_trades"] = {}
+        for pf_key, state in [("recovery_a", recovery_state_a), ("recovery_b", recovery_state_b)]:
+            if state and state.get("active_trades"):
+                for t in state["active_trades"]:
+                    recovery["open_trades"][f"{pf_key}/{t.get('asset','?')}"] = {
+                        "asset": t.get("asset"),
+                        "portfolio": pf_key,
+                        "entry_time": t.get("entry_time"),
+                        "entry_price": t.get("entry_price"),
+                        "duration_hours": t.get("duration_hours"),
+                        "status": t.get("status"),
+                    }
+
+        recovery["freshness"] = {
+            "age_minutes": recovery_csv_age,
+            "status": freshness_status(recovery_csv_age, 5) if recovery_csv_age is not None else "MISSING",
+            "expected_interval_minutes": 5,
+        }
+    else:
+        recovery["freshness"] = {"status": "MISSING"}
+
+    fused["recovery_paper"] = recovery
+
     # ── 3. Market context ──
     market = safe_read(MARKET_STATE_PATH)
     market_age = file_age_minutes(MARKET_STATE_PATH)
@@ -142,6 +221,14 @@ def main():
             "type": "futures",
             "freshness": swing.get("freshness", {}).get("status", "UNKNOWN"),
         },
+        "recovery_paper": {
+            "name": "Recovery Paper R1",
+            "status": "ACTIVE_PAPER",
+            "mode": "PAPER",
+            "type": "futures",
+            "strategy": "R1 Recovery Rebound",
+            "freshness": recovery.get("freshness", {}).get("status", "UNKNOWN"),
+        },
         "gateway": {
             "name": "Telegram Gateway",
             "status": "ACTIVE_INFRASTRUCTURE",
@@ -177,6 +264,7 @@ def main():
         "ntv_tick": {"age": ntv.get("ntv_tick", {}).get("age_minutes"), "expected": 5, "status": ntv.get("ntv_tick", {}).get("freshness_status", "UNKNOWN")},
         "ntv_signal": {"age": file_age_minutes(os.path.join(NTV_OUTPUT_DIR, "signal.json")), "expected": 5, "status": None},
         "swing_paper": {"age": swing_csv_age, "expected": 5, "status": swing.get("freshness", {}).get("status", "UNKNOWN")},
+        "recovery_paper": {"age": recovery_csv_age, "expected": 5, "status": recovery.get("freshness", {}).get("status", "UNKNOWN")},
         "market_context": {"age": market_age, "expected": 15, "status": None},
         "legacy_bots": {"age": legacy_age, "expected": 360, "status": None},
         "stocks_json": {"age": file_age_minutes(os.path.join(DASHBOARD_DATA_DIR, "stocks.json")), "expected": 360, "status": None},
@@ -237,6 +325,7 @@ def main():
     fused["finance_labels"] = {
         "ntv_spot": "DRY-RUN",
         "swing_paper": "PAPER",
+        "recovery_paper": "PAPER",
         "scalable_capital": "REAL",
         "stops_actifs": "REAL",
         "v5_binance_trades": "REAL (historical, stopped)",
@@ -253,6 +342,7 @@ def main():
     print(f"  Freshness: {fused['global_freshness']['overall_status']}")
     print(f"  NTV: {ntv.get('ntv_tick',{}).get('freshness_status','?')}")
     print(f"  Swing: {swing.get('freshness',{}).get('status','?')}")
+    print(f"  Recovery: {recovery.get('freshness',{}).get('status','?')}")
     print(f"  Market: {fused.get('market_context',{}).get('freshness',{}).get('status','?')}")
 
 if __name__ == "__main__":

@@ -181,7 +181,34 @@
         <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp" class="gray">—</div><div id="sw-det-xrp" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
         <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge" class="gray">—</div><div id="sw-det-doge" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
     </div>
-    <div style="font-size:0.6rem;color:#1f2d40;">S1: Close > Donchian High 20 · Volume > SMA 20 · Daily > SMA200 · Capital théorique 6 500 EUR · Read-only</div>
+    <div style="font-size:0.6rem;color:#1f2d40;">S1: Close > Donchian High 20 · Volume > SMA 20 · Daily > SMA200 · Capital theorique 6 500 EUR · Read-only</div>
+</div>
+
+<!-- ===== RECOVERY PAPER R1 ===== -->
+<div class="card" style="margin-bottom:16px;" id="recovery-card">
+    <div class="bot-header">
+        <div>
+            <div class="bot-title"><i class="fas fa-heart-pulse blue"></i>Recovery Paper R1 <span class="badge badge-purple" style="font-size:0.62rem;margin-left:6px;">PAPER</span><span class="badge badge-yellow" style="font-size:0.55rem;margin-left:4px;">EXPERIMENTAL</span></div>
+            <div class="bot-subtitle">R1 Recovery Rebound · Long-only · Sub-SMA200 Bear Regime · Recovery A (48h BTC/SOL/XRP) · Recovery B (24h SOL/XRP/DOGE) · <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+        </div>
+        <span id="rec-badge" class="badge badge-gray">—</span>
+    </div>
+    <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
+        <div class="stat"><div class="stat-label">Recovery A Net</div><div id="rec-a-net" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">Recovery A Closed</div><div id="rec-a-trades" class="stat-val white">—</div></div>
+        <div class="stat"><div class="stat-label">Recovery B Net</div><div id="rec-b-net" class="stat-val">—</div></div>
+        <div class="stat"><div class="stat-label">Recovery B Closed</div><div id="rec-b-trades" class="stat-val white">—</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="section-title"><i class="fas fa-signal blue"></i>Signaux R1 Recovery (Conditions 4h + Daily)</div>
+    <div class="grid-4" style="margin-bottom:8px;">
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="rec-sig-btc" class="gray">—</div><div id="rec-cnt-btc" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-btc" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="rec-sig-sol" class="gray">—</div><div id="rec-cnt-sol" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-sol" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="rec-sig-xrp" class="gray">—</div><div id="rec-cnt-xrp" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-xrp" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="rec-sig-doge" class="gray">—</div><div id="rec-cnt-doge" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-doge" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+    </div>
+    <div id="rec-open-trades" style="margin-top:8px;"></div>
+    <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">R1: Daily<SMA200 + Daily>SMA20 + Close4h>SMA50 + Mom24h + Vol>SMA + Dist>2% 4h Low20 · 0 REAL ORDERS · Read-only</div>
 </div>
 
 <!-- ===== ROW 2 — FORWARD-TEST + DRY-RUN ORDERS + BREAKOUT20 ===== -->
@@ -716,6 +743,7 @@ async function loadFull() {
     try {
         var res = await fetch(GH_RAW + 'dashboard_full.json?t=' + Date.now()), data = await res.json();
         renderSwingPaper(data.swing_paper || {});
+        renderRecoveryPaper(data.recovery_paper || {});
         renderGlobalHeader(data);
         renderGlobalFreshness(data.global_freshness || {});
     } catch(e) { console.error('Full:', e); }
@@ -761,6 +789,58 @@ function renderSwingPaper(sw) {
     }
 }
 
+// ── Recovery Paper R1 ──
+function renderRecoveryPaper(rec) {
+    var badge = document.getElementById('rec-badge');
+    if (!badge) return;
+    badge.textContent = rec.status === 'OK' ? 'PAPER TICK' : rec.status;
+    badge.className = 'badge ' + (rec.status === 'OK' ? 'badge-purple' : rec.status === 'DELAYED' ? 'badge-yellow' : 'badge-red');
+
+    var ra = (rec.portfolios || {})['recovery_a'] || {};
+    var rb = (rec.portfolios || {})['recovery_b'] || {};
+    document.getElementById('rec-a-net').textContent = ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—';
+    document.getElementById('rec-a-net').className = 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white');
+    document.getElementById('rec-a-trades').textContent = ra.closed_trades !== undefined ? ra.closed_trades : '—';
+    document.getElementById('rec-b-net').textContent = rb.total_net_eur !== undefined ? '\u20AC' + rb.total_net_eur.toFixed(0) : '—';
+    document.getElementById('rec-b-net').className = 'stat-val ' + (rb.total_net_eur > 0 ? 'green' : rb.total_net_eur < 0 ? 'red' : 'white');
+    document.getElementById('rec-b-trades').textContent = rb.closed_trades !== undefined ? rb.closed_trades : '—';
+
+    // R1 Signals
+    var sigs = rec.signals || {};
+    ['BTC','SOL','XRP','DOGE'].forEach(function(a) {
+        var aL = a.toLowerCase();
+        var s = sigs[a] || {};
+        var el = document.getElementById('rec-sig-' + aL);
+        if (el) {
+            el.textContent = s.status || 'NONE';
+            el.className = s.status === 'LONG_R1' ? 'green' : 'gray';
+        }
+        var cnt = document.getElementById('rec-cnt-' + aL);
+        if (cnt && s.conditions_passed !== undefined) {
+            cnt.textContent = s.conditions_passed + '/' + s.conditions_total + ' passed';
+            cnt.className = s.conditions_passed >= 5 ? 'green' : s.conditions_passed >= 3 ? 'purple' : 'gray';
+        }
+        var blk = document.getElementById('rec-blk-' + aL);
+        if (blk && s.blocking_reason && s.status === 'NONE') {
+            blk.textContent = 'blocked: ' + s.blocking_reason.substring(0, 60);
+        }
+    });
+
+    // Active trades
+    var at = rec.open_trades || {};
+    var atEl = document.getElementById('rec-open-trades');
+    if (atEl && Object.keys(at).length > 0) {
+        var atHtml = '<div class="section-title"><i class="fas fa-play green"></i>Open Recovery Trades</div>';
+        Object.values(at).forEach(function(t) {
+            atHtml += '<div class="pos-card"><div class="pos-header"><span style="font-weight:700;">' + t.asset + '</span><span class="badge badge-purple" style="font-size:0.6rem;">' + t.portfolio + '</span></div>' +
+                '<div class="pos-details"><div>Entry <b>' + (t.entry_time || '?') + '</b></div><div>Price <b>\u20AC' + (t.entry_price ? t.entry_price.toFixed(2) : '?') + '</b></div><div>Duration <b>' + (t.duration_hours || '?') + 'h</b></div></div></div>';
+        });
+        atEl.innerHTML = atHtml;
+    } else if (atEl) {
+        atEl.innerHTML = '';
+    }
+}
+
 function renderGlobalHeader(data) {
     var gs = data.global_status || 'UNKNOWN';
     var el = document.getElementById('h-global');
@@ -778,7 +858,7 @@ function renderGlobalHeader(data) {
 
 function renderGlobalFreshness(fr) {
     var srcs = fr.sources || {};
-    ['stocks_json','swing_paper','market_context'].forEach(function(k) {
+    ['stocks_json','swing_paper','recovery_paper','market_context'].forEach(function(k) {
         var el = document.getElementById('fr-' + k);
         if (!el) {
             // Add freshness rows dynamically if container exists
