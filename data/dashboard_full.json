@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-27T12:10:36.644077+00:00",
-  "generated_at_unix": 1785154236,
+  "generated_at": "2026-07-27T12:18:45.234876+00:00",
+  "generated_at_unix": 1785154725,
   "ntv": {
-    "generated_at": "2026-07-27T12:10:26.072826+00:00",
+    "generated_at": "2026-07-27T12:17:45.210531+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -118,7 +118,12 @@
         }
       }
     },
-    "alerts": [],
+    "alerts": [
+      {
+        "level": "ERROR",
+        "message": "OHLC fetch failed"
+      }
+    ],
     "old_bots_status": {
       "kraken_futures_v1": "retired",
       "binance_v5": "retired",
@@ -131,9 +136,9 @@
       "details": []
     },
     "ntv_tick": {
-      "last_tick_ok": true,
-      "last_tick_at": "2026-07-27T14:10:26+02:00",
-      "last_tick_time": "2026-07-27T14:10:26+02:00",
+      "last_tick_ok": false,
+      "last_tick_at": "2026-07-27T14:17:45+02:00",
+      "last_tick_time": "2026-07-27T14:17:45+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -147,24 +152,24 @@
         "dashboard_payload": "2026-07-27T12:10:26.044671+00:00",
         "signal": "2026-07-27T12:10:25.979062+00:00",
         "orders_dry_run": "2026-07-27T12:10:26.038064+00:00",
-        "alerts": "2026-07-27T12:10:26.038183+00:00"
+        "alerts": "2026-07-27T12:17:45.132704+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 0.0,
-        "signal": 0.0,
-        "orders_dry_run": 0.0,
+        "dashboard_payload": 7.3,
+        "signal": 7.3,
+        "orders_dry_run": 7.3,
         "alerts": 0.0
       },
-      "freshness_status": "OK"
+      "freshness_status": "ERROR"
     },
     "forward_test": {
-      "status": "FORWARD_TEST_WARNING",
+      "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 11,
-      "last_snapshot_time": "2026-07-27T12:07:34.035677+00:00",
-      "last_verdict": "FORWARD_TEST_WARNING",
+      "last_snapshot_time": "2026-07-27T12:10:26.086591+00:00",
+      "last_verdict": "FORWARD_TEST_UNSAFE",
       "warnings_count": 2,
       "unsafe_count": 0,
-      "total_snapshots": 2833,
+      "total_snapshots": 2834,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-07-27"
@@ -194,11 +199,11 @@
     "signals": {
       "BTC": {
         "signal": "NONE",
-        "bar_idx": 9024,
-        "bar_close": 65100.79,
-        "bar_time": "2026-07-27",
-        "dc_high": 65808.59,
-        "vol_ratio": 1.53
+        "bar_idx": 8752,
+        "bar_close": 63290.05,
+        "bar_time": "2026-06-12",
+        "dc_high": 64200.5,
+        "vol_ratio": 0.5
       },
       "SOL": {
         "signal": "NONE",
@@ -225,7 +230,7 @@
         "vol_ratio": 0.61
       }
     },
-    "last_tick": "2026-07-27T12:10:30.015372+00:00",
+    "last_tick": "2026-07-27T12:18:38.257277+00:00",
     "tick_status": "OK",
     "freshness": {
       "age_minutes": 0.1,
@@ -277,26 +282,7 @@
     "signals": {
       "BTC": {
         "status": "NONE",
-        "close": 65100.79,
-        "conditions_passed": 5,
-        "conditions_total": 6,
-        "conditions": {
-          "daily_below_sma200": true,
-          "daily_above_sma20": true,
-          "above_sma50_4h": false,
-          "momentum_24h": true,
-          "volume_ok": true,
-          "distance_low_2pct": true
-        },
-        "daily_close": 65399.99,
-        "sma200": 72155.7859,
-        "sma20_daily": 64351.9115,
-        "sma50_4h": 65121.8356,
-        "blocking_reason": "above_sma50_4h"
-      },
-      "SOL": {
-        "status": "NONE",
-        "close": 76.5,
+        "close": 63290.05,
         "conditions_passed": 4,
         "conditions_total": 6,
         "conditions": {
@@ -307,10 +293,29 @@
           "volume_ok": false,
           "distance_low_2pct": true
         },
-        "daily_close": 76.76,
-        "sma200": 88.0701,
-        "sma20_daily": 76.789,
-        "sma50_4h": 76.327,
+        "daily_close": 63584.18,
+        "sma200": 78024.4925,
+        "sma20_daily": 68828.5405,
+        "sma50_4h": 62341.8462,
+        "blocking_reason": "daily_above_sma20, volume_ok"
+      },
+      "SOL": {
+        "status": "NONE",
+        "close": 66.25,
+        "conditions_passed": 4,
+        "conditions_total": 6,
+        "conditions": {
+          "daily_below_sma200": true,
+          "daily_above_sma20": false,
+          "above_sma50_4h": true,
+          "momentum_24h": true,
+          "volume_ok": false,
+          "distance_low_2pct": true
+        },
+        "daily_close": 66.87,
+        "sma200": 100.75525,
+        "sma20_daily": 75.032,
+        "sma50_4h": 65.5476,
         "blocking_reason": "daily_above_sma20, volume_ok"
       },
       "XRP": {
@@ -352,7 +357,7 @@
         "blocking_reason": "momentum_24h, volume_ok"
       }
     },
-    "last_tick": "2026-07-27T12:10:26.240988+00:00",
+    "last_tick": "2026-07-27T12:17:45.369236+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -383,8 +388,8 @@
     "us10y_yield": 4.7,
     "regime": "fear",
     "freshness": {
-      "age_minutes": 10.5,
-      "status": "OK",
+      "age_minutes": 18.6,
+      "status": "DELAYED",
       "expected_interval_minutes": 15
     }
   },
@@ -394,7 +399,7 @@
       "status": "ACTIVE_FORWARD",
       "mode": "DRY_RUN",
       "type": "spot",
-      "freshness": "OK"
+      "freshness": "ERROR"
     },
     "swing_paper": {
       "name": "Swing Futures Paper",
@@ -438,7 +443,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.2,
+      "legacy_bots_status_age_minutes": 1.0,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -447,10 +452,10 @@
       "ntv_tick": {
         "age": 0.0,
         "expected": 5,
-        "status": "OK"
+        "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 0.2,
+        "age": 8.3,
         "expected": 5,
         "status": "OK"
       },
@@ -465,12 +470,12 @@
         "status": "OK"
       },
       "market_context": {
-        "age": 10.5,
+        "age": 18.6,
         "expected": 15,
-        "status": "OK"
+        "status": "DELAYED"
       },
       "legacy_bots": {
-        "age": 0.2,
+        "age": 1.0,
         "expected": 360,
         "status": "OK"
       },
