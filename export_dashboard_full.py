@@ -156,17 +156,66 @@ def main():
             }
 
         recovery["open_trades"] = {}
+        raw_signals_for_price = recovery_tick.get("signals", {})
         for pf_key, state in [("recovery_a", recovery_state_a), ("recovery_b", recovery_state_b)]:
             if state and state.get("active_trades"):
+                last_bar = state.get("last_bar_processed", {})
                 for t in state["active_trades"]:
-                    recovery["open_trades"][f"{pf_key}/{t.get('asset','?')}"] = {
-                        "asset": t.get("asset"),
+                    asset = t.get("asset", "?")
+                    entry_bar = t.get("entry_bar_idx", 0)
+                    duration_bars = t.get("duration_bars", 12)
+                    bars_held = max(0, last_bar.get(asset, 0) - entry_bar)
+                    bars_remaining = max(0, duration_bars - bars_held)
+                    sig = raw_signals_for_price.get(asset, {})
+                    recovery["open_trades"][f"{pf_key}/{asset}"] = {
+                        "asset": asset,
                         "portfolio": pf_key,
+                        "badge": "OPEN",
                         "entry_time": t.get("entry_time"),
                         "entry_price": t.get("entry_price"),
                         "duration_hours": t.get("duration_hours"),
+                        "duration_bars": duration_bars,
+                        "entry_bar_idx": entry_bar,
+                        "bars_held": bars_held,
+                        "bars_remaining": bars_remaining,
+                        "hours_held": bars_held * 4,
+                        "hours_remaining": bars_remaining * 4,
+                        "size_eur": 2166.67,
+                        "current_price": sig.get("close"),
+                        "current_signal": sig.get("signal", "NONE"),
                         "status": t.get("status"),
                     }
+
+        recovery["closed_trades"] = {}
+        for pf_key in ["recovery_a", "recovery_b"]:
+            hf = os.path.join(RECOVERY_DIR, f"paper_trade_history_{pf_key}.jsonl")
+            if os.path.exists(hf):
+                with open(hf) as f:
+                    for line in f:
+                        try:
+                            t = json.loads(line)
+                            if not t.get("asset"): continue
+                            asset = t.get("asset", "?")
+                            key = f"{pf_key}/{asset}"
+                            if key in recovery["closed_trades"]:
+                                key = f"{pf_key}/{asset}_{t.get('closed_at','?')}"
+                            recovery["closed_trades"][key] = {
+                                "asset": asset,
+                                "portfolio": pf_key,
+                                "badge": "CLOSED",
+                                "entry_time": t.get("entry_time"),
+                                "entry_price": t.get("entry_price"),
+                                "exit_time": t.get("exit_time"),
+                                "exit_price": t.get("exit_price"),
+                                "duration_hours": t.get("duration_hours"),
+                                "gross_pnl_pct": t.get("gross_pnl_pct"),
+                                "net_pnl_pct": t.get("net_pnl_pct"),
+                                "net_pnl_eur": t.get("net_pnl_eur"),
+                                "reason_exit": t.get("reason_exit"),
+                                "status": t.get("status", "CLOSED"),
+                            }
+                        except Exception:
+                            pass
 
         recovery["freshness"] = {
             "age_minutes": recovery_csv_age,

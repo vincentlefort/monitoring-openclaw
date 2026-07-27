@@ -99,8 +99,22 @@
     </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ANCHOR NAVIGATION — quick jump to sections                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;font-size:0.7rem;">
+    <a href="#safety-banner" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Overview</a>
+    <a href="#ntv-card" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">NTV DRY-RUN</a>
+    <a href="#swing-card" style="color:#a78bfa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Swing PAPER</a>
+    <a href="#recovery-card" style="color:#a78bfa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Recovery PAPER</a>
+    <a href="#forward-test-card" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Forward-Test</a>
+    <a href="#scalable-card" style="color:#10b981;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Scalable REAL</a>
+    <a href="#ntv-alerts-card" style="color:#ef4444;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Alerts</a>
+    <a href="#legend-block" style="color:#fbbf24;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">L\u00E9gende</a>
+</div>
+
 <!-- ===== ROW 1 — KRAKEN AUTO SPOT NTV (Main Crypto Block) ===== -->
-<div class="card" style="margin-bottom:16px;">
+<div class="card" style="margin-bottom:16px;" id="ntv-card">
     <div class="bot-header">
         <div>
             <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
@@ -193,6 +207,8 @@
         </div>
         <span id="rec-badge" class="badge badge-gray">—</span>
     </div>
+    <div id="rec-open-trades" style="margin-bottom:12px;"></div>
+    <div class="divider"></div>
     <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
         <div class="stat"><div class="stat-label">Recovery A Net</div><div id="rec-a-net" class="stat-val">—</div></div>
         <div class="stat"><div class="stat-label">Recovery A Closed</div><div id="rec-a-trades" class="stat-val white">—</div></div>
@@ -207,7 +223,7 @@
         <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="rec-sig-xrp" class="gray">—</div><div id="rec-cnt-xrp" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-xrp" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
         <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="rec-sig-doge" class="gray">—</div><div id="rec-cnt-doge" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-doge" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
     </div>
-    <div id="rec-open-trades" style="margin-top:8px;"></div>
+    <div id="rec-closed-trades" style="margin-top:12px;"></div>
     <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">R1: Daily<SMA200 + Daily>SMA20 + Close4h>SMA50 + Mom24h + Vol>SMA + Dist>2% 4h Low20 · 0 REAL ORDERS · Read-only</div>
 </div>
 
@@ -223,8 +239,27 @@
             <div style="display:flex;gap:6px;">
                 <span id="ft-tick-badge" class="badge badge-gray" style="font-size:0.62rem;">TICK: —</span>
                 <span id="ft-badge" class="badge badge-gray">—</span>
-            </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- LEGEND                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+<div class="card" style="margin-bottom:16px;" id="legend-block">
+    <details>
+        <summary style="cursor:pointer;font-weight:700;color:#fbbf24;font-size:0.85rem;padding:4px 0;"><i class="fas fa-book yellow"></i> L\u00E9gende &mdash; How to read this dashboard</summary>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;font-size:0.72rem;">
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;flex-shrink:0;">REAL</span><span style="color:#94a3b8;">Argent r\u00E9el / positions r\u00E9elles (Scalable, Stops Actifs)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-yellow" style="font-size:0.6rem;flex-shrink:0;">DRY-RUN</span><span style="color:#94a3b8;">Simulation bas\u00E9e sur strat\u00E9gie, aucun ordre r\u00E9el (NTV, Forward-Test)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-purple" style="font-size:0.6rem;flex-shrink:0;">PAPER</span><span style="color:#94a3b8;">Portefeuille fictif, aucun fonds r\u00E9el (Swing S1, Recovery R1)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-gray" style="font-size:0.6rem;flex-shrink:0;">BACKTEST</span><span style="color:#94a3b8;">R\u00E9sultat historique, pas un PnL actuel</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;background:#10b98120;color:#10b981;border:1px solid #10b98130;flex-shrink:0;">OPEN</span><span style="color:#94a3b8;">Trade paper actif &mdash; en cours, sortie \u00E0 dur\u00E9e fixe</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-red" style="font-size:0.6rem;flex-shrink:0;">SIGNAL NONE</span><span style="color:#94a3b8;">Aucune nouvelle entr\u00E9e maintenant, mais un trade d\u00E9j\u00E0 ouvert peut continuer jusqu&#39;\u00E0 sa sortie fixe</span></div>
         </div>
+    </details>
+</div>
+</div>
         <div class="stats-row">
             <div class="stat"><div class="stat-label">Verdict</div><div id="ft-verdict" class="stat-val">—</div></div>
             <div class="stat"><div class="stat-label">Days Observed</div><div id="ft-days" class="stat-val white">—</div></div>
@@ -260,12 +295,12 @@
 
 
 
-<!-- ===== ROW 4 — BOURSE / ETF / SCALABLE CAPITAL ===== -->
-<div class="card" style="margin-bottom:16px;">
+<!-- ===== ROW 3 — SCALABLE CAPITAL PORTFOLIO ===== -->
+<div class="card" style="margin-bottom:16px;" id="scalable-card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <div>
-            <div class="bot-title"><i class="fas fa-chart-line green"></i>Bourse / ETF Portfolio <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
-            <div class="bot-subtitle">Scalable Capital · ETF &amp; Actions · Monitoring only</div>
+            <div class="bot-title"><i class="fas fa-chart-line green"></i>Scalable Capital Portfolio <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
+            <div class="bot-subtitle">Positions broker Scalable / ETF / portfolio principal — argent r\u00E9el</div>
         </div>
         <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
     </div>
@@ -298,12 +333,17 @@
     </details>
     <div style="font-size:0.6rem;color:#1f2d40;margin-top:10px;">Prix via Yahoo Finance · Refresh 60s · Read-only monitoring</div>
 
-    <!-- STOPS ACTIFS / STOCK PICKING -->
+    <!-- DERNIERS ACHATS REAL -->
+    <div class="divider" style="margin-top:18px;"></div>
+    <div class="section-title"><i class="fas fa-bag-shopping green"></i>Derniers achats REAL</div>
+    <div id="recent-real-buys" style="font-size:0.72rem;color:#64748b;">Chargement...</div>
+
+    <!-- STOCK PICKING & STOPS ACTIFS -->
     <div class="divider" style="margin-top:18px;"></div>
     <div class="bot-header">
         <div>
-            <div class="bot-title"><i class="fas fa-shield-haltered orange"></i>Stops Actifs / Stock Picking</div>
-            <div class="bot-subtitle">Positions hors-Scalable · Stops dormants · Risque</div>
+            <div class="bot-title"><i class="fas fa-shield-haltered orange"></i>Stock Picking &amp; Stops Actifs <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
+            <div class="bot-subtitle">Actions suivies hors portefeuille Scalable principal, avec niveaux de stop — argent r\u00E9el</div>
         </div>
         <span id="stops-update" style="font-size:0.7rem;color:#374151;">—</span>
     </div>
@@ -700,6 +740,49 @@ async function loadStocks() {
         document.getElementById('tx-table').innerHTML = tx.length ? tx.slice(0, 50).map(function(t) { var isBuy = t.type==='Buy'; return '<tr><td class="gray" style="font-size:0.7rem;">'+t.date+'</td><td style="'+(isBuy?'color:#059669;':'color:#dc2626;')+'font-weight:700;font-size:0.75rem;">'+(isBuy?'ACHAT':'VENTE')+'</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.72rem;">'+t.description+'</td><td class="blue" style="font-size:0.75rem;">'+(t.ticker||'—')+'</td><td>'+t.shares.toFixed(0)+'</td><td>\u20AC'+t.price.toFixed(2)+'</td><td class="'+(isBuy?'red':'green')+'">'+(isBuy?'-':'+')+'\u20AC'+Math.abs(t.amount).toFixed(2)+'</td><td class="gray" style="font-size:0.7rem;">'+(t.fee>0?'\u20AC'+t.fee.toFixed(2):'—')+'</td></tr>'; }).join('') : '<tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">None</td></tr>';
         document.getElementById('tx-count').textContent = tx.length + ' transactions';
 
+        // ── Derniers achats REAL ──
+        var recentRealBuysEl = document.getElementById('recent-real-buys');
+        if (recentRealBuysEl && tx.length) {
+            var todayTx = tx.filter(function(t) {
+                return t.date && t.date >= (new Date().toISOString().slice(0,10));
+            });
+            var stopsToday = Object.entries(data.stops_positions || {}).filter(function(e) {
+                return e[1].date_entree === new Date().toISOString().slice(0,10);
+            });
+            var hasRecent = todayTx.length > 0 || stopsToday.length > 0;
+            if (hasRecent) {
+                var buysHtml = '';
+                todayTx.forEach(function(t) {
+                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;">' +
+                        '<div class="pos-header">' +
+                        '<span style="font-weight:700;">' + (t.ticker || '?') + ' <span class="gray" style="font-weight:400;">' + (t.description || '') + '</span></span>' +
+                        '<span class="badge badge-green" style="font-size:0.58rem;">REAL</span>' +
+                        '</div>' +
+                        '<div class="pos-details" style="grid-template-columns:repeat(3,1fr);">' +
+                        '<div>' + t.shares + ' \u00D7 \u20AC' + Number(t.price).toFixed(2) + '</div>' +
+                        '<div>Montant <b>\u20AC' + Number(Math.abs(t.amount)).toFixed(0) + '</b></div>' +
+                        '<div>Source <b>Scalable</b></div>' +
+                        '</div></div>';
+                });
+                stopsToday.forEach(function(e) {
+                    var p = e[1];
+                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;">' +
+                        '<div class="pos-header">' +
+                        '<span style="font-weight:700;color:#f97316;">' + e[0] + ' <span class="gray" style="font-weight:400;">' + (p.name || '') + '</span></span>' +
+                        '<span class="badge badge-green" style="font-size:0.58rem;">REAL</span>' +
+                        '</div>' +
+                        '<div class="pos-details" style="grid-template-columns:repeat(3,1fr);">' +
+                        '<div>' + p.shares + ' \u00D7 \u20AC' + Number(p.prix_entree).toFixed(2) + '</div>' +
+                        '<div>Montant <b>\u20AC' + Number(p.invested).toFixed(0) + '</b></div>' +
+                        '<div>Source <b>Stops</b> &mdash; visible dans <a href="#" onclick="document.querySelector(\'#stops-table\').scrollIntoView();return false;" style="color:#f97316;">Stock Picking & Stops Actifs</a></div>' +
+                        '</div></div>';
+                });
+                recentRealBuysEl.innerHTML = buysHtml;
+            } else {
+                recentRealBuysEl.innerHTML = '<div style="text-align:center;padding:8px 0;color:#374151;font-size:0.7rem;"><i class="fas fa-info-circle gray"></i> No recent REAL buy found today</div>';
+            }
+        }
+
         // ── Stops actifs / Stock Picking ──
         var stopsPos = data.stops_positions || {}, stopsPx = data.stops_prices || {}, stopsSumm = data.stops_summary || {};
         var stopsTickers = Object.keys(stopsPos);
@@ -805,6 +888,81 @@ function renderRecoveryPaper(rec) {
     document.getElementById('rec-b-net').className = 'stat-val ' + (rb.total_net_eur > 0 ? 'green' : rb.total_net_eur < 0 ? 'red' : 'white');
     document.getElementById('rec-b-trades').textContent = rb.closed_trades !== undefined ? rb.closed_trades : '—';
 
+    // ── OPEN TRADES (prominent, before signals) ──
+    var ot = rec.open_trades || {};
+    var otEl = document.getElementById('rec-open-trades');
+    if (otEl) {
+        var otKeys = Object.keys(ot);
+        if (otKeys.length > 0) {
+            var otHtml = '<div class="section-title" style="margin-bottom:10px;color:#a78bfa;"><i class="fas fa-play purple"></i>Open Recovery Trades <span class="badge badge-purple" style="font-size:0.58rem;margin-left:4px;">' + otKeys.length + ' ACTIVE</span></div>';
+            Object.values(ot).forEach(function(t) {
+                var sigColor = t.current_signal === 'LONG_R1' ? 'green' : 'red';
+                var entryPx = t.entry_price ? '\u20AC' + Number(t.entry_price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '?';
+                var curPx = t.current_price ? '\u20AC' + Number(t.current_price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+                var sizeEur = t.size_eur ? '\u20AC' + Number(t.size_eur).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '?';
+                var timeRem = t.hours_remaining !== undefined ? t.hours_remaining + 'h left' : '?';
+                var timeHeld = t.hours_held !== undefined ? t.hours_held + 'h elapsed' : '?';
+                otHtml += '<div class="pos-card" style="border-color:#a78bfa40;margin-bottom:10px;">' +
+                    '<div class="pos-header">' +
+                    '<span style="font-weight:700;font-size:0.92rem;color:#a78bfa;">' + t.asset + '</span>' +
+                    '<div style="display:flex;gap:4px;">' +
+                    '<span class="badge badge-green" style="font-size:0.58rem;">OPEN</span>' +
+                    '<span class="badge badge-purple" style="font-size:0.58rem;">' + (t.portfolio || '?') + '</span>' +
+                    '<span class="badge badge-purple" style="font-size:0.58rem;">PAPER</span>' +
+                    '</div></div>' +
+                    '<div class="pos-details" style="grid-template-columns:repeat(4,1fr);">' +
+                    '<div>Entry <b>' + entryPx + '</b></div>' +
+                    '<div>Current <b>' + curPx + '</b></div>' +
+                    '<div>Size <b>' + sizeEur + '</b></div>' +
+                    '<div>Duration <b>' + (t.duration_hours || '?') + 'h</b></div>' +
+                    '<div>Entry time <b>' + (t.entry_time || '?') + '</b></div>' +
+                    '<div>' + timeRem + '</div>' +
+                    '<div>' + timeHeld + '</div>' +
+                    '<div>Status <b class="green">ACTIVE</b></div>' +
+                    '</div>' +
+                    '<div style="margin-top:6px;font-size:0.65rem;display:flex;gap:10px;">' +
+                    '<span>Signal: <b class="' + sigColor + '">' + (t.current_signal || 'NONE') + '</b></span>' +
+                    '<span class="gray">Trade continues until fixed-duration exit</span>' +
+                    '</div></div>';
+            });
+            otHtml += '<div style="font-size:0.62rem;color:#64748b;padding:4px 0;"><i class="fas fa-info-circle"></i> Le signal peut \u00EAtre <span class="red">NONE</span> m\u00EAme si le trade reste <span class="green">OPEN</span>. Le trade continue jusqu&#39;\u00E0 sa sortie \u00E0 dur\u00E9e fixe (48h ou 24h).</div>';
+            otEl.innerHTML = otHtml;
+        } else {
+            otEl.innerHTML = '<div style="background:#0a1520;border:1px solid #1e3a52;border-radius:8px;padding:12px;text-align:center;color:#64748b;font-size:0.78rem;"><i class="fas fa-circle-pause gray"></i> No open Recovery trades</div>';
+        }
+    }
+
+    // ── CLOSED TRADES (at the bottom) ──
+    var ct = rec.closed_trades || {};
+    var ctEl = document.getElementById('rec-closed-trades');
+    if (ctEl) {
+        var ctKeys = Object.keys(ct);
+        if (ctKeys.length > 0) {
+            var ctHtml = '<div class="section-title" style="margin-bottom:8px;color:#374151;"><i class="fas fa-check gray"></i>Recent Recovery Closed Trades <span class="badge badge-gray" style="font-size:0.58rem;margin-left:4px;">' + ctKeys.length + '</span></div>';
+            var ctArr = ctKeys.map(function(k) { var t = ct[k]; return {key:k, trade:t}; }).sort(function(a,b) { return (b.trade.exit_time||'').localeCompare(a.trade.exit_time||''); });
+            ctArr.slice(0, 10).forEach(function(item) {
+                var t = item.trade;
+                var pnlCls = (t.net_pnl_eur || 0) >= 0 ? 'green' : 'red';
+                ctHtml += '<div class="pos-card" style="border-color:#1f2d40;opacity:0.85;margin-bottom:6px;">' +
+                    '<div class="pos-header">' +
+                    '<span style="font-weight:700;">' + t.asset + '</span>' +
+                    '<div style="display:flex;gap:4px;">' +
+                    '<span class="badge badge-gray" style="font-size:0.58rem;">CLOSED</span>' +
+                    '<span class="badge badge-gray" style="font-size:0.58rem;">' + (t.portfolio || '?') + '</span>' +
+                    '</div></div>' +
+                    '<div class="pos-details" style="grid-template-columns:repeat(4,1fr);">' +
+                    '<div>Entry <b>' + (t.entry_time||'?') + '</b></div>' +
+                    '<div>Exit <b>' + (t.exit_time||'?') + '</b></div>' +
+                    '<div>Gross <b>' + (t.gross_pnl_pct !== null ? Number(t.gross_pnl_pct).toFixed(2) + '%' : '?') + '</b></div>' +
+                    '<div>Net <b class="' + pnlCls + '">' + (t.net_pnl_eur !== null ? fmtEUR(t.net_pnl_eur) : '?') + '</b></div>' +
+                    '</div></div>';
+            });
+            ctEl.innerHTML = ctHtml;
+        } else {
+            ctEl.innerHTML = '<div style="font-size:0.68rem;color:#374151;text-align:center;padding:8px 0;"><i class="fas fa-clock gray"></i> No closed Recovery trades yet</div>';
+        }
+    }
+
     // R1 Signals
     var sigs = rec.signals || {};
     ['BTC','SOL','XRP','DOGE'].forEach(function(a) {
@@ -825,20 +983,6 @@ function renderRecoveryPaper(rec) {
             blk.textContent = 'blocked: ' + s.blocking_reason.substring(0, 60);
         }
     });
-
-    // Active trades
-    var at = rec.open_trades || {};
-    var atEl = document.getElementById('rec-open-trades');
-    if (atEl && Object.keys(at).length > 0) {
-        var atHtml = '<div class="section-title"><i class="fas fa-play green"></i>Open Recovery Trades</div>';
-        Object.values(at).forEach(function(t) {
-            atHtml += '<div class="pos-card"><div class="pos-header"><span style="font-weight:700;">' + t.asset + '</span><span class="badge badge-purple" style="font-size:0.6rem;">' + t.portfolio + '</span></div>' +
-                '<div class="pos-details"><div>Entry <b>' + (t.entry_time || '?') + '</b></div><div>Price <b>\u20AC' + (t.entry_price ? t.entry_price.toFixed(2) : '?') + '</b></div><div>Duration <b>' + (t.duration_hours || '?') + 'h</b></div></div></div>';
-        });
-        atEl.innerHTML = atHtml;
-    } else if (atEl) {
-        atEl.innerHTML = '';
-    }
 }
 
 function renderGlobalHeader(data) {
