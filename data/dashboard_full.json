@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-27T12:00:37.087077+00:00",
-  "generated_at_unix": 1785153637,
+  "generated_at": "2026-07-27T12:07:53.415105+00:00",
+  "generated_at_unix": 1785154073,
   "ntv": {
-    "generated_at": "2026-07-27T12:00:26.208765+00:00",
+    "generated_at": "2026-07-27T12:07:34.022390+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -118,7 +118,12 @@
         }
       }
     },
-    "alerts": [],
+    "alerts": [
+      {
+        "level": "ERROR",
+        "message": "OHLC fetch failed"
+      }
+    ],
     "old_bots_status": {
       "kraken_futures_v1": "retired",
       "binance_v5": "retired",
@@ -131,9 +136,9 @@
       "details": []
     },
     "ntv_tick": {
-      "last_tick_ok": true,
-      "last_tick_at": "2026-07-27T14:00:26+02:00",
-      "last_tick_time": "2026-07-27T14:00:26+02:00",
+      "last_tick_ok": false,
+      "last_tick_at": "2026-07-27T14:07:34+02:00",
+      "last_tick_time": "2026-07-27T14:07:34+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,29 +147,29 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-07-27",
-      "signal_data_age_days": 0.5,
+      "signal_data_age_days": 0.51,
       "source_timestamps": {
         "dashboard_payload": "2026-07-27T12:00:26.181579+00:00",
         "signal": "2026-07-27T12:00:26.139418+00:00",
         "orders_dry_run": "2026-07-27T12:00:26.175769+00:00",
-        "alerts": "2026-07-27T12:00:26.175872+00:00"
+        "alerts": "2026-07-27T12:07:33.959154+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 0.0,
-        "signal": 0.0,
-        "orders_dry_run": 0.0,
+        "dashboard_payload": 7.1,
+        "signal": 7.1,
+        "orders_dry_run": 7.1,
         "alerts": 0.0
       },
-      "freshness_status": "OK"
+      "freshness_status": "ERROR"
     },
     "forward_test": {
-      "status": "FORWARD_TEST_OK",
+      "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 11,
-      "last_snapshot_time": "2026-07-27T11:55:26.050529+00:00",
-      "last_verdict": "FORWARD_TEST_OK",
+      "last_snapshot_time": "2026-07-27T12:00:26.221308+00:00",
+      "last_verdict": "FORWARD_TEST_UNSAFE",
       "warnings_count": 1,
       "unsafe_count": 0,
-      "total_snapshots": 2831,
+      "total_snapshots": 2832,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-07-27"
@@ -225,7 +230,7 @@
         "vol_ratio": 0.61
       }
     },
-    "last_tick": "2026-07-27T12:00:30.461742+00:00",
+    "last_tick": "2026-07-27T12:07:42.307636+00:00",
     "tick_status": "OK",
     "freshness": {
       "age_minutes": 0.1,
@@ -352,7 +357,7 @@
         "blocking_reason": "momentum_24h, volume_ok"
       }
     },
-    "last_tick": "2026-07-27T12:00:26.343451+00:00",
+    "last_tick": "2026-07-27T12:07:34.165570+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -367,7 +372,7 @@
       }
     },
     "freshness": {
-      "age_minutes": 0.1,
+      "age_minutes": 0.2,
       "status": "OK",
       "expected_interval_minutes": 5
     }
@@ -383,7 +388,7 @@
     "us10y_yield": 4.7,
     "regime": "fear",
     "freshness": {
-      "age_minutes": 0.5,
+      "age_minutes": 7.8,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -394,7 +399,7 @@
       "status": "ACTIVE_FORWARD",
       "mode": "DRY_RUN",
       "type": "spot",
-      "freshness": "OK"
+      "freshness": "ERROR"
     },
     "swing_paper": {
       "name": "Swing Futures Paper",
@@ -438,7 +443,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.2,
+      "legacy_bots_status_age_minutes": 0.3,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -447,10 +452,10 @@
       "ntv_tick": {
         "age": 0.0,
         "expected": 5,
-        "status": "OK"
+        "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 0.2,
+        "age": 7.5,
         "expected": 5,
         "status": "OK"
       },
@@ -460,17 +465,17 @@
         "status": "OK"
       },
       "recovery_paper": {
-        "age": 0.1,
+        "age": 0.2,
         "expected": 5,
         "status": "OK"
       },
       "market_context": {
-        "age": 0.5,
+        "age": 7.8,
         "expected": 15,
         "status": "OK"
       },
       "legacy_bots": {
-        "age": 0.2,
+        "age": 0.3,
         "expected": 360,
         "status": "OK"
       },
