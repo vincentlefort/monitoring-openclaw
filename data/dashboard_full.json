@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-28T16:15:36.469003+00:00",
-  "generated_at_unix": 1785255336,
+  "generated_at": "2026-07-28T16:20:38.499929+00:00",
+  "generated_at_unix": 1785255638,
   "ntv": {
-    "generated_at": "2026-07-28T16:15:26.060776+00:00",
+    "generated_at": "2026-07-28T16:20:27.421333+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,22 +17,22 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-07-28T16:15:26.029372+00:00"
+      "last_update": "2026-07-28T16:20:27.380473+00:00"
     },
     "current_signal": {
       "btc": {
-        "close": 55916.9,
-        "sma200": 61789.000499999995,
-        "vol30": 30.06,
+        "close": 56017.2,
+        "sma200": 61789.50199999999,
+        "vol30": 30.03,
         "trend_ok": false,
         "vol_ok": true,
         "allowed": false,
         "block_reason": "close < SMA200"
       },
       "eth": {
-        "close": 1678.63,
-        "sma200": 1829.1951500000002,
-        "vol30": 43.09,
+        "close": 1685.14,
+        "sma200": 1829.2277,
+        "vol30": 43.14,
         "trend_ok": false,
         "vol_ok": true,
         "allowed": false,
@@ -87,14 +87,14 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-07-28T16:15:25.985317+00:00",
+        "timestamp": "2026-07-28T16:20:27.314558+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 58332.8,
           "low_20": 54524.1,
           "prev_high_20": 58332.8,
           "prev_low_20": 54524.1,
-          "close": 55916.9,
+          "close": 56017.2,
           "prev_close": 56055.1,
           "signal": "NONE",
           "breakout_pct": 0.0,
@@ -105,7 +105,7 @@
           "low_20": 1526.17,
           "prev_high_20": 1714.39,
           "prev_low_20": 1526.17,
-          "close": 1678.63,
+          "close": 1685.14,
           "prev_close": 1663.31,
           "signal": "NONE",
           "breakout_pct": 0.0,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-07-28T18:15:26+02:00",
-      "last_tick_time": "2026-07-28T18:15:26+02:00",
+      "last_tick_at": "2026-07-28T18:20:27+02:00",
+      "last_tick_time": "2026-07-28T18:20:27+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -144,10 +144,10 @@
       "data_last_candle_date": "2026-07-28",
       "signal_data_age_days": 0.68,
       "source_timestamps": {
-        "dashboard_payload": "2026-07-28T16:15:26.029515+00:00",
-        "signal": "2026-07-28T16:15:25.984555+00:00",
-        "orders_dry_run": "2026-07-28T16:15:26.021815+00:00",
-        "alerts": "2026-07-28T16:15:26.021947+00:00"
+        "dashboard_payload": "2026-07-28T16:20:27.380715+00:00",
+        "signal": "2026-07-28T16:20:27.314452+00:00",
+        "orders_dry_run": "2026-07-28T16:20:27.366168+00:00",
+        "alerts": "2026-07-28T16:20:27.366439+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 12,
-      "last_snapshot_time": "2026-07-28T16:10:26.221871+00:00",
+      "last_snapshot_time": "2026-07-28T16:15:26.073527+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 4,
       "unsafe_count": 0,
-      "total_snapshots": 3176,
+      "total_snapshots": 3177,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-07-28"
@@ -225,7 +225,7 @@
         "vol_ratio": 1.56
       }
     },
-    "last_tick": "2026-07-28T16:15:29.730827+00:00",
+    "last_tick": "2026-07-28T16:20:31.681137+00:00",
     "tick_status": "OK",
     "freshness": {
       "age_minutes": 0.1,
@@ -352,7 +352,7 @@
         "blocking_reason": "daily_above_sma20, above_sma50_4h, momentum_24h"
       }
     },
-    "last_tick": "2026-07-28T16:15:26.204322+00:00",
+    "last_tick": "2026-07-28T16:20:27.556853+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -394,7 +394,7 @@
     "us10y_yield": 4.59,
     "regime": "fear",
     "freshness": {
-      "age_minutes": 0.5,
+      "age_minutes": 5.5,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -476,7 +476,7 @@
         "status": "OK"
       },
       "market_context": {
-        "age": 0.5,
+        "age": 5.5,
         "expected": 15,
         "status": "OK"
       },
