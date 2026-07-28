@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-28T21:32:55.939672+00:00",
+  "generated_at": "2026-07-28T21:35:26.359740+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,21 +14,21 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-07-28T21:25:24.863891+00:00"
+    "last_update": "2026-07-28T21:35:26.309957+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 56038.6,
-      "sma200": 61789.609,
-      "vol30": 30.03,
+      "close": 56084.6,
+      "sma200": 61789.83899999999,
+      "vol30": 30.02,
       "trend_ok": false,
       "vol_ok": true,
       "allowed": false,
       "block_reason": "close < SMA200"
     },
     "eth": {
-      "close": 1684.17,
-      "sma200": 1829.22285,
+      "close": 1683.73,
+      "sma200": 1829.22065,
       "vol30": 43.13,
       "trend_ok": false,
       "vol_ok": true,
@@ -84,14 +84,14 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-07-28T21:25:24.818839+00:00",
+      "timestamp": "2026-07-28T21:35:26.224307+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 58332.8,
         "low_20": 54524.1,
         "prev_high_20": 58332.8,
         "prev_low_20": 54524.1,
-        "close": 56038.6,
+        "close": 56084.6,
         "prev_close": 56055.1,
         "signal": "NONE",
         "breakout_pct": 0.0,
@@ -102,7 +102,7 @@
         "low_20": 1526.17,
         "prev_high_20": 1714.39,
         "prev_low_20": 1526.17,
-        "close": 1684.17,
+        "close": 1683.73,
         "prev_close": 1663.31,
         "signal": "NONE",
         "breakout_pct": 0.0,
@@ -115,12 +115,7 @@
       }
     }
   },
-  "alerts": [
-    {
-      "level": "ERROR",
-      "message": "OHLC fetch failed"
-    }
-  ],
+  "alerts": [],
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
@@ -133,9 +128,9 @@
     "details": []
   },
   "ntv_tick": {
-    "last_tick_ok": false,
-    "last_tick_at": "2026-07-28T23:32:55+02:00",
-    "last_tick_time": "2026-07-28T23:32:55+02:00",
+    "last_tick_ok": true,
+    "last_tick_at": "2026-07-28T23:35:26+02:00",
+    "last_tick_time": "2026-07-28T23:35:26+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -146,27 +141,27 @@
     "data_last_candle_date": "2026-07-28",
     "signal_data_age_days": 0.9,
     "source_timestamps": {
-      "dashboard_payload": "2026-07-28T21:25:24.863995+00:00",
-      "signal": "2026-07-28T21:25:24.818772+00:00",
-      "orders_dry_run": "2026-07-28T21:25:24.860035+00:00",
-      "alerts": "2026-07-28T21:32:55.880840+00:00"
+      "dashboard_payload": "2026-07-28T21:35:26.309294+00:00",
+      "signal": "2026-07-28T21:35:26.224177+00:00",
+      "orders_dry_run": "2026-07-28T21:35:26.297395+00:00",
+      "alerts": "2026-07-28T21:35:26.297760+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 7.5,
-      "signal": 7.5,
-      "orders_dry_run": 7.5,
+      "dashboard_payload": 0.0,
+      "signal": 0.0,
+      "orders_dry_run": 0.0,
       "alerts": 0.0
     },
-    "freshness_status": "ERROR"
+    "freshness_status": "OK"
   },
   "forward_test": {
-    "status": "FORWARD_TEST_UNSAFE",
+    "status": "FORWARD_TEST_WARNING",
     "days_observed": 12,
-    "last_snapshot_time": "2026-07-28T21:25:24.903113+00:00",
-    "last_verdict": "FORWARD_TEST_UNSAFE",
-    "warnings_count": 4,
+    "last_snapshot_time": "2026-07-28T21:32:55.953581+00:00",
+    "last_verdict": "FORWARD_TEST_WARNING",
+    "warnings_count": 5,
     "unsafe_count": 0,
-    "total_snapshots": 3239,
+    "total_snapshots": 3240,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-07-28"
