@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-28T21:25:24.890907+00:00",
+  "generated_at": "2026-07-28T21:32:55.939672+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -115,7 +115,12 @@
       }
     }
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "level": "ERROR",
+      "message": "OHLC fetch failed"
+    }
+  ],
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
@@ -128,9 +133,9 @@
     "details": []
   },
   "ntv_tick": {
-    "last_tick_ok": true,
-    "last_tick_at": "2026-07-28T23:25:24+02:00",
-    "last_tick_time": "2026-07-28T23:25:24+02:00",
+    "last_tick_ok": false,
+    "last_tick_at": "2026-07-28T23:32:55+02:00",
+    "last_tick_time": "2026-07-28T23:32:55+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -139,29 +144,29 @@
       "max_candle_age_days": 2.0
     },
     "data_last_candle_date": "2026-07-28",
-    "signal_data_age_days": 0.89,
+    "signal_data_age_days": 0.9,
     "source_timestamps": {
       "dashboard_payload": "2026-07-28T21:25:24.863995+00:00",
       "signal": "2026-07-28T21:25:24.818772+00:00",
       "orders_dry_run": "2026-07-28T21:25:24.860035+00:00",
-      "alerts": "2026-07-28T21:25:24.860126+00:00"
+      "alerts": "2026-07-28T21:32:55.880840+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 0.0,
-      "signal": 0.0,
-      "orders_dry_run": 0.0,
+      "dashboard_payload": 7.5,
+      "signal": 7.5,
+      "orders_dry_run": 7.5,
       "alerts": 0.0
     },
-    "freshness_status": "OK"
+    "freshness_status": "ERROR"
   },
   "forward_test": {
-    "status": "FORWARD_TEST_OK",
+    "status": "FORWARD_TEST_UNSAFE",
     "days_observed": 12,
-    "last_snapshot_time": "2026-07-28T21:20:25.037842+00:00",
-    "last_verdict": "FORWARD_TEST_OK",
+    "last_snapshot_time": "2026-07-28T21:25:24.903113+00:00",
+    "last_verdict": "FORWARD_TEST_UNSAFE",
     "warnings_count": 4,
     "unsafe_count": 0,
-    "total_snapshots": 3238,
+    "total_snapshots": 3239,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-07-28"
