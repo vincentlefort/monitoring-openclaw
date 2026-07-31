@@ -120,6 +120,37 @@ def main():
             s = pf_data.get("summary", {})
             pf_name = {"recovery_a": "Recovery A Conservative (48h)", "recovery_b": "Recovery B Aggressive (24h)"}.get(pf_key, pf_key)
             pf_assets = {"recovery_a": ["BTC", "SOL", "XRP"], "recovery_b": ["SOL", "XRP", "DOGE"]}.get(pf_key, [])
+
+            tick_closed = s.get("total_closed", 0)
+            tick_net = s.get("total_net_eur", 0)
+            counted_closed = tick_closed
+            counted_net = tick_net
+            counted_wins = 0
+            hf = os.path.join(RECOVERY_DIR, f"paper_trade_history_{pf_key}.jsonl")
+            if os.path.exists(hf):
+                try:
+                    history_closed = 0
+                    history_net = 0.0
+                    history_wins = 0
+                    with open(hf) as fh:
+                        for line in fh:
+                            try:
+                                ht = json.loads(line)
+                                if ht.get("asset") and ht.get("status") == "CLOSED":
+                                    history_closed += 1
+                                    pnl = ht.get("net_pnl_eur") or 0
+                                    history_net += pnl
+                                    if pnl > 0:
+                                        history_wins += 1
+                            except Exception:
+                                pass
+                    if history_closed > 0:
+                        counted_closed = history_closed
+                        counted_net = history_net
+                        counted_wins = history_wins
+                except Exception:
+                    pass
+
             recovery["portfolios"][pf_key] = {
                 "name": pf_name,
                 "badge": "PAPER",
@@ -128,9 +159,9 @@ def main():
                 "capital": s.get("capital", 6500),
                 "cash": s.get("cash", 6500),
                 "active_positions": s.get("active_positions", 0),
-                "closed_trades": s.get("total_closed", 0),
-                "total_net_eur": s.get("total_net_eur", 0),
-                "win_rate": s.get("win_rate", 0),
+                "closed_trades": counted_closed,
+                "total_net_eur": round(counted_net, 2),
+                "win_rate": round(counted_wins / max(1, counted_closed) * 100, 1) if counted_closed > 0 else s.get("win_rate", 0),
                 "active_assets": s.get("active_assets", []),
             }
 

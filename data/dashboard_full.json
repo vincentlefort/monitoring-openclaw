@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-31T09:25:35.871968+00:00",
-  "generated_at_unix": 1785489935,
+  "generated_at": "2026-07-31T09:28:56.089279+00:00",
+  "generated_at_unix": 1785490136,
   "ntv": {
     "generated_at": "2026-07-31T09:25:25.286870+00:00",
     "mode": "DRY_RUN",
@@ -228,7 +228,7 @@
     "last_tick": "2026-07-31T09:25:29.893350+00:00",
     "tick_status": "OK",
     "freshness": {
-      "age_minutes": 0.0,
+      "age_minutes": 3.4,
       "status": "OK",
       "expected_interval_minutes": 5
     },
@@ -249,8 +249,8 @@
         "capital": 6500,
         "cash": 6443.0,
         "active_positions": 0,
-        "closed_trades": 0,
-        "total_net_eur": 0,
+        "closed_trades": 1,
+        "total_net_eur": -57.0,
         "win_rate": 0.0,
         "active_assets": []
       },
@@ -350,7 +350,7 @@
         "blocking_reason": "daily_above_sma20, above_sma50_4h, volume_ok, distance_low_2pct"
       }
     },
-    "last_tick": "2026-07-31T09:25:25.476074+00:00",
+    "last_tick": "2026-07-31T09:28:45.790264+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -389,7 +389,7 @@
     "us10y_yield": 4.66,
     "regime": "fear",
     "freshness": {
-      "age_minutes": 10.5,
+      "age_minutes": 13.8,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -444,7 +444,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.2,
+      "legacy_bots_status_age_minutes": 3.5,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -456,12 +456,12 @@
         "status": "OK"
       },
       "ntv_signal": {
-        "age": 0.2,
+        "age": 3.5,
         "expected": 5,
         "status": "OK"
       },
       "swing_paper": {
-        "age": 0.0,
+        "age": 3.4,
         "expected": 5,
         "status": "OK"
       },
@@ -471,17 +471,17 @@
         "status": "OK"
       },
       "market_context": {
-        "age": 10.5,
+        "age": 13.8,
         "expected": 15,
         "status": "OK"
       },
       "legacy_bots": {
-        "age": 0.2,
+        "age": 3.5,
         "expected": 360,
         "status": "OK"
       },
       "stocks_json": {
-        "age": 0.0,
+        "age": 3.3,
         "expected": 360,
         "status": "OK"
       }
