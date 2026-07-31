@@ -66,25 +66,32 @@
         .legacy-bot-card { background: #0d1825; border: 1px solid #1a2535; border-radius: 8px; padding: 12px; opacity: 0.8; }
         .legacy-bot-card:hover { opacity: 1; }
         .safety-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        /* ═══ TAB NAVIGATION ═══ */
+        .tab-nav { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; position: sticky; top: 0; z-index: 10; background: #080f1a; padding: 8px 0; }
+        .tab-btn { padding: 8px 16px; border: 1px solid #1f2d40; border-radius: 8px; background: #0d1825; color: #64748b; cursor: pointer; font-size: 0.78rem; font-weight: 600; transition: all 0.15s; white-space: nowrap; }
+        .tab-btn:hover { background: #111827; color: #94a3b8; }
+        .tab-btn.active-tab { background: #1e3a52; color: #60a5fa; border-color: #60a5fa40; }
+        .tab-content { display: none; }
+        .tab-content.active-content { display: block; }
+        /* ═══ Mobile tab scroll ═══ */
+        @media(max-width: 600px) { .tab-btn { padding: 6px 10px; font-size: 0.7rem; } }
     </style>
 </head>
 <body>
 <div class="page">
 
-<!-- ===== ROW 0 — GLOBAL SAFETY HEADER ===== -->
+<!-- ===== GLOBAL ALERT ===== -->
 <div id="global-alert" class="global-alert"><i class="fas fa-triangle-exclamation"></i><span id="global-alert-msg"></span></div>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- PERMANENT SAFETY HEADER — always visible, color-coded          -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div id="safety-banner" style="background:#0d1825;border:2px solid #1f2d40;border-radius:12px;padding:14px 20px;margin-bottom:16px;">
+<!-- ===== PERMANENT SAFETY HEADER ===== -->
+<div id="safety-banner" style="background:#0d1825;border:2px solid #1f2d40;border-radius:12px;padding:14px 20px;margin-bottom:6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
         <div>
             <h1 style="font-size:1.2rem;font-weight:800;margin:0;">
                 <span class="dot-pulse" style="margin-right:8px;"></span>
                 OpenClaw <span class="blue">Monitoring</span>
             </h1>
-            <div style="color:#374151;font-size:0.68rem;margin-top:2px;">Kraken Auto Spot NTV · DRY_RUN · Munich</div>
+            <div style="color:#374151;font-size:0.68rem;margin-top:2px;">Kraken Auto Spot NTV &middot; DRY_RUN &middot; Munich</div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
             <span id="h-global" class="badge badge-green">GLOBAL: HEALTHY</span>
@@ -99,167 +106,134 @@
     </div>
 </div>
 
+<!-- ===== TAB NAVIGATION ===== -->
+<div class="tab-nav" id="tab-nav">
+    <button class="tab-btn active-tab" onclick="showTab('overview')" id="tab-overview"><i class="fas fa-compass"></i> Overview</button>
+    <button class="tab-btn" onclick="showTab('strategies')" id="tab-strategies"><i class="fas fa-chart-line"></i> Strategies</button>
+    <button class="tab-btn" onclick="showTab('finance')" id="tab-finance"><i class="fas fa-coins"></i> Finance</button>
+    <button class="tab-btn" onclick="showTab('trades')" id="tab-trades"><i class="fas fa-exchange-alt"></i> Trades</button>
+    <button class="tab-btn" onclick="showTab('signals')" id="tab-signals"><i class="fas fa-signal"></i> Signals</button>
+    <button class="tab-btn" onclick="showTab('system')" id="tab-system"><i class="fas fa-server"></i> System</button>
+    <button class="tab-btn" onclick="showTab('incidents')" id="tab-incidents"><i class="fas fa-triangle-exclamation"></i> Incidents</button>
+    <button class="tab-btn" onclick="showTab('archive')" id="tab-archive"><i class="fas fa-archive"></i> Archive</button>
+    <button class="tab-btn" onclick="showTab('legend')" id="tab-legend"><i class="fas fa-book"></i> Legend</button>
+</div>
+
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- ANCHOR NAVIGATION — quick jump to sections                      -->
+<!-- TAB 1 — OVERVIEW                                                    -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;font-size:0.7rem;">
-    <a href="#safety-banner" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Overview</a>
-    <a href="#ntv-card" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">NTV DRY-RUN</a>
-    <a href="#swing-card" style="color:#a78bfa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Swing PAPER</a>
-    <a href="#recovery-card" style="color:#a78bfa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Recovery PAPER</a>
-    <a href="#forward-test-card" style="color:#60a5fa;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Forward-Test</a>
-    <a href="#scalable-card" style="color:#10b981;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Scalable REAL</a>
-    <a href="#ntv-alerts-card" style="color:#ef4444;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">Alerts</a>
-    <a href="#legend-block" style="color:#fbbf24;text-decoration:none;padding:4px 10px;background:#0d1825;border:1px solid #1f2d40;border-radius:999px;">L\u00E9gende</a>
-</div>
-
-<!-- ===== ROW 1 — KRAKEN AUTO SPOT NTV (Main Crypto Block) ===== -->
-<div class="card" style="margin-bottom:16px;" id="ntv-card">
-    <div class="bot-header">
-        <div>
-            <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
-            <div class="bot-subtitle">Naive Trend+Vol Model A · Spot Only · BTC/EUR ETH/EUR · DRY_RUN</div>
-        </div>
-        <span id="ntv-badge" class="badge badge-yellow">DRY_RUN</span>
-    </div>
-    <div class="safety-badges">
-        <span class="badge badge-gray">SPOT ONLY</span>
-        <span class="badge badge-gray">NO FUTURES</span>
-        <span class="badge badge-gray">NO MARGIN</span>
-        <span class="badge badge-gray">NO SHORT</span>
-        <span class="badge badge-gray">READ-ONLY DASHBOARD</span>
-    </div>
-    <div class="stats-row">
-        <div class="stat"><div class="stat-label">Capital</div><div id="ntv-cap" class="stat-val blue">—</div></div>
-        <div class="stat"><div class="stat-label">Hard Cap</div><div id="ntv-hcap" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">Allocation Tier</div><div id="ntv-tier" class="stat-val">—</div></div>
-    </div>
-    <div class="divider"></div>
-    <div class="section-title"><i class="fas fa-signal blue"></i>BTC/EUR &amp; ETH/EUR Signals</div>
-    <div class="signal-grid">
-        <div class="card-sm">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-                <span style="font-weight:700;">BTC/EUR</span>
-                <span id="ntv-btc-badge" class="badge badge-gray">—</span>
+<div class="tab-content active-content" id="tab-content-overview">
+    <!-- NTV Card -->
+    <div class="card" style="margin-bottom:16px;" id="ntv-card">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
+                <div class="bot-subtitle">Naive Trend+Vol Model A &middot; Spot Only &middot; BTC/EUR ETH/EUR &middot; DRY_RUN</div>
             </div>
-            <div class="signal-row"><span class="label">Close</span><span id="ntv-btc-close">—</span></div>
-            <div class="signal-row"><span class="label">SMA200</span><span id="ntv-btc-sma200">—</span></div>
-            <div class="signal-row"><span class="label">Vol30</span><span id="ntv-btc-vol30">—</span></div>
-            <div class="signal-row"><span class="label">Trend</span><span id="ntv-btc-trend">—</span></div>
-            <div class="signal-row"><span class="label">Vol</span><span id="ntv-btc-volok">—</span></div>
-            <div id="ntv-btc-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
+            <span id="ntv-badge" class="badge badge-yellow">DRY_RUN</span>
         </div>
-        <div class="card-sm">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-                <span style="font-weight:700;">ETH/EUR</span>
-                <span id="ntv-eth-badge" class="badge badge-gray">—</span>
+        <div class="safety-badges">
+            <span class="badge badge-gray">SPOT ONLY</span>
+            <span class="badge badge-gray">NO FUTURES</span>
+            <span class="badge badge-gray">NO MARGIN</span>
+            <span class="badge badge-gray">NO SHORT</span>
+            <span class="badge badge-gray">READ-ONLY DASHBOARD</span>
+        </div>
+        <div class="stats-row">
+            <div class="stat"><div class="stat-label">Capital</div><div id="ntv-cap" class="stat-val blue">—</div></div>
+            <div class="stat"><div class="stat-label">Hard Cap</div><div id="ntv-hcap" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Allocation Tier</div><div id="ntv-tier" class="stat-val">—</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title"><i class="fas fa-signal blue"></i>BTC/EUR &amp; ETH/EUR Signals</div>
+        <div class="signal-grid">
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">BTC/EUR</span>
+                    <span id="ntv-btc-badge" class="badge badge-gray">—</span>
+                </div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-btc-close">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-btc-sma200">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-btc-vol30">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-btc-trend">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-btc-volok">—</span></div>
+                <div id="ntv-btc-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
             </div>
-            <div class="signal-row"><span class="label">Close</span><span id="ntv-eth-close">—</span></div>
-            <div class="signal-row"><span class="label">SMA200</span><span id="ntv-eth-sma200">—</span></div>
-            <div class="signal-row"><span class="label">Vol30</span><span id="ntv-eth-vol30">—</span></div>
-            <div class="signal-row"><span class="label">Trend</span><span id="ntv-eth-trend">—</span></div>
-            <div class="signal-row"><span class="label">Vol</span><span id="ntv-eth-volok">—</span></div>
-            <div id="ntv-eth-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">ETH/EUR</span>
+                    <span id="ntv-eth-badge" class="badge badge-gray">—</span>
+                </div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-eth-close">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-eth-sma200">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-eth-vol30">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-eth-trend">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-eth-volok">—</span></div>
+                <div id="ntv-eth-reason" style="font-size:0.62rem;color:#ef4444;margin-top:4px;"></div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title"><i class="fas fa-chart-pie blue"></i>Allocation</div>
+        <div style="font-size:0.78rem;">
+            <div class="signal-row"><span class="label">Current</span><span id="ntv-curr">—</span></div>
+            <div class="signal-row"><span class="label">Target</span><span id="ntv-target">—</span></div>
+            <div class="signal-row"><span class="label">Deviation</span><span id="ntv-dev">—</span></div>
+            <div class="signal-row"><span class="label">Action</span><span id="ntv-action">—</span></div>
         </div>
     </div>
-    <div class="divider"></div>
-    <div class="section-title"><i class="fas fa-chart-pie blue"></i>Allocation</div>
-    <div style="font-size:0.78rem;">
-        <div class="signal-row"><span class="label">Current</span><span id="ntv-curr">—</span></div>
-        <div class="signal-row"><span class="label">Target</span><span id="ntv-target">—</span></div>
-        <div class="signal-row"><span class="label">Deviation</span><span id="ntv-dev">—</span></div>
-        <div class="signal-row"><span class="label">Action</span><span id="ntv-action">—</span></div>
-    </div>
-</div>
 
-<!-- ===== SWING FUTURES PAPER TRADING ===== -->
-<div class="card" style="margin-bottom:16px;" id="swing-card">
-    <div class="bot-header">
-        <div>
-            <div class="bot-title"><i class="fas fa-chart-candlestick purple"></i>Swing Futures Paper Trading</div>
-            <div class="bot-subtitle">S1 Donchian Breakout · Fixed Duration · Paper A (BTC/SOL/XRP) · Paper B (SOL/DOGE/XRP) · <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+    <!-- Swing S1 + Recovery R1 summary row -->
+    <div class="grid-2" style="margin-bottom:16px;">
+        <div class="card" id="swing-card">
+            <div class="bot-header">
+                <div>
+                    <div class="bot-title"><i class="fas fa-chart-candlestick purple"></i>Swing Paper S1 <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+                    <div class="bot-subtitle">Donchian Breakout &middot; BTC/SOL/XRP/DOGE</div>
+                </div>
+                <span id="swing-badge" class="badge badge-gray">—</span>
+            </div>
+            <div class="stats-row" style="grid-template-columns: repeat(2,1fr);">
+                <div class="stat"><div class="stat-label">Paper A Net</div><div id="sw-a-net" class="stat-val">—</div></div>
+                <div class="stat"><div class="stat-label">Paper A Closed</div><div id="sw-a-trades" class="stat-val white">—</div></div>
+                <div class="stat"><div class="stat-label">Paper B Net</div><div id="sw-b-net" class="stat-val">—</div></div>
+                <div class="stat"><div class="stat-label">Paper B Closed</div><div id="sw-b-trades" class="stat-val white">—</div></div>
+            </div>
+            <div class="grid-4">
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="sw-sig-btc" class="gray">—</div><div id="sw-det-btc" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="sw-sig-sol" class="gray">—</div><div id="sw-det-sol" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp" class="gray">—</div><div id="sw-det-xrp" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge" class="gray">—</div><div id="sw-det-doge" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+            </div>
         </div>
-        <span id="swing-badge" class="badge badge-gray">—</span>
-    </div>
-    <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
-        <div class="stat"><div class="stat-label">Paper A Net</div><div id="sw-a-net" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Paper A Closed</div><div id="sw-a-trades" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">Paper B Net</div><div id="sw-b-net" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Paper B Closed</div><div id="sw-b-trades" class="stat-val white">—</div></div>
-    </div>
-    <div class="divider"></div>
-    <div class="section-title"><i class="fas fa-signal purple"></i>Derniers Signaux S1 (4h Donchian)</div>
-    <div class="grid-4" style="margin-bottom:8px;">
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="sw-sig-btc" class="gray">—</div><div id="sw-det-btc" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="sw-sig-sol" class="gray">—</div><div id="sw-det-sol" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp" class="gray">—</div><div id="sw-det-xrp" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge" class="gray">—</div><div id="sw-det-doge" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
-    </div>
-    <div style="font-size:0.6rem;color:#1f2d40;">S1: Close > Donchian High 20 · Volume > SMA 20 · Daily > SMA200 · Capital theorique 6 500 EUR · Read-only</div>
-</div>
-
-<!-- ===== RECOVERY PAPER R1 ===== -->
-<div class="card" style="margin-bottom:16px;" id="recovery-card">
-    <div class="bot-header">
-        <div>
-            <div class="bot-title"><i class="fas fa-heart-pulse blue"></i>Recovery Paper R1 <span class="badge badge-purple" style="font-size:0.62rem;margin-left:6px;">PAPER</span><span class="badge badge-yellow" style="font-size:0.55rem;margin-left:4px;">EXPERIMENTAL</span></div>
-            <div class="bot-subtitle">R1 Recovery Rebound · Long-only · Sub-SMA200 Bear Regime · Recovery A (48h BTC/SOL/XRP) · Recovery B (24h SOL/XRP/DOGE) · <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+        <div class="card" id="recovery-card">
+            <div class="bot-header">
+                <div>
+                    <div class="bot-title"><i class="fas fa-heart-pulse blue"></i>Recovery Paper R1 <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+                    <div class="bot-subtitle">R1 Recovery Rebound &middot; BTC/SOL/XRP/DOGE</div>
+                </div>
+                <span id="rec-badge" class="badge badge-gray">—</span>
+            </div>
+            <div class="stats-row" style="grid-template-columns: repeat(2,1fr);">
+                <div class="stat"><div class="stat-label">Recovery A Net</div><div id="rec-a-net" class="stat-val">—</div></div>
+                <div class="stat"><div class="stat-label">Recovery A Closed</div><div id="rec-a-trades" class="stat-val white">—</div></div>
+                <div class="stat"><div class="stat-label">Recovery B Net</div><div id="rec-b-net" class="stat-val">—</div></div>
+                <div class="stat"><div class="stat-label">Recovery B Closed</div><div id="rec-b-trades" class="stat-val white">—</div></div>
+            </div>
         </div>
-        <span id="rec-badge" class="badge badge-gray">—</span>
     </div>
-    <div id="rec-open-trades" style="margin-bottom:12px;"></div>
-    <div class="divider"></div>
-    <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
-        <div class="stat"><div class="stat-label">Recovery A Net</div><div id="rec-a-net" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Recovery A Closed</div><div id="rec-a-trades" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">Recovery B Net</div><div id="rec-b-net" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Recovery B Closed</div><div id="rec-b-trades" class="stat-val white">—</div></div>
-    </div>
-    <div class="divider"></div>
-    <div class="section-title"><i class="fas fa-signal blue"></i>Signaux R1 Recovery (Conditions 4h + Daily)</div>
-    <div class="grid-4" style="margin-bottom:8px;">
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="rec-sig-btc" class="gray">—</div><div id="rec-cnt-btc" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-btc" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="rec-sig-sol" class="gray">—</div><div id="rec-cnt-sol" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-sol" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="rec-sig-xrp" class="gray">—</div><div id="rec-cnt-xrp" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-xrp" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
-        <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="rec-sig-doge" class="gray">—</div><div id="rec-cnt-doge" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-doge" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
-    </div>
-    <div id="rec-closed-trades" style="margin-top:12px;"></div>
-    <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">R1: Daily<SMA200 + Daily>SMA20 + Close4h>SMA50 + Mom24h + Vol>SMA + Dist>2% 4h Low20 · 0 REAL ORDERS · Read-only</div>
-</div>
 
-<!-- ===== ROW 2 — FORWARD-TEST + DRY-RUN ORDERS + BREAKOUT20 ===== -->
-<div class="grid-2" style="margin-bottom:16px;">
-    <!-- Forward-Test Monitoring -->
-    <div class="card" id="forward-test-card">
+    <!-- Forward-Test -->
+    <div class="card" style="margin-bottom:16px;" id="forward-test-card">
         <div class="bot-header">
             <div>
                 <div class="bot-title"><i class="fas fa-flask blue"></i>Forward-Test Monitoring <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
-                <div class="bot-subtitle" id="ft-subtitle">DRY_RUN observation · Read-only</div>
+                <div class="bot-subtitle" id="ft-subtitle">DRY_RUN observation &middot; Read-only</div>
             </div>
             <div style="display:flex;gap:6px;">
                 <span id="ft-tick-badge" class="badge badge-gray" style="font-size:0.62rem;">TICK: —</span>
                 <span id="ft-badge" class="badge badge-gray">—</span>
-    </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- LEGEND                                                        -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="page">
-<div class="card" style="margin-bottom:16px;" id="legend-block">
-    <details>
-        <summary style="cursor:pointer;font-weight:700;color:#fbbf24;font-size:0.85rem;padding:4px 0;"><i class="fas fa-book yellow"></i> L\u00E9gende &mdash; How to read this dashboard</summary>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;font-size:0.72rem;">
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;flex-shrink:0;">REAL</span><span style="color:#94a3b8;">Argent r\u00E9el / positions r\u00E9elles (Scalable, Stops Actifs)</span></div>
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-yellow" style="font-size:0.6rem;flex-shrink:0;">DRY-RUN</span><span style="color:#94a3b8;">Simulation bas\u00E9e sur strat\u00E9gie, aucun ordre r\u00E9el (NTV, Forward-Test)</span></div>
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-purple" style="font-size:0.6rem;flex-shrink:0;">PAPER</span><span style="color:#94a3b8;">Portefeuille fictif, aucun fonds r\u00E9el (Swing S1, Recovery R1)</span></div>
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-gray" style="font-size:0.6rem;flex-shrink:0;">BACKTEST</span><span style="color:#94a3b8;">R\u00E9sultat historique, pas un PnL actuel</span></div>
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;background:#10b98120;color:#10b981;border:1px solid #10b98130;flex-shrink:0;">OPEN</span><span style="color:#94a3b8;">Trade paper actif &mdash; en cours, sortie \u00E0 dur\u00E9e fixe</span></div>
-            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-red" style="font-size:0.6rem;flex-shrink:0;">SIGNAL NONE</span><span style="color:#94a3b8;">Aucune nouvelle entr\u00E9e maintenant, mais un trade d\u00E9j\u00E0 ouvert peut continuer jusqu&#39;\u00E0 sa sortie fixe</span></div>
+            </div>
         </div>
-    </details>
-</div>
-</div>
         <div class="stats-row">
             <div class="stat"><div class="stat-label">Verdict</div><div id="ft-verdict" class="stat-val">—</div></div>
             <div class="stat"><div class="stat-label">Days Observed</div><div id="ft-days" class="stat-val white">—</div></div>
@@ -271,131 +245,351 @@
             <div class="stat"><div class="stat-label">Unsafe Events</div><div id="ft-unsafe" class="stat-val">—</div></div>
             <div class="stat"><div class="stat-label">Range</div><div id="ft-range" class="stat-val">—</div></div>
         </div>
-        <div style="font-size:0.6rem;color:#1f2d40;margin-top:8px;">No buttons · No actions · Read-only monitoring</div>
     </div>
+</div>
 
-    <!-- Dry-Run Orders + Breakout20 -->
-    <div style="display:flex;flex-direction:column;gap:16px;">
-        <div class="card">
-            <div class="section-title"><i class="fas fa-scroll yellow"></i>Dry-Run Orders <span class="badge badge-yellow" style="font-size:0.62rem;">SIMULATED</span></div>
-            <div id="ntv-orders-body" style="font-size:0.76rem;color:#64748b;">No orders — allocation within threshold</div>
-            <div id="ntv-orders-cost" style="font-size:0.65rem;color:#1f2d40;margin-top:4px;"></div>
-            <div id="ntv-executed-warn" style="display:none;background:#ef444415;border-radius:6px;padding:6px 10px;margin-top:6px;color:#ef4444;font-size:0.7rem;"></div>
-        </div>
-        <div class="card">
-            <div class="section-title"><i class="fas fa-bolt purple"></i>Breakout 20 <span class="badge badge-purple" style="font-size:0.62rem;">SHADOW ONLY</span></div>
-            <div style="font-size:0.72rem;margin-bottom:4px;">
-                <div class="signal-row"><span class="label">BTC</span><span id="ntv-bo-btc" class="gray">—</span></div>
-                <div class="signal-row"><span class="label">ETH</span><span id="ntv-bo-eth" class="gray">—</span></div>
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 2 — STRATEGIES                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-strategies">
+    <!-- NTV signals detail -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-shield-halved blue"></i>Kraken Auto Spot NTV <span class="badge badge-yellow" style="font-size:0.62rem;margin-left:6px;">DRY-RUN</span></div>
+                <div class="bot-subtitle">Naive Trend+Vol Model A &middot; Spot Only</div>
             </div>
-            <div style="font-size:0.62rem;color:#1f2d40;">No live orders · Not connected to execution</div>
+        </div>
+        <div class="signal-grid">
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">BTC/EUR</span>
+                    <span id="ntv-btc-badge2" class="badge badge-gray">—</span>
+                </div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-btc-close2">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-btc-sma2002">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-btc-vol302">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-btc-trend2">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-btc-volok2">—</span></div>
+            </div>
+            <div class="card-sm">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span style="font-weight:700;">ETH/EUR</span>
+                    <span id="ntv-eth-badge2" class="badge badge-gray">—</span>
+                </div>
+                <div class="signal-row"><span class="label">Close</span><span id="ntv-eth-close2">—</span></div>
+                <div class="signal-row"><span class="label">SMA200</span><span id="ntv-eth-sma2002">—</span></div>
+                <div class="signal-row"><span class="label">Vol30</span><span id="ntv-eth-vol302">—</span></div>
+                <div class="signal-row"><span class="label">Trend</span><span id="ntv-eth-trend2">—</span></div>
+                <div class="signal-row"><span class="label">Vol</span><span id="ntv-eth-volok2">—</span></div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title"><i class="fas fa-chart-pie blue"></i>Allocation</div>
+        <div style="font-size:0.78rem;">
+            <div class="signal-row"><span class="label">Current</span><span id="ntv-curr2">—</span></div>
+            <div class="signal-row"><span class="label">Target</span><span id="ntv-target2">—</span></div>
+            <div class="signal-row"><span class="label">Action</span><span id="ntv-action2">—</span></div>
+        </div>
+    </div>
+
+    <!-- Swing S1 -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-chart-candlestick purple"></i>Swing Futures Paper Trading <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+                <div class="bot-subtitle">S1 Donchian Breakout &middot; Fixed Duration</div>
+            </div>
+        </div>
+        <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
+            <div class="stat"><div class="stat-label">Paper A Net</div><div id="sw-a-net2" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Paper A Closed</div><div id="sw-a-trades2" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Paper B Net</div><div id="sw-b-net2" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Paper B Closed</div><div id="sw-b-trades2" class="stat-val white">—</div></div>
+        </div>
+        <div class="section-title"><i class="fas fa-signal purple"></i>S1 Signals (4h Donchian)</div>
+        <div class="grid-4" style="margin-bottom:8px;">
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="sw-sig-btc2" class="gray">—</div><div id="sw-det-btc2" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="sw-sig-sol2" class="gray">—</div><div id="sw-det-sol2" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp2" class="gray">—</div><div id="sw-det-xrp2" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge2" class="gray">—</div><div id="sw-det-doge2" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+        </div>
+    </div>
+
+    <!-- Recovery R1 -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-heart-pulse blue"></i>Recovery Paper R1 <span class="badge badge-purple" style="font-size:0.62rem;">PAPER</span></div>
+                <div class="bot-subtitle">R1 Recovery Rebound &middot; Long-only &middot; Sub-SMA200 Bear Regime</div>
+            </div>
+        </div>
+        <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
+            <div class="stat"><div class="stat-label">Recovery A Net</div><div id="rec-a-net2" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Recovery A Closed</div><div id="rec-a-trades2" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Recovery B Net</div><div id="rec-b-net2" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Recovery B Closed</div><div id="rec-b-trades2" class="stat-val white">—</div></div>
+        </div>
+        <div class="section-title"><i class="fas fa-signal blue"></i>R1 Recovery Signals</div>
+        <div class="grid-4" style="margin-bottom:8px;">
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="rec-sig-btc2" class="gray">—</div><div id="rec-cnt-btc2" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="rec-sig-sol2" class="gray">—</div><div id="rec-cnt-sol2" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="rec-sig-xrp2" class="gray">—</div><div id="rec-cnt-xrp2" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div></div>
+            <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="rec-sig-doge2" class="gray">—</div><div id="rec-cnt-doge2" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div></div>
+        </div>
+        <div style="font-size:0.6rem;color:#1f2d40;margin-top:6px;">R1: Daily&lt;SMA200 + Daily&gt;SMA20 + Close4h&gt;SMA50 + Mom24h + Vol&gt;SMA + Dist&gt;2%</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 3 — FINANCE                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-finance">
+    <div class="card" style="margin-bottom:16px;" id="scalable-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div>
+                <div class="bot-title"><i class="fas fa-chart-line green"></i>Scalable Capital Portfolio <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
+                <div class="bot-subtitle">Positions broker Scalable / ETF / portfolio principal — argent reel</div>
+            </div>
+            <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;">
+            <div class="stat"><div class="stat-label">Valeur Totale</div><div id="s-value" class="stat-val green">—</div></div>
+            <div class="stat"><div class="stat-label">Investi</div><div id="s-invested" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">PnL Total</div><div id="s-pnl" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">PnL Realise</div><div id="s-realized" class="stat-val">—</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:10px;">
+            <div class="stat"><div class="stat-label">MTD</div><div id="s-mtd" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">30j</div><div id="s-30d" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">2026</div><div id="s-ytd" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Frais</div><div id="s-fees" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Depots</div><div id="s-deposits" class="stat-val white">—</div></div>
+        </div>
+        <div class="divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="tbl" style="font-size:0.7rem;">
+                <thead><tr><th>Ticker</th><th>Nom</th><th>Type</th><th>Qte</th><th>Px Moy</th><th>Px Actuel</th><th>Investi</th><th>Valeur</th><th>PnL Lat.</th><th>PnL Real.</th><th>PnL Total</th><th>Poids</th></tr></thead>
+                <tbody id="s-table"><tr><td colspan="12" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
+            </table>
+        </div>
+        <div class="divider" style="margin-top:14px;"></div>
+        <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;margin:12px 0 8px;"><i class="fas fa-chart-bar gray"></i> PnL Realise par Mois</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="s-monthly"><span class="gray" style="font-size:0.75rem;">—</span></div>
+        <details style="margin-top:20px;">
+            <summary style="cursor:pointer;font-weight:700;color:#1f2d40;font-size:0.85rem;padding:8px 0;"><i class="fas fa-history gray"></i> Historique Transactions <span id="tx-count" style="font-size:0.7rem;color:#374151;margin-left:8px;">—</span></summary>
+            <div style="overflow-x:auto;margin-top:8px;"><table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Ticker</th><th>Qte</th><th>Prix</th><th>Montant</th><th>Frais</th></tr></thead><tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody></table></div>
+        </details>
+        <div style="font-size:0.6rem;color:#1f2d40;margin-top:10px;">Prix via Yahoo Finance &middot; Refresh 60s &middot; Read-only monitoring</div>
+
+        <!-- DERNIERS ACHATS REAL -->
+        <div class="divider" style="margin-top:18px;"></div>
+        <div class="section-title"><i class="fas fa-bag-shopping green"></i>Derniers achats REAL</div>
+        <div id="recent-real-buys" style="font-size:0.72rem;color:#64748b;">Chargement...</div>
+
+        <!-- STOCK PICKING & STOPS ACTIFS -->
+        <div class="divider" style="margin-top:18px;"></div>
+        <div class="bot-header">
+            <div>
+                <div class="bot-title"><i class="fas fa-shield-haltered orange"></i>Stock Picking &amp; Stops Actifs <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
+                <div class="bot-subtitle">Actions suivies hors portefeuille Scalable principal, avec niveaux de stop — argent reel</div>
+            </div>
+            <span id="stops-update" style="font-size:0.7rem;color:#374151;">—</span>
+        </div>
+        <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
+            <div class="stat"><div class="stat-label">Positions</div><div id="stops-count" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">Valeur</div><div id="stops-value" class="stat-val white">—</div></div>
+            <div class="stat"><div class="stat-label">PnL Latent</div><div id="stops-pnl" class="stat-val">—</div></div>
+            <div class="stat"><div class="stat-label">Risque Total</div><div id="stops-risk" class="stat-val orange">—</div></div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="tbl" style="font-size:0.7rem;">
+                <thead><tr><th>Ticker</th><th>Nom</th><th>Qte</th><th>Entree</th><th>Stop</th><th>Px Actuel</th><th>Valeur</th><th>PnL</th><th>Dist. Stop</th><th>Date</th></tr></thead>
+                <tbody id="stops-table"><tr><td colspan="10" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
+            </table>
         </div>
     </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 4 — TRADES                                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-trades">
+    <!-- Recovery open trades -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-play purple"></i>Open Recovery Trades</div>
+        <div id="rec-open-trades2"><div style="text-align:center;color:#64748b;padding:12px;font-size:0.78rem;"><i class="fas fa-circle-pause gray"></i> No open Recovery trades</div></div>
+    </div>
 
+    <!-- Recovery closed trades -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-check gray"></i>Closed Recovery Trades</div>
+        <div id="rec-closed-trades2"><div style="font-size:0.68rem;color:#374151;text-align:center;padding:8px 0;">Loading...</div></div>
+    </div>
 
-<!-- ===== ROW 3 — SCALABLE CAPITAL PORTFOLIO ===== -->
-<div class="card" style="margin-bottom:16px;" id="scalable-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div>
-            <div class="bot-title"><i class="fas fa-chart-line green"></i>Scalable Capital Portfolio <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
-            <div class="bot-subtitle">Positions broker Scalable / ETF / portfolio principal — argent r\u00E9el</div>
+    <!-- NTV Dry-Run Orders -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-scroll yellow"></i>NTV Dry-Run Orders <span class="badge badge-yellow" style="font-size:0.62rem;">SIMULATED</span></div>
+        <div id="ntv-orders-body2" style="font-size:0.76rem;color:#64748b;">No orders — allocation within threshold</div>
+        <div id="ntv-orders-cost2" style="font-size:0.65rem;color:#1f2d40;margin-top:4px;"></div>
+    </div>
+
+    <!-- Breakout20 -->
+    <div class="card">
+        <div class="section-title"><i class="fas fa-bolt purple"></i>Breakout 20 <span class="badge badge-purple" style="font-size:0.62rem;">SHADOW ONLY</span></div>
+        <div style="font-size:0.72rem;margin-bottom:4px;">
+            <div class="signal-row"><span class="label">BTC</span><span id="ntv-bo-btc2" class="gray">—</span></div>
+            <div class="signal-row"><span class="label">ETH</span><span id="ntv-bo-eth2" class="gray">—</span></div>
         </div>
-        <span id="s-update" style="font-size:0.7rem;color:#374151;">—</span>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;">
-        <div class="stat"><div class="stat-label">Valeur Totale</div><div id="s-value" class="stat-val green">—</div></div>
-        <div class="stat"><div class="stat-label">Investi</div><div id="s-invested" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">PnL Total</div><div id="s-pnl" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">PnL Realise</div><div id="s-realized" class="stat-val">—</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:10px;">
-        <div class="stat"><div class="stat-label">MTD</div><div id="s-mtd" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">30j</div><div id="s-30d" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">2026</div><div id="s-ytd" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Frais</div><div id="s-fees" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">Depots</div><div id="s-deposits" class="stat-val white">—</div></div>
-    </div>
-    <div class="divider"></div>
-    <div style="overflow-x:auto;">
-        <table class="tbl" style="font-size:0.7rem;">
-            <thead><tr><th>Ticker</th><th>Nom</th><th>Type</th><th>Qte</th><th>Px Moy</th><th>Px Actuel</th><th>Investi</th><th>Valeur</th><th>PnL Lat.</th><th>PnL Real.</th><th>PnL Total</th><th>Poids</th></tr></thead>
-            <tbody id="s-table"><tr><td colspan="12" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
-        </table>
-    </div>
-    <div class="divider" style="margin-top:14px;"></div>
-    <div style="font-weight:700;color:#1f2d40;font-size:0.85rem;margin:12px 0 8px;"><i class="fas fa-chart-bar gray"></i> PnL Realise par Mois</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="s-monthly"><span class="gray" style="font-size:0.75rem;">—</span></div>
-    <details style="margin-top:20px;">
-        <summary style="cursor:pointer;font-weight:700;color:#1f2d40;font-size:0.85rem;padding:8px 0;"><i class="fas fa-history gray"></i> Historique Transactions <span id="tx-count" style="font-size:0.7rem;color:#374151;margin-left:8px;">—</span></summary>
-        <div style="overflow-x:auto;margin-top:8px;"><table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Ticker</th><th>Qte</th><th>Prix</th><th>Montant</th><th>Frais</th></tr></thead><tbody id="tx-table"><tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody></table></div>
-    </details>
-    <div style="font-size:0.6rem;color:#1f2d40;margin-top:10px;">Prix via Yahoo Finance · Refresh 60s · Read-only monitoring</div>
-
-    <!-- DERNIERS ACHATS REAL -->
-    <div class="divider" style="margin-top:18px;"></div>
-    <div class="section-title"><i class="fas fa-bag-shopping green"></i>Derniers achats REAL</div>
-    <div id="recent-real-buys" style="font-size:0.72rem;color:#64748b;">Chargement...</div>
-
-    <!-- STOCK PICKING & STOPS ACTIFS -->
-    <div class="divider" style="margin-top:18px;"></div>
-    <div class="bot-header">
-        <div>
-            <div class="bot-title"><i class="fas fa-shield-haltered orange"></i>Stock Picking &amp; Stops Actifs <span class="badge badge-green" style="font-size:0.62rem;margin-left:8px;">REAL</span></div>
-            <div class="bot-subtitle">Actions suivies hors portefeuille Scalable principal, avec niveaux de stop — argent r\u00E9el</div>
-        </div>
-        <span id="stops-update" style="font-size:0.7rem;color:#374151;">—</span>
-    </div>
-    <div class="stats-row" style="grid-template-columns: repeat(4,1fr);">
-        <div class="stat"><div class="stat-label">Positions</div><div id="stops-count" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">Valeur</div><div id="stops-value" class="stat-val white">—</div></div>
-        <div class="stat"><div class="stat-label">PnL Latent</div><div id="stops-pnl" class="stat-val">—</div></div>
-        <div class="stat"><div class="stat-label">Risque Total</div><div id="stops-risk" class="stat-val orange">—</div></div>
-    </div>
-    <div style="overflow-x:auto;">
-        <table class="tbl" style="font-size:0.7rem;">
-            <thead><tr><th>Ticker</th><th>Nom</th><th>Qte</th><th>Entree</th><th>Stop</th><th>Px Actuel</th><th>Valeur</th><th>PnL</th><th>Dist. Stop</th><th>Date</th></tr></thead>
-            <tbody id="stops-table"><tr><td colspan="10" style="text-align:center;color:#374151;padding:20px;">Chargement...</td></tr></tbody>
-        </table>
+        <div style="font-size:0.62rem;color:#1f2d40;">No live orders &middot; Not connected to execution</div>
     </div>
 </div>
 
-<!-- ===== ROW 5 — ALERTS & DATA FRESHNESS ===== -->
-<div class="grid-2" style="margin-bottom:16px;">
-    <div class="card" id="ntv-alerts-card">
-        <div class="section-title"><i class="fas fa-triangle-exclamation red"></i>Alerts &amp; Safety</div>
-        <div id="ntv-alerts-list" style="font-size:0.73rem;">
-            <div class="signal-row"><span class="label">Data age</span><span id="al-data" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Futures balance</span><span id="al-fbal" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Futures position</span><span id="al-fpos" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Open orders</span><span id="al-orders" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Capital over hard cap</span><span id="al-cap" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Allocation mismatch</span><span id="al-alloc" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Kill switch</span><span id="al-ks" class="badge badge-gray">UNKNOWN</span></div>
-            <div class="signal-row" style="margin-top:4px;"><span class="label">Spread too wide</span><span id="al-spread" class="badge badge-gray">UNKNOWN</span></div>
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 5 — SIGNALS                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-signals">
+    <div class="grid-2" style="margin-bottom:16px;">
+        <!-- Recovery R1 Signals -->
+        <div class="card">
+            <div class="section-title"><i class="fas fa-signal blue"></i>Recovery R1 Signals</div>
+            <div class="grid-2">
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="rec-sig-btc" class="gray">—</div><div id="rec-cnt-btc" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-btc" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="rec-sig-sol" class="gray">—</div><div id="rec-cnt-sol" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-sol" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="rec-sig-xrp" class="gray">—</div><div id="rec-cnt-xrp" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-xrp" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="rec-sig-doge" class="gray">—</div><div id="rec-cnt-doge" style="font-size:0.65rem;color:#374151;margin-top:2px;"></div><div id="rec-blk-doge" style="font-size:0.55rem;color:#ef4444;margin-top:1px;"></div></div>
+            </div>
+            <div style="font-size:0.58rem;color:#374151;margin-top:8px;">
+                <i class="fas fa-info-circle"></i> Signal status is separate from trade status. A signal of NONE does NOT mean a trade will be closed — trades continue to their fixed-duration exit.
+            </div>
+        </div>
+        <!-- Swing S1 Signals -->
+        <div class="card">
+            <div class="section-title"><i class="fas fa-signal purple"></i>Swing S1 Signals</div>
+            <div class="grid-2">
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">BTC</div><div id="sw-sig-btc" class="gray">—</div><div id="sw-det-btc" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">SOL</div><div id="sw-sig-sol" class="gray">—</div><div id="sw-det-sol" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">XRP</div><div id="sw-sig-xrp" class="gray">—</div><div id="sw-det-xrp" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+                <div class="card-sm"><div style="font-weight:700;margin-bottom:3px;">DOGE</div><div id="sw-sig-doge" class="gray">—</div><div id="sw-det-doge" style="font-size:0.6rem;color:#374151;margin-top:2px;"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 6 — BOTS / SYSTEM                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-system">
+    <div class="grid-2" style="margin-bottom:16px;">
+        <!-- Data Freshness -->
+        <div class="card">
+            <div class="section-title"><i class="fas fa-database blue"></i>Data Freshness</div>
+            <div style="font-size:0.7rem;">
+                <div class="freshness-row"><span class="tag">NTV tick</span><span id="fr-tick">—</span></div>
+                <div class="freshness-row"><span class="tag">ntv.json</span><span id="fr-ntv">—</span></div>
+                <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
+                <div class="freshness-row"><span class="tag">Source payload age</span><span id="fr-src-age">—</span></div>
+                <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
+                <div class="freshness-row"><span class="tag">NTV last candle (UTC)</span><span id="fr-candle">—</span></div>
+                <div class="freshness-row"><span class="tag">Stocks/ETF data</span><span id="fr-stocks">—</span></div>
+                <div class="freshness-row"><span class="tag">Data age</span><span id="fr-age">—</span></div>
+                <div class="freshness-row"><span class="tag">Page refresh</span><span id="fr-refresh">—</span></div>
+            </div>
+            <div style="font-size:0.6rem;color:#1f2d40;margin-top:8px;">Auto-refresh: NTV 30s &middot; Stocks 60s &middot; Dashboard 120s</div>
+        </div>
+        <!-- Alerts & Safety -->
+        <div class="card" id="ntv-alerts-card">
+            <div class="section-title"><i class="fas fa-triangle-exclamation red"></i>Alerts &amp; Safety</div>
+            <div id="ntv-alerts-list" style="font-size:0.73rem;">
+                <div class="signal-row"><span class="label">Data age</span><span id="al-data" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Futures balance</span><span id="al-fbal" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Futures position</span><span id="al-fpos" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Open orders</span><span id="al-orders" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Capital over hard cap</span><span id="al-cap" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Allocation mismatch</span><span id="al-alloc" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Kill switch</span><span id="al-ks" class="badge badge-gray">UNKNOWN</span></div>
+                <div class="signal-row" style="margin-top:4px;"><span class="label">Spread too wide</span><span id="al-spread" class="badge badge-gray">UNKNOWN</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bot Status -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-server blue"></i>Bot Status</div>
+        <div class="grid-3" style="font-size:0.72rem;">
+            <div class="card-sm"><span class="blue">NTV Spot</span> <span class="badge badge-yellow" style="font-size:0.58rem;">DRY_RUN</span><div class="gray" style="font-size:0.65rem;">Active forward-test</div></div>
+            <div class="card-sm"><span class="purple">Swing Paper</span> <span class="badge badge-purple" style="font-size:0.58rem;">PAPER</span><div class="gray" style="font-size:0.65rem;">S1 Donchian</div></div>
+            <div class="card-sm"><span class="blue">Recovery Paper</span> <span class="badge badge-purple" style="font-size:0.58rem;">PAPER</span><div class="gray" style="font-size:0.65rem;">R1 Recovery Rebound</div></div>
+            <div class="card-sm"><span class="purple">Telegram Gateway</span> <span class="badge badge-blue" style="font-size:0.58rem;">ACTIVE</span></div>
+            <div class="card-sm"><span class="purple">Event Dispatcher</span> <span class="badge badge-blue" style="font-size:0.58rem;">ACTIVE</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 7 — INCIDENTS                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-incidents">
+    <div class="card card-alert" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-triangle-exclamation red"></i>Global Alerts</div>
+        <div id="incidents-global" style="font-size:0.76rem;color:#64748b;">
+            <div class="signal-row"><span class="label">Safety</span><span id="inc-safe" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">NTV Pipeline</span><span id="inc-ntv" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Legacy Bots</span><span id="inc-legacy" class="badge badge-gray">UNKNOWN</span></div>
+            <div class="signal-row" style="margin-top:4px;"><span class="label">Real Orders Today</span><span id="inc-orders" class="badge badge-gray">UNKNOWN</span></div>
         </div>
     </div>
     <div class="card">
-        <div class="section-title"><i class="fas fa-database blue"></i>Data Freshness</div>
-        <div style="font-size:0.7rem;">
-            <div class="freshness-row"><span class="tag">NTV tick</span><span id="fr-tick">—</span></div>
-            <div class="freshness-row"><span class="tag">ntv.json</span><span id="fr-ntv">—</span></div>
-            <div class="freshness-row"><span class="tag">Dashboard payload</span><span id="fr-dash">—</span></div>
-            <div class="freshness-row"><span class="tag">Source payload age</span><span id="fr-src-age">—</span></div>
-            <div class="freshness-row"><span class="tag">Last signal</span><span id="fr-sig">—</span></div>
-            <div class="freshness-row"><span class="tag">NTV last candle (UTC)</span><span id="fr-candle">—</span></div>
-            <div class="freshness-row"><span class="tag">Stocks/ETF data</span><span id="fr-stocks">—</span></div>
-            <div class="freshness-row"><span class="tag">Data age</span><span id="fr-age">—</span></div>
-            <div class="freshness-row"><span class="tag">Page refresh</span><span id="fr-refresh">—</span></div>
+        <div class="section-title"><i class="fas fa-clock red"></i>Stale Data Watch</div>
+        <div style="font-size:0.72rem;color:#64748b;">
+            <div class="freshness-row"><span class="tag">NTV tick freshness</span><span id="inc-tick-fresh">—</span></div>
+            <div class="freshness-row"><span class="tag">Stocks freshness</span><span id="inc-stocks-fresh">—</span></div>
+            <div class="freshness-row"><span class="tag">Swing freshness</span><span id="inc-swing-fresh">—</span></div>
+            <div class="freshness-row"><span class="tag">Recovery freshness</span><span id="inc-rec-fresh">—</span></div>
         </div>
-        <div style="font-size:0.6rem;color:#1f2d40;margin-top:8px;">Auto-refresh: NTV 30s · Stocks 60s · Legacy 120s</div>
     </div>
 </div>
 
-
-
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 8 — ARCHIVE                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-archive">
+    <div class="card card-legacy" style="margin-bottom:16px;">
+        <div class="section-title"><i class="fas fa-archive gray"></i>Legacy Bots (Stopped 2026-06-21)</div>
+        <div class="grid-2" style="font-size:0.72rem;">
+            <div class="legacy-bot-card">
+                <div style="font-weight:700;margin-bottom:4px;"><i class="fas fa-robot gray"></i> Binance V5</div>
+                <div class="gray" style="font-size:0.65rem;">Retired/Stopped &middot; No orders &middot; Restart disabled</div>
+            </div>
+            <div class="legacy-bot-card">
+                <div style="font-weight:700;margin-bottom:4px;"><i class="fas fa-robot gray"></i> Kraken Futures V1</div>
+                <div class="gray" style="font-size:0.65rem;">Retired/Stopped &middot; No orders &middot; Restart disabled</div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 9 — LEGEND                                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-content-legend">
+    <div class="card" id="legend-block">
+        <div class="section-title" style="color:#fbbf24;font-size:0.85rem;"><i class="fas fa-book yellow"></i>How to read this dashboard</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;font-size:0.72rem;">
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;flex-shrink:0;">REAL</span><span style="color:#94a3b8;">Argent reel / positions reelles (Scalable, Stops Actifs)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-yellow" style="font-size:0.6rem;flex-shrink:0;">DRY-RUN</span><span style="color:#94a3b8;">Simulation basee sur strategie, aucun ordre reel (NTV, Forward-Test)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-purple" style="font-size:0.6rem;flex-shrink:0;">PAPER</span><span style="color:#94a3b8;">Portefeuille fictif, aucun fonds reel (Swing S1, Recovery R1)</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-gray" style="font-size:0.6rem;flex-shrink:0;">BACKTEST</span><span style="color:#94a3b8;">Resultat historique, pas un PnL actuel</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-green" style="font-size:0.6rem;background:#10b98120;color:#10b981;border:1px solid #10b98130;flex-shrink:0;">OPEN</span><span style="color:#94a3b8;">Trade paper actif — en cours, sortie a duree fixe</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-red" style="font-size:0.6rem;flex-shrink:0;">SIGNAL NONE</span><span style="color:#94a3b8;">Aucune nouvelle entree maintenant, mais un trade deja ouvert peut continuer jusqu'a sa sortie fixe</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-blue" style="font-size:0.6rem;flex-shrink:0;">CLOSED</span><span style="color:#94a3b8;">Trade ferme (paper ou reel) — PnL final connu</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-yellow" style="font-size:0.6rem;;flex-shrink:0;">STALE</span><span style="color:#94a3b8;">Donnee non actualisee depuis >15 min — verifier le pipeline</span></div>
+            <div style="display:flex;gap:6px;align-items:flex-start;"><span class="badge badge-red" style="font-size:0.6rem;flex-shrink:0;">UNKNOWN</span><span style="color:#94a3b8;">Donnee manquante — source indisponible</span></div>
+        </div>
+    </div>
+</div>
+
+</div><!-- .page -->
 
 <script>
 const GH_RAW = 'https://raw.githubusercontent.com/vincentlefort/monitoring-openclaw/main/data/';
@@ -425,6 +619,27 @@ function ageHours(ts) {
     if (!ts) return null;
     return (new Date() - new Date(ts)) / 3600000;
 }
+
+// ── TAB NAVIGATION ──
+function showTab(tabId) {
+    var tabs = document.querySelectorAll('.tab-content');
+    for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active-content'); }
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active-tab'); }
+    var content = document.getElementById('tab-content-' + tabId);
+    if (content) content.classList.add('active-content');
+    var btn = document.getElementById('tab-' + tabId);
+    if (btn) btn.classList.add('active-tab');
+    if (history.pushState) { history.pushState(null, '', '#' + tabId); }
+}
+window.addEventListener('hashchange', function() {
+    var h = window.location.hash.replace('#', '');
+    if (h && document.getElementById('tab-content-' + h)) showTab(h);
+});
+window.addEventListener('load', function() {
+    var h = window.location.hash.replace('#', '');
+    if (h && document.getElementById('tab-content-' + h)) showTab(h);
+});
 
 // ── Clock ──
 setInterval(function() { document.getElementById('h-clock').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit', second:'2-digit'}); }, 1000);
@@ -489,77 +704,74 @@ async function loadNTV() {
 
         setNTVSignal('btc', sig.btc);
         setNTVSignal('eth', sig.eth);
+        // Duplicate to Strategies tab
+        setNTVSignalDup('btc', sig.btc);
+        setNTVSignalDup('eth', sig.eth);
 
         // Allocation
         var cur = alloc.current || {}, tgt = alloc.target || {}, dev = alloc.deviation || {};
-        document.getElementById('ntv-curr').innerHTML = '<span class="yellow">BTC</span> ' + safeNum(cur.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(cur.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(cur.eur_pct, 1) + '%';
-        document.getElementById('ntv-target').innerHTML = '<span class="yellow">BTC</span> ' + safeNum(tgt.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(tgt.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(tgt.eur_pct, 1) + '%';
-        document.getElementById('ntv-dev').innerHTML = 'BTC ' + (dev.btc_deviation_pct !== undefined ? (dev.btc_deviation_pct >= 0 ? '+' : '') + dev.btc_deviation_pct.toFixed(1) + '%' : '—') + ' ETH ' + (dev.eth_deviation_pct !== undefined ? (dev.eth_deviation_pct >= 0 ? '+' : '') + dev.eth_deviation_pct.toFixed(1) + '%' : '—');
-        var action = safeStr(alloc.recommended_action, 'HOLD');
-        var actEl = document.getElementById('ntv-action');
-        actEl.textContent = action;
-        actEl.className = action === 'REBALANCE' ? 'yellow' : 'green';
+        var allocCur = '<span class="yellow">BTC</span> ' + safeNum(cur.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(cur.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(cur.eur_pct, 1) + '%';
+        var allocTgt = '<span class="yellow">BTC</span> ' + safeNum(tgt.btc_pct, 1) + '% <span class="purple">ETH</span> ' + safeNum(tgt.eth_pct, 1) + '% <span class="gray">EUR</span> ' + safeNum(tgt.eur_pct, 1) + '%';
+        var allocAct = safeStr(alloc.recommended_action, 'HOLD');
+
+        function setAlloc(pref) {
+            var el1 = document.getElementById('ntv-curr' + pref);
+            var el2 = document.getElementById('ntv-target' + pref);
+            var el3 = document.getElementById('ntv-action' + pref);
+            if (el1) el1.innerHTML = allocCur;
+            if (el2) el2.innerHTML = allocTgt;
+            if (el3) { el3.textContent = allocAct; el3.className = allocAct === 'REBALANCE' ? 'yellow' : 'green'; }
+        }
+        setAlloc('');
+        setAlloc('2');
 
         // Dry-run orders
         var dro = data.dry_run_orders || {}, orders = dro.orders || [];
-        var ordersBody = document.getElementById('ntv-orders-body');
-        if (orders.length === 0) {
-            ordersBody.innerHTML = '<span class="gray">No orders — allocation within threshold</span>';
-        } else {
-            ordersBody.innerHTML = '<table class="tbl"><thead><tr><th>Pair</th><th>Side</th><th>Qty</th><th>Notional</th><th>Fee</th></tr></thead><tbody>' +
-                orders.map(function(o) {
-                    var bd = o.cost_breakdown || {};
-                    return '<tr><td style="font-weight:600;">' + safeStr(o.pair) + '</td>' +
-                        '<td><span class="badge ' + (o.side === 'buy' ? 'badge-green' : 'badge-red') + '" style="font-size:0.62rem;">' + safeStr(o.side).toUpperCase() + '</span></td>' +
-                        '<td>' + safeNum(o.quantity, 6) + '</td><td>\u20AC' + safeNum(o.notional_eur, 2) + '</td>' +
-                        '<td>\u20AC' + safeNum(bd.total_cost_eur, 2) + '</td></tr>';
-                }).join('') + '</tbody></table>';
+        function setOrders(ordersBodyId, costId) {
+            var ordersBody = document.getElementById(ordersBodyId);
+            if (!ordersBody) return;
+            if (orders.length === 0) {
+                ordersBody.innerHTML = '<span class="gray">No orders — allocation within threshold</span>';
+            } else {
+                ordersBody.innerHTML = '<table class="tbl"><thead><tr><th>Pair</th><th>Side</th><th>Qty</th><th>Notional</th><th>Fee</th></tr></thead><tbody>' +
+                    orders.map(function(o) {
+                        var bd = o.cost_breakdown || {};
+                        return '<tr><td style="font-weight:600;">' + safeStr(o.pair) + '</td>' +
+                            '<td><span class="badge ' + (o.side === 'buy' ? 'badge-green' : 'badge-red') + '" style="font-size:0.62rem;">' + safeStr(o.side).toUpperCase() + '</span></td>' +
+                            '<td>' + safeNum(o.quantity, 6) + '</td><td>\u20AC' + safeNum(o.notional_eur, 2) + '</td>' +
+                            '<td>\u20AC' + safeNum(bd.total_cost_eur, 2) + '</td></tr>';
+                    }).join('') + '</tbody></table>';
+            }
+            var costEl = document.getElementById(costId);
+            if (costEl) costEl.textContent = 'Executed: 0 (DRY_RUN — simulated only)';
         }
-        document.getElementById('ntv-orders-cost').textContent = 'Executed: 0 (DRY_RUN \u2014 simulated only)';
-        if (dro.executed === true || (Array.isArray(dro.executed_orders) && dro.executed_orders.length > 0)) {
-            document.getElementById('ntv-executed-warn').style.display = 'block';
-            document.getElementById('ntv-executed-warn').textContent = 'WARNING: Executed orders found in DRY_RUN mode!';
-        }
+        setOrders('ntv-orders-body', 'ntv-orders-cost');
+        setOrders('ntv-orders-body2', 'ntv-orders-cost2');
 
         // Breakout20
         var bo = data.breakout20_shadow || {}, bost = bo.status || {};
         var btcBo = bost.btc || {}, ethBo = bost.eth || {};
-        document.getElementById('ntv-bo-btc').textContent = safeStr(btcBo.signal) + ' | close: ' + safeNum(btcBo.close, 1) + ' | H20: ' + safeNum(btcBo.high_20, 1) + ' L20: ' + safeNum(btcBo.low_20, 1);
-        document.getElementById('ntv-bo-eth').textContent = safeStr(ethBo.signal) + ' | close: ' + safeNum(ethBo.close, 2) + ' | H20: ' + safeNum(ethBo.high_20, 2) + ' L20: ' + safeNum(ethBo.low_20, 2);
+        var boBtcTxt = safeStr(btcBo.signal) + ' | close: ' + safeNum(btcBo.close, 1) + ' | H20: ' + safeNum(btcBo.high_20, 1) + ' L20: ' + safeNum(btcBo.low_20, 1);
+        var boEthTxt = safeStr(ethBo.signal) + ' | close: ' + safeNum(ethBo.close, 2) + ' | H20: ' + safeNum(ethBo.high_20, 2) + ' L20: ' + safeNum(ethBo.low_20, 2);
+        var elBtc = document.getElementById('ntv-bo-btc'); if (elBtc) elBtc.textContent = boBtcTxt;
+        var elEth = document.getElementById('ntv-bo-eth'); if (elEth) elEth.textContent = boEthTxt;
+        var elBtc2 = document.getElementById('ntv-bo-btc2'); if (elBtc2) elBtc2.textContent = boBtcTxt;
+        var elEth2 = document.getElementById('ntv-bo-eth2'); if (elEth2) elEth2.textContent = boEthTxt;
 
         // Alerts
-        var alerts = data.alerts || [];
-        function setAlert(el, ok) {
-            el.className = 'badge ' + (ok ? 'badge-green' : 'badge-red');
-            el.textContent = ok ? 'OK' : 'WARNING';
-        }
+        function setAlert(el, ok) { if (!el) return; el.className = 'badge ' + (ok ? 'badge-green' : 'badge-red'); el.textContent = ok ? 'OK' : 'WARNING'; }
         setAlert(document.getElementById('al-data'), ageHours(data.generated_at) < 48);
         setAlert(document.getElementById('al-fpos'), !(bost.any_breakout === undefined));
         setAlert(document.getElementById('al-orders'), orders.length === 0);
         setAlert(document.getElementById('al-cap'), (data.hard_cap_eur || 3000) <= 3000);
         var ksActive = safeStr((data.safety_header || {}).kill_switch_status) === 'active';
         setAlert(document.getElementById('al-ks'), !ksActive);
-        document.getElementById('al-fbal').textContent = 'OK';
-        document.getElementById('al-fbal').className = 'badge badge-green';
-        if (alerts.length) {
-            for (var i = 0; i < alerts.length; i++) {
-                if (alerts[i].message && alerts[i].message.indexOf('futures') >= 0) {
-                    document.getElementById('al-fbal').textContent = 'WARNING';
-                    document.getElementById('al-fbal').className = 'badge badge-red';
-                }
-            }
-        }
+        if (document.getElementById('al-fbal')) { document.getElementById('al-fbal').textContent = 'OK'; document.getElementById('al-fbal').className = 'badge badge-green'; }
         var allocMismatch = Math.abs((dev.btc_deviation_pct || 0)) >= 5 || Math.abs((dev.eth_deviation_pct || 0)) >= 5;
         setAlert(document.getElementById('al-alloc'), !allocMismatch);
-        setAlert(document.getElementById('al-spread'), alerts.length < 3);
+        setAlert(document.getElementById('al-spread'), (data.alerts || []).length < 3);
 
         // Data Freshness
-        // HOTFIX 2026-07-17 (audit INC-7): freshness_status stored in ntv.json
-        // is a snapshot taken at export time — if the pipeline dies, the file
-        // freezes with "OK" forever. The age and status are therefore
-        // recomputed CLIENT-SIDE at render time; a frozen file can never
-        // display OK again. Rules: OK <=15min, DELAYED <=120min, STALE >120min,
-        // NO_RUN if never ticked, ERROR if candle data > 2 days old.
         var tick = data.ntv_tick || {};
         var tickTime = tick.last_tick_at || tick.last_tick_time || '';
         var tickAgeMin = null;
@@ -567,32 +779,23 @@ async function loadNTV() {
             var t = new Date(tickTime).getTime();
             if (!isNaN(t)) tickAgeMin = (Date.now() - t) / 60000.0;
         }
-        var candleAgeDays = (tick.signal_data_age_days !== undefined && tick.signal_data_age_days !== null)
-            ? Number(tick.signal_data_age_days) : null;
+        var candleAgeDays = (tick.signal_data_age_days !== undefined && tick.signal_data_age_days !== null) ? Number(tick.signal_data_age_days) : null;
         if (candleAgeDays !== null && tick.data_last_candle_date) {
-            // recompute candle age client-side too (stored value also freezes)
             var candleT = new Date(tick.data_last_candle_date + 'T00:00:00Z').getTime();
             if (!isNaN(candleT)) candleAgeDays = (Date.now() - candleT) / 86400000.0;
         }
         var storedStatus = safeStr(tick.freshness_status, 'UNKNOWN');
         var tickStatus;
-        if (tickAgeMin === null) {
-            tickStatus = 'NO_RUN';
-        } else if (storedStatus === 'ERROR' || storedStatus === 'NO_RUN') {
-            tickStatus = storedStatus;
-        } else if (candleAgeDays !== null && candleAgeDays > 2.0) {
-            tickStatus = 'ERROR';
-        } else if (tickAgeMin > 120) {
-            tickStatus = 'STALE';
-        } else if (tickAgeMin > 15) {
-            tickStatus = 'DELAYED';
-        } else {
-            tickStatus = 'OK';
-        }
+        if (tickAgeMin === null) { tickStatus = 'NO_RUN'; }
+        else if (storedStatus === 'ERROR' || storedStatus === 'NO_RUN') { tickStatus = storedStatus; }
+        else if (candleAgeDays !== null && candleAgeDays > 2.0) { tickStatus = 'ERROR'; }
+        else if (tickAgeMin > 120) { tickStatus = 'STALE'; }
+        else if (tickAgeMin > 15) { tickStatus = 'DELAYED'; }
+        else { tickStatus = 'OK'; }
+
         var frTick = document.getElementById('fr-tick');
         frTick.textContent = (tickTime ? fmtTime(tickTime) : 'NEVER') + ' [' + tickStatus + ']';
-        frTick.className = (tickStatus === 'OK' && tick.last_tick_ok) ? 'green'
-            : (tickStatus === 'DELAYED' ? 'yellow' : 'red');
+        frTick.className = (tickStatus === 'OK' && tick.last_tick_ok) ? 'green' : (tickStatus === 'DELAYED' ? 'yellow' : 'red');
 
         document.getElementById('fr-ntv').textContent = fmtTime(data.generated_at);
         var dp = data.last_update || (data.safety_header || {}).last_update;
@@ -604,13 +807,9 @@ async function loadNTV() {
         var candleEl = document.getElementById('fr-candle');
         if (candleEl) {
             if (tick.data_last_candle_date) {
-                candleEl.textContent = tick.data_last_candle_date +
-                    (candleAgeDays !== null ? ' (' + candleAgeDays.toFixed(1) + 'd)' : '');
+                candleEl.textContent = tick.data_last_candle_date + (candleAgeDays !== null ? ' (' + candleAgeDays.toFixed(1) + 'd)' : '');
                 candleEl.className = (candleAgeDays !== null && candleAgeDays > 2.0) ? 'red' : 'green';
-            } else {
-                candleEl.textContent = 'UNKNOWN';
-                candleEl.className = 'red';
-            }
+            } else { candleEl.textContent = 'UNKNOWN'; candleEl.className = 'red'; }
         }
         var age = ageHours(data.generated_at);
         var ageEl = document.getElementById('fr-age');
@@ -618,14 +817,13 @@ async function loadNTV() {
         ageEl.className = age !== null ? (age > 2 ? 'red' : age > 0.25 ? 'yellow' : 'green') : 'gray';
         document.getElementById('fr-refresh').textContent = fmtTime(PAGE_LOAD.toISOString());
 
-        // Forward-test status
+        // Forward-test
         var ft = data.forward_test || {};
         var ftVerdict = safeStr(ft.status || ft.last_verdict, 'UNKNOWN');
         document.getElementById('ft-verdict').textContent = ftVerdict;
         document.getElementById('ft-verdict').className = 'stat-val ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'yellow' : 'red');
         document.getElementById('ft-badge').textContent = ftVerdict;
         document.getElementById('ft-badge').className = 'badge ' + (ftVerdict === 'FORWARD_TEST_OK' ? 'badge-green' : ftVerdict === 'FORWARD_TEST_WARNING' ? 'badge-yellow' : 'badge-red');
-
         var tickBadge = document.getElementById('ft-tick-badge');
         tickBadge.textContent = 'TICK: ' + tickStatus;
         tickBadge.className = 'badge ' + (tickStatus === 'OK' ? 'badge-green' : tickStatus === 'DELAYED' ? 'badge-yellow' : 'badge-red');
@@ -642,39 +840,39 @@ async function loadNTV() {
         document.getElementById('ft-range').textContent = dr.start ? (dr.start + ' \u2192 ' + (dr.end || dr.start)) : '—';
         document.getElementById('ft-subtitle').textContent = 'DRY_RUN observation \u00B7 ' + (ft.days_observed || 0) + ' days tracked';
 
-        // Global alert if NTV pipeline is not healthy (client-side computed)
+        // Incidents tab updates
+        var incSafe = document.getElementById('inc-safe');
+        if (incSafe) {
+            var safeOverall = document.getElementById('h-safety').textContent;
+            incSafe.textContent = safeOverall;
+            incSafe.className = document.getElementById('h-safety').className;
+        }
+        var incNtv = document.getElementById('inc-ntv');
+        if (incNtv) { incNtv.textContent = 'NTV ' + tickStatus; incNtv.className = 'badge ' + (tickStatus === 'OK' ? 'badge-green' : tickStatus === 'DELAYED' ? 'badge-yellow' : 'badge-red'); }
+        var incTick = document.getElementById('inc-tick-fresh');
+        if (incTick) { incTick.textContent = tickStatus + (tickAgeMin !== null ? ' (' + tickAgeMin.toFixed(0) + ' min)' : ''); incTick.className = tickStatus === 'OK' ? 'green' : 'red'; }
+
+        // Global alert if NTV pipeline is not healthy
         if (tickStatus !== 'OK') {
             var globalAlert = document.getElementById('global-alert');
             globalAlert.style.display = 'block';
             var existingMsg = document.getElementById('global-alert-msg').textContent;
-            var staleMsg = 'NTV PIPELINE ' + tickStatus +
-                (tickAgeMin !== null ? ' (last tick ' + tickAgeMin.toFixed(0) + ' min ago)' : '');
+            var staleMsg = 'NTV PIPELINE ' + tickStatus + (tickAgeMin !== null ? ' (last tick ' + tickAgeMin.toFixed(0) + ' min ago)' : '');
             if (existingMsg.indexOf('NTV PIPELINE') < 0) {
                 document.getElementById('global-alert-msg').textContent = existingMsg ? existingMsg + ' | ' + staleMsg : staleMsg;
             }
             document.getElementById('h-safety').textContent = 'SAFETY: NTV ' + tickStatus;
             document.getElementById('h-safety').className = 'badge ' + (tickStatus === 'DELAYED' ? 'badge-yellow' : 'badge-red');
         }
-
     } catch(e) {
         console.error('NTV:', e);
-        document.getElementById('ntv-badge').textContent = 'DATA MISSING';
-        document.getElementById('ntv-badge').className = 'badge badge-red';
-        ['ntv-cap','ntv-hcap'].forEach(function(id){document.getElementById(id).textContent='—';});
+        ['ntv-cap','ntv-hcap'].forEach(function(id){ document.getElementById(id).textContent='—'; });
         document.getElementById('ntv-tier').textContent = 'UNKNOWN';
-        document.getElementById('ntv-btc-badge').textContent = '—'; document.getElementById('ntv-btc-badge').className = 'badge badge-gray';
-        document.getElementById('ntv-eth-badge').textContent = '—'; document.getElementById('ntv-eth-badge').className = 'badge badge-gray';
-        document.getElementById('ntv-curr').textContent = 'DATA UNAVAILABLE';
-        document.getElementById('ntv-target').textContent = 'DATA UNAVAILABLE';
-        document.getElementById('ft-verdict').textContent = 'UNKNOWN';
-        document.getElementById('ft-badge').textContent = 'UNKNOWN'; document.getElementById('ft-badge').className = 'badge badge-gray';
         var globalAlert = document.getElementById('global-alert');
         globalAlert.style.display = 'block';
-        document.getElementById('global-alert-msg').textContent = 'Kraken Auto Spot NTV data unavailable \u2014 check update-data.sh pipeline';
+        document.getElementById('global-alert-msg').textContent = 'Kraken Auto Spot NTV data unavailable — check update-data.sh pipeline';
         document.getElementById('h-safety').textContent = 'SAFETY: DATA MISSING';
         document.getElementById('h-safety').className = 'badge badge-red';
-        var allAlerts = document.querySelectorAll('#ntv-alerts-list .badge');
-        for (var i = 0; i < allAlerts.length; i++) { allAlerts[i].textContent = 'UNKNOWN'; allAlerts[i].className = 'badge badge-gray'; }
     }
 }
 
@@ -691,6 +889,16 @@ function setNTVSignal(pref, s) {
     badge.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED';
     badge.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red');
     document.getElementById('ntv-' + pref + '-reason').textContent = s.block_reason || (!s.allowed ? 'Blocked' : '');
+}
+
+function setNTVSignalDup(pref, s) {
+    if (!s) return;
+    var el = document.getElementById('ntv-' + pref + '-close2'); if (el) el.textContent = safeNum(s.close, 2);
+    el = document.getElementById('ntv-' + pref + '-sma2002'); if (el) el.textContent = safeNum(s.sma200, 2);
+    el = document.getElementById('ntv-' + pref + '-vol302'); if (el) el.textContent = safeNum(s.vol30, 1) + '%';
+    el = document.getElementById('ntv-' + pref + '-trend2'); if (el) { el.textContent = s.trend_ok ? 'OK' : 'FAIL'; el.className = s.trend_ok ? 'green' : 'red'; }
+    el = document.getElementById('ntv-' + pref + '-volok2'); if (el) { el.textContent = s.vol_ok ? 'OK' : 'FAIL'; el.className = s.vol_ok ? 'green' : 'red'; }
+    el = document.getElementById('ntv-' + pref + '-badge2'); if (el) { el.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED'; el.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red'); }
 }
 
 // ── Scalable ETF ──
@@ -722,60 +930,34 @@ async function loadStocks() {
         var realized = summ.pnl_realized || 0, totalReturn = realized + displayPnl;
         document.getElementById('s-value').textContent = displayVal ? '\u20AC' + displayVal.toFixed(0) : '—';
         document.getElementById('s-invested').textContent = '\u20AC' + displayInv.toFixed(0);
-        var spEl = document.getElementById('s-pnl');
-        spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—';
-        spEl.className = 'stat-val ' + (totalReturn >= 0 ? 'green' : 'red');
+        var spEl = document.getElementById('s-pnl'); spEl.textContent = displayVal ? fmtEUR(totalReturn) : '—'; spEl.className = 'stat-val ' + (totalReturn >= 0 ? 'green' : 'red');
         document.getElementById('s-update').textContent = 'Updated ' + (summ.last_updated ? fmtTime(summ.last_updated) : '—');
-        document.getElementById('s-realized').textContent = fmtEUR(realized);
-        document.getElementById('s-realized').className = 'stat-val ' + (realized >= 0 ? 'green' : 'red');
+        document.getElementById('s-realized').textContent = fmtEUR(realized); document.getElementById('s-realized').className = 'stat-val ' + (realized >= 0 ? 'green' : 'red');
         document.getElementById('s-mtd').textContent = fmtEUR(summ.pnl_realized_mtd || 0);
         document.getElementById('s-30d').textContent = fmtEUR(summ.pnl_realized_30d || 0);
         document.getElementById('s-ytd').textContent = fmtEUR(summ.pnl_realized_ytd || 0);
         document.getElementById('s-fees').textContent = '\u20AC' + (summ.total_fees || 0).toFixed(0);
         document.getElementById('s-deposits').textContent = '\u20AC' + (summ.total_deposits || 0).toFixed(0);
         var monthly = summ.monthly_pnl || {};
-        var mDiv = document.getElementById('s-monthly');
-        mDiv.innerHTML = Object.keys(monthly).length ? Object.entries(monthly).map(function(e) { return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;min-width:70px;"><div style="font-size:0.6rem;color:#374151;">'+e[0]+'</div><div style="font-weight:700;font-size:0.8rem;color:'+(e[1]>=0?'#059669':'#dc2626')+';">'+fmtEUR(e[1])+'</div></div>'; }).join('') : '<span class="gray" style="font-size:0.75rem;">No sales</span>';
+        document.getElementById('s-monthly').innerHTML = Object.keys(monthly).length ? Object.entries(monthly).map(function(e) { return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;min-width:70px;"><div style="font-size:0.6rem;color:#374151;">'+e[0]+'</div><div style="font-weight:700;font-size:0.8rem;color:'+(e[1]>=0?'#059669':'#dc2626')+';">'+fmtEUR(e[1])+'</div></div>'; }).join('') : '<span class="gray" style="font-size:0.75rem;">No sales</span>';
         var tx = data.transactions || [];
         document.getElementById('tx-table').innerHTML = tx.length ? tx.slice(0, 50).map(function(t) { var isBuy = t.type==='Buy'; return '<tr><td class="gray" style="font-size:0.7rem;">'+t.date+'</td><td style="'+(isBuy?'color:#059669;':'color:#dc2626;')+'font-weight:700;font-size:0.75rem;">'+(isBuy?'ACHAT':'VENTE')+'</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.72rem;">'+t.description+'</td><td class="blue" style="font-size:0.75rem;">'+(t.ticker||'—')+'</td><td>'+t.shares.toFixed(0)+'</td><td>\u20AC'+t.price.toFixed(2)+'</td><td class="'+(isBuy?'red':'green')+'">'+(isBuy?'-':'+')+'\u20AC'+Math.abs(t.amount).toFixed(2)+'</td><td class="gray" style="font-size:0.7rem;">'+(t.fee>0?'\u20AC'+t.fee.toFixed(2):'—')+'</td></tr>'; }).join('') : '<tr><td colspan="8" style="text-align:center;color:#374151;padding:20px;">None</td></tr>';
         document.getElementById('tx-count').textContent = tx.length + ' transactions';
 
-        // ── Derniers achats REAL ──
+        // Derniers achats REAL
         var recentRealBuysEl = document.getElementById('recent-real-buys');
         if (recentRealBuysEl && tx.length) {
-            var todayTx = tx.filter(function(t) {
-                return t.date && t.date >= (new Date().toISOString().slice(0,10));
-            });
-            var stopsToday = Object.entries(data.stops_positions || {}).filter(function(e) {
-                return e[1].date_entree === new Date().toISOString().slice(0,10);
-            });
+            var todayTx = tx.filter(function(t) { return t.date && t.date >= (new Date().toISOString().slice(0,10)); });
+            var stopsToday = Object.entries(data.stops_positions || {}).filter(function(e) { return e[1].date_entree === new Date().toISOString().slice(0,10); });
             var hasRecent = todayTx.length > 0 || stopsToday.length > 0;
             if (hasRecent) {
                 var buysHtml = '';
                 todayTx.forEach(function(t) {
-                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;">' +
-                        '<div class="pos-header">' +
-                        '<span style="font-weight:700;">' + (t.ticker || '?') + ' <span class="gray" style="font-weight:400;">' + (t.description || '') + '</span></span>' +
-                        '<span class="badge badge-green" style="font-size:0.58rem;">REAL</span>' +
-                        '</div>' +
-                        '<div class="pos-details" style="grid-template-columns:repeat(3,1fr);">' +
-                        '<div>' + t.shares + ' \u00D7 \u20AC' + Number(t.price).toFixed(2) + '</div>' +
-                        '<div>Montant <b>\u20AC' + Number(Math.abs(t.amount)).toFixed(0) + '</b></div>' +
-                        '<div>Source <b>Scalable</b></div>' +
-                        '</div></div>';
+                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;"><div class="pos-header"><span style="font-weight:700;">' + (t.ticker || '?') + ' <span class="gray" style="font-weight:400;">' + (t.description || '') + '</span></span><span class="badge badge-green" style="font-size:0.58rem;">REAL</span></div><div class="pos-details" style="grid-template-columns:repeat(3,1fr);"><div>' + t.shares + ' \u00D7 \u20AC' + Number(t.price).toFixed(2) + '</div><div>Montant <b>\u20AC' + Number(Math.abs(t.amount)).toFixed(0) + '</b></div><div>Source <b>Scalable</b></div></div></div>';
                 });
                 stopsToday.forEach(function(e) {
                     var p = e[1];
-                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;">' +
-                        '<div class="pos-header">' +
-                        '<span style="font-weight:700;color:#f97316;">' + e[0] + ' <span class="gray" style="font-weight:400;">' + (p.name || '') + '</span></span>' +
-                        '<span class="badge badge-green" style="font-size:0.58rem;">REAL</span>' +
-                        '</div>' +
-                        '<div class="pos-details" style="grid-template-columns:repeat(3,1fr);">' +
-                        '<div>' + p.shares + ' \u00D7 \u20AC' + Number(p.prix_entree).toFixed(2) + '</div>' +
-                        '<div>Montant <b>\u20AC' + Number(p.invested).toFixed(0) + '</b></div>' +
-                        '<div>Source <b>Stops</b> &mdash; visible dans <a href="#" onclick="document.querySelector(\'#stops-table\').scrollIntoView();return false;" style="color:#f97316;">Stock Picking & Stops Actifs</a></div>' +
-                        '</div></div>';
+                    buysHtml += '<div class="pos-card" style="border-color:#10b98130;margin-bottom:6px;"><div class="pos-header"><span style="font-weight:700;color:#f97316;">' + e[0] + ' <span class="gray" style="font-weight:400;">' + (p.name || '') + '</span></span><span class="badge badge-green" style="font-size:0.58rem;">REAL</span></div><div class="pos-details" style="grid-template-columns:repeat(3,1fr);"><div>' + p.shares + ' \u00D7 \u20AC' + Number(p.prix_entree).toFixed(2) + '</div><div>Montant <b>\u20AC' + Number(p.invested).toFixed(0) + '</b></div><div>Source <b>Stops</b></div></div></div>';
                 });
                 recentRealBuysEl.innerHTML = buysHtml;
             } else {
@@ -783,7 +965,7 @@ async function loadStocks() {
             }
         }
 
-        // ── Stops actifs / Stock Picking ──
+        // Stops
         var stopsPos = data.stops_positions || {}, stopsPx = data.stops_prices || {}, stopsSumm = data.stops_summary || {};
         var stopsTickers = Object.keys(stopsPos);
         if (stopsTickers.length) {
@@ -792,25 +974,20 @@ async function loadStocks() {
                 var curPrice = px.price_eur || px.price || null;
                 var val = px.value || (curPrice ? curPrice * p.shares : p.invested);
                 var pnlEur = px.pnl_eur || (val - p.invested);
-                var pnlPct = px.pnl_pct || 0;
                 var distStop = px.distance_stop_pct || 0;
-                var name = p.name || t;
                 var clr = pnlEur >= 0 ? 'green' : 'red';
-                return '<tr><td style="font-weight:700;" class="orange">'+t+'</td><td class="gray" style="font-size:0.68rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</td><td>'+p.shares+'</td><td>\u20AC'+p.prix_entree.toFixed(2)+'</td><td class="red">\u20AC'+p.stop.toFixed(2)+'</td><td style="font-weight:600;">'+(curPrice?'\u20AC'+curPrice.toFixed(2):'<span class="gray">—</span>')+'</td><td>\u20AC'+val.toFixed(0)+'</td><td class="'+clr+'">'+fmtEUR(pnlEur)+'</td><td class="'+(distStop>5?'green':(distStop>2?'yellow':'red'))+'">'+(distStop?distStop.toFixed(1)+'%':'—')+'</td><td class="gray" style="font-size:0.7rem;">'+(p.date_entree||'')+'</td></tr>';
+                return '<tr><td style="font-weight:700;" class="orange">'+t+'</td><td class="gray" style="font-size:0.68rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.name||t)+'</td><td>'+p.shares+'</td><td>\u20AC'+p.prix_entree.toFixed(2)+'</td><td class="red">\u20AC'+p.stop.toFixed(2)+'</td><td style="font-weight:600;">'+(curPrice?'\u20AC'+curPrice.toFixed(2):'<span class="gray">—</span>')+'</td><td>\u20AC'+val.toFixed(0)+'</td><td class="'+clr+'">'+fmtEUR(pnlEur)+'</td><td class="'+(distStop>5?'green':(distStop>2?'yellow':'red'))+'">'+(distStop?distStop.toFixed(1)+'%':'—')+'</td><td class="gray" style="font-size:0.7rem;">'+(p.date_entree||'')+'</td></tr>';
             });
             document.getElementById('stops-table').innerHTML = stopsRows.join('');
             document.getElementById('stops-count').textContent = stopsSumm.positions_count || stopsTickers.length;
             document.getElementById('stops-value').textContent = stopsSumm.total_value ? '\u20AC'+stopsSumm.total_value.toFixed(0) : '—';
-            var stopsPnlEl = document.getElementById('stops-pnl');
-            var stopsPnlVal = stopsSumm.total_pnl_eur || 0;
-            stopsPnlEl.textContent = fmtEUR(stopsPnlVal);
-            stopsPnlEl.className = 'stat-val '+(stopsPnlVal>=0?'green':'red');
+            var stopsPnlEl = document.getElementById('stops-pnl'), stopsPnlVal = stopsSumm.total_pnl_eur || 0;
+            stopsPnlEl.textContent = fmtEUR(stopsPnlVal); stopsPnlEl.className = 'stat-val '+(stopsPnlVal>=0?'green':'red');
             document.getElementById('stops-risk').textContent = stopsSumm.total_risk_eur ? '\u20AC'+stopsSumm.total_risk_eur.toFixed(0) : '—';
             document.getElementById('stops-update').textContent = 'Updated '+(stopsSumm.last_updated?fmtTime(stopsSumm.last_updated):'—');
         } else {
             document.getElementById('stops-table').innerHTML = '<tr><td colspan="10" style="text-align:center;color:#374151;padding:20px;">Aucune position stop active</td></tr>';
         }
-
         stocksFresh = true;
     } catch(e) { console.error('Stocks:', e); stocksFresh = false; }
 }
@@ -821,7 +998,7 @@ setInterval(function() { loadNTV(); }, 30000);
 setInterval(loadStocks, 60000);
 setInterval(loadFull, 120000);
 
-// ── Dashboard Full (Swing + Market + Global) ──
+// ── Dashboard Full ──
 async function loadFull() {
     try {
         var res = await fetch(GH_RAW + 'dashboard_full.json?t=' + Date.now()), data = await res.json();
@@ -829,191 +1006,152 @@ async function loadFull() {
         renderRecoveryPaper(data.recovery_paper || {});
         renderGlobalHeader(data);
         renderGlobalFreshness(data.global_freshness || {});
+        renderIncidentsFromFull(data);
     } catch(e) { console.error('Full:', e); }
 }
 
 function renderSwingPaper(sw) {
     var badge = document.getElementById('swing-badge');
-    if (!badge) return;
-    badge.textContent = sw.status === 'OK' ? 'LIVE TICK' : sw.status;
-    badge.className = 'badge ' + (sw.status === 'OK' ? 'badge-green' : sw.status === 'DELAYED' ? 'badge-yellow' : 'badge-red');
-
+    if (badge) { badge.textContent = sw.status === 'OK' ? 'LIVE TICK' : sw.status; badge.className = 'badge ' + (sw.status === 'OK' ? 'badge-green' : sw.status === 'DELAYED' ? 'badge-yellow' : 'badge-red'); }
     var pa = (sw.portfolios || {})['PaperA_Conservative'] || {};
     var pb = (sw.portfolios || {})['PaperB_Aggressive'] || {};
-    document.getElementById('sw-a-net').textContent = pa.total_net_eur !== undefined ? '\u20AC' + pa.total_net_eur.toFixed(0) : '—';
-    document.getElementById('sw-a-net').className = 'stat-val ' + (pa.total_net_eur > 0 ? 'green' : pa.total_net_eur < 0 ? 'red' : 'white');
-    document.getElementById('sw-a-trades').textContent = pa.closed_trades !== undefined ? pa.closed_trades : '—';
-    document.getElementById('sw-b-net').textContent = pb.total_net_eur !== undefined ? '\u20AC' + pb.total_net_eur.toFixed(0) : '—';
-    document.getElementById('sw-b-net').className = 'stat-val ' + (pb.total_net_eur > 0 ? 'green' : pb.total_net_eur < 0 ? 'red' : 'white');
-    document.getElementById('sw-b-trades').textContent = pb.closed_trades !== undefined ? pb.closed_trades : '—';
+    function setVal(elId, val) { var el = document.getElementById(elId); if (el) { el.textContent = val !== undefined ? val : '—'; } }
+    setVal('sw-a-net', pa.total_net_eur !== undefined ? '\u20AC' + pa.total_net_eur.toFixed(0) : '—');
+    setVal('sw-a-net2', pa.total_net_eur !== undefined ? '\u20AC' + pa.total_net_eur.toFixed(0) : '—');
+    var aNetCls = 'stat-val ' + (pa.total_net_eur > 0 ? 'green' : pa.total_net_eur < 0 ? 'red' : 'white');
+    if (document.getElementById('sw-a-net')) document.getElementById('sw-a-net').className = aNetCls;
+    if (document.getElementById('sw-a-net2')) document.getElementById('sw-a-net2').className = aNetCls;
+    setVal('sw-a-trades', pa.closed_trades !== undefined ? pa.closed_trades : '—');
+    setVal('sw-a-trades2', pa.closed_trades !== undefined ? pa.closed_trades : '—');
+    setVal('sw-b-net', pb.total_net_eur !== undefined ? '\u20AC' + pb.total_net_eur.toFixed(0) : '—');
+    setVal('sw-b-net2', pb.total_net_eur !== undefined ? '\u20AC' + pb.total_net_eur.toFixed(0) : '—');
+    var bNetCls = 'stat-val ' + (pb.total_net_eur > 0 ? 'green' : pb.total_net_eur < 0 ? 'red' : 'white');
+    if (document.getElementById('sw-b-net')) document.getElementById('sw-b-net').className = bNetCls;
+    if (document.getElementById('sw-b-net2')) document.getElementById('sw-b-net2').className = bNetCls;
+    setVal('sw-b-trades', pb.closed_trades !== undefined ? pb.closed_trades : '—');
+    setVal('sw-b-trades2', pb.closed_trades !== undefined ? pb.closed_trades : '—');
 
-    // Signals
     var sigs = sw.signals || {};
     ['BTC','SOL','XRP','DOGE'].forEach(function(a) {
-        var s = sigs[a] || {};
-        var el = document.getElementById('sw-sig-' + a.toLowerCase());
-        if (el) {
-            el.textContent = s.signal || 'NONE';
-            el.className = s.signal === 'LONG_S1' ? 'green' : 'gray';
+        var aL = a.toLowerCase(), s = sigs[a] || {};
+        function setSig(pref) {
+            var el = document.getElementById('sw-sig-' + aL + pref);
+            if (el) { el.textContent = s.signal || 'NONE'; el.className = s.signal === 'LONG_S1' ? 'green' : 'gray'; }
+            var det = document.getElementById('sw-det-' + aL + pref);
+            if (det && s.bar_close) {
+                det.textContent = (s.bar_close ? 'close=' + Number(s.bar_close).toFixed(2) : '') +
+                    (s.dc_high ? ' H20=' + Number(s.dc_high).toFixed(2) : '') +
+                    (s.vol_ratio ? ' vol=' + Number(s.vol_ratio).toFixed(1) + 'x' : '');
+            }
         }
-        var det = document.getElementById('sw-det-' + a.toLowerCase());
-        if (det && s.bar_close) {
-            det.textContent = (s.bar_close ? 'close=' + Number(s.bar_close).toFixed(2) : '') +
-                (s.dc_high ? ' H20=' + Number(s.dc_high).toFixed(2) : '') +
-                (s.vol_ratio ? ' vol=' + Number(s.vol_ratio).toFixed(1) + 'x' : '');
-        }
+        setSig(''); setSig('2');
     });
-
-    // Active trades
-    var at = sw.active_trades || {};
-    if (Object.keys(at).length > 0) {
-        var alert = document.getElementById('global-alert');
-        if (alert) { alert.style.display = 'block'; }
-    }
 }
 
-// ── Recovery Paper R1 ──
 function renderRecoveryPaper(rec) {
     var badge = document.getElementById('rec-badge');
-    if (!badge) return;
-    badge.textContent = rec.status === 'OK' ? 'PAPER TICK' : rec.status;
-    badge.className = 'badge ' + (rec.status === 'OK' ? 'badge-purple' : rec.status === 'DELAYED' ? 'badge-yellow' : 'badge-red');
-
+    if (badge) { badge.textContent = rec.status === 'OK' ? 'PAPER TICK' : rec.status; badge.className = 'badge ' + (rec.status === 'OK' ? 'badge-purple' : rec.status === 'DELAYED' ? 'badge-yellow' : 'badge-red'); }
     var ra = (rec.portfolios || {})['recovery_a'] || {};
     var rb = (rec.portfolios || {})['recovery_b'] || {};
-    document.getElementById('rec-a-net').textContent = ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—';
-    document.getElementById('rec-a-net').className = 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white');
-    document.getElementById('rec-a-trades').textContent = ra.closed_trades !== undefined ? ra.closed_trades : '—';
-    document.getElementById('rec-b-net').textContent = rb.total_net_eur !== undefined ? '\u20AC' + rb.total_net_eur.toFixed(0) : '—';
-    document.getElementById('rec-b-net').className = 'stat-val ' + (rb.total_net_eur > 0 ? 'green' : rb.total_net_eur < 0 ? 'red' : 'white');
-    document.getElementById('rec-b-trades').textContent = rb.closed_trades !== undefined ? rb.closed_trades : '—';
+    function setVal(elId, val, cls) { var el = document.getElementById(elId); if (el) { el.textContent = val !== undefined ? val : '—'; if (cls) el.className = cls; } }
+    setVal('rec-a-net', ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—', 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white'));
+    setVal('rec-a-net2', ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—', 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white'));
+    setVal('rec-a-trades', ra.closed_trades !== undefined ? ra.closed_trades : '—');
+    setVal('rec-a-trades2', ra.closed_trades !== undefined ? ra.closed_trades : '—');
+    setVal('rec-b-net', rb.total_net_eur !== undefined ? '\u20AC' + rb.total_net_eur.toFixed(0) : '—', 'stat-val ' + (rb.total_net_eur > 0 ? 'green' : rb.total_net_eur < 0 ? 'red' : 'white'));
+    setVal('rec-b-net2', rb.total_net_eur !== undefined ? '\u20AC' + rb.total_net_eur.toFixed(0) : '—', 'stat-val ' + (rb.total_net_eur > 0 ? 'green' : rb.total_net_eur < 0 ? 'red' : 'white'));
+    setVal('rec-b-trades', rb.closed_trades !== undefined ? rb.closed_trades : '—');
+    setVal('rec-b-trades2', rb.closed_trades !== undefined ? rb.closed_trades : '—');
 
-    // ── OPEN TRADES (prominent, before signals) ──
-    var ot = rec.open_trades || {};
-    var otEl = document.getElementById('rec-open-trades');
-    if (otEl) {
-        var otKeys = Object.keys(ot);
+    // Open trades (tab 1 overview + tab 4 trades)
+    function renderOpenTrades(elId) {
+        var otEl = document.getElementById(elId);
+        if (!otEl) return;
+        var ot = rec.open_trades || {}, otKeys = Object.keys(ot);
         if (otKeys.length > 0) {
-            var otHtml = '<div class="section-title" style="margin-bottom:10px;color:#a78bfa;"><i class="fas fa-play purple"></i>Open Recovery Trades <span class="badge badge-purple" style="font-size:0.58rem;margin-left:4px;">' + otKeys.length + ' ACTIVE</span></div>';
-            Object.values(ot).forEach(function(t) {
+            var otHtml = Object.values(ot).map(function(t) {
                 var sigColor = t.current_signal === 'LONG_R1' ? 'green' : 'red';
-                var entryPx = t.entry_price ? '\u20AC' + Number(t.entry_price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '?';
-                var curPx = t.current_price ? '\u20AC' + Number(t.current_price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
-                var sizeEur = t.size_eur ? '\u20AC' + Number(t.size_eur).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '?';
-                var timeRem = t.hours_remaining !== undefined ? t.hours_remaining + 'h left' : '?';
-                var timeHeld = t.hours_held !== undefined ? t.hours_held + 'h elapsed' : '?';
-                otHtml += '<div class="pos-card" style="border-color:#a78bfa40;margin-bottom:10px;">' +
-                    '<div class="pos-header">' +
-                    '<span style="font-weight:700;font-size:0.92rem;color:#a78bfa;">' + t.asset + '</span>' +
-                    '<div style="display:flex;gap:4px;">' +
-                    '<span class="badge badge-green" style="font-size:0.58rem;">OPEN</span>' +
-                    '<span class="badge badge-purple" style="font-size:0.58rem;">' + (t.portfolio || '?') + '</span>' +
-                    '<span class="badge badge-purple" style="font-size:0.58rem;">PAPER</span>' +
-                    '</div></div>' +
-                    '<div class="pos-details" style="grid-template-columns:repeat(4,1fr);">' +
-                    '<div>Entry <b>' + entryPx + '</b></div>' +
-                    '<div>Current <b>' + curPx + '</b></div>' +
-                    '<div>Size <b>' + sizeEur + '</b></div>' +
-                    '<div>Duration <b>' + (t.duration_hours || '?') + 'h</b></div>' +
-                    '<div>Entry time <b>' + (t.entry_time || '?') + '</b></div>' +
-                    '<div>' + timeRem + '</div>' +
-                    '<div>' + timeHeld + '</div>' +
-                    '<div>Status <b class="green">ACTIVE</b></div>' +
-                    '</div>' +
-                    '<div style="margin-top:6px;font-size:0.65rem;display:flex;gap:10px;">' +
-                    '<span>Signal: <b class="' + sigColor + '">' + (t.current_signal || 'NONE') + '</b></span>' +
-                    '<span class="gray">Trade continues until fixed-duration exit</span>' +
-                    '</div></div>';
-            });
-            otHtml += '<div style="font-size:0.62rem;color:#64748b;padding:4px 0;"><i class="fas fa-info-circle"></i> Le signal peut \u00EAtre <span class="red">NONE</span> m\u00EAme si le trade reste <span class="green">OPEN</span>. Le trade continue jusqu&#39;\u00E0 sa sortie \u00E0 dur\u00E9e fixe (48h ou 24h).</div>';
+                return '<div class="pos-card" style="border-color:#a78bfa40;margin-bottom:10px;"><div class="pos-header"><span style="font-weight:700;font-size:0.92rem;color:#a78bfa;">' + t.asset + '</span><div style="display:flex;gap:4px;"><span class="badge badge-green" style="font-size:0.58rem;">OPEN</span><span class="badge badge-purple" style="font-size:0.58rem;">PAPER</span></div></div><div class="pos-details" style="grid-template-columns:repeat(4,1fr);"><div>Entry <b>' + (t.entry_price ? '\u20AC' + Number(t.entry_price).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '?') + '</b></div><div>Current <b>' + (t.current_price ? '\u20AC' + Number(t.current_price).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '—') + '</b></div><div>Size <b>' + (t.size_eur ? '\u20AC' + Number(t.size_eur).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '?') + '</b></div><div>Duration <b>' + (t.duration_hours || '?') + 'h</b></div><div>Entry time <b>' + (t.entry_time || '?') + '</b></div><div>' + (t.hours_remaining||0) + 'h left</div><div>' + (t.hours_held||0) + 'h elapsed</div><div>Status <b class="green">ACTIVE</b></div></div><div style="margin-top:6px;font-size:0.65rem;display:flex;gap:10px;"><span>Signal: <b class="' + sigColor + '">' + (t.current_signal || 'NONE') + '</b></span><span class="gray">Trade continues until fixed-duration exit</span></div></div>';
+            }).join('');
             otEl.innerHTML = otHtml;
         } else {
-            otEl.innerHTML = '<div style="background:#0a1520;border:1px solid #1e3a52;border-radius:8px;padding:12px;text-align:center;color:#64748b;font-size:0.78rem;"><i class="fas fa-circle-pause gray"></i> No open Recovery trades</div>';
+            otEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:12px;font-size:0.78rem;"><i class="fas fa-circle-pause gray"></i> No open Recovery trades</div>';
         }
     }
+    renderOpenTrades('rec-open-trades');
+    renderOpenTrades('rec-open-trades2');
 
-    // ── CLOSED TRADES (at the bottom) ──
-    var ct = rec.closed_trades || {};
-    var ctEl = document.getElementById('rec-closed-trades');
-    if (ctEl) {
-        var ctKeys = Object.keys(ct);
+    // Closed trades
+    function renderClosedTrades(elId) {
+        var ctEl = document.getElementById(elId);
+        if (!ctEl) return;
+        var ct = rec.closed_trades || {}, ctKeys = Object.keys(ct);
         if (ctKeys.length > 0) {
-            var ctHtml = '<div class="section-title" style="margin-bottom:8px;color:#374151;"><i class="fas fa-check gray"></i>Recent Recovery Closed Trades <span class="badge badge-gray" style="font-size:0.58rem;margin-left:4px;">' + ctKeys.length + '</span></div>';
             var ctArr = ctKeys.map(function(k) { var t = ct[k]; return {key:k, trade:t}; }).sort(function(a,b) { return (b.trade.exit_time||'').localeCompare(a.trade.exit_time||''); });
-            ctArr.slice(0, 10).forEach(function(item) {
-                var t = item.trade;
-                var pnlCls = (t.net_pnl_eur || 0) >= 0 ? 'green' : 'red';
-                ctHtml += '<div class="pos-card" style="border-color:#1f2d40;opacity:0.85;margin-bottom:6px;">' +
-                    '<div class="pos-header">' +
-                    '<span style="font-weight:700;">' + t.asset + '</span>' +
-                    '<div style="display:flex;gap:4px;">' +
-                    '<span class="badge badge-gray" style="font-size:0.58rem;">CLOSED</span>' +
-                    '<span class="badge badge-gray" style="font-size:0.58rem;">' + (t.portfolio || '?') + '</span>' +
-                    '</div></div>' +
-                    '<div class="pos-details" style="grid-template-columns:repeat(4,1fr);">' +
-                    '<div>Entry <b>' + (t.entry_time||'?') + '</b></div>' +
-                    '<div>Exit <b>' + (t.exit_time||'?') + '</b></div>' +
-                    '<div>Gross <b>' + (t.gross_pnl_pct !== null ? Number(t.gross_pnl_pct).toFixed(2) + '%' : '?') + '</b></div>' +
-                    '<div>Net <b class="' + pnlCls + '">' + (t.net_pnl_eur !== null ? fmtEUR(t.net_pnl_eur) : '?') + '</b></div>' +
-                    '</div></div>';
-            });
+            var ctHtml = ctArr.slice(0, 10).map(function(item) {
+                var t = item.trade, pnlCls = (t.net_pnl_eur || 0) >= 0 ? 'green' : 'red';
+                return '<div class="pos-card" style="border-color:#1f2d40;opacity:0.85;margin-bottom:6px;"><div class="pos-header"><span style="font-weight:700;">' + t.asset + '</span><div style="display:flex;gap:4px;"><span class="badge badge-gray" style="font-size:0.58rem;">CLOSED</span><span class="badge badge-gray" style="font-size:0.58rem;">' + (t.portfolio || '?') + '</span></div></div><div class="pos-details" style="grid-template-columns:repeat(4,1fr);"><div>Entry <b>' + (t.entry_time||'?') + '</b></div><div>Exit <b>' + (t.exit_time||'?') + '</b></div><div>Gross <b>' + (t.gross_pnl_pct !== null ? Number(t.gross_pnl_pct).toFixed(2) + '%' : '?') + '</b></div><div>Net <b class="' + pnlCls + '">' + (t.net_pnl_eur !== null ? fmtEUR(t.net_pnl_eur) : '?') + '</b></div></div></div>';
+            }).join('');
             ctEl.innerHTML = ctHtml;
         } else {
             ctEl.innerHTML = '<div style="font-size:0.68rem;color:#374151;text-align:center;padding:8px 0;"><i class="fas fa-clock gray"></i> No closed Recovery trades yet</div>';
         }
     }
+    renderClosedTrades('rec-closed-trades');
+    renderClosedTrades('rec-closed-trades2');
 
     // R1 Signals
     var sigs = rec.signals || {};
     ['BTC','SOL','XRP','DOGE'].forEach(function(a) {
-        var aL = a.toLowerCase();
-        var s = sigs[a] || {};
-        var el = document.getElementById('rec-sig-' + aL);
-        if (el) {
-            el.textContent = s.status || 'NONE';
-            el.className = s.status === 'LONG_R1' ? 'green' : 'gray';
+        var aL = a.toLowerCase(), s = sigs[a] || {};
+        function setSig(pref) {
+            var el = document.getElementById('rec-sig-' + aL + pref);
+            if (el) { el.textContent = s.status || 'NONE'; el.className = s.status === 'LONG_R1' ? 'green' : 'gray'; }
+            var cnt = document.getElementById('rec-cnt-' + aL + pref);
+            if (cnt && s.conditions_passed !== undefined) {
+                cnt.textContent = s.conditions_passed + '/' + s.conditions_total + ' passed';
+                cnt.className = s.conditions_passed >= 5 ? 'green' : s.conditions_passed >= 3 ? 'purple' : 'gray';
+            }
+            var blk = document.getElementById('rec-blk-' + aL);
+            if (blk && s.blocking_reason && s.status === 'NONE') {
+                blk.textContent = 'blocked: ' + s.blocking_reason.substring(0, 60);
+            }
         }
-        var cnt = document.getElementById('rec-cnt-' + aL);
-        if (cnt && s.conditions_passed !== undefined) {
-            cnt.textContent = s.conditions_passed + '/' + s.conditions_total + ' passed';
-            cnt.className = s.conditions_passed >= 5 ? 'green' : s.conditions_passed >= 3 ? 'purple' : 'gray';
-        }
-        var blk = document.getElementById('rec-blk-' + aL);
-        if (blk && s.blocking_reason && s.status === 'NONE') {
-            blk.textContent = 'blocked: ' + s.blocking_reason.substring(0, 60);
-        }
+        setSig(''); setSig('2');
     });
 }
 
 function renderGlobalHeader(data) {
     var gs = data.global_status || 'UNKNOWN';
     var el = document.getElementById('h-global');
-    if (el) {
-        el.textContent = 'GLOBAL: ' + gs;
-        el.className = 'badge ' + (gs === 'HEALTHY' ? 'badge-green' : gs === 'WARNING' || gs === 'STALE' ? 'badge-yellow' : 'badge-red');
-    }
+    if (el) { el.textContent = 'GLOBAL: ' + gs; el.className = 'badge ' + (gs === 'HEALTHY' ? 'badge-green' : gs === 'WARNING' || gs === 'STALE' ? 'badge-yellow' : 'badge-red'); }
     var safety = data.global_safety || {};
     var sEl = document.getElementById('h-safety');
-    if (sEl && safety.overall) {
-        sEl.textContent = 'SAFETY: ' + safety.overall;
-        sEl.className = 'badge ' + (safety.overall === 'OK' ? 'badge-green' : 'badge-yellow');
-    }
+    if (sEl && safety.overall) { sEl.textContent = 'SAFETY: ' + safety.overall; sEl.className = 'badge ' + (safety.overall === 'OK' ? 'badge-green' : 'badge-yellow'); }
 }
 
 function renderGlobalFreshness(fr) {
     var srcs = fr.sources || {};
-    ['stocks_json','swing_paper','recovery_paper','market_context'].forEach(function(k) {
-        var el = document.getElementById('fr-' + k);
-        if (!el) {
-            // Add freshness rows dynamically if container exists
-            var container = document.querySelector('#ntv-alerts-card + .card .freshness-row');
-            return;
-        }
-    });
-    // Update stocks freshness
     var stocksEl = document.getElementById('fr-stocks');
     if (stocksEl && srcs.stocks_json) {
         stocksEl.textContent = (srcs.stocks_json.age !== null ? srcs.stocks_json.age.toFixed(0) + ' min' : '?') + ' [' + (srcs.stocks_json.status || '?') + ']';
+    }
+}
+
+function renderIncidentsFromFull(data) {
+    var incStocks = document.getElementById('inc-stocks-fresh');
+    if (incStocks) { incStocks.textContent = stocksFresh ? 'OK' : 'STALE'; incStocks.className = stocksFresh ? 'green' : 'red'; }
+    var incSwing = document.getElementById('inc-swing-fresh');
+    if (incSwing) {
+        var swFr = (data.swing_paper || {}).freshness || {};
+        incSwing.textContent = swFr.status || 'UNKNOWN';
+        incSwing.className = swFr.status === 'OK' ? 'green' : 'red';
+    }
+    var incRec = document.getElementById('inc-rec-fresh');
+    if (incRec) {
+        var recFr = (data.recovery_paper || {}).freshness || {};
+        incRec.textContent = recFr.status || 'UNKNOWN';
+        incRec.className = recFr.status === 'OK' ? 'green' : 'red';
     }
 }
 </script>
