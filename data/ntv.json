@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T05:35:25.319133+00:00",
+  "generated_at": "2026-08-01T05:40:25.065683+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,21 +14,21 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-08-01T05:35:25.287518+00:00"
+    "last_update": "2026-08-01T05:40:25.038009+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 54690.8,
-      "sma200": 61315.44550000001,
-      "vol30": 28.33,
+      "close": 54646.9,
+      "sma200": 61315.225999999995,
+      "vol30": 28.32,
       "trend_ok": false,
       "vol_ok": true,
       "allowed": false,
       "block_reason": "close < SMA200"
     },
     "eth": {
-      "close": 1619.72,
-      "sma200": 1807.8491000000001,
+      "close": 1618.11,
+      "sma200": 1807.8410499999998,
       "vol30": 39.78,
       "trend_ok": false,
       "vol_ok": true,
@@ -84,17 +84,17 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-08-01T05:35:25.229107+00:00",
+      "timestamp": "2026-08-01T05:40:24.988289+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 58332.8,
         "low_20": 54500.0,
         "prev_high_20": 58332.8,
         "prev_low_20": 54708.0,
-        "close": 54690.8,
+        "close": 54646.9,
         "prev_close": 54500.0,
         "signal": "BREAKOUT_DOWN",
-        "breakout_pct": -0.03,
+        "breakout_pct": -0.11,
         "period": 20
       },
       "eth": {
@@ -102,7 +102,7 @@
         "low_20": 1559.12,
         "prev_high_20": 1714.39,
         "prev_low_20": 1559.12,
-        "close": 1619.72,
+        "close": 1618.11,
         "prev_close": 1614.35,
         "signal": "NONE",
         "breakout_pct": 0.0,
@@ -129,8 +129,8 @@
   },
   "ntv_tick": {
     "last_tick_ok": true,
-    "last_tick_at": "2026-08-01T07:35:25+02:00",
-    "last_tick_time": "2026-08-01T07:35:25+02:00",
+    "last_tick_at": "2026-08-01T07:40:25+02:00",
+    "last_tick_time": "2026-08-01T07:40:25+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -139,12 +139,12 @@
       "max_candle_age_days": 2.0
     },
     "data_last_candle_date": "2026-08-01",
-    "signal_data_age_days": 0.23,
+    "signal_data_age_days": 0.24,
     "source_timestamps": {
-      "dashboard_payload": "2026-08-01T05:35:25.287663+00:00",
-      "signal": "2026-08-01T05:35:25.229030+00:00",
-      "orders_dry_run": "2026-08-01T05:35:25.280865+00:00",
-      "alerts": "2026-08-01T05:35:25.280995+00:00"
+      "dashboard_payload": "2026-08-01T05:40:25.038131+00:00",
+      "signal": "2026-08-01T05:40:24.988106+00:00",
+      "orders_dry_run": "2026-08-01T05:40:25.032257+00:00",
+      "alerts": "2026-08-01T05:40:25.032410+00:00"
     },
     "source_ages_minutes": {
       "dashboard_payload": 0.0,
@@ -157,11 +157,11 @@
   "forward_test": {
     "status": "FORWARD_TEST_OK",
     "days_observed": 16,
-    "last_snapshot_time": "2026-08-01T05:30:25.041474+00:00",
+    "last_snapshot_time": "2026-08-01T05:35:25.331862+00:00",
     "last_verdict": "FORWARD_TEST_OK",
     "warnings_count": 5,
     "unsafe_count": 0,
-    "total_snapshots": 4214,
+    "total_snapshots": 4215,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-08-01"
