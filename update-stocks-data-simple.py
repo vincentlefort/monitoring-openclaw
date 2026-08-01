@@ -7,6 +7,7 @@ import csv
 import json
 import os
 from datetime import datetime
+from collections import defaultdict, deque
 
 # Chemins des fichiers
 SCALABLE_CSV = "/home/openclaw/.openclaw/workspace-bourse/scalable_export.csv"
@@ -41,13 +42,17 @@ ISIN_TO_DATA = {
 
 
 def compute_realized_pnl():
-    """Calcule le PnL realise + metriques avancees (average cost method).
+    """Calcule le PnL realise en FIFO : chaque VENTE est appariee
+    avec le plus ancien ACHAT du meme ISIN (first-in first-out).
+    Seuls les ISINs presents dans ISIN_TO_DATA sont trackes.
+    Les ISINs inconnus (ex: Boeing, Siemens, Taiwan Semi) sont ignores.
+
     Retourne un dict pret a injecter dans summary de stocks.json,
-    + un dict realized_by_isin pour les positions individuelles."""
-    from collections import defaultdict
+    + un dict realized_by_isin pour les positions individuelles.
+    """
     from datetime import datetime, timedelta
 
-    positions = {}  # isin -> {shares, total_cost, description, ticker}
+    buy_lots = defaultdict(deque)  # isin -> deque of (shares, price, date)
     realized_trades = []
     realized_by_isin = defaultdict(float)
     fees_total = 0.0
@@ -59,80 +64,79 @@ def compute_realized_pnl():
         with open(SCALABLE_CSV, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f, delimiter=';')
             rows = list(reader)
-            rows.reverse()  # chronologique
+            rows.reverse()  # chronologique (plus ancien -> plus recent)
 
-            for row in rows:
-                ttype = row.get('type', '')
-                isin = row.get('isin', '')
-                date_str = row.get('date', '')[:7]  # YYYY-MM
+        for row in rows:
+            ttype = row.get('type', '')
+            isin = row.get('isin', '')
+            date_str = row.get('date', '')[:7]  # YYYY-MM
 
-                if row.get('status') != 'Executed':
+            if row.get('status') != 'Executed':
+                continue
+
+            # --- Ne tracker QUE les ISINs connus dans ISIN_TO_DATA ---
+            ticker_info = ISIN_TO_DATA.get(isin, {})
+            ticker = ticker_info.get('ticker', '')
+            if not ticker:
+                # ISIN non tracké (ex: Boeing, Siemens, Taiwan Semi) → ignoré
+                continue
+
+            if ttype == 'Buy':
+                shares = float(row['shares'].replace('.', '').replace(',', '.')) if row['shares'] else 0
+                price = float(row['price'].replace('.', '').replace(',', '.')) if row['price'] else 0
+                fee = abs(float(row.get('fee', '0').replace('.', '').replace(',', '.'))) if row.get('fee') else 0
+
+                if shares <= 0:
                     continue
 
-                if ttype == 'Buy':
-                    if not isin:
-                        continue
-                    shares = float(row['shares'].replace('.', '').replace(',', '.')) if row['shares'] else 0
-                    price = float(row['price'].replace('.', '').replace(',', '.')) if row['price'] else 0
-                    fee = abs(float(row.get('fee', '0').replace('.', '').replace(',', '.'))) if row.get('fee') else 0
+                buy_lots[isin].append((shares, price, row.get('date', '')))
+                fees_total += fee
 
-                    if shares <= 0:
-                        continue
+            elif ttype == 'Sell':
+                shares = float(row['shares'].replace('.', '').replace(',', '.')) if row['shares'] else 0
+                price = float(row['price'].replace('.', '').replace(',', '.')) if row['price'] else 0
+                fee = abs(float(row.get('fee', '0').replace('.', '').replace(',', '.'))) if row.get('fee') else 0
 
-                    if isin not in positions:
-                        mapping = ISIN_TO_DATA.get(isin, {})
-                        positions[isin] = {
-                            'shares': 0,
-                            'total_cost': 0,
-                            'description': row.get('description', ''),
-                            'ticker': mapping.get('ticker', isin[:20]),
-                        }
+                if shares <= 0:
+                    continue
 
-                    positions[isin]['shares'] += shares
-                    positions[isin]['total_cost'] += shares * price + fee
-                    fees_total += fee
+                # FIFO : consommer les lots d'achat du plus ancien au plus recent
+                remaining = shares
+                pnl_total = 0.0
 
-                elif ttype == 'Sell':
-                    if not isin:
-                        continue
-                    shares = float(row['shares'].replace('.', '').replace(',', '.')) if row['shares'] else 0
-                    price = float(row['price'].replace('.', '').replace(',', '.')) if row['price'] else 0
-                    fee = abs(float(row.get('fee', '0').replace('.', '').replace(',', '.'))) if row.get('fee') else 0
+                while remaining > 0 and buy_lots[isin]:
+                    lot_shares, lot_price, lot_date = buy_lots[isin][0]
+                    matched = min(remaining, lot_shares)
+                    pnl_total += matched * (price - lot_price)
 
-                    if shares <= 0 or isin not in positions:
-                        continue
+                    if matched < lot_shares:
+                        buy_lots[isin][0] = (lot_shares - matched, lot_price, lot_date)
+                    else:
+                        buy_lots[isin].popleft()
 
-                    pos = positions[isin]
-                    if pos['shares'] <= 0:
-                        continue
+                    remaining -= matched
 
-                    avg_cost = pos['total_cost'] / pos['shares']
-                    cost_basis = avg_cost * shares
-                    pnl = (price * shares) - cost_basis - fee
+                pnl = pnl_total - fee
 
-                    realized_trades.append({
-                        'date': row['date'],
-                        'description': row.get('description', ''),
-                        'isin': isin,
-                        'ticker': pos['ticker'],
-                        'shares': shares,
-                        'sell_price': price,
-                        'avg_cost': avg_cost,
-                        'pnl': pnl,
-                        'fee': fee,
-                    })
-                    monthly_pnl[date_str] += pnl
-                    realized_by_isin[isin] += pnl
+                realized_trades.append({
+                    'date': row['date'],
+                    'description': row.get('description', ''),
+                    'isin': isin,
+                    'ticker': ticker,
+                    'shares': shares,
+                    'sell_price': price,
+                    'pnl': round(pnl, 2),
+                    'fee': fee,
+                })
+                monthly_pnl[date_str] += pnl
+                realized_by_isin[isin] += pnl
+                fees_total += fee
 
-                    pos['shares'] -= shares
-                    pos['total_cost'] -= cost_basis
-                    fees_total += fee
+            elif ttype == 'Deposit':
+                deposits_total += abs(float(row['amount'].replace('.', '').replace(',', '.')))
 
-                elif ttype == 'Deposit':
-                    deposits_total += abs(float(row['amount'].replace('.', '').replace(',', '.')))
-
-                elif ttype == 'Interest':
-                    interests_total += abs(float(row.get('amount', '0').replace('.', '').replace(',', '.')))
+            elif ttype == 'Interest':
+                interests_total += abs(float(row.get('amount', '0').replace('.', '').replace(',', '.')))
 
     except Exception as e:
         print(f"\u26a0\ufe0f compute_realized_pnl: {e}")
@@ -165,7 +169,6 @@ def compute_realized_pnl():
         'monthly_pnl': monthly_sorted,
         'realized_trades_count': len(realized_trades),
     }
-    # Arrondir les per-isin
     realized_by_isin_rounded = {k: round(v, 2) for k, v in realized_by_isin.items()}
 
     return summary_pnl, realized_by_isin_rounded
