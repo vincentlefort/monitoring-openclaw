@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-03T03:55:24.861490+00:00",
+  "timestamp": "2026-08-03T04:00:05.565646+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -47,32 +47,32 @@
     "simulated_fills_this_tick": []
   },
   "last_signal": {
-    "btc_close": 54546.8,
-    "btc_sma200": 61034.3975,
-    "btc_vol30": 27.92,
+    "btc_close": 54464.0,
+    "btc_sma200": 61033.983499999995,
+    "btc_vol30": 27.98,
     "btc_allowed": false,
-    "eth_close": 1611.47,
-    "eth_sma200": 1795.2729000000002,
-    "eth_vol30": 39.06,
+    "eth_close": 1609.15,
+    "eth_sma200": 1795.2613000000001,
+    "eth_vol30": 39.12,
     "eth_allowed": false,
     "allocation_tier": "none",
-    "timestamp": "2026-08-03T03:55:24.804479+00:00",
+    "timestamp": "2026-08-03T04:00:05.511804+00:00",
     "data_last_candle_utc": "2026-08-03T00:00:00+00:00",
     "data_last_candle_date": "2026-08-03",
-    "signal_data_age_days": 0.16
+    "signal_data_age_days": 0.17
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-08-03T03:55:24.804764+00:00",
+    "timestamp": "2026-08-03T04:00:05.512152+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 58332.8,
       "low_20": 54487.0,
       "prev_high_20": 58332.8,
       "prev_low_20": 54487.0,
-      "close": 54546.8,
+      "close": 54464.0,
       "prev_close": 55022.5,
-      "signal": "NONE",
-      "breakout_pct": 0.0,
+      "signal": "BREAKOUT_DOWN",
+      "breakout_pct": -0.04,
       "period": 20
     },
     "eth": {
@@ -80,16 +80,16 @@
       "low_20": 1600.51,
       "prev_high_20": 1714.39,
       "prev_low_20": 1559.12,
-      "close": 1611.47,
+      "close": 1609.15,
       "prev_close": 1631.6,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
     },
     "summary": {
-      "btc_signal": "NONE",
+      "btc_signal": "BREAKOUT_DOWN",
       "eth_signal": "NONE",
-      "any_breakout": false
+      "any_breakout": true
     }
   },
   "alerts": [],
@@ -102,6 +102,6 @@
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
-    "gaston_telegram": "inactive"
+    "gaston_telegram": ""
   }
 }
