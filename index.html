@@ -411,6 +411,49 @@
     </div>
 </div>
 
+    <!-- Line Chart Mensuel -->
+    <div style="background:#0a0f18;border:1px solid #1e2a3a;border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:12px;"><i class="fas fa-chart-line blue"></i> Evolution Mensuelle (revenus / depenses / epargne)</div>
+        <canvas id="fin-line" style="max-height:300px;"></canvas>
+    </div>
+
+    <!-- Drill-down par categorie + Top 10 Global -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <!-- Drill-down categories -->
+        <div style="background:#0a0f18;border:1px solid #1e2a3a;border-radius:12px;padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-list-ul gray"></i> Depenses par Categorie <span style="font-size:0.6rem;color:#374151;">(clic = top 10)</span></div>
+            <div id="fin-cat-list" style="font-size:0.7rem;"></div>
+        </div>
+        <!-- Top 10 Global -->
+        <div style="background:#0a0f18;border:1px solid #1e2a3a;border-radius:12px;padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-trophy yellow"></i> Top 10 Depenses Globales</div>
+            <div id="fin-top10" style="font-size:0.68rem;"></div>
+        </div>
+    </div>
+
+    <!-- Modal drill-down -->
+    <div id="fin-drill-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="closeFinDrill()">
+        <div style="background:#0f1923;border:1px solid #1e3a52;border-radius:12px;padding:20px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <div id="fin-drill-title" style="font-weight:700;font-size:0.9rem;color:#f1f5f9;"></div>
+                <button onclick="closeFinDrill()" style="background:none;border:none;color:#6b7280;cursor:pointer;font-size:1.2rem;">&times;</button>
+            </div>
+            <div id="fin-drill-body" style="font-size:0.72rem;"></div>
+        </div>
+    </div>
+
+    <!-- Loisirs Analysis -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="background:#0a0f18;border:1px solid #1e2a3a;border-radius:12px;padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-gamepad purple"></i> Analyse Loisirs</div>
+            <div id="fin-loisirs" style="font-size:0.68rem;"></div>
+        </div>
+        <div style="background:#0a0f18;border:1px solid #1e2a3a;border-radius:12px;padding:16px;">
+            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-child yellow"></i> Analyse Enfants</div>
+            <div id="fin-enfants" style="font-size:0.68rem;"></div>
+        </div>
+    </div>
+
     <div class="card" style="margin-bottom:16px;" id="scalable-card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
             <div>
@@ -1061,6 +1104,153 @@ async function loadFinance() {
 
         document.getElementById('fin-update').textContent = 'Periode ' + (data.periode || '—');
     } catch(e) { console.error('Finance:', e); }
+    // Charge les details en parallele
+    loadFinanceDetail();
+}
+
+// ── Finance Detail (transactions categorisees) ──
+var finLineChart = null;
+var finDetailData = null;
+var finDetailCat = {};
+
+async function loadFinanceDetail() {
+    try {
+        var res = await fetch(GH_RAW + 'finance_detail.json?t=' + Date.now()), data = await res.json();
+        finDetailData = data;
+
+        // Build cat map for drill-down
+        finDetailCat = {};
+        (data.drilldown || {}).forEach ? 0 : Object.entries(data.drilldown||{}).forEach(function(e) { finDetailCat[e[0]] = e[1]; });
+
+        renderLineChart(data);
+        renderCatList(data);
+        renderTop10(data);
+        renderLoisirs(data);
+        renderEnfants(data);
+    } catch(e) { console.error('FinanceDetail:', e); }
+}
+
+function renderLineChart(data) {
+    var monthly = data.monthly || [];
+    var labels = monthly.map(function(m){ return m.mois; });
+    var rev = monthly.map(function(m){ return m.revenus; });
+    var dep = monthly.map(function(m){ var s=0; Object.values(m.depenses).forEach(function(v){s+=v;}); return s; });
+    var ep = monthly.map(function(m){ return m.epargne; });
+
+    var ctx = document.getElementById('fin-line');
+    if (!ctx) return;
+    if (finLineChart) finLineChart.destroy();
+    finLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                { label: 'Revenus', data: rev, borderColor: '#60a5fa', backgroundColor: 'transparent', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+                { label: 'Depenses', data: dep, borderColor: '#ef4444', backgroundColor: 'transparent', tension: 0.3, pointRadius: 2, borderWidth: 2 },
+                { label: 'Epargne', data: ep, borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', tension: 0.3, pointRadius: 2, borderWidth: 2, fill: true }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: true,
+            plugins: { legend: { labels: { color: '#9ca3af', font: {size: 10} }, position: 'top' } },
+            scales: {
+                x: { ticks: { color: '#6b7280', font: {size: 9}, maxRotation: 45 }, grid: { color: '#1f293720' } },
+                y: { ticks: { color: '#6b7280', font: {size: 9}, callback: function(v){ return v.toFixed(0)+'€'; } }, grid: { color: '#1f293720' } }
+            }
+        }
+    });
+}
+
+var CAT_COLORS = {
+    'loyer':'#ef4444','alimentation':'#22c55e','loisirs':'#eab308','transport':'#8b5cf6',
+    'assurances':'#64748b','abonnements':'#a78bfa','enfants':'#f97316','sante':'#ec4899',
+    'impots':'#06b6d4','maison':'#84cc16','juridique':'#f43f5e',
+    'divers':'#374151','divers_connu':'#1f2937','energie_eau':'#ec4899'
+};
+
+function renderCatList(data) {
+    var cats = data.categories || {};
+    var total = 0;
+    Object.values(cats).forEach(function(c){ total += c.total; });
+
+    var html = '';
+    var sorted = Object.entries(cats).sort(function(a,b){ return b[1].total - a[1].total; });
+    sorted.forEach(function(e){
+        var cat = e[0], info = e[1];
+        if (info.total === 0) return;
+        var pct = (info.total / total * 100).toFixed(1);
+        var color = CAT_COLORS[cat] || '#6b7280';
+        html += '<div onclick="openFinDrill(\''+cat+'\')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #1f2d3020;">' +
+            '<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+color+';margin-right:8px;"></span>'+cat+'</span>' +
+            '<span style="font-weight:600;">'+info.moyen_mensuel.toFixed(0)+'€/mois <span style="color:#6b7280;font-weight:400;font-size:0.63rem;">'+pct+'%</span></span></div>';
+    });
+    document.getElementById('fin-cat-list').innerHTML = html;
+}
+
+function openFinDrill(cat) {
+    var txList = finDetailCat[cat] || [];
+    var modal = document.getElementById('fin-drill-modal');
+    document.getElementById('fin-drill-title').textContent = 'Top 50 : ' + cat;
+    var html = '';
+    txList.forEach(function(t){
+        html += '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #1f2d3020;">' +
+            '<span style="color:#6b7280;font-size:0.65rem;">'+t.d+'</span>' +
+            '<span style="flex:1;margin:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+t.n+'</span>' +
+            '<span style="font-weight:600;color:#f1f5f9;">'+t.a.toFixed(2)+'€</span></div>';
+    });
+    if (!txList.length) html = '<div style="color:#6b7280;text-align:center;padding:10px;">Aucune transaction</div>';
+    document.getElementById('fin-drill-body').innerHTML = html;
+    modal.style.display = 'flex';
+}
+
+function closeFinDrill() {
+    document.getElementById('fin-drill-modal').style.display = 'none';
+}
+
+function renderTop10(data) {
+    var top10 = data.top_global || [];
+    var html = '';
+    top10.forEach(function(t, i){
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1f2d3020;">' +
+            '<span style="color:#6b7280;font-size:0.6rem;min-width:22px;">#'+(i+1)+'</span>' +
+            '<span style="flex:1;margin:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+t.description.substring(0,35)+'</span>' +
+            '<span style="font-weight:600;color:#f1f5f9;font-size:0.72rem;">'+Math.abs(t.amount).toFixed(0)+'€</span></div>';
+    });
+    if (!top10.length) html = '<div style="color:#6b7280;text-align:center;padding:10px;">—</div>';
+    document.getElementById('fin-top10').innerHTML = html;
+}
+
+function renderLoisirs(data) {
+    var l = data.loisirs || {};
+    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+l.total.toFixed(0)+'€ / '+l.moyen_mensuel.toFixed(0)+'€/mois ('+l.nb_transactions+' tx)</div>';
+    var sous = l.sous_categories || {};
+    var sorted = Object.entries(sous).sort(function(a,b){ return b[1].total - a[1].total; });
+    sorted.forEach(function(e){
+        var pct = l.total > 0 ? (e[1].total / l.total * 100).toFixed(0) : 0;
+        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;"><span>'+e[0]+'</span><span style="font-weight:600;">'+e[1].total.toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+e[1].count+' tx, '+pct+'%)</span></span></div>';
+    });
+    // Mois les plus depensiers
+    var moisMap = l.mois_top5 || {};
+    if (Object.keys(moisMap).length) {
+        html += '<div style="margin-top:10px;font-size:0.63rem;color:#6b7280;">Mois actifs: ';
+        Object.entries(moisMap).sort(function(a,b){ return b[1].total - a[1].total; }).slice(0,5).forEach(function(e){
+            html += '<span style="margin-right:6px;">'+e[0]+' ('+e[1].total.toFixed(0)+'€)</span>';
+        });
+        html += '</div>';
+    }
+    document.getElementById('fin-loisirs').innerHTML = html;
+}
+
+function renderEnfants(data) {
+    var e = data.enfants || {};
+    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+e.total.toFixed(0)+'€ / '+e.moyen_mensuel.toFixed(0)+'€/mois ('+e.nb_transactions+' tx)</div>';
+    var sous = e.sous_categories || {};
+    var sorted = Object.entries(sous).sort(function(a,b){ return b[1].total - a[1].total; });
+    sorted.forEach(function(e){
+        var pct = e[1].total > 0 ? (e[1].total / e.total * 100).toFixed(0) : 0;
+        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;"><span>'+e[0]+'</span><span style="font-weight:600;">'+e[1].total.toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+e[1].count+' tx, '+pct+'%)</span></span></div>';
+    });
+    document.getElementById('fin-enfants').innerHTML = html;
 }
 
 // ── Scalable ETF ──

@@ -131,6 +131,9 @@ python3 /tmp/opencode/kraken_swing_paper_trading/engine.py --tick 2>/dev/null ||
 # Copier les données financières personnelles
 cp /home/openclaw/finance/analyse_financiere.json ./data/finance.json 2>/dev/null || echo "Finance data non trouvée"
 
+# Extraire et catégoriser les transactions des releves PDF
+python3 ./update-finance-detail.py 2>/dev/null || echo "Finance detail extraction échouée"
+
 # Mettre à jour les prix ETF (Yahoo Finance côté serveur)
 python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
 
