@@ -1012,56 +1012,49 @@ function setNTVSignalDup(pref, s) {
 
 // ── Finance Personnelle ──
 var finDonut = null;
+var DONUT_COLORS = ['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#8b5cf6','#ec4899','#64748b',
+    '#a78bfa','#84cc16','#14b8a6','#f43f5e','#0ea5e9','#d946ef','#10b981'];
+var finLineChart = null;
+var finDetailData = null;
 async function loadFinance() {
     try {
         var res = await fetch(GH_RAW + 'finance.json?t=' + Date.now()), data = await res.json();
         var revenus = data.revenus_mensuels_nets || 0;
         var epargne = data.epargne_mensuelle || 0;
         var pctEpargne = revenus > 0 ? (epargne / revenus * 100) : 0;
-        var fixes = data.depenses_fixes || {};
-        var variables = data.depenses_variables || {};
 
         document.getElementById('fin-revenus').textContent = '\u20AC' + revenus.toFixed(0) + '/mois';
         document.getElementById('fin-epargne').textContent = '\u20AC' + epargne.toFixed(0) + '/mois';
         document.getElementById('fin-epargne-pct').textContent = pctEpargne.toFixed(0) + '% des revenus';
 
-        // Liste depenses
-        var depenses = [
-            { label: 'Loyer', value: fixes.loyer || 0, color: '#ef4444' },
-            { label: 'Enfants', value: variables.enfants || 0, color: '#f97316' },
-            { label: 'Loisirs', value: variables.loisirs || 0, color: '#eab308' },
-            { label: 'Alimentation', value: variables.alimentation || 0, color: '#22c55e' },
-            { label: 'Restaurants', value: variables.restaurants || 0, color: '#06b6d4' },
-            { label: 'Transport', value: variables.transport || 0, color: '#8b5cf6' },
-            { label: 'Energie', value: fixes.energie_eau || 0, color: '#ec4899' },
-            { label: 'Assurances', value: fixes.assurances || 0, color: '#64748b' },
-            { label: 'Abonnements', value: fixes.abonnements || 0, color: '#a78bfa' }
-        ];
-
-        var totalDepenses = depenses.reduce(function(s,d){return s+d.value;},0);
+        // Donut + liste depuis donut_categories (donnees corrigees 2026)
+        var donutCats = data.donut_categories || {};
+        var catEntries = Object.entries(donutCats);
+        var totalDepenses = catEntries.reduce(function(s,e){return s+e[1];},0);
         document.getElementById('fin-depenses-total').textContent = '\u20AC' + totalDepenses.toFixed(0) + '/mois';
 
         var listHtml = '';
-        depenses.forEach(function(d){
-            if (d.value <= 0) return;
+        catEntries.forEach(function(e, i){
             listHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">' +
-                '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+d.color+';margin-right:8px;"></span>'+d.label+'</span>' +
-                '<span style="font-weight:600;">\u20AC'+d.value.toFixed(0)+'</span></div>';
+                '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+DONUT_COLORS[i%DONUT_COLORS.length]+';margin-right:8px;"></span>'+e[0]+'</span>' +
+                '<span style="font-weight:600;">\u20AC'+e[1].toFixed(0)+'</span></div>';
         });
         document.getElementById('fin-depenses-list').innerHTML = listHtml;
 
         // Donut chart
         var ctx = document.getElementById('fin-donut');
         if (ctx) {
-            var chartData = depenses.filter(function(d){return d.value>0;});
+            var chartLabels = catEntries.map(function(e){return e[0];});
+            var chartValues = catEntries.map(function(e){return e[1];});
+            var chartColors = catEntries.map(function(_,i){return DONUT_COLORS[i%DONUT_COLORS.length];});
             if (finDonut) finDonut.destroy();
             finDonut = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: chartData.map(function(d){return d.label;}),
+                    labels: chartLabels,
                     datasets: [{
-                        data: chartData.map(function(d){return d.value;}),
-                        backgroundColor: chartData.map(function(d){return d.color;}),
+                        data: chartValues,
+                        backgroundColor: chartColors,
                         borderColor: '#111827',
                         borderWidth: 2
                     }]
@@ -1109,8 +1102,6 @@ async function loadFinance() {
 }
 
 // ── Finance Detail (transactions categorisees) ──
-var finLineChart = null;
-var finDetailData = null;
 var finDetailCat = {};
 
 async function loadFinanceDetail() {
@@ -1170,19 +1161,20 @@ var CAT_COLORS = {
 
 function renderCatList(data) {
     var cats = data.categories || {};
+    var nMonths = (data.monthly || []).length || 8;
     var total = 0;
-    Object.values(cats).forEach(function(c){ total += c.total; });
-
+    Object.values(cats).forEach(function(v){ total += v; });
     var html = '';
-    var sorted = Object.entries(cats).sort(function(a,b){ return b[1].total - a[1].total; });
-    sorted.forEach(function(e){
-        var cat = e[0], info = e[1];
-        if (info.total === 0) return;
-        var pct = (info.total / total * 100).toFixed(1);
-        var color = CAT_COLORS[cat] || '#6b7280';
+    var sorted = Object.entries(cats).sort(function(a,b){ return b[1] - a[1]; });
+    sorted.forEach(function(e, idx){
+        var cat = e[0], val = e[1];
+        if (val <= 0) return;
+        var pct = (val / total * 100).toFixed(1);
+        var moy = (val / nMonths).toFixed(0);
+        var color = DONUT_COLORS[idx % DONUT_COLORS.length];
         html += '<div onclick="openFinDrill(\''+cat+'\')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #1f2d3020;">' +
             '<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+color+';margin-right:8px;"></span>'+cat+'</span>' +
-            '<span style="font-weight:600;">'+info.moyen_mensuel.toFixed(0)+'€/mois <span style="color:#6b7280;font-weight:400;font-size:0.63rem;">'+pct+'%</span></span></div>';
+            '<span style="font-weight:600;">'+moy+'€/mois <span style="color:#6b7280;font-weight:400;font-size:0.63rem;">'+pct+'%</span></span></div>';
     });
     document.getElementById('fin-cat-list').innerHTML = html;
 }
@@ -1211,10 +1203,11 @@ function renderTop10(data) {
     var top10 = data.top_global || [];
     var html = '';
     top10.forEach(function(t, i){
+        var name = (t.n || '').substring(0, 40);
         html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1f2d3020;">' +
             '<span style="color:#6b7280;font-size:0.6rem;min-width:22px;">#'+(i+1)+'</span>' +
-            '<span style="flex:1;margin:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+t.description.substring(0,35)+'</span>' +
-            '<span style="font-weight:600;color:#f1f5f9;font-size:0.72rem;">'+Math.abs(t.amount).toFixed(0)+'€</span></div>';
+            '<span style="flex:1;margin:0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>' +
+            '<span style="font-weight:600;color:#f1f5f9;font-size:0.72rem;">'+t.a.toFixed(0)+'€</span></div>';
     });
     if (!top10.length) html = '<div style="color:#6b7280;text-align:center;padding:10px;">—</div>';
     document.getElementById('fin-top10').innerHTML = html;
@@ -1222,19 +1215,24 @@ function renderTop10(data) {
 
 function renderLoisirs(data) {
     var l = data.loisirs || {};
-    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+l.total.toFixed(0)+'€ / '+l.moyen_mensuel.toFixed(0)+'€/mois ('+l.nb_transactions+' tx)</div>';
-    var sous = l.sous_categories || {};
-    var sorted = Object.entries(sous).sort(function(a,b){ return b[1].total - a[1].total; });
+    var lTotal = l.total || 0;
+    var nMonths = Object.keys(l.monthly || {}).length || 8;
+    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+lTotal.toFixed(0)+'€ / '+(lTotal/nMonths).toFixed(0)+'€/mois</div>';
+    // Sub-categories
+    var sub = l.sub_categories || l.sous_categories || {};
+    var sorted = Object.entries(sub).sort(function(a,b){ return b[1] - a[1]; });
     sorted.forEach(function(e){
-        var pct = l.total > 0 ? (e[1].total / l.total * 100).toFixed(0) : 0;
-        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;"><span>'+e[0]+'</span><span style="font-weight:600;">'+e[1].total.toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+e[1].count+' tx, '+pct+'%)</span></span></div>';
+        var pct = lTotal > 0 ? (e[1] / lTotal * 100).toFixed(0) : 0;
+        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;">' +
+            '<span>'+e[0]+'</span>' +
+            '<span style="font-weight:600;">'+e[1].toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+pct+'%)</span></span></div>';
     });
     // Mois les plus depensiers
-    var moisMap = l.mois_top5 || {};
+    var moisMap = l.monthly || {};
     if (Object.keys(moisMap).length) {
-        html += '<div style="margin-top:10px;font-size:0.63rem;color:#6b7280;">Mois actifs: ';
-        Object.entries(moisMap).sort(function(a,b){ return b[1].total - a[1].total; }).slice(0,5).forEach(function(e){
-            html += '<span style="margin-right:6px;">'+e[0]+' ('+e[1].total.toFixed(0)+'€)</span>';
+        html += '<div style="margin-top:10px;font-size:0.63rem;color:#6b7280;">Top mois: ';
+        Object.entries(moisMap).sort(function(a,b){ return b[1] - a[1]; }).slice(0,5).forEach(function(e){
+            html += '<span style="margin-right:6px;">'+e[0]+' ('+e[1].toFixed(0)+'€)</span>';
         });
         html += '</div>';
     }
@@ -1243,12 +1241,16 @@ function renderLoisirs(data) {
 
 function renderEnfants(data) {
     var e = data.enfants || {};
-    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+e.total.toFixed(0)+'€ / '+e.moyen_mensuel.toFixed(0)+'€/mois ('+e.nb_transactions+' tx)</div>';
-    var sous = e.sous_categories || {};
-    var sorted = Object.entries(sous).sort(function(a,b){ return b[1].total - a[1].total; });
-    sorted.forEach(function(e){
-        var pct = e[1].total > 0 ? (e[1].total / e.total * 100).toFixed(0) : 0;
-        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;"><span>'+e[0]+'</span><span style="font-weight:600;">'+e[1].total.toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+e[1].count+' tx, '+pct+'%)</span></span></div>';
+    var eTotal = e.total || 0;
+    var nMonths = Object.keys(e.monthly || {}).length || 8;
+    var html = '<div style="margin-bottom:8px;color:#f1f5f9;font-weight:600;">Total: '+eTotal.toFixed(0)+'€ / '+(eTotal/nMonths).toFixed(0)+'€/mois</div>';
+    var sub = e.sub_categories || e.sous_categories || {};
+    var sorted = Object.entries(sub).sort(function(a,b){ return b[1] - a[1]; });
+    sorted.forEach(function(entry){
+        var pct = eTotal > 0 ? (entry[1] / eTotal * 100).toFixed(0) : 0;
+        html += '<div style="display:flex;justify-content:space-between;padding:2px 0;">' +
+            '<span>'+entry[0]+'</span>' +
+            '<span style="font-weight:600;">'+entry[1].toFixed(0)+'€ <span style="color:#6b7280;font-weight:400;font-size:0.6rem;">('+pct+'%)</span></span></div>';
     });
     document.getElementById('fin-enfants').innerHTML = html;
 }
