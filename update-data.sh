@@ -128,6 +128,9 @@ python3 /tmp/opencode/kraken_recovery_paper_trading/engine.py --tick 2>/dev/null
 # Tick Swing Paper Trading (read-only, no orders)
 python3 /tmp/opencode/kraken_swing_paper_trading/engine.py --tick 2>/dev/null || echo "Swing tick failed"
 
+# Copier les données financières personnelles
+cp /home/openclaw/finance/analyse_financiere.json ./data/finance.json 2>/dev/null || echo "Finance data non trouvée"
+
 # Mettre à jour les prix ETF (Yahoo Finance côté serveur)
 python3 ./update-stocks-prices.py 2>/dev/null || echo "Mise à jour prix ETF échouée"
 

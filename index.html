@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenClaw Monitoring</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
@@ -345,6 +346,71 @@
 <!-- TAB 3 — FINANCE                                                     -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <div class="tab-content" id="tab-content-finance">
+
+<!-- ── FINANCE PERSONELLE ── -->
+<div class="card" style="margin-bottom:16px;" id="finance-perso-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+        <div>
+            <div class="bot-title"><i class="fas fa-wallet blue"></i>Finance Personnelle <span class="badge badge-blue" style="font-size:0.62rem;margin-left:8px;">PERSO</span></div>
+            <div class="bot-subtitle">Analyse budgetaire — 21 mois (2024-12 a 2026-08)</div>
+        </div>
+        <span id="fin-update" style="font-size:0.7rem;color:#374151;">—</span>
+    </div>
+
+    <!-- Header Revenus / Epargne -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:16px;">
+        <div style="background:#0a1520;border:1px solid #1e3a52;border-radius:10px;padding:16px;text-align:center;">
+            <div style="font-size:0.7rem;color:#4b6280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Revenus Mensuels Nets</div>
+            <div id="fin-revenus" style="font-size:1.8rem;font-weight:800;color:#60a5fa;">—</div>
+            <div style="font-size:0.65rem;color:#374151;margin-top:2px;">Depose sur compte</div>
+        </div>
+        <div style="background:#0a1520;border:1px solid #1e3a52;border-radius:10px;padding:16px;text-align:center;">
+            <div style="font-size:0.7rem;color:#4b6280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Epargne Mensuelle</div>
+            <div id="fin-epargne" style="font-size:1.8rem;font-weight:800;color:#10b981;">—</div>
+            <div id="fin-epargne-pct" style="font-size:0.65rem;color:#374151;margin-top:2px;">—</div>
+        </div>
+    </div>
+
+    <!-- Donut Chart + Liste Depenses -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:center;">
+            <canvas id="fin-donut" style="max-width:280px;max-height:280px;"></canvas>
+        </div>
+        <div>
+            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-receipt gray"></i> Depenses Mensuelles</div>
+            <div id="fin-depenses-list" style="font-size:0.72rem;"></div>
+            <div style="font-weight:700;font-size:0.85rem;margin-top:8px;padding-top:8px;border-top:1px solid #1f2d40;">
+                Total <span id="fin-depenses-total" style="float:right;color:#f1f5f9;">—</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Projections Epargne -->
+    <div style="margin-bottom:16px;">
+        <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-chart-line green"></i> Projections Epargne (capitalisation sans interets)</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+            <div style="background:#0a1520;border:1px solid #1e3a52;border-radius:8px;padding:12px;text-align:center;">
+                <div style="font-size:0.65rem;color:#4b6280;">5 ans</div>
+                <div id="fin-proj-5" style="font-size:1.3rem;font-weight:700;color:#fbbf24;">—</div>
+            </div>
+            <div style="background:#0a1520;border:1px solid #1e3a52;border-radius:8px;padding:12px;text-align:center;">
+                <div style="font-size:0.65rem;color:#4b6280;">10 ans</div>
+                <div id="fin-proj-10" style="font-size:1.3rem;font-weight:700;color:#fbbf24;">—</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patrimoine -->
+    <div>
+        <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;margin-bottom:10px;"><i class="fas fa-piggy-bank purple"></i> Patrimoine Actuel</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" id="fin-patrimoine">
+            <!-- filled by JS -->
+        </div>
+    </div>
+</div>
+
     <div class="card" style="margin-bottom:16px;" id="scalable-card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
             <div>
@@ -901,6 +967,102 @@ function setNTVSignalDup(pref, s) {
     el = document.getElementById('ntv-' + pref + '-badge2'); if (el) { el.textContent = s.allowed ? 'ALLOWED' : 'BLOCKED'; el.className = 'badge ' + (s.allowed ? 'badge-green' : 'badge-red'); }
 }
 
+// ── Finance Personnelle ──
+var finDonut = null;
+async function loadFinance() {
+    try {
+        var res = await fetch(GH_RAW + 'finance.json?t=' + Date.now()), data = await res.json();
+        var revenus = data.revenus_mensuels_nets || 0;
+        var epargne = data.epargne_mensuelle || 0;
+        var pctEpargne = revenus > 0 ? (epargne / revenus * 100) : 0;
+        var fixes = data.depenses_fixes || {};
+        var variables = data.depenses_variables || {};
+
+        document.getElementById('fin-revenus').textContent = '\u20AC' + revenus.toFixed(0) + '/mois';
+        document.getElementById('fin-epargne').textContent = '\u20AC' + epargne.toFixed(0) + '/mois';
+        document.getElementById('fin-epargne-pct').textContent = pctEpargne.toFixed(0) + '% des revenus';
+
+        // Liste depenses
+        var depenses = [
+            { label: 'Loyer', value: fixes.loyer || 0, color: '#ef4444' },
+            { label: 'Enfants', value: variables.enfants || 0, color: '#f97316' },
+            { label: 'Loisirs', value: variables.loisirs || 0, color: '#eab308' },
+            { label: 'Alimentation', value: variables.alimentation || 0, color: '#22c55e' },
+            { label: 'Restaurants', value: variables.restaurants || 0, color: '#06b6d4' },
+            { label: 'Transport', value: variables.transport || 0, color: '#8b5cf6' },
+            { label: 'Energie', value: fixes.energie_eau || 0, color: '#ec4899' },
+            { label: 'Assurances', value: fixes.assurances || 0, color: '#64748b' },
+            { label: 'Abonnements', value: fixes.abonnements || 0, color: '#a78bfa' }
+        ];
+
+        var totalDepenses = depenses.reduce(function(s,d){return s+d.value;},0);
+        document.getElementById('fin-depenses-total').textContent = '\u20AC' + totalDepenses.toFixed(0) + '/mois';
+
+        var listHtml = '';
+        depenses.forEach(function(d){
+            if (d.value <= 0) return;
+            listHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">' +
+                '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+d.color+';margin-right:8px;"></span>'+d.label+'</span>' +
+                '<span style="font-weight:600;">\u20AC'+d.value.toFixed(0)+'</span></div>';
+        });
+        document.getElementById('fin-depenses-list').innerHTML = listHtml;
+
+        // Donut chart
+        var ctx = document.getElementById('fin-donut');
+        if (ctx) {
+            var chartData = depenses.filter(function(d){return d.value>0;});
+            if (finDonut) finDonut.destroy();
+            finDonut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.map(function(d){return d.label;}),
+                    datasets: [{
+                        data: chartData.map(function(d){return d.value;}),
+                        backgroundColor: chartData.map(function(d){return d.color;}),
+                        borderColor: '#111827',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx){ return ctx.label + ': \u20AC' + ctx.raw.toFixed(0); }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Projections
+        var proj5 = epargne * 12 * 5;
+        var proj10 = epargne * 12 * 10;
+        document.getElementById('fin-proj-5').textContent = '\u20AC' + proj5.toLocaleString('fr-FR', {maximumFractionDigits:0});
+        document.getElementById('fin-proj-10').textContent = '\u20AC' + proj10.toLocaleString('fr-FR', {maximumFractionDigits:0});
+
+        // Patrimoine
+        var patrimoine = [
+            { label: 'Scalable', value: 17882, icon: 'fa-chart-line', color: '#10b981' },
+            { label: 'VKB Giro', value: 15780, icon: 'fa-building-columns', color: '#60a5fa' },
+            { label: 'C24', value: 25000, icon: 'fa-piggy-bank', color: '#a78bfa' }
+        ];
+        var patriHtml = '';
+        patrimoine.forEach(function(p){
+            patriHtml += '<div style="background:#0a1520;border:1px solid #1e3a52;border-radius:8px;padding:12px;text-align:center;">' +
+                '<i class="fas '+p.icon+'" style="color:'+p.color+';font-size:1.1rem;margin-bottom:6px;display:block;"></i>' +
+                '<div style="font-size:0.65rem;color:#4b6280;">'+p.label+'</div>' +
+                '<div style="font-size:1.1rem;font-weight:700;color:#f1f5f9;">\u20AC' + p.value.toLocaleString('fr-FR') + '</div></div>';
+        });
+        document.getElementById('fin-patrimoine').innerHTML = patriHtml;
+
+        document.getElementById('fin-update').textContent = 'Periode ' + (data.periode || '—');
+    } catch(e) { console.error('Finance:', e); }
+}
+
 // ── Scalable ETF ──
 var stocksFresh = true;
 async function loadStocks() {
@@ -993,10 +1155,11 @@ async function loadStocks() {
 }
 
 // ── Init ──
-loadNTV(); loadStocks(); loadFull();
+loadNTV(); loadStocks(); loadFull(); loadFinance();
 setInterval(function() { loadNTV(); }, 30000);
 setInterval(loadStocks, 60000);
 setInterval(loadFull, 120000);
+setInterval(loadFinance, 300000);
 
 // ── Dashboard Full ──
 async function loadFull() {
