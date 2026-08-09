@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-09T21:30:44.809037+00:00",
-  "generated_at_unix": 1786311044,
+  "generated_at": "2026-08-09T21:35:43.924427+00:00",
+  "generated_at_unix": 1786311343,
   "ntv": {
-    "generated_at": "2026-08-09T21:30:25.175177+00:00",
+    "generated_at": "2026-08-09T21:35:25.452427+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-08-09T21:30:25.146039+00:00"
+      "last_update": "2026-08-09T21:35:25.417911+00:00"
     },
     "current_signal": {
       "btc": {
@@ -30,8 +30,8 @@
         "block_reason": "close < SMA200"
       },
       "eth": {
-        "close": 1663.33,
-        "sma200": 1763.1958999999997,
+        "close": 1663.3,
+        "sma200": 1763.1957499999999,
         "vol30": 37.07,
         "trend_ok": false,
         "vol_ok": true,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-08-09T21:30:25.105033+00:00",
+        "timestamp": "2026-08-09T21:35:25.351366+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 58332.8,
@@ -105,7 +105,7 @@
           "low_20": 1600.51,
           "prev_high_20": 1714.39,
           "prev_low_20": 1600.51,
-          "close": 1663.33,
+          "close": 1663.3,
           "prev_close": 1657.98,
           "signal": "NONE",
           "breakout_pct": 0.0,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-08-09T23:30:25+02:00",
-      "last_tick_time": "2026-08-09T23:30:25+02:00",
+      "last_tick_at": "2026-08-09T23:35:25+02:00",
+      "last_tick_time": "2026-08-09T23:35:25+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -144,10 +144,10 @@
       "data_last_candle_date": "2026-08-09",
       "signal_data_age_days": 0.9,
       "source_timestamps": {
-        "dashboard_payload": "2026-08-09T21:30:25.146178+00:00",
-        "signal": "2026-08-09T21:30:25.104956+00:00",
-        "orders_dry_run": "2026-08-09T21:30:25.140461+00:00",
-        "alerts": "2026-08-09T21:30:25.140594+00:00"
+        "dashboard_payload": "2026-08-09T21:35:25.418066+00:00",
+        "signal": "2026-08-09T21:35:25.351170+00:00",
+        "orders_dry_run": "2026-08-09T21:35:25.409395+00:00",
+        "alerts": "2026-08-09T21:35:25.409596+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 24,
-      "last_snapshot_time": "2026-08-09T21:25:25.001370+00:00",
+      "last_snapshot_time": "2026-08-09T21:30:25.187473+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 6,
       "unsafe_count": 0,
-      "total_snapshots": 6742,
+      "total_snapshots": 6743,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-08-09"
@@ -225,7 +225,7 @@
         "vol_ratio": 0.85
       }
     },
-    "last_tick": "2026-08-09T21:30:29.568490+00:00",
+    "last_tick": "2026-08-09T21:35:29.314592+00:00",
     "tick_status": "OK",
     "freshness": {
       "age_minutes": 0.2,
@@ -354,7 +354,7 @@
         "blocking_reason": "daily_above_sma20, momentum_24h, volume_ok"
       }
     },
-    "last_tick": "2026-08-09T21:30:25.316702+00:00",
+    "last_tick": "2026-08-09T21:35:25.593316+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -429,7 +429,7 @@
       }
     },
     "freshness": {
-      "age_minutes": 0.3,
+      "age_minutes": 0.2,
       "status": "OK",
       "expected_interval_minutes": 5
     }
@@ -445,7 +445,7 @@
     "us10y_yield": 4.66,
     "regime": "fear",
     "freshness": {
-      "age_minutes": 0.6,
+      "age_minutes": 5.6,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -522,12 +522,12 @@
         "status": "OK"
       },
       "recovery_paper": {
-        "age": 0.3,
+        "age": 0.2,
         "expected": 5,
         "status": "OK"
       },
       "market_context": {
-        "age": 0.6,
+        "age": 5.6,
         "expected": 15,
         "status": "OK"
       },
