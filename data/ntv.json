@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-19T17:50:25.824899+00:00",
+  "generated_at": "2026-08-19T17:55:25.836052+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,22 +14,22 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-08-19T17:50:25.786694+00:00"
+    "last_update": "2026-08-19T17:55:25.804893+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 58421.9,
-      "sma200": 59445.8265,
-      "vol30": 26.92,
+      "close": 58433.7,
+      "sma200": 59445.8855,
+      "vol30": 26.96,
       "trend_ok": false,
       "vol_ok": true,
       "allowed": false,
       "block_reason": "close < SMA200"
     },
     "eth": {
-      "close": 1789.71,
-      "sma200": 1725.1865500000004,
-      "vol30": 39.5,
+      "close": 1791.24,
+      "sma200": 1725.1942000000001,
+      "vol30": 39.7,
       "trend_ok": true,
       "vol_ok": true,
       "allowed": true,
@@ -40,8 +40,8 @@
   "allocation": {
     "current": {
       "btc_pct": 0.0,
-      "eth_pct": 50.98,
-      "eur_pct": 49.02
+      "eth_pct": 51.0,
+      "eur_pct": 49.0
     },
     "target": {
       "btc_pct": 0.0,
@@ -50,8 +50,8 @@
     },
     "deviation": {
       "btc_deviation_pct": 0.0,
-      "eth_deviation_pct": 0.98,
-      "eur_deviation_pct": -0.98
+      "eth_deviation_pct": 1.0,
+      "eur_deviation_pct": -1.0
     },
     "recommended_action": "HOLD"
   },
@@ -62,16 +62,16 @@
     "estimated_costs": []
   },
   "dry_run_portfolio": {
-    "equity_eur": 2857.6,
-    "pnl_eur": 47.06,
-    "pnl_pct": 1.6744,
+    "equity_eur": 2858.84,
+    "pnl_eur": 48.3,
+    "pnl_pct": 1.7187,
     "exposure": {
       "btc_eur": 0.0,
-      "eth_eur": 1456.69,
+      "eth_eur": 1457.93,
       "eur_cash": 1400.91,
       "btc_pct": 0.0,
-      "eth_pct": 50.98,
-      "eur_pct": 49.02
+      "eth_pct": 51.0,
+      "eur_pct": 49.0
     },
     "fees_paid_cum_eur": 4.3563,
     "trades_count": 1,
@@ -84,17 +84,17 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-08-19T17:50:25.710086+00:00",
+      "timestamp": "2026-08-19T17:55:25.745606+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 56198.5,
         "low_20": 54299.8,
         "prev_high_20": 56198.5,
         "prev_low_20": 54299.8,
-        "close": 58421.9,
+        "close": 58433.7,
         "prev_close": 55880.9,
         "signal": "BREAKOUT_UP",
-        "breakout_pct": 3.96,
+        "breakout_pct": 3.98,
         "period": 20
       },
       "eth": {
@@ -102,10 +102,10 @@
         "low_20": 1600.51,
         "prev_high_20": 1664.52,
         "prev_low_20": 1600.51,
-        "close": 1789.71,
+        "close": 1791.24,
         "prev_close": 1655.49,
         "signal": "BREAKOUT_UP",
-        "breakout_pct": 7.52,
+        "breakout_pct": 7.61,
         "period": 20
       },
       "summary": {
@@ -129,8 +129,8 @@
   },
   "ntv_tick": {
     "last_tick_ok": true,
-    "last_tick_at": "2026-08-19T19:50:25+02:00",
-    "last_tick_time": "2026-08-19T19:50:25+02:00",
+    "last_tick_at": "2026-08-19T19:55:25+02:00",
+    "last_tick_time": "2026-08-19T19:55:25+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -139,12 +139,12 @@
       "max_candle_age_days": 2.0
     },
     "data_last_candle_date": "2026-08-19",
-    "signal_data_age_days": 0.74,
+    "signal_data_age_days": 0.75,
     "source_timestamps": {
-      "dashboard_payload": "2026-08-19T17:50:25.786931+00:00",
-      "signal": "2026-08-19T17:50:25.710008+00:00",
-      "orders_dry_run": "2026-08-19T17:50:25.778115+00:00",
-      "alerts": "2026-08-19T17:50:25.778396+00:00"
+      "dashboard_payload": "2026-08-19T17:55:25.805076+00:00",
+      "signal": "2026-08-19T17:55:25.745526+00:00",
+      "orders_dry_run": "2026-08-19T17:55:25.798453+00:00",
+      "alerts": "2026-08-19T17:55:25.798607+00:00"
     },
     "source_ages_minutes": {
       "dashboard_payload": 0.0,
@@ -157,11 +157,11 @@
   "forward_test": {
     "status": "FORWARD_TEST_OK",
     "days_observed": 34,
-    "last_snapshot_time": "2026-08-19T17:45:25.610966+00:00",
+    "last_snapshot_time": "2026-08-19T17:50:25.837680+00:00",
     "last_verdict": "FORWARD_TEST_OK",
     "warnings_count": 7,
     "unsafe_count": 0,
-    "total_snapshots": 9578,
+    "total_snapshots": 9579,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-08-19"
