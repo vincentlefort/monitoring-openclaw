@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T14:25:24.859936+00:00",
+  "generated_at": "2026-08-21T14:30:24.878984+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,22 +14,22 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-08-21T14:25:24.807065+00:00"
+    "last_update": "2026-08-21T14:30:24.829652+00:00"
   },
   "current_signal": {
     "btc": {
-      "close": 65991.0,
-      "sma200": 59434.8145,
-      "vol30": 38.87,
+      "close": 66004.1,
+      "sma200": 59434.88,
+      "vol30": 38.9,
       "trend_ok": true,
       "vol_ok": true,
       "allowed": true,
       "block_reason": ""
     },
     "eth": {
-      "close": 2039.19,
-      "sma200": 1726.51845,
-      "vol30": 61.45,
+      "close": 2046.84,
+      "sma200": 1726.5567,
+      "vol30": 61.6,
       "trend_ok": true,
       "vol_ok": true,
       "allowed": true,
@@ -40,8 +40,8 @@
   "allocation": {
     "current": {
       "btc_pct": 0.0,
-      "eth_pct": 54.23,
-      "eur_pct": 45.77
+      "eth_pct": 54.32,
+      "eur_pct": 45.68
     },
     "target": {
       "btc_pct": 50.0,
@@ -50,8 +50,8 @@
     },
     "deviation": {
       "btc_deviation_pct": -50.0,
-      "eth_deviation_pct": 4.23,
-      "eur_deviation_pct": 45.77
+      "eth_deviation_pct": 4.32,
+      "eur_deviation_pct": 45.68
     },
     "recommended_action": "REBALANCE"
   },
@@ -62,21 +62,21 @@
         "pair": "BTC/EUR",
         "side": "buy",
         "asset": "BTC",
-        "quantity": 0.02318995,
-        "notional_eur": 1530.33,
+        "quantity": 0.02323252,
+        "notional_eur": 1533.44,
         "deviation_pct": -50.0,
-        "estimated_cost_eur": 4.7463,
+        "estimated_cost_eur": 5.0185,
         "cost_breakdown": {
           "maker_fee_pct": 0.16,
           "taker_fee_pct": 0.26,
-          "spread_estimate_pct": 0.0002,
+          "spread_estimate_pct": 0.0173,
           "slippage_estimate_pct": 0.05,
-          "fee_eur": 3.9789,
-          "spread_eur": 0.0023,
-          "slippage_eur": 0.7652,
-          "total_cost_eur": 4.7463,
-          "cost_pct_of_order": 0.3101,
-          "cost_pct_of_portfolio": 0.1551,
+          "fee_eur": 3.9869,
+          "spread_eur": 0.2648,
+          "slippage_eur": 0.7667,
+          "total_cost_eur": 5.0185,
+          "cost_pct_of_order": 0.3273,
+          "cost_pct_of_portfolio": 0.1636,
           "trade_allowed": true,
           "block_reason": ""
         },
@@ -89,30 +89,30 @@
       {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 0.0002,
+        "spread_estimate_pct": 0.0173,
         "slippage_estimate_pct": 0.05,
-        "fee_eur": 3.9789,
-        "spread_eur": 0.0023,
-        "slippage_eur": 0.7652,
-        "total_cost_eur": 4.7463,
-        "cost_pct_of_order": 0.3101,
-        "cost_pct_of_portfolio": 0.1551,
+        "fee_eur": 3.9869,
+        "spread_eur": 0.2648,
+        "slippage_eur": 0.7667,
+        "total_cost_eur": 5.0185,
+        "cost_pct_of_order": 0.3273,
+        "cost_pct_of_portfolio": 0.1636,
         "trade_allowed": true,
         "block_reason": ""
       }
     ]
   },
   "dry_run_portfolio": {
-    "equity_eur": 3060.66,
-    "pnl_eur": 250.12,
-    "pnl_pct": 8.8992,
+    "equity_eur": 3066.88,
+    "pnl_eur": 256.34,
+    "pnl_pct": 9.1208,
     "exposure": {
       "btc_eur": 0.0,
-      "eth_eur": 1659.74,
+      "eth_eur": 1665.97,
       "eur_cash": 1400.91,
       "btc_pct": 0.0,
-      "eth_pct": 54.23,
-      "eur_pct": 45.77
+      "eth_pct": 54.32,
+      "eur_pct": 45.68
     },
     "fees_paid_cum_eur": 4.3563,
     "trades_count": 1,
@@ -125,17 +125,17 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-08-21T14:25:24.582822+00:00",
+      "timestamp": "2026-08-21T14:30:24.601642+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 62485.8,
         "low_20": 54299.8,
         "prev_high_20": 59346.9,
         "prev_low_20": 54299.8,
-        "close": 65991.0,
+        "close": 66004.1,
         "prev_close": 62485.8,
         "signal": "BREAKOUT_UP",
-        "breakout_pct": 11.2,
+        "breakout_pct": 11.22,
         "period": 20
       },
       "eth": {
@@ -143,10 +143,10 @@
         "low_20": 1600.51,
         "prev_high_20": 1928.34,
         "prev_low_20": 1600.51,
-        "close": 2039.19,
+        "close": 2046.84,
         "prev_close": 1990.73,
         "signal": "BREAKOUT_UP",
-        "breakout_pct": 5.75,
+        "breakout_pct": 6.15,
         "period": 20
       },
       "summary": {
@@ -160,12 +160,12 @@
     {
       "level": "FAIL",
       "guard": "G1",
-      "message": "Portfolio total 3060.66 EUR exceeds max capital 2810.54 EUR"
+      "message": "Portfolio total 3066.88 EUR exceeds max capital 2810.54 EUR"
     },
     {
       "level": "FAIL",
       "guard": "G2",
-      "message": "Portfolio total 3060.66 EUR exceeds hard cap 3000.00 EUR"
+      "message": "Portfolio total 3066.88 EUR exceeds hard cap 3000.00 EUR"
     }
   ],
   "old_bots_status": {
@@ -180,18 +180,18 @@
     "details": [
       {
         "id": "G1",
-        "reason": "Portfolio total 3060.66 EUR exceeds max capital 2810.54 EUR"
+        "reason": "Portfolio total 3066.88 EUR exceeds max capital 2810.54 EUR"
       },
       {
         "id": "G2",
-        "reason": "Portfolio total 3060.66 EUR exceeds hard cap 3000.00 EUR"
+        "reason": "Portfolio total 3066.88 EUR exceeds hard cap 3000.00 EUR"
       }
     ]
   },
   "ntv_tick": {
     "last_tick_ok": true,
-    "last_tick_at": "2026-08-21T16:25:24+02:00",
-    "last_tick_time": "2026-08-21T16:25:24+02:00",
+    "last_tick_at": "2026-08-21T16:30:24+02:00",
+    "last_tick_time": "2026-08-21T16:30:24+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -202,10 +202,10 @@
     "data_last_candle_date": "2026-08-21",
     "signal_data_age_days": 0.6,
     "source_timestamps": {
-      "dashboard_payload": "2026-08-21T14:25:24.807567+00:00",
-      "signal": "2026-08-21T14:25:24.582725+00:00",
-      "orders_dry_run": "2026-08-21T14:25:24.789810+00:00",
-      "alerts": "2026-08-21T14:25:24.790691+00:00"
+      "dashboard_payload": "2026-08-21T14:30:24.830116+00:00",
+      "signal": "2026-08-21T14:30:24.601568+00:00",
+      "orders_dry_run": "2026-08-21T14:30:24.810887+00:00",
+      "alerts": "2026-08-21T14:30:24.812006+00:00"
     },
     "source_ages_minutes": {
       "dashboard_payload": 0.0,
@@ -218,11 +218,11 @@
   "forward_test": {
     "status": "FORWARD_TEST_WARNING",
     "days_observed": 36,
-    "last_snapshot_time": "2026-08-21T14:20:24.870508+00:00",
+    "last_snapshot_time": "2026-08-21T14:25:24.873110+00:00",
     "last_verdict": "FORWARD_TEST_WARNING",
-    "warnings_count": 438,
+    "warnings_count": 439,
     "unsafe_count": 0,
-    "total_snapshots": 10113,
+    "total_snapshots": 10114,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-08-21"
