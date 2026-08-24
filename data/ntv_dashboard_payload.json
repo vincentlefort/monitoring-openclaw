@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-24T21:55:25.001482+00:00",
+  "timestamp": "2026-08-24T22:00:05.723974+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -29,21 +29,21 @@
       "pair": "BTC/EUR",
       "side": "buy",
       "asset": "BTC",
-      "quantity": 0.02314524,
+      "quantity": 0.02314001,
       "notional_eur": 1566.76,
       "deviation_pct": -50.0,
-      "estimated_cost_eur": 4.8917,
+      "estimated_cost_eur": 5.0282,
       "cost_breakdown": {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 0.0022,
+        "spread_estimate_pct": 0.0109,
         "slippage_estimate_pct": 0.05,
         "fee_eur": 4.0736,
-        "spread_eur": 0.0347,
+        "spread_eur": 0.1713,
         "slippage_eur": 0.7834,
-        "total_cost_eur": 4.8917,
-        "cost_pct_of_order": 0.3122,
-        "cost_pct_of_portfolio": 0.1561,
+        "total_cost_eur": 5.0282,
+        "cost_pct_of_order": 0.3209,
+        "cost_pct_of_portfolio": 0.1605,
         "trade_allowed": true,
         "block_reason": ""
       },
@@ -80,14 +80,14 @@
     {
       "maker_fee_pct": 0.16,
       "taker_fee_pct": 0.26,
-      "spread_estimate_pct": 0.0022,
+      "spread_estimate_pct": 0.0109,
       "slippage_estimate_pct": 0.05,
       "fee_eur": 4.0736,
-      "spread_eur": 0.0347,
+      "spread_eur": 0.1713,
       "slippage_eur": 0.7834,
-      "total_cost_eur": 4.8917,
-      "cost_pct_of_order": 0.3122,
-      "cost_pct_of_portfolio": 0.1561,
+      "total_cost_eur": 5.0282,
+      "cost_pct_of_order": 0.3209,
+      "cost_pct_of_portfolio": 0.1605,
       "trade_allowed": true,
       "block_reason": ""
     },
@@ -127,32 +127,32 @@
     "simulated_fills_this_tick": []
   },
   "last_signal": {
-    "btc_close": 67692.5,
-    "btc_sma200": 59543.475,
-    "btc_vol30": 41.59,
+    "btc_close": 67701.3,
+    "btc_sma200": 59543.519,
+    "btc_vol30": 41.6,
     "btc_allowed": true,
     "eth_close": 2128.71,
     "eth_sma200": 1732.33265,
     "eth_vol30": 66.9,
     "eth_allowed": true,
     "allocation_tier": "both",
-    "timestamp": "2026-08-24T21:55:24.827453+00:00",
+    "timestamp": "2026-08-24T22:00:05.550316+00:00",
     "data_last_candle_utc": "2026-08-24T00:00:00+00:00",
     "data_last_candle_date": "2026-08-24",
-    "signal_data_age_days": 0.91
+    "signal_data_age_days": 0.92
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-08-24T21:55:24.827766+00:00",
+    "timestamp": "2026-08-24T22:00:05.550795+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 67000.0,
       "low_20": 54299.8,
       "prev_high_20": 67000.0,
       "prev_low_20": 54299.8,
-      "close": 67692.5,
+      "close": 67701.3,
       "prev_close": 66492.7,
       "signal": "BREAKOUT_UP",
-      "breakout_pct": 1.03,
+      "breakout_pct": 1.05,
       "period": 20
     },
     "eth": {
@@ -202,6 +202,6 @@
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
-    "gaston_telegram": "inactive"
+    "gaston_telegram": ""
   }
 }
