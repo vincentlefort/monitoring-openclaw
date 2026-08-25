@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-25T08:00:41.526131+00:00",
-  "generated_at_unix": 1787644841,
+  "generated_at": "2026-08-25T08:05:41.344110+00:00",
+  "generated_at_unix": 1787645141,
   "ntv": {
-    "generated_at": "2026-08-25T08:00:25.356177+00:00",
+    "generated_at": "2026-08-25T08:05:25.240044+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,21 +17,21 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-08-25T08:00:25.305702+00:00"
+      "last_update": "2026-08-25T08:05:25.198706+00:00"
     },
     "current_signal": {
       "btc": {
-        "close": 68397.5,
-        "sma200": 59586.52449999999,
-        "vol30": 41.54,
+        "close": 68466.3,
+        "sma200": 59586.8685,
+        "vol30": 41.56,
         "trend_ok": true,
         "vol_ok": true,
         "allowed": true,
         "block_reason": ""
       },
       "eth": {
-        "close": 2128.03,
-        "sma200": 1734.22325,
+        "close": 2127.84,
+        "sma200": 1734.2223000000001,
         "vol30": 66.01,
         "trend_ok": true,
         "vol_ok": true,
@@ -65,8 +65,8 @@
           "pair": "BTC/EUR",
           "side": "buy",
           "asset": "BTC",
-          "quantity": 0.022901,
-          "notional_eur": 1566.42,
+          "quantity": 0.02287849,
+          "notional_eur": 1566.41,
           "deviation_pct": -50.0,
           "estimated_cost_eur": 4.8582,
           "cost_breakdown": {
@@ -90,7 +90,7 @@
           "pair": "ETH/EUR",
           "side": "sell",
           "asset": "ETH",
-          "quantity": 0.07773659,
+          "quantity": 0.07773724,
           "notional_eur": 165.41,
           "deviation_pct": 5.28,
           "estimated_cost_eur": 0.5135,
@@ -145,12 +145,12 @@
       ]
     },
     "dry_run_portfolio": {
-      "equity_eur": 3132.84,
-      "pnl_eur": 322.3,
-      "pnl_pct": 11.4677,
+      "equity_eur": 3132.81,
+      "pnl_eur": 322.27,
+      "pnl_pct": 11.4665,
       "exposure": {
         "btc_eur": 0.0,
-        "eth_eur": 1731.93,
+        "eth_eur": 1731.9,
         "eur_cash": 1400.91,
         "btc_pct": 0.0,
         "eth_pct": 55.28,
@@ -167,17 +167,17 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-08-25T08:00:25.038142+00:00",
+        "timestamp": "2026-08-25T08:05:25.027801+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 67699.5,
           "low_20": 54299.8,
           "prev_high_20": 67000.0,
           "prev_low_20": 54299.8,
-          "close": 68397.5,
+          "close": 68466.3,
           "prev_close": 67699.5,
           "signal": "BREAKOUT_UP",
-          "breakout_pct": 2.09,
+          "breakout_pct": 2.19,
           "period": 20
         },
         "eth": {
@@ -185,7 +185,7 @@
           "low_20": 1619.66,
           "prev_high_20": 2151.2,
           "prev_low_20": 1619.66,
-          "close": 2128.03,
+          "close": 2127.84,
           "prev_close": 2126.81,
           "signal": "NONE",
           "breakout_pct": 0.0,
@@ -202,12 +202,12 @@
       {
         "level": "FAIL",
         "guard": "G1",
-        "message": "Portfolio total 3132.84 EUR exceeds max capital 2810.54 EUR"
+        "message": "Portfolio total 3132.81 EUR exceeds max capital 2810.54 EUR"
       },
       {
         "level": "FAIL",
         "guard": "G2",
-        "message": "Portfolio total 3132.84 EUR exceeds hard cap 3000.00 EUR"
+        "message": "Portfolio total 3132.81 EUR exceeds hard cap 3000.00 EUR"
       }
     ],
     "old_bots_status": {
@@ -222,18 +222,18 @@
       "details": [
         {
           "id": "G1",
-          "reason": "Portfolio total 3132.84 EUR exceeds max capital 2810.54 EUR"
+          "reason": "Portfolio total 3132.81 EUR exceeds max capital 2810.54 EUR"
         },
         {
           "id": "G2",
-          "reason": "Portfolio total 3132.84 EUR exceeds hard cap 3000.00 EUR"
+          "reason": "Portfolio total 3132.81 EUR exceeds hard cap 3000.00 EUR"
         }
       ]
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-08-25T10:00:25+02:00",
-      "last_tick_time": "2026-08-25T10:00:25+02:00",
+      "last_tick_at": "2026-08-25T10:05:25+02:00",
+      "last_tick_time": "2026-08-25T10:05:25+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -242,12 +242,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-08-25",
-      "signal_data_age_days": 0.33,
+      "signal_data_age_days": 0.34,
       "source_timestamps": {
-        "dashboard_payload": "2026-08-25T08:00:25.305940+00:00",
-        "signal": "2026-08-25T08:00:25.038071+00:00",
-        "orders_dry_run": "2026-08-25T08:00:25.284909+00:00",
-        "alerts": "2026-08-25T08:00:25.285766+00:00"
+        "dashboard_payload": "2026-08-25T08:05:25.199057+00:00",
+        "signal": "2026-08-25T08:05:25.027740+00:00",
+        "orders_dry_run": "2026-08-25T08:05:25.186188+00:00",
+        "alerts": "2026-08-25T08:05:25.186790+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -260,11 +260,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_WARNING",
       "days_observed": 40,
-      "last_snapshot_time": "2026-08-25T07:55:25.254766+00:00",
+      "last_snapshot_time": "2026-08-25T08:00:25.370130+00:00",
       "last_verdict": "FORWARD_TEST_WARNING",
-      "warnings_count": 1515,
+      "warnings_count": 1516,
       "unsafe_count": 0,
-      "total_snapshots": 11190,
+      "total_snapshots": 11191,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-08-25"
@@ -327,7 +327,7 @@
         "vol_ratio": 0.55
       }
     },
-    "last_tick": "2026-08-25T08:00:29.065719+00:00",
+    "last_tick": "2026-08-25T08:05:28.998767+00:00",
     "tick_status": "OK",
     "freshness": {
       "age_minutes": 0.1,
@@ -461,7 +461,7 @@
         "blocking_reason": "daily_below_sma200, momentum_24h, volume_ok"
       }
     },
-    "last_tick": "2026-08-25T08:00:25.503871+00:00",
+    "last_tick": "2026-08-25T08:05:25.386047+00:00",
     "tick_status": "OK",
     "paper_only": true,
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
@@ -770,7 +770,7 @@
     "us10y_yield": 4.7,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 0.6,
+      "age_minutes": 5.6,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -852,7 +852,7 @@
         "status": "OK"
       },
       "market_context": {
-        "age": 0.6,
+        "age": 5.6,
         "expected": 15,
         "status": "OK"
       },
