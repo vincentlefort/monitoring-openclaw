@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T09:50:27.237657+00:00",
+  "generated_at": "2026-08-25T09:57:38.147040+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -197,14 +197,8 @@
   },
   "alerts": [
     {
-      "level": "FAIL",
-      "guard": "G1",
-      "message": "Portfolio total 3130.50 EUR exceeds max capital 2810.54 EUR"
-    },
-    {
-      "level": "FAIL",
-      "guard": "G2",
-      "message": "Portfolio total 3130.50 EUR exceeds hard cap 3000.00 EUR"
+      "level": "ERROR",
+      "message": "OHLC fetch failed"
     }
   ],
   "old_bots_status": {
@@ -228,9 +222,9 @@
     ]
   },
   "ntv_tick": {
-    "last_tick_ok": true,
-    "last_tick_at": "2026-08-25T11:50:27+02:00",
-    "last_tick_time": "2026-08-25T11:50:27+02:00",
+    "last_tick_ok": false,
+    "last_tick_at": "2026-08-25T11:57:38+02:00",
+    "last_tick_time": "2026-08-25T11:57:38+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -239,29 +233,29 @@
       "max_candle_age_days": 2.0
     },
     "data_last_candle_date": "2026-08-25",
-    "signal_data_age_days": 0.41,
+    "signal_data_age_days": 0.42,
     "source_timestamps": {
       "dashboard_payload": "2026-08-25T09:50:27.187192+00:00",
       "signal": "2026-08-25T09:50:26.923561+00:00",
       "orders_dry_run": "2026-08-25T09:50:27.167192+00:00",
-      "alerts": "2026-08-25T09:50:27.168146+00:00"
+      "alerts": "2026-08-25T09:57:38.099741+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 0.0,
-      "signal": 0.0,
-      "orders_dry_run": 0.0,
+      "dashboard_payload": 7.2,
+      "signal": 7.2,
+      "orders_dry_run": 7.2,
       "alerts": 0.0
     },
-    "freshness_status": "OK"
+    "freshness_status": "ERROR"
   },
   "forward_test": {
-    "status": "FORWARD_TEST_WARNING",
+    "status": "FORWARD_TEST_UNSAFE",
     "days_observed": 40,
-    "last_snapshot_time": "2026-08-25T09:45:25.578882+00:00",
-    "last_verdict": "FORWARD_TEST_WARNING",
-    "warnings_count": 1537,
+    "last_snapshot_time": "2026-08-25T09:50:27.250931+00:00",
+    "last_verdict": "FORWARD_TEST_UNSAFE",
+    "warnings_count": 1538,
     "unsafe_count": 0,
-    "total_snapshots": 11212,
+    "total_snapshots": 11213,
     "date_range": {
       "start": "2026-07-17",
       "end": "2026-08-25"
