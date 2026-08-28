@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-28T06:40:25.922535+00:00",
+  "timestamp": "2026-08-28T06:45:26.617402+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -11,8 +11,8 @@
   },
   "current_allocation": {
     "btc_pct": 0.0,
-    "eth_pct": 55.51,
-    "eur_pct": 44.49
+    "eth_pct": 55.52,
+    "eur_pct": 44.48
   },
   "target_allocation": {
     "btc_pct": 50.0,
@@ -21,27 +21,27 @@
   },
   "allocation_deviation": {
     "btc_deviation_pct": -50.0,
-    "eth_deviation_pct": 5.51,
-    "eur_deviation_pct": 44.49
+    "eth_deviation_pct": 5.52,
+    "eur_deviation_pct": 44.48
   },
   "recommended_orders": [
     {
       "pair": "BTC/EUR",
       "side": "buy",
       "asset": "BTC",
-      "quantity": 0.0229619,
-      "notional_eur": 1574.5,
+      "quantity": 0.02296004,
+      "notional_eur": 1574.6,
       "deviation_pct": -50.0,
-      "estimated_cost_eur": 4.8832,
+      "estimated_cost_eur": 4.8836,
       "cost_breakdown": {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
         "spread_estimate_pct": 0.0001,
         "slippage_estimate_pct": 0.05,
-        "fee_eur": 4.0937,
+        "fee_eur": 4.094,
         "spread_eur": 0.0023,
         "slippage_eur": 0.7873,
-        "total_cost_eur": 4.8832,
+        "total_cost_eur": 4.8836,
         "cost_pct_of_order": 0.3101,
         "cost_pct_of_portfolio": 0.1551,
         "trade_allowed": true,
@@ -54,21 +54,21 @@
       "pair": "ETH/EUR",
       "side": "sell",
       "asset": "ETH",
-      "quantity": 0.08078757,
-      "notional_eur": 173.51,
-      "deviation_pct": 5.51,
-      "estimated_cost_eur": 0.5516,
+      "quantity": 0.08093,
+      "notional_eur": 173.84,
+      "deviation_pct": 5.52,
+      "estimated_cost_eur": 0.5575,
       "cost_breakdown": {
         "maker_fee_pct": 0.16,
         "taker_fee_pct": 0.26,
-        "spread_estimate_pct": 0.0079,
+        "spread_estimate_pct": 0.0107,
         "slippage_estimate_pct": 0.05,
-        "fee_eur": 0.4511,
-        "spread_eur": 0.0137,
-        "slippage_eur": 0.0868,
-        "total_cost_eur": 0.5516,
-        "cost_pct_of_order": 0.3179,
-        "cost_pct_of_portfolio": 0.0175,
+        "fee_eur": 0.452,
+        "spread_eur": 0.0186,
+        "slippage_eur": 0.0869,
+        "total_cost_eur": 0.5575,
+        "cost_pct_of_order": 0.3207,
+        "cost_pct_of_portfolio": 0.0177,
         "trade_allowed": true,
         "block_reason": ""
       },
@@ -82,10 +82,10 @@
       "taker_fee_pct": 0.26,
       "spread_estimate_pct": 0.0001,
       "slippage_estimate_pct": 0.05,
-      "fee_eur": 4.0937,
+      "fee_eur": 4.094,
       "spread_eur": 0.0023,
       "slippage_eur": 0.7873,
-      "total_cost_eur": 4.8832,
+      "total_cost_eur": 4.8836,
       "cost_pct_of_order": 0.3101,
       "cost_pct_of_portfolio": 0.1551,
       "trade_allowed": true,
@@ -94,30 +94,30 @@
     {
       "maker_fee_pct": 0.16,
       "taker_fee_pct": 0.26,
-      "spread_estimate_pct": 0.0079,
+      "spread_estimate_pct": 0.0107,
       "slippage_estimate_pct": 0.05,
-      "fee_eur": 0.4511,
-      "spread_eur": 0.0137,
-      "slippage_eur": 0.0868,
-      "total_cost_eur": 0.5516,
-      "cost_pct_of_order": 0.3179,
-      "cost_pct_of_portfolio": 0.0175,
+      "fee_eur": 0.452,
+      "spread_eur": 0.0186,
+      "slippage_eur": 0.0869,
+      "total_cost_eur": 0.5575,
+      "cost_pct_of_order": 0.3207,
+      "cost_pct_of_portfolio": 0.0177,
       "trade_allowed": true,
       "block_reason": ""
     }
   ],
   "executed_orders": [],
   "dry_run_portfolio": {
-    "equity_eur": 3149.0,
-    "pnl_eur": 338.46,
-    "pnl_pct": 12.0425,
+    "equity_eur": 3149.2,
+    "pnl_eur": 338.66,
+    "pnl_pct": 12.0498,
     "exposure": {
       "btc_eur": 0.0,
-      "eth_eur": 1748.09,
+      "eth_eur": 1748.29,
       "eur_cash": 1400.91,
       "btc_pct": 0.0,
-      "eth_pct": 55.51,
-      "eur_pct": 44.49
+      "eth_pct": 55.52,
+      "eur_pct": 44.48
     },
     "fees_paid_cum_eur": 4.3563,
     "trades_count": 1,
@@ -127,32 +127,32 @@
     "simulated_fills_this_tick": []
   },
   "last_signal": {
-    "btc_close": 68570.0,
-    "btc_sma200": 59721.3165,
-    "btc_vol30": 40.54,
+    "btc_close": 68580.1,
+    "btc_sma200": 59721.367,
+    "btc_vol30": 40.53,
     "btc_allowed": true,
-    "eth_close": 2147.73,
-    "eth_sma200": 1739.7902000000001,
+    "eth_close": 2147.98,
+    "eth_sma200": 1739.7914500000002,
     "eth_vol30": 65.19,
     "eth_allowed": true,
     "allocation_tier": "both",
-    "timestamp": "2026-08-28T06:40:25.763277+00:00",
+    "timestamp": "2026-08-28T06:45:26.359039+00:00",
     "data_last_candle_utc": "2026-08-28T00:00:00+00:00",
     "data_last_candle_date": "2026-08-28",
     "signal_data_age_days": 0.28
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-08-28T06:40:25.763552+00:00",
+    "timestamp": "2026-08-28T06:45:26.360502+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 68904.4,
       "low_20": 54299.8,
       "prev_high_20": 67787.7,
       "prev_low_20": 54299.8,
-      "close": 68570.0,
+      "close": 68580.1,
       "prev_close": 68904.4,
       "signal": "BREAKOUT_UP",
-      "breakout_pct": 1.15,
+      "breakout_pct": 1.17,
       "period": 20
     },
     "eth": {
@@ -160,7 +160,7 @@
       "low_20": 1619.66,
       "prev_high_20": 2151.2,
       "prev_low_20": 1619.66,
-      "close": 2147.73,
+      "close": 2147.98,
       "prev_close": 2155.34,
       "signal": "NONE",
       "breakout_pct": 0.0,
@@ -176,12 +176,12 @@
     {
       "level": "FAIL",
       "guard": "G1",
-      "message": "Portfolio total 3149.00 EUR exceeds max capital 2810.54 EUR"
+      "message": "Portfolio total 3149.20 EUR exceeds max capital 2810.54 EUR"
     },
     {
       "level": "FAIL",
       "guard": "G2",
-      "message": "Portfolio total 3149.00 EUR exceeds hard cap 3000.00 EUR"
+      "message": "Portfolio total 3149.20 EUR exceeds hard cap 3000.00 EUR"
     }
   ],
   "safety_status": {
@@ -191,11 +191,11 @@
     "details": [
       {
         "id": "G1",
-        "reason": "Portfolio total 3149.00 EUR exceeds max capital 2810.54 EUR"
+        "reason": "Portfolio total 3149.20 EUR exceeds max capital 2810.54 EUR"
       },
       {
         "id": "G2",
-        "reason": "Portfolio total 3149.00 EUR exceeds hard cap 3000.00 EUR"
+        "reason": "Portfolio total 3149.20 EUR exceeds hard cap 3000.00 EUR"
       }
     ]
   },
