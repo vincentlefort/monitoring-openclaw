@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-30T18:20:38.127343+00:00",
-  "generated_at_unix": 1788114038,
+  "generated_at": "2026-08-30T18:25:38.054114+00:00",
+  "generated_at_unix": 1788114338,
   "ntv": {
-    "generated_at": "2026-08-30T18:20:27.986665+00:00",
+    "generated_at": "2026-08-30T18:25:27.983724+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,12 +17,12 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-08-30T18:20:27.932721+00:00"
+      "last_update": "2026-08-30T18:25:27.925522+00:00"
     },
     "current_signal": {
       "btc": {
-        "close": 68130.0,
-        "sma200": 59821.194500000005,
+        "close": 68100.0,
+        "sma200": 59821.0445,
         "vol30": 39.77,
         "trend_ok": true,
         "vol_ok": true,
@@ -65,7 +65,7 @@
           "pair": "BTC/EUR",
           "side": "buy",
           "asset": "BTC",
-          "quantity": 0.02319164,
+          "quantity": 0.02320186,
           "notional_eur": 1580.05,
           "deviation_pct": -50.0,
           "estimated_cost_eur": 4.9005,
@@ -167,14 +167,14 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-08-30T18:20:27.705240+00:00",
+        "timestamp": "2026-08-30T18:25:27.723883+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 68904.4,
           "low_20": 54299.8,
           "prev_high_20": 68904.4,
           "prev_low_20": 54299.8,
-          "close": 68130.0,
+          "close": 68100.0,
           "prev_close": 67596.6,
           "signal": "NONE",
           "breakout_pct": 0.0,
@@ -232,8 +232,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-08-30T20:20:27+02:00",
-      "last_tick_time": "2026-08-30T20:20:27+02:00",
+      "last_tick_at": "2026-08-30T20:25:27+02:00",
+      "last_tick_time": "2026-08-30T20:25:27+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -242,12 +242,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-08-30",
-      "signal_data_age_days": 0.76,
+      "signal_data_age_days": 0.77,
       "source_timestamps": {
-        "dashboard_payload": "2026-08-30T18:20:27.932781+00:00",
-        "signal": "2026-08-30T18:20:27.704992+00:00",
-        "orders_dry_run": "2026-08-30T18:20:27.913781+00:00",
-        "alerts": "2026-08-30T18:20:27.915593+00:00"
+        "dashboard_payload": "2026-08-30T18:25:27.926039+00:00",
+        "signal": "2026-08-30T18:25:27.723773+00:00",
+        "orders_dry_run": "2026-08-30T18:25:27.906213+00:00",
+        "alerts": "2026-08-30T18:25:27.907213+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -260,11 +260,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_WARNING",
       "days_observed": 45,
-      "last_snapshot_time": "2026-08-30T18:15:27.743296+00:00",
+      "last_snapshot_time": "2026-08-30T18:20:28.000404+00:00",
       "last_verdict": "FORWARD_TEST_WARNING",
-      "warnings_count": 3089,
+      "warnings_count": 3090,
       "unsafe_count": 0,
-      "total_snapshots": 12763,
+      "total_snapshots": 12764,
       "date_range": {
         "start": "2026-07-17",
         "end": "2026-08-30"
@@ -299,7 +299,7 @@
     "us10y_yield": 4.72,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 5.5,
+      "age_minutes": 10.5,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -381,7 +381,7 @@
         "status": "MISSING"
       },
       "market_context": {
-        "age": 5.5,
+        "age": 10.5,
         "expected": 15,
         "status": "OK"
       },
