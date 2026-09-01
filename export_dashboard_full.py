@@ -70,29 +70,81 @@ def main():
     }
     fused["swing_paper"] = swing
 
-    # ── 2b. Recovery Paper data (engine source lost; historical archive preserved) ──
-    # Frozen historical summary (20 closed trades, reconciled net EUR 2531.93) from
-    # /home/openclaw/trading_stack/recovered_paper_history/recovery/ (HISTORICAL only).
-    recovery = {
-        "status": "PAUSED_ENGINE_LOST",
-        "reason": "engine_source_and_runtime_state_lost",
-        "continuity": False,
-        "last_known_good_utc": "2026-08-28T13:50:13+00:00",
-        "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
-        "paper_only": True,
-        "historical": {
-            "closed_trades": 20,
-            "net_pnl_eur": 2531.93,
-            "recovery_a": {"closed_trades": 8, "net_pnl_eur": 1321.94, "win_rate": 62.5},
-            "recovery_b": {"closed_trades": 12, "net_pnl_eur": 1209.99, "win_rate": 58.3},
-            "source": "/home/openclaw/trading_stack/recovered_paper_history/recovery/",
-        },
-        "portfolios": {},
-        "signals": {},
-        "open_trades": {},
-        "closed_trades": {},
-        "freshness": {"status": "PAUSED"},
+    # ── 2b. Recovery Paper data (fresh paper reimplementation, live) ──
+    # Historical archive (20 closed trades, reconciled net EUR 2531.93) stays
+    # archive-only. Current fresh paper state comes from the reimplemented engine's
+    # monitoring payload (separate from the historical PnL).
+    recovery_live = safe_read(
+        "/home/openclaw/trading_stack/kraken_recovery_paper_trading/state/recovery_monitoring.json"
+    ) or {}
+
+    recovery_historical = {
+        "closed_trades": 20,
+        "net_pnl_eur": 2531.93,
+        "recovery_a": {"closed_trades": 8, "net_pnl_eur": 1321.94, "win_rate": 62.5},
+        "recovery_b": {"closed_trades": 12, "net_pnl_eur": 1209.99, "win_rate": 58.3},
+        "source": "/home/openclaw/trading_stack/recovered_paper_history/recovery/",
     }
+
+    recovery_age = None
+    last_tick_utc = recovery_live.get("last_tick_utc")
+    if last_tick_utc:
+        try:
+            recovery_age = round(
+                (now - datetime.fromisoformat(last_tick_utc)).total_seconds() / 60.0, 1
+            )
+        except Exception:
+            recovery_age = None
+
+    recovery_active = (
+        recovery_live.get("status") == "ACTIVE_PAPER_REIMPLEMENTED"
+        and recovery_age is not None
+    )
+    if recovery_active:
+        # 4h bar cadence: OK within one interval + 30 min grace; DELAYED within
+        # 6h; STALE beyond (a missed tick / scheduler failure).
+        if recovery_age > 360:
+            recovery_fresh = "STALE"
+        elif recovery_age > 270:
+            recovery_fresh = "DELAYED"
+        else:
+            recovery_fresh = "OK"
+        recovery = {
+            "status": "ACTIVE_PAPER_REIMPLEMENTED",
+            "reason": recovery_live.get("reason", "reimplemented_from_reverse_spec"),
+            "continuity": False,
+            "implementation": recovery_live.get("implementation"),
+            "historical_engine_continuity": recovery_live.get("historical_engine_continuity", False),
+            "last_tick_utc": last_tick_utc,
+            "last_bar_utc": recovery_live.get("last_bar_utc"),
+            "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
+            "paper_only": True,
+            "historical": recovery_historical,
+            "portfolios": recovery_live.get("portfolios", {}),
+            "signals": recovery_live.get("signals", {}),
+            "open_trades": {},
+            "closed_trades": {},
+            "freshness": {
+                "status": recovery_fresh,
+                "age_minutes": recovery_age,
+                "expected_interval_minutes": 240,
+            },
+        }
+    else:
+        recovery = {
+            "status": "PAUSED_ENGINE_LOST",
+            "reason": "engine_source_and_runtime_state_lost",
+            "continuity": False,
+            "last_known_good_utc": "2026-08-28T13:50:13+00:00",
+            "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
+            "paper_only": True,
+            "historical": recovery_historical,
+            "portfolios": {},
+            "signals": {},
+            "open_trades": {},
+            "closed_trades": {},
+            "freshness": {"status": "PAUSED"},
+        }
     fused["recovery_paper"] = recovery
 
     # ── 3. Market context ──
@@ -140,7 +192,7 @@ def main():
         },
         "recovery_paper": {
             "name": "Recovery Paper R1",
-            "status": "PAUSED_ENGINE_LOST",
+            "status": recovery.get("status", "PAUSED_ENGINE_LOST"),
             "mode": "PAPER",
             "type": "futures",
             "strategy": "R1 Recovery Rebound",
@@ -181,7 +233,7 @@ def main():
         "ntv_tick": {"age": ntv.get("ntv_tick", {}).get("age_minutes"), "expected": 5, "status": ntv.get("ntv_tick", {}).get("freshness_status", "UNKNOWN")},
         "ntv_signal": {"age": file_age_minutes(os.path.join(NTV_OUTPUT_DIR, "signal.json")), "expected": 5, "status": None},
         "swing_paper": {"age": None, "expected": None, "status": "PAUSED", "paused": True},
-        "recovery_paper": {"age": None, "expected": None, "status": "PAUSED", "paused": True},
+        "recovery_paper": {"age": recovery_age, "expected": 240, "status": recovery.get("freshness", {}).get("status", "UNKNOWN"), "paused": not recovery_active},
         "market_context": {"age": market_age, "expected": 15, "status": None},
         "legacy_bots": {"age": legacy_age, "expected": 360, "status": None},
         "stocks_json": {"age": file_age_minutes(os.path.join(DASHBOARD_DATA_DIR, "stocks.json")), "expected": 360, "status": None},
