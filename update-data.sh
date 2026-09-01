@@ -122,11 +122,11 @@ python3 /home/openclaw/kraken_auto_spot_ntv/src/forward_test_snapshot.py 2>/dev/
 # Exporter le statut reel des legacy bots
 python3 ./export_legacy_bots_status.py 2>/dev/null || echo "Export legacy bots status échoué"
 
-# Tick Recovery Paper Trading (read-only, no orders, R1 Recovery Rebound)
-python3 /tmp/opencode/kraken_recovery_paper_trading/engine.py --tick 2>/dev/null || echo "Recovery tick failed"
-
-# Tick Swing Paper Trading (read-only, no orders)
-python3 /tmp/opencode/kraken_swing_paper_trading/engine.py --tick 2>/dev/null || echo "Swing tick failed"
+# Swing + Recovery paper engines are LOST (source under /tmp/opencode was removed).
+# Their status is now PAUSED_ENGINE_LOST (historical data preserved under
+# /home/openclaw/trading_stack/recovered_paper_history/). Do NOT attempt to execute
+# any /tmp/opencode engine.py. export_dashboard_full.py emits the frozen
+# historical summary directly.
 
 # Generer les donnees financieres corrigees (finance.json + finance_detail.json)
 python3 ./update-finance-json.py 2>/dev/null || echo "Finance JSON generation echouee"

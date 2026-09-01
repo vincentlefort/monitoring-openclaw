@@ -10,8 +10,6 @@ from datetime import datetime, timezone, timedelta
 
 DASHBOARD_DATA_DIR = "/home/openclaw/monitoring-site/data"
 NTV_OUTPUT_DIR = "/home/openclaw/kraken_auto_spot_ntv/output"
-SWING_DIR = "/tmp/opencode/kraken_swing_paper_trading"
-RECOVERY_DIR = "/tmp/opencode/kraken_recovery_paper_trading"
 MARKET_STATE_PATH = "/home/openclaw/shared/market_state.json"
 OUTPUT_FILE = os.path.join(DASHBOARD_DATA_DIR, "dashboard_full.json")
 
@@ -52,210 +50,49 @@ def main():
     ntv = safe_read(os.path.join(DASHBOARD_DATA_DIR, "ntv.json")) or {}
     fused["ntv"] = ntv
 
-    # ── 2. Swing Paper data ──
-    swing = {"status": "UNAVAILABLE", "portfolios": {}, "signals": {}}
-    swing_tick = safe_read(os.path.join(SWING_DIR, "tick_result.json"))
-    swing_state_a = safe_read(os.path.join(SWING_DIR, "paper_state_PaperA_Conservative.json"))
-    swing_state_b = safe_read(os.path.join(SWING_DIR, "paper_state_PaperB_Aggressive.json"))
-    swing_results = safe_read(os.path.join(SWING_DIR, "results.json"))
-    swing_csv_age = file_age_minutes(os.path.join(SWING_DIR, "dashboard.csv"))
-
-    if swing_tick:
-        swing["status"] = "OK"
-        swing["last_tick"] = swing_tick.get("timestamp", "")
-        swing["signals"] = swing_tick.get("signals", {})
-        swing["tick_status"] = swing_tick.get("status", "UNKNOWN")
-        for pf_name, pf_data in swing_tick.get("portfolios", {}).items():
-            s = pf_data.get("summary", {})
-            swing["portfolios"][pf_name] = {
-                "cash": s.get("cash", 0),
-                "active_positions": s.get("active_positions", 0),
-                "closed_trades": s.get("total_closed_trades", 0),
-                "total_net_eur": s.get("total_net_eur", 0),
-                "win_rate": s.get("win_rate", 0),
-                "active_assets": s.get("active_assets", []),
-            }
-        swing["freshness"] = {
-            "age_minutes": swing_csv_age,
-            "status": freshness_status(swing_csv_age, 5) if swing_csv_age is not None else "MISSING",
-            "expected_interval_minutes": 5,
-        }
-    else:
-        swing["freshness"] = {"status": "MISSING"}
-
-    # Swing active positions detail
-    swing["active_trades"] = {}
-    for pf_name, state in [("PaperA_Conservative", swing_state_a), ("PaperB_Aggressive", swing_state_b)]:
-        if state and state.get("active_trades"):
-            for t in state["active_trades"]:
-                key = f"{pf_name}/{t.get('asset','?')}"
-                swing["active_trades"][key] = {
-                    "asset": t.get("asset"),
-                    "portfolio": pf_name,
-                    "entry_time": t.get("entry_time"),
-                    "entry_price": t.get("entry_price"),
-                    "duration_hours": t.get("duration_hours"),
-                    "status": t.get("status"),
-                }
-
+    # ── 2. Swing Paper data (engine source lost; historical archive preserved) ──
+    # Frozen historical summary sourced from the durable recovered dataset under
+    # /home/openclaw/trading_stack/recovered_paper_history/ (do NOT treat as live).
+    swing = {
+        "status": "PAUSED_ENGINE_LOST",
+        "reason": "engine_source_and_runtime_state_lost",
+        "continuity": False,
+        "last_known_good_utc": "2026-08-28T13:50:19+00:00",
+        "historical": {
+            "closed_trades": 0,
+            "orphaned_positions": 2,
+            "source": "/home/openclaw/trading_stack/recovered_paper_history/swing/",
+        },
+        "portfolios": {},
+        "signals": {},
+        "active_trades": {},
+        "freshness": {"status": "PAUSED"},
+    }
     fused["swing_paper"] = swing
 
-    # ── 2b. Recovery Paper data ──
-    recovery = {"status": "UNAVAILABLE", "portfolios": {}, "signals": {}}
-    recovery_tick = safe_read(os.path.join(RECOVERY_DIR, "tick_result.json"))
-    recovery_state_a = safe_read(os.path.join(RECOVERY_DIR, "paper_state_recovery_a.json"))
-    recovery_state_b = safe_read(os.path.join(RECOVERY_DIR, "paper_state_recovery_b.json"))
-    recovery_results = safe_read(os.path.join(RECOVERY_DIR, "results.json"))
-    recovery_csv_age = file_age_minutes(os.path.join(RECOVERY_DIR, "dashboard.csv"))
-
-    if recovery_tick:
-        recovery["status"] = "OK"
-        recovery["last_tick"] = recovery_tick.get("timestamp", "")
-        recovery["tick_status"] = recovery_tick.get("status", "UNKNOWN")
-        recovery["paper_only"] = True
-        recovery["strategy"] = "R1 Recovery Rebound (sub-SMA200 bear regime)"
-
-        # Portfolios
-        for pf_key, pf_data in recovery_tick.get("portfolios", {}).items():
-            s = pf_data.get("summary", {})
-            pf_name = {"recovery_a": "Recovery A Conservative (48h)", "recovery_b": "Recovery B Aggressive (24h)"}.get(pf_key, pf_key)
-            pf_assets = {"recovery_a": ["BTC", "SOL", "XRP"], "recovery_b": ["SOL", "XRP", "DOGE"]}.get(pf_key, [])
-
-            tick_closed = s.get("total_closed", 0)
-            tick_net = s.get("total_net_eur", 0)
-            counted_closed = tick_closed
-            counted_net = tick_net
-            counted_wins = 0
-            hf = os.path.join(RECOVERY_DIR, f"paper_trade_history_{pf_key}.jsonl")
-            if os.path.exists(hf):
-                try:
-                    history_closed = 0
-                    history_net = 0.0
-                    history_wins = 0
-                    with open(hf) as fh:
-                        for line in fh:
-                            try:
-                                ht = json.loads(line)
-                                if ht.get("asset") and ht.get("status") == "CLOSED":
-                                    history_closed += 1
-                                    pnl = ht.get("net_pnl_eur") or 0
-                                    history_net += pnl
-                                    if pnl > 0:
-                                        history_wins += 1
-                            except Exception:
-                                pass
-                    if history_closed > 0:
-                        counted_closed = history_closed
-                        counted_net = history_net
-                        counted_wins = history_wins
-                except Exception:
-                    pass
-
-            recovery["portfolios"][pf_key] = {
-                "name": pf_name,
-                "badge": "PAPER",
-                "duration": "48h" if pf_key == "recovery_a" else "24h",
-                "assets": pf_assets,
-                "capital": s.get("capital", 6500),
-                "cash": s.get("cash", 6500),
-                "active_positions": s.get("active_positions", 0),
-                "closed_trades": counted_closed,
-                "total_net_eur": round(counted_net, 2),
-                "win_rate": round(counted_wins / max(1, counted_closed) * 100, 1) if counted_closed > 0 else s.get("win_rate", 0),
-                "active_assets": s.get("active_assets", []),
-            }
-
-        # Signals with condition detail
-        raw_signals = recovery_tick.get("signals", {})
-        recovery["signals"] = {}
-        for asset, sig in raw_signals.items():
-            conds = sig.get("conditions", {})
-            passed = sum(1 for v in conds.values() if v)
-            total = len(conds)
-            blocked = [k for k, v in conds.items() if not v]
-            recovery["signals"][asset] = {
-                "status": sig.get("signal", "NONE"),
-                "close": sig.get("close"),
-                "conditions_passed": passed,
-                "conditions_total": total,
-                "conditions": conds,
-                "daily_close": sig.get("daily_close"),
-                "sma200": sig.get("sma200"),
-                "sma20_daily": sig.get("sma20"),
-                "sma50_4h": sig.get("sma50_4h"),
-                "blocking_reason": ", ".join(blocked) if blocked else "NONE_ALL_PASSED",
-            }
-
-        recovery["open_trades"] = {}
-        raw_signals_for_price = recovery_tick.get("signals", {})
-        for pf_key, state in [("recovery_a", recovery_state_a), ("recovery_b", recovery_state_b)]:
-            if state and state.get("active_trades"):
-                last_bar = state.get("last_bar_processed", {})
-                for t in state["active_trades"]:
-                    asset = t.get("asset", "?")
-                    entry_bar = t.get("entry_bar_idx", 0)
-                    duration_bars = t.get("duration_bars", 12)
-                    bars_held = max(0, last_bar.get(asset, 0) - entry_bar)
-                    bars_remaining = max(0, duration_bars - bars_held)
-                    sig = raw_signals_for_price.get(asset, {})
-                    recovery["open_trades"][f"{pf_key}/{asset}"] = {
-                        "asset": asset,
-                        "portfolio": pf_key,
-                        "badge": "OPEN",
-                        "entry_time": t.get("entry_time"),
-                        "entry_price": t.get("entry_price"),
-                        "duration_hours": t.get("duration_hours"),
-                        "duration_bars": duration_bars,
-                        "entry_bar_idx": entry_bar,
-                        "bars_held": bars_held,
-                        "bars_remaining": bars_remaining,
-                        "hours_held": bars_held * 4,
-                        "hours_remaining": bars_remaining * 4,
-                        "size_eur": 2166.67,
-                        "current_price": sig.get("close"),
-                        "current_signal": sig.get("signal", "NONE"),
-                        "status": t.get("status"),
-                    }
-
-        recovery["closed_trades"] = {}
-        for pf_key in ["recovery_a", "recovery_b"]:
-            hf = os.path.join(RECOVERY_DIR, f"paper_trade_history_{pf_key}.jsonl")
-            if os.path.exists(hf):
-                with open(hf) as f:
-                    for line in f:
-                        try:
-                            t = json.loads(line)
-                            if not t.get("asset"): continue
-                            asset = t.get("asset", "?")
-                            key = f"{pf_key}/{asset}"
-                            if key in recovery["closed_trades"]:
-                                key = f"{pf_key}/{asset}_{t.get('closed_at','?')}"
-                            recovery["closed_trades"][key] = {
-                                "asset": asset,
-                                "portfolio": pf_key,
-                                "badge": "CLOSED",
-                                "entry_time": t.get("entry_time"),
-                                "entry_price": t.get("entry_price"),
-                                "exit_time": t.get("exit_time"),
-                                "exit_price": t.get("exit_price"),
-                                "duration_hours": t.get("duration_hours"),
-                                "gross_pnl_pct": t.get("gross_pnl_pct"),
-                                "net_pnl_pct": t.get("net_pnl_pct"),
-                                "net_pnl_eur": t.get("net_pnl_eur"),
-                                "reason_exit": t.get("reason_exit"),
-                                "status": t.get("status", "CLOSED"),
-                            }
-                        except Exception:
-                            pass
-
-        recovery["freshness"] = {
-            "age_minutes": recovery_csv_age,
-            "status": freshness_status(recovery_csv_age, 5) if recovery_csv_age is not None else "MISSING",
-            "expected_interval_minutes": 5,
-        }
-    else:
-        recovery["freshness"] = {"status": "MISSING"}
-
+    # ── 2b. Recovery Paper data (engine source lost; historical archive preserved) ──
+    # Frozen historical summary (20 closed trades, reconciled net EUR 2531.93) from
+    # /home/openclaw/trading_stack/recovered_paper_history/recovery/ (HISTORICAL only).
+    recovery = {
+        "status": "PAUSED_ENGINE_LOST",
+        "reason": "engine_source_and_runtime_state_lost",
+        "continuity": False,
+        "last_known_good_utc": "2026-08-28T13:50:13+00:00",
+        "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
+        "paper_only": True,
+        "historical": {
+            "closed_trades": 20,
+            "net_pnl_eur": 2531.93,
+            "recovery_a": {"closed_trades": 8, "net_pnl_eur": 1321.94, "win_rate": 62.5},
+            "recovery_b": {"closed_trades": 12, "net_pnl_eur": 1209.99, "win_rate": 58.3},
+            "source": "/home/openclaw/trading_stack/recovered_paper_history/recovery/",
+        },
+        "portfolios": {},
+        "signals": {},
+        "open_trades": {},
+        "closed_trades": {},
+        "freshness": {"status": "PAUSED"},
+    }
     fused["recovery_paper"] = recovery
 
     # ── 3. Market context ──
@@ -296,14 +133,14 @@ def main():
         },
         "swing_paper": {
             "name": "Swing Futures Paper",
-            "status": "ACTIVE_PAPER",
+            "status": "PAUSED_ENGINE_LOST",
             "mode": "PAPER",
             "type": "futures",
             "freshness": swing.get("freshness", {}).get("status", "UNKNOWN"),
         },
         "recovery_paper": {
             "name": "Recovery Paper R1",
-            "status": "ACTIVE_PAPER",
+            "status": "PAUSED_ENGINE_LOST",
             "mode": "PAPER",
             "type": "futures",
             "strategy": "R1 Recovery Rebound",
@@ -343,13 +180,15 @@ def main():
     sources = {
         "ntv_tick": {"age": ntv.get("ntv_tick", {}).get("age_minutes"), "expected": 5, "status": ntv.get("ntv_tick", {}).get("freshness_status", "UNKNOWN")},
         "ntv_signal": {"age": file_age_minutes(os.path.join(NTV_OUTPUT_DIR, "signal.json")), "expected": 5, "status": None},
-        "swing_paper": {"age": swing_csv_age, "expected": 5, "status": swing.get("freshness", {}).get("status", "UNKNOWN")},
-        "recovery_paper": {"age": recovery_csv_age, "expected": 5, "status": recovery.get("freshness", {}).get("status", "UNKNOWN")},
+        "swing_paper": {"age": None, "expected": None, "status": "PAUSED", "paused": True},
+        "recovery_paper": {"age": None, "expected": None, "status": "PAUSED", "paused": True},
         "market_context": {"age": market_age, "expected": 15, "status": None},
         "legacy_bots": {"age": legacy_age, "expected": 360, "status": None},
         "stocks_json": {"age": file_age_minutes(os.path.join(DASHBOARD_DATA_DIR, "stocks.json")), "expected": 360, "status": None},
     }
     for key, src in sources.items():
+        if src.get("paused"):
+            continue
         if src["status"] is None:
             src["status"] = freshness_status(src["age"], src["expected"])
 
@@ -359,6 +198,8 @@ def main():
         "sources_stale": [],
     }
     for key, src in sources.items():
+        if src.get("paused"):
+            continue
         if src["status"] in ("STALE", "MISSING"):
             fused["global_freshness"]["overall_status"] = "WARNING"
             fused["global_freshness"]["sources_stale"].append(key)

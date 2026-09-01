@@ -1367,7 +1367,7 @@ async function loadFull() {
 
 function renderSwingPaper(sw) {
     var badge = document.getElementById('swing-badge');
-    if (badge) { badge.textContent = sw.status === 'OK' ? 'LIVE TICK' : sw.status; badge.className = 'badge ' + (sw.status === 'OK' ? 'badge-green' : sw.status === 'DELAYED' ? 'badge-yellow' : 'badge-red'); }
+    if (badge) { badge.textContent = sw.status === 'OK' ? 'LIVE TICK' : (sw.status === 'PAUSED_ENGINE_LOST' ? 'PAUSED — ENGINE LOST' : sw.status); badge.className = 'badge ' + (sw.status === 'OK' ? 'badge-green' : sw.status === 'DELAYED' ? 'badge-yellow' : sw.status === 'PAUSED_ENGINE_LOST' ? 'badge-gray' : 'badge-red'); }
     var pa = (sw.portfolios || {})['PaperA_Conservative'] || {};
     var pb = (sw.portfolios || {})['PaperB_Aggressive'] || {};
     function setVal(elId, val) { var el = document.getElementById(elId); if (el) { el.textContent = val !== undefined ? val : '—'; } }
@@ -1405,9 +1405,14 @@ function renderSwingPaper(sw) {
 
 function renderRecoveryPaper(rec) {
     var badge = document.getElementById('rec-badge');
-    if (badge) { badge.textContent = rec.status === 'OK' ? 'PAPER TICK' : rec.status; badge.className = 'badge ' + (rec.status === 'OK' ? 'badge-purple' : rec.status === 'DELAYED' ? 'badge-yellow' : 'badge-red'); }
+    if (badge) { badge.textContent = rec.status === 'OK' ? 'PAPER TICK' : (rec.status === 'PAUSED_ENGINE_LOST' ? 'PAUSED — ENGINE LOST' : rec.status); badge.className = 'badge ' + (rec.status === 'OK' ? 'badge-purple' : rec.status === 'DELAYED' ? 'badge-yellow' : rec.status === 'PAUSED_ENGINE_LOST' ? 'badge-gray' : 'badge-red'); }
     var ra = (rec.portfolios || {})['recovery_a'] || {};
     var rb = (rec.portfolios || {})['recovery_b'] || {};
+    if (rec.status === 'PAUSED_ENGINE_LOST') {
+        var hist = rec.historical || {}, ha = hist.recovery_a || {}, hb = hist.recovery_b || {};
+        ra = { total_net_eur: ha.net_pnl_eur, closed_trades: ha.closed_trades };
+        rb = { total_net_eur: hb.net_pnl_eur, closed_trades: hb.closed_trades };
+    }
     function setVal(elId, val, cls) { var el = document.getElementById(elId); if (el) { el.textContent = val !== undefined ? val : '—'; if (cls) el.className = cls; } }
     setVal('rec-a-net', ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—', 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white'));
     setVal('rec-a-net2', ra.total_net_eur !== undefined ? '\u20AC' + ra.total_net_eur.toFixed(0) : '—', 'stat-val ' + (ra.total_net_eur > 0 ? 'green' : ra.total_net_eur < 0 ? 'red' : 'white'));
@@ -1500,13 +1505,13 @@ function renderIncidentsFromFull(data) {
     if (incSwing) {
         var swFr = (data.swing_paper || {}).freshness || {};
         incSwing.textContent = swFr.status || 'UNKNOWN';
-        incSwing.className = swFr.status === 'OK' ? 'green' : 'red';
+        incSwing.className = swFr.status === 'OK' ? 'green' : swFr.status === 'PAUSED' ? 'gray' : 'red';
     }
     var incRec = document.getElementById('inc-rec-fresh');
     if (incRec) {
         var recFr = (data.recovery_paper || {}).freshness || {};
         incRec.textContent = recFr.status || 'UNKNOWN';
-        incRec.className = recFr.status === 'OK' ? 'green' : 'red';
+        incRec.className = recFr.status === 'OK' ? 'green' : recFr.status === 'PAUSED' ? 'gray' : 'red';
     }
 }
 </script>
