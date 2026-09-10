@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-10T03:10:13.319608+00:00",
-  "generated_at_unix": 1789009813,
+  "generated_at": "2026-09-10T03:15:12.766439+00:00",
+  "generated_at_unix": 1789010112,
   "ntv": {
-    "generated_at": "2026-09-10T03:10:03.451302+00:00",
+    "generated_at": "2026-09-10T03:15:02.889042+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-10T03:10:03.423072+00:00"
+      "last_update": "2026-09-10T03:15:02.861591+00:00"
     },
     "current_signal": {
       "btc": {
@@ -65,12 +65,12 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2798.87,
-      "pnl_eur": -11.67,
-      "pnl_pct": -0.4154,
+      "equity_eur": 2798.06,
+      "pnl_eur": -12.48,
+      "pnl_pct": -0.4441,
       "exposure": {
-        "btc_eur": 1404.38,
-        "eth_eur": 1394.48,
+        "btc_eur": 1404.1,
+        "eth_eur": 1393.96,
         "eur_cash": 0.0,
         "btc_pct": 50.18,
         "eth_pct": 49.82,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-10T03:10:03.365846+00:00",
+        "timestamp": "2026-09-10T03:15:02.811007+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-10T05:10:03+02:00",
-      "last_tick_time": "2026-09-10T05:10:03+02:00",
+      "last_tick_at": "2026-09-10T05:15:02+02:00",
+      "last_tick_time": "2026-09-10T05:15:02+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,12 +142,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-09",
-      "signal_data_age_days": 1.13,
+      "signal_data_age_days": 1.14,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-10T03:10:03.422562+00:00",
-        "signal": "2026-09-10T03:10:03.365780+00:00",
-        "orders_dry_run": "2026-09-10T03:10:03.419029+00:00",
-        "alerts": "2026-09-10T03:10:03.419134+00:00"
+        "dashboard_payload": "2026-09-10T03:15:02.861705+00:00",
+        "signal": "2026-09-10T03:15:02.810942+00:00",
+        "orders_dry_run": "2026-09-10T03:15:02.857636+00:00",
+        "alerts": "2026-09-10T03:15:02.857705+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 3,
-      "last_snapshot_time": "2026-09-10T03:05:09.434336+00:00",
+      "last_snapshot_time": "2026-09-10T03:10:03.463943+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 1,
       "unsafe_count": 0,
-      "total_snapshots": 520,
+      "total_snapshots": 521,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-10"
@@ -283,22 +283,22 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 185.2,
+      "age_minutes": 190.2,
       "expected_interval_minutes": 240
     }
   },
   "market_context": {
-    "timestamp": "2026-09-10T05:00:01.756061",
+    "timestamp": "2026-09-10T05:15:01.870275",
     "fear_greed": 69,
     "fear_greed_label": "Greed",
-    "btc_price": 78357.56,
+    "btc_price": 78361.33,
     "btc_change_4h": 0.09,
     "vix": 16.46,
-    "dxy": 98.75,
+    "dxy": 98.73,
     "us10y_yield": 4.84,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 10.1,
+      "age_minutes": 0.1,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -376,13 +376,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 185.2,
+        "age": 190.2,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 10.1,
+        "age": 0.1,
         "expected": 15,
         "status": "OK"
       },
