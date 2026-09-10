@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-10T15:25:19.921509+00:00",
-  "generated_at_unix": 1789053919,
+  "generated_at": "2026-09-10T15:30:12.918964+00:00",
+  "generated_at_unix": 1789054212,
   "ntv": {
-    "generated_at": "2026-09-10T15:25:09.993830+00:00",
+    "generated_at": "2026-09-10T15:30:02.707976+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-10T15:25:09.964856+00:00"
+      "last_update": "2026-09-10T15:30:02.680677+00:00"
     },
     "current_signal": {
       "btc": {
@@ -65,12 +65,12 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2756.3,
-      "pnl_eur": -54.24,
-      "pnl_pct": -1.9298,
+      "equity_eur": 2755.46,
+      "pnl_eur": -55.08,
+      "pnl_pct": -1.9597,
       "exposure": {
-        "btc_eur": 1383.39,
-        "eth_eur": 1372.91,
+        "btc_eur": 1382.91,
+        "eth_eur": 1372.55,
         "eur_cash": 0.0,
         "btc_pct": 50.19,
         "eth_pct": 49.81,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-10T15:25:09.896642+00:00",
+        "timestamp": "2026-09-10T15:30:02.602052+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-10T17:25:09+02:00",
-      "last_tick_time": "2026-09-10T17:25:09+02:00",
+      "last_tick_at": "2026-09-10T17:30:02+02:00",
+      "last_tick_time": "2026-09-10T17:30:02+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,12 +142,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-09",
-      "signal_data_age_days": 1.64,
+      "signal_data_age_days": 1.65,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-10T15:25:09.964991+00:00",
-        "signal": "2026-09-10T15:25:09.896579+00:00",
-        "orders_dry_run": "2026-09-10T15:25:09.960748+00:00",
-        "alerts": "2026-09-10T15:25:09.960868+00:00"
+        "dashboard_payload": "2026-09-10T15:30:02.680780+00:00",
+        "signal": "2026-09-10T15:30:02.601991+00:00",
+        "orders_dry_run": "2026-09-10T15:30:02.676612+00:00",
+        "alerts": "2026-09-10T15:30:02.676735+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 3,
-      "last_snapshot_time": "2026-09-10T15:20:08.703247+00:00",
+      "last_snapshot_time": "2026-09-10T15:25:10.006672+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 1,
       "unsafe_count": 0,
-      "total_snapshots": 667,
+      "total_snapshots": 668,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-10"
@@ -283,22 +283,22 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 200.3,
+      "age_minutes": 205.2,
       "expected_interval_minutes": 240
     }
   },
   "market_context": {
-    "timestamp": "2026-09-10T17:15:01.741838",
+    "timestamp": "2026-09-10T17:30:01.323333",
     "fear_greed": 69,
     "fear_greed_label": "Greed",
-    "btc_price": 77319.59,
-    "btc_change_4h": -0.64,
-    "vix": 17.25,
+    "btc_price": 77090.22,
+    "btc_change_4h": -0.94,
+    "vix": 17.31,
     "dxy": 98.9,
-    "us10y_yield": 4.92,
+    "us10y_yield": 4.93,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 10.2,
+      "age_minutes": 0.1,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -376,13 +376,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 200.3,
+        "age": 205.2,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 10.2,
+        "age": 0.1,
         "expected": 15,
         "status": "OK"
       },
