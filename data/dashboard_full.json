@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T16:32:45.246936+00:00",
-  "generated_at_unix": 1789144365,
+  "generated_at": "2026-09-11T16:37:40.364853+00:00",
+  "generated_at_unix": 1789144660,
   "ntv": {
-    "generated_at": "2026-09-11T16:31:59.528401+00:00",
+    "generated_at": "2026-09-11T16:36:54.766323+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -137,8 +137,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": false,
-      "last_tick_at": "2026-09-11T18:31:59+02:00",
-      "last_tick_time": "2026-09-11T18:31:59+02:00",
+      "last_tick_at": "2026-09-11T18:36:54+02:00",
+      "last_tick_time": "2026-09-11T18:36:54+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -152,12 +152,12 @@
         "dashboard_payload": "2026-09-11T14:25:07.943748+00:00",
         "signal": "2026-09-11T14:25:07.884888+00:00",
         "orders_dry_run": "2026-09-11T14:25:07.939156+00:00",
-        "alerts": "2026-09-11T16:31:59.498622+00:00"
+        "alerts": "2026-09-11T16:36:54.721113+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 126.9,
-        "signal": 126.9,
-        "orders_dry_run": 126.9,
+        "dashboard_payload": 131.8,
+        "signal": 131.8,
+        "orders_dry_run": 131.8,
         "alerts": 0.0
       },
       "freshness_status": "ERROR"
@@ -165,11 +165,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T16:26:48.101027+00:00",
+      "last_snapshot_time": "2026-09-11T16:31:59.541906+00:00",
       "last_verdict": "FORWARD_TEST_UNSAFE",
-      "warnings_count": 27,
+      "warnings_count": 29,
       "unsafe_count": 0,
-      "total_snapshots": 968,
+      "total_snapshots": 969,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -287,8 +287,8 @@
     "open_trades": {},
     "closed_trades": {},
     "freshness": {
-      "status": "OK",
-      "age_minutes": 267.7,
+      "status": "DELAYED",
+      "age_minutes": 272.7,
       "expected_interval_minutes": 240
     }
   },
@@ -303,7 +303,7 @@
     "us10y_yield": 4.92,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 137.6,
+      "age_minutes": 142.6,
       "status": "STALE",
       "expected_interval_minutes": 15
     }
@@ -329,7 +329,7 @@
       "mode": "PAPER",
       "type": "futures",
       "strategy": "R1 Recovery Rebound",
-      "freshness": "OK"
+      "freshness": "DELAYED"
     },
     "gateway": {
       "name": "Telegram Gateway",
@@ -370,7 +370,7 @@
         "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 127.6,
+        "age": 132.5,
         "expected": 5,
         "status": "STALE"
       },
@@ -381,13 +381,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 267.7,
+        "age": 272.7,
         "expected": 240,
-        "status": "OK",
+        "status": "DELAYED",
         "paused": false
       },
       "market_context": {
-        "age": 137.6,
+        "age": 142.6,
         "expected": 15,
         "status": "STALE"
       },
