@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T03:55:17.973936+00:00",
-  "generated_at_unix": 1789098917,
+  "generated_at": "2026-09-11T04:00:16.465568+00:00",
+  "generated_at_unix": 1789099216,
   "ntv": {
-    "generated_at": "2026-09-11T03:55:08.152618+00:00",
+    "generated_at": "2026-09-11T04:00:06.375697+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-11T03:55:08.124660+00:00"
+      "last_update": "2026-09-11T04:00:06.347739+00:00"
     },
     "current_signal": {
       "btc": {
@@ -65,12 +65,12 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2759.66,
-      "pnl_eur": -50.88,
-      "pnl_pct": -1.8103,
+      "equity_eur": 2762.79,
+      "pnl_eur": -47.75,
+      "pnl_pct": -1.6988,
       "exposure": {
-        "btc_eur": 1379.53,
-        "eth_eur": 1380.13,
+        "btc_eur": 1381.14,
+        "eth_eur": 1381.66,
         "eur_cash": 0.0,
         "btc_pct": 49.99,
         "eth_pct": 50.01,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-11T03:55:08.073773+00:00",
+        "timestamp": "2026-09-11T04:00:06.305422+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-11T05:55:08+02:00",
-      "last_tick_time": "2026-09-11T05:55:08+02:00",
+      "last_tick_at": "2026-09-11T06:00:06+02:00",
+      "last_tick_time": "2026-09-11T06:00:06+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,12 +142,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-10",
-      "signal_data_age_days": 1.16,
+      "signal_data_age_days": 1.17,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-11T03:55:08.124777+00:00",
-        "signal": "2026-09-11T03:55:08.073696+00:00",
-        "orders_dry_run": "2026-09-11T03:55:08.120462+00:00",
-        "alerts": "2026-09-11T03:55:08.120583+00:00"
+        "dashboard_payload": "2026-09-11T04:00:06.347859+00:00",
+        "signal": "2026-09-11T04:00:06.305352+00:00",
+        "orders_dry_run": "2026-09-11T04:00:06.343617+00:00",
+        "alerts": "2026-09-11T04:00:06.343756+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T03:50:05.657073+00:00",
+      "last_snapshot_time": "2026-09-11T03:55:08.165286+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 1,
       "unsafe_count": 0,
-      "total_snapshots": 817,
+      "total_snapshots": 818,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -283,22 +283,22 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 230.3,
+      "age_minutes": 235.3,
       "expected_interval_minutes": 240
     }
   },
   "market_context": {
-    "timestamp": "2026-09-11T05:45:01.111788",
+    "timestamp": "2026-09-11T06:00:01.756042",
     "fear_greed": 56,
     "fear_greed_label": "Greed",
-    "btc_price": 76859.72,
-    "btc_change_4h": 0.39,
+    "btc_price": 76877.42,
+    "btc_change_4h": 0.01,
     "vix": 17.84,
     "dxy": 99.17,
     "us10y_yield": 4.94,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 10.2,
+      "age_minutes": 0.1,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -376,13 +376,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 230.3,
+        "age": 235.3,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 10.2,
+        "age": 0.1,
         "expected": 15,
         "status": "OK"
       },
