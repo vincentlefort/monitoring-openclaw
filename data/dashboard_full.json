@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T17:12:27.075049+00:00",
-  "generated_at_unix": 1789146747,
+  "generated_at": "2026-09-11T17:16:46.059694+00:00",
+  "generated_at_unix": 1789147006,
   "ntv": {
-    "generated_at": "2026-09-11T17:11:48.338377+00:00",
+    "generated_at": "2026-09-11T17:16:06.863660+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -137,8 +137,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": false,
-      "last_tick_at": "2026-09-11T19:11:48+02:00",
-      "last_tick_time": "2026-09-11T19:11:48+02:00",
+      "last_tick_at": "2026-09-11T19:16:06+02:00",
+      "last_tick_time": "2026-09-11T19:16:06+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -152,12 +152,12 @@
         "dashboard_payload": "2026-09-11T14:25:07.943748+00:00",
         "signal": "2026-09-11T14:25:07.884888+00:00",
         "orders_dry_run": "2026-09-11T14:25:07.939156+00:00",
-        "alerts": "2026-09-11T17:11:48.311072+00:00"
+        "alerts": "2026-09-11T17:16:06.833064+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 166.7,
-        "signal": 166.7,
-        "orders_dry_run": 166.7,
+        "dashboard_payload": 171.0,
+        "signal": 171.0,
+        "orders_dry_run": 171.0,
         "alerts": 0.0
       },
       "freshness_status": "ERROR"
@@ -165,11 +165,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T17:06:58.755794+00:00",
+      "last_snapshot_time": "2026-09-11T17:11:48.350811+00:00",
       "last_verdict": "FORWARD_TEST_UNSAFE",
-      "warnings_count": 43,
+      "warnings_count": 45,
       "unsafe_count": 0,
-      "total_snapshots": 976,
+      "total_snapshots": 977,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -288,7 +288,7 @@
     "closed_trades": {},
     "freshness": {
       "status": "DELAYED",
-      "age_minutes": 307.4,
+      "age_minutes": 311.8,
       "expected_interval_minutes": 240
     }
   },
@@ -303,7 +303,7 @@
     "us10y_yield": 4.92,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 177.3,
+      "age_minutes": 181.7,
       "status": "STALE",
       "expected_interval_minutes": 15
     }
@@ -358,7 +358,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.6,
+      "legacy_bots_status_age_minutes": 0.7,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -370,7 +370,7 @@
         "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 167.3,
+        "age": 171.6,
         "expected": 5,
         "status": "STALE"
       },
@@ -381,18 +381,18 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 307.4,
+        "age": 311.8,
         "expected": 240,
         "status": "DELAYED",
         "paused": false
       },
       "market_context": {
-        "age": 177.3,
+        "age": 181.7,
         "expected": 15,
         "status": "STALE"
       },
       "legacy_bots": {
-        "age": 0.6,
+        "age": 0.7,
         "expected": 360,
         "status": "OK"
       },
