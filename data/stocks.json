@@ -36,8 +36,8 @@
       "pnl_pct": 3.85,
       "value": 2637.0,
       "pnl_eur": 97.8,
-      "signal": "HOLD",
-      "fresh": true,
+      "signal": "STALE",
+      "fresh": false,
       "pnl_realized": 0,
       "pnl_total": 97.8,
       "pnl_total_pct": 3.85,
@@ -1163,31 +1163,31 @@
   },
   "stops_prices": {
     "ALV.DE": {
-      "price": 439.5,
-      "price_eur": 439.5,
-      "change_pct": -1.32,
-      "currency": "EUR",
-      "value": 2637.0,
-      "pnl_pct": 3.85,
-      "pnl_eur": 97.8,
-      "distance_stop_pct": 1.4,
-      "fresh": true
+      "price": null,
+      "price_eur": null,
+      "change_pct": null,
+      "currency": null,
+      "value": 2539.2,
+      "pnl_pct": 0,
+      "pnl_eur": 0,
+      "distance_stop_pct": -2.39,
+      "fresh": false
     }
   },
   "stops_summary": {
     "positions_count": 1,
     "total_invested": 2539.2,
-    "total_value": 2637.0,
+    "total_value": 2539.2,
     "total_risk_eur": -60.78,
-    "total_pnl_eur": 97.8,
-    "total_pnl_pct": 3.85,
-    "last_updated": "2026-09-11T07:55:07.712937"
+    "total_pnl_eur": 0.0,
+    "total_pnl_pct": 0.0,
+    "last_updated": "2026-09-11T08:00:17.878346"
   },
   "summary": {
     "positions_count": 1,
     "total_shares": 6.0,
     "total_invested": 2539.2,
-    "last_updated": "2026-09-11T07:55:21.619869",
+    "last_updated": "2026-09-11T08:02:26.532244",
     "pnl_realized": 909.99,
     "pnl_realized_mtd": 0,
     "pnl_realized_ytd": 909.99,
@@ -1209,5 +1209,5 @@
     "total_pnl_pct": 3.85
   },
   "note": "Les prix actuels et signaux seront recuperes cote client via Yahoo Finance API",
-  "prix_warning": "Donn\u00e9es partielles (0/1 indisponibles) \u2014 rate-limit probable"
+  "prix_warning": "Donn\u00e9es partielles (1/1 indisponibles) \u2014 rate-limit probable"
 }
