@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T14:57:19.670799+00:00",
-  "generated_at_unix": 1789138639,
+  "generated_at": "2026-09-11T15:02:39.073633+00:00",
+  "generated_at_unix": 1789138959,
   "ntv": {
-    "generated_at": "2026-09-11T14:56:52.566374+00:00",
+    "generated_at": "2026-09-11T15:01:53.240005+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -137,8 +137,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": false,
-      "last_tick_at": "2026-09-11T16:56:52+02:00",
-      "last_tick_time": "2026-09-11T16:56:52+02:00",
+      "last_tick_at": "2026-09-11T17:01:53+02:00",
+      "last_tick_time": "2026-09-11T17:01:53+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -147,17 +147,17 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-10",
-      "signal_data_age_days": 1.62,
+      "signal_data_age_days": 1.63,
       "source_timestamps": {
         "dashboard_payload": "2026-09-11T14:25:07.943748+00:00",
         "signal": "2026-09-11T14:25:07.884888+00:00",
         "orders_dry_run": "2026-09-11T14:25:07.939156+00:00",
-        "alerts": "2026-09-11T14:56:52.536458+00:00"
+        "alerts": "2026-09-11T15:01:53.201936+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 31.7,
-        "signal": 31.7,
-        "orders_dry_run": 31.7,
+        "dashboard_payload": 36.8,
+        "signal": 36.8,
+        "orders_dry_run": 36.8,
         "alerts": 0.0
       },
       "freshness_status": "ERROR"
@@ -165,11 +165,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T14:51:54.721544+00:00",
+      "last_snapshot_time": "2026-09-11T14:56:52.579846+00:00",
       "last_verdict": "FORWARD_TEST_UNSAFE",
-      "warnings_count": 7,
+      "warnings_count": 8,
       "unsafe_count": 0,
-      "total_snapshots": 949,
+      "total_snapshots": 950,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -288,7 +288,7 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 172.3,
+      "age_minutes": 177.6,
       "expected_interval_minutes": 240
     }
   },
@@ -303,7 +303,7 @@
     "us10y_yield": 4.92,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 42.2,
+      "age_minutes": 47.5,
       "status": "DELAYED",
       "expected_interval_minutes": 15
     }
@@ -358,7 +358,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.3,
+      "legacy_bots_status_age_minutes": 0.6,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -370,7 +370,7 @@
         "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 32.2,
+        "age": 37.5,
         "expected": 5,
         "status": "DELAYED"
       },
@@ -381,18 +381,18 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 172.3,
+        "age": 177.6,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 42.2,
+        "age": 47.5,
         "expected": 15,
         "status": "DELAYED"
       },
       "legacy_bots": {
-        "age": 0.3,
+        "age": 0.6,
         "expected": 360,
         "status": "OK"
       },
