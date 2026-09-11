@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T18:56:03.928374+00:00",
+  "generated_at": "2026-09-11T19:00:04.299440+00:00",
   "mode": "DRY_RUN",
   "auto_execution": false,
   "dry_run": true,
@@ -14,7 +14,7 @@
     "leverage": "blocked",
     "kill_switch_status": "inactive",
     "data_status": "ok",
-    "last_update": "2026-09-11T18:45:07.038841+00:00"
+    "last_update": "2026-09-11T19:00:04.270794+00:00"
   },
   "current_signal": {
     "btc": {
@@ -39,8 +39,8 @@
   },
   "allocation": {
     "current": {
-      "btc_pct": 49.12,
-      "eth_pct": 50.88,
+      "btc_pct": 49.14,
+      "eth_pct": 50.86,
       "eur_pct": 0.0
     },
     "target": {
@@ -49,8 +49,8 @@
       "eur_pct": 0.0
     },
     "deviation": {
-      "btc_deviation_pct": -0.88,
-      "eth_deviation_pct": 0.88,
+      "btc_deviation_pct": -0.86,
+      "eth_deviation_pct": 0.86,
       "eur_deviation_pct": 0.0
     },
     "recommended_action": "HOLD"
@@ -62,15 +62,15 @@
     "estimated_costs": []
   },
   "dry_run_portfolio": {
-    "equity_eur": 2822.66,
-    "pnl_eur": 12.12,
-    "pnl_pct": 0.4312,
+    "equity_eur": 2818.81,
+    "pnl_eur": 8.27,
+    "pnl_pct": 0.2942,
     "exposure": {
-      "btc_eur": 1386.56,
-      "eth_eur": 1436.1,
+      "btc_eur": 1385.25,
+      "eth_eur": 1433.56,
       "eur_cash": 0.0,
-      "btc_pct": 49.12,
-      "eth_pct": 50.88,
+      "btc_pct": 49.14,
+      "eth_pct": 50.86,
       "eur_pct": 0.0
     },
     "fees_paid_cum_eur": 8.6857,
@@ -84,7 +84,7 @@
     "mode": "SHADOW_ONLY",
     "no_live_orders": true,
     "status": {
-      "timestamp": "2026-09-11T18:45:06.967037+00:00",
+      "timestamp": "2026-09-11T19:00:04.202979+00:00",
       "mode": "SHADOW_ONLY",
       "btc": {
         "high_20": 69877.5,
@@ -115,12 +115,7 @@
       }
     }
   },
-  "alerts": [
-    {
-      "level": "ERROR",
-      "message": "OHLC fetch failed"
-    }
-  ],
+  "alerts": [],
   "old_bots_status": {
     "kraken_futures_v1": "retired",
     "binance_v5": "retired",
@@ -133,9 +128,9 @@
     "details": []
   },
   "ntv_tick": {
-    "last_tick_ok": false,
-    "last_tick_at": "2026-09-11T20:56:03+02:00",
-    "last_tick_time": "2026-09-11T20:56:03+02:00",
+    "last_tick_ok": true,
+    "last_tick_at": "2026-09-11T21:00:04+02:00",
+    "last_tick_time": "2026-09-11T21:00:04+02:00",
     "age_minutes": 0.0,
     "expected_interval_minutes": 5,
     "thresholds": {
@@ -146,27 +141,27 @@
     "data_last_candle_date": "2026-09-10",
     "signal_data_age_days": 1.79,
     "source_timestamps": {
-      "dashboard_payload": "2026-09-11T18:45:07.038960+00:00",
-      "signal": "2026-09-11T18:45:06.966964+00:00",
-      "orders_dry_run": "2026-09-11T18:45:07.035376+00:00",
-      "alerts": "2026-09-11T18:56:03.901016+00:00"
+      "dashboard_payload": "2026-09-11T19:00:04.270904+00:00",
+      "signal": "2026-09-11T19:00:04.202913+00:00",
+      "orders_dry_run": "2026-09-11T19:00:04.266719+00:00",
+      "alerts": "2026-09-11T19:00:04.266847+00:00"
     },
     "source_ages_minutes": {
-      "dashboard_payload": 10.9,
-      "signal": 10.9,
-      "orders_dry_run": 10.9,
+      "dashboard_payload": 0.0,
+      "signal": 0.0,
+      "orders_dry_run": 0.0,
       "alerts": 0.0
     },
-    "freshness_status": "ERROR"
+    "freshness_status": "OK"
   },
   "forward_test": {
-    "status": "FORWARD_TEST_UNSAFE",
+    "status": "FORWARD_TEST_WARNING",
     "days_observed": 4,
-    "last_snapshot_time": "2026-09-11T18:53:16.178922+00:00",
-    "last_verdict": "FORWARD_TEST_UNSAFE",
-    "warnings_count": 74,
+    "last_snapshot_time": "2026-09-11T18:56:03.940728+00:00",
+    "last_verdict": "FORWARD_TEST_WARNING",
+    "warnings_count": 75,
     "unsafe_count": 0,
-    "total_snapshots": 997,
+    "total_snapshots": 998,
     "date_range": {
       "start": "2026-09-08",
       "end": "2026-09-11"
