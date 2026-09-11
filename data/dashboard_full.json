@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T18:54:04.988479+00:00",
-  "generated_at_unix": 1789152844,
+  "generated_at": "2026-09-11T18:56:12.788024+00:00",
+  "generated_at_unix": 1789152972,
   "ntv": {
-    "generated_at": "2026-09-11T18:53:16.165131+00:00",
+    "generated_at": "2026-09-11T18:56:03.928374+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -137,8 +137,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": false,
-      "last_tick_at": "2026-09-11T20:53:16+02:00",
-      "last_tick_time": "2026-09-11T20:53:16+02:00",
+      "last_tick_at": "2026-09-11T20:56:03+02:00",
+      "last_tick_time": "2026-09-11T20:56:03+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -152,12 +152,12 @@
         "dashboard_payload": "2026-09-11T18:45:07.038960+00:00",
         "signal": "2026-09-11T18:45:06.966964+00:00",
         "orders_dry_run": "2026-09-11T18:45:07.035376+00:00",
-        "alerts": "2026-09-11T18:53:16.131953+00:00"
+        "alerts": "2026-09-11T18:56:03.901016+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 8.2,
-        "signal": 8.2,
-        "orders_dry_run": 8.2,
+        "dashboard_payload": 10.9,
+        "signal": 10.9,
+        "orders_dry_run": 10.9,
         "alerts": 0.0
       },
       "freshness_status": "ERROR"
@@ -165,11 +165,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T18:45:07.079427+00:00",
+      "last_snapshot_time": "2026-09-11T18:53:16.178922+00:00",
       "last_verdict": "FORWARD_TEST_UNSAFE",
-      "warnings_count": 73,
+      "warnings_count": 74,
       "unsafe_count": 0,
-      "total_snapshots": 996,
+      "total_snapshots": 997,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -288,7 +288,7 @@
     "closed_trades": {},
     "freshness": {
       "status": "STALE",
-      "age_minutes": 409.1,
+      "age_minutes": 411.2,
       "expected_interval_minutes": 240
     }
   },
@@ -303,7 +303,7 @@
     "us10y_yield": 4.97,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 9.0,
+      "age_minutes": 11.1,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -358,7 +358,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.6,
+      "legacy_bots_status_age_minutes": 0.1,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -370,7 +370,7 @@
         "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 9.0,
+        "age": 11.1,
         "expected": 5,
         "status": "OK"
       },
@@ -381,18 +381,18 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 409.1,
+        "age": 411.2,
         "expected": 240,
         "status": "STALE",
         "paused": false
       },
       "market_context": {
-        "age": 9.0,
+        "age": 11.1,
         "expected": 15,
         "status": "OK"
       },
       "legacy_bots": {
-        "age": 0.6,
+        "age": 0.1,
         "expected": 360,
         "status": "OK"
       },
