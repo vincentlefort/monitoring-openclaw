@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-11T18:45:16.661954+00:00",
-  "generated_at_unix": 1789152316,
+  "generated_at": "2026-09-11T18:54:04.988479+00:00",
+  "generated_at_unix": 1789152844,
   "ntv": {
-    "generated_at": "2026-09-11T18:45:07.066736+00:00",
+    "generated_at": "2026-09-11T18:53:16.165131+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -118,7 +118,12 @@
         }
       }
     },
-    "alerts": [],
+    "alerts": [
+      {
+        "level": "ERROR",
+        "message": "OHLC fetch failed"
+      }
+    ],
     "old_bots_status": {
       "kraken_futures_v1": "retired",
       "binance_v5": "retired",
@@ -131,9 +136,9 @@
       "details": []
     },
     "ntv_tick": {
-      "last_tick_ok": true,
-      "last_tick_at": "2026-09-11T20:45:07+02:00",
-      "last_tick_time": "2026-09-11T20:45:07+02:00",
+      "last_tick_ok": false,
+      "last_tick_at": "2026-09-11T20:53:16+02:00",
+      "last_tick_time": "2026-09-11T20:53:16+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,29 +147,29 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-10",
-      "signal_data_age_days": 1.78,
+      "signal_data_age_days": 1.79,
       "source_timestamps": {
         "dashboard_payload": "2026-09-11T18:45:07.038960+00:00",
         "signal": "2026-09-11T18:45:06.966964+00:00",
         "orders_dry_run": "2026-09-11T18:45:07.035376+00:00",
-        "alerts": "2026-09-11T18:45:07.035436+00:00"
+        "alerts": "2026-09-11T18:53:16.131953+00:00"
       },
       "source_ages_minutes": {
-        "dashboard_payload": 0.0,
-        "signal": 0.0,
-        "orders_dry_run": 0.0,
+        "dashboard_payload": 8.2,
+        "signal": 8.2,
+        "orders_dry_run": 8.2,
         "alerts": 0.0
       },
-      "freshness_status": "OK"
+      "freshness_status": "ERROR"
     },
     "forward_test": {
-      "status": "FORWARD_TEST_OK",
+      "status": "FORWARD_TEST_UNSAFE",
       "days_observed": 4,
-      "last_snapshot_time": "2026-09-11T18:40:08.889755+00:00",
-      "last_verdict": "FORWARD_TEST_OK",
+      "last_snapshot_time": "2026-09-11T18:45:07.079427+00:00",
+      "last_verdict": "FORWARD_TEST_UNSAFE",
       "warnings_count": 73,
       "unsafe_count": 0,
-      "total_snapshots": 995,
+      "total_snapshots": 996,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-11"
@@ -283,7 +288,7 @@
     "closed_trades": {},
     "freshness": {
       "status": "STALE",
-      "age_minutes": 400.3,
+      "age_minutes": 409.1,
       "expected_interval_minutes": 240
     }
   },
@@ -298,7 +303,7 @@
     "us10y_yield": 4.97,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 0.2,
+      "age_minutes": 9.0,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -309,7 +314,7 @@
       "status": "ACTIVE_FORWARD",
       "mode": "DRY_RUN",
       "type": "spot",
-      "freshness": "OK"
+      "freshness": "ERROR"
     },
     "swing_paper": {
       "name": "Swing Futures Paper",
@@ -353,7 +358,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.2,
+      "legacy_bots_status_age_minutes": 0.6,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -362,10 +367,10 @@
       "ntv_tick": {
         "age": 0.0,
         "expected": 5,
-        "status": "OK"
+        "status": "ERROR"
       },
       "ntv_signal": {
-        "age": 0.2,
+        "age": 9.0,
         "expected": 5,
         "status": "OK"
       },
@@ -376,18 +381,18 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 400.3,
+        "age": 409.1,
         "expected": 240,
         "status": "STALE",
         "paused": false
       },
       "market_context": {
-        "age": 0.2,
+        "age": 9.0,
         "expected": 15,
         "status": "OK"
       },
       "legacy_bots": {
-        "age": 0.2,
+        "age": 0.6,
         "expected": 360,
         "status": "OK"
       },
