@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-11T23:55:01.107155+00:00",
+  "timestamp": "2026-09-12T00:00:02.986654+00:00",
   "mode": "DRY_RUN",
   "live_trading_enabled": false,
   "max_capital_eur": 2810.54,
@@ -28,12 +28,12 @@
   "estimated_costs": [],
   "executed_orders": [],
   "dry_run_portfolio": {
-    "equity_eur": 2808.14,
-    "pnl_eur": -2.4,
-    "pnl_pct": -0.0854,
+    "equity_eur": 2809.49,
+    "pnl_eur": -1.05,
+    "pnl_pct": -0.0375,
     "exposure": {
-      "btc_eur": 1387.29,
-      "eth_eur": 1420.85,
+      "btc_eur": 1387.98,
+      "eth_eur": 1421.5,
       "eur_cash": 0.0,
       "btc_pct": 49.4,
       "eth_pct": 50.6,
@@ -47,30 +47,30 @@
     "simulated_fills_this_tick": []
   },
   "last_signal": {
-    "btc_close": 65930.2,
-    "btc_sma200": 60389.685999999994,
-    "btc_vol30": 45.1,
+    "btc_close": 66586.4,
+    "btc_sma200": 60448.56,
+    "btc_vol30": 45.05,
     "btc_allowed": true,
-    "eth_close": 2099.88,
-    "eth_sma200": 1768.3952500000003,
-    "eth_vol30": 67.31,
+    "eth_close": 2169.03,
+    "eth_sma200": 1771.3682000000001,
+    "eth_vol30": 67.74,
     "eth_allowed": true,
     "allocation_tier": "both",
-    "timestamp": "2026-09-11T23:55:01.036081+00:00",
-    "data_last_candle_utc": "2026-09-10T00:00:00+00:00",
-    "data_last_candle_date": "2026-09-10",
-    "signal_data_age_days": 2.0
+    "timestamp": "2026-09-12T00:00:02.902768+00:00",
+    "data_last_candle_utc": "2026-09-11T00:00:00+00:00",
+    "data_last_candle_date": "2026-09-11",
+    "signal_data_age_days": 1.0
   },
   "breakout20_shadow_signal": {
-    "timestamp": "2026-09-11T23:55:01.036393+00:00",
+    "timestamp": "2026-09-12T00:00:02.903073+00:00",
     "mode": "SHADOW_ONLY",
     "btc": {
       "high_20": 69877.5,
       "low_20": 65826.0,
       "prev_high_20": 69877.5,
-      "prev_low_20": 62485.8,
-      "close": 65930.2,
-      "prev_close": 67320.6,
+      "prev_low_20": 65826.0,
+      "close": 66586.4,
+      "prev_close": 65930.2,
       "signal": "NONE",
       "breakout_pct": 0.0,
       "period": 20
@@ -79,17 +79,17 @@
       "high_20": 2166.39,
       "low_20": 2064.61,
       "prev_high_20": 2166.39,
-      "prev_low_20": 1990.73,
-      "close": 2099.88,
-      "prev_close": 2121.61,
-      "signal": "NONE",
-      "breakout_pct": 0.0,
+      "prev_low_20": 2064.61,
+      "close": 2169.03,
+      "prev_close": 2099.88,
+      "signal": "BREAKOUT_UP",
+      "breakout_pct": 0.12,
       "period": 20
     },
     "summary": {
       "btc_signal": "NONE",
-      "eth_signal": "NONE",
-      "any_breakout": false
+      "eth_signal": "BREAKOUT_UP",
+      "any_breakout": true
     }
   },
   "alerts": [],
