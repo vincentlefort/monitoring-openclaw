@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-12T07:25:16.036637+00:00",
-  "generated_at_unix": 1789197916,
+  "generated_at": "2026-09-12T07:30:16.954513+00:00",
+  "generated_at_unix": 1789198216,
   "ntv": {
-    "generated_at": "2026-09-12T07:25:06.118389+00:00",
+    "generated_at": "2026-09-12T07:30:06.725487+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-12T07:25:06.091357+00:00"
+      "last_update": "2026-09-12T07:30:06.696651+00:00"
     },
     "current_signal": {
       "btc": {
@@ -65,12 +65,12 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2816.74,
-      "pnl_eur": 6.2,
-      "pnl_pct": 0.2208,
+      "equity_eur": 2816.2,
+      "pnl_eur": 5.66,
+      "pnl_pct": 0.2015,
       "exposure": {
-        "btc_eur": 1390.26,
-        "eth_eur": 1426.48,
+        "btc_eur": 1390.11,
+        "eth_eur": 1426.1,
         "eur_cash": 0.0,
         "btc_pct": 49.36,
         "eth_pct": 50.64,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-12T07:25:06.015997+00:00",
+        "timestamp": "2026-09-12T07:30:06.591452+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-12T09:25:06+02:00",
-      "last_tick_time": "2026-09-12T09:25:06+02:00",
+      "last_tick_at": "2026-09-12T09:30:06+02:00",
+      "last_tick_time": "2026-09-12T09:30:06+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -144,10 +144,10 @@
       "data_last_candle_date": "2026-09-11",
       "signal_data_age_days": 1.31,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-12T07:25:06.091482+00:00",
-        "signal": "2026-09-12T07:25:06.015927+00:00",
-        "orders_dry_run": "2026-09-12T07:25:06.086705+00:00",
-        "alerts": "2026-09-12T07:25:06.086848+00:00"
+        "dashboard_payload": "2026-09-12T07:30:06.696760+00:00",
+        "signal": "2026-09-12T07:30:06.591379+00:00",
+        "orders_dry_run": "2026-09-12T07:30:06.692646+00:00",
+        "alerts": "2026-09-12T07:30:06.692742+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 5,
-      "last_snapshot_time": "2026-09-12T07:20:02.615882+00:00",
+      "last_snapshot_time": "2026-09-12T07:25:06.131544+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 86,
       "unsafe_count": 0,
-      "total_snapshots": 1147,
+      "total_snapshots": 1148,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-12"
@@ -283,22 +283,22 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 200.3,
+      "age_minutes": 205.3,
       "expected_interval_minutes": 240
     }
   },
   "market_context": {
-    "timestamp": "2026-09-12T09:15:01.999649",
+    "timestamp": "2026-09-12T09:30:01.996112",
     "fear_greed": 63,
     "fear_greed_label": "Greed",
-    "btc_price": 77337.39,
-    "btc_change_4h": 0.08,
+    "btc_price": 77303.97,
+    "btc_change_4h": 0.04,
     "vix": 15.84,
     "dxy": 99.12,
     "us10y_yield": 4.97,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 10.2,
+      "age_minutes": 0.2,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -376,13 +376,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 200.3,
+        "age": 205.3,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 10.2,
+        "age": 0.2,
         "expected": 15,
         "status": "OK"
       },
