@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-13T08:00:13.805663+00:00",
-  "generated_at_unix": 1789286413,
+  "generated_at": "2026-09-13T08:05:19.796499+00:00",
+  "generated_at_unix": 1789286719,
   "ntv": {
-    "generated_at": "2026-09-13T08:00:04.119954+00:00",
+    "generated_at": "2026-09-13T08:05:10.124529+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-13T08:00:04.085633+00:00"
+      "last_update": "2026-09-13T08:05:10.090358+00:00"
     },
     "current_signal": {
       "btc": {
@@ -42,8 +42,8 @@
     },
     "allocation": {
       "current": {
-        "btc_pct": 49.36,
-        "eth_pct": 50.64,
+        "btc_pct": 49.35,
+        "eth_pct": 50.65,
         "eur_pct": 0.0
       },
       "target": {
@@ -52,8 +52,8 @@
         "eur_pct": 0.0
       },
       "deviation": {
-        "btc_deviation_pct": -0.64,
-        "eth_deviation_pct": 0.64,
+        "btc_deviation_pct": -0.65,
+        "eth_deviation_pct": 0.65,
         "eur_deviation_pct": 0.0
       },
       "recommended_action": "HOLD"
@@ -65,15 +65,15 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2809.82,
-      "pnl_eur": -0.72,
-      "pnl_pct": -0.0257,
+      "equity_eur": 2811.48,
+      "pnl_eur": 0.94,
+      "pnl_pct": 0.0333,
       "exposure": {
-        "btc_eur": 1386.84,
-        "eth_eur": 1422.98,
+        "btc_eur": 1387.49,
+        "eth_eur": 1423.99,
         "eur_cash": 0.0,
-        "btc_pct": 49.36,
-        "eth_pct": 50.64,
+        "btc_pct": 49.35,
+        "eth_pct": 50.65,
         "eur_pct": 0.0
       },
       "fees_paid_cum_eur": 8.6857,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-13T08:00:04.032571+00:00",
+        "timestamp": "2026-09-13T08:05:10.046593+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-13T10:00:04+02:00",
-      "last_tick_time": "2026-09-13T10:00:04+02:00",
+      "last_tick_at": "2026-09-13T10:05:10+02:00",
+      "last_tick_time": "2026-09-13T10:05:10+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -142,12 +142,12 @@
         "max_candle_age_days": 2.0
       },
       "data_last_candle_date": "2026-09-12",
-      "signal_data_age_days": 1.33,
+      "signal_data_age_days": 1.34,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-13T08:00:04.085800+00:00",
-        "signal": "2026-09-13T08:00:04.032489+00:00",
-        "orders_dry_run": "2026-09-13T08:00:04.079560+00:00",
-        "alerts": "2026-09-13T08:00:04.079716+00:00"
+        "dashboard_payload": "2026-09-13T08:05:10.090556+00:00",
+        "signal": "2026-09-13T08:05:10.046521+00:00",
+        "orders_dry_run": "2026-09-13T08:05:10.085741+00:00",
+        "alerts": "2026-09-13T08:05:10.085881+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 6,
-      "last_snapshot_time": "2026-09-13T07:55:10.853123+00:00",
+      "last_snapshot_time": "2026-09-13T08:00:04.134210+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 86,
       "unsafe_count": 0,
-      "total_snapshots": 1442,
+      "total_snapshots": 1443,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-13"
@@ -194,8 +194,8 @@
     "continuity": false,
     "implementation": "RECOVERY_R1_REIMPLEMENTATION",
     "historical_engine_continuity": false,
-    "last_tick_utc": "2026-09-13T04:05:00.297391+00:00",
-    "last_bar_utc": "2026-09-13T04:00:00+00:00",
+    "last_tick_utc": "2026-09-13T08:05:00.406475+00:00",
+    "last_bar_utc": "2026-09-13T08:00:00+00:00",
     "strategy": "R1 Recovery Rebound (sub-SMA200 bear regime)",
     "paper_only": true,
     "historical": {
@@ -231,7 +231,7 @@
     },
     "signals": {
       "BTC": {
-        "close": 77192.01,
+        "close": 77127.99,
         "signal": "NONE",
         "conditions": {
           "daily_below_sma200": false,
@@ -243,7 +243,7 @@
         }
       },
       "SOL": {
-        "close": 101.63,
+        "close": 100.72,
         "signal": "NONE",
         "conditions": {
           "daily_below_sma200": false,
@@ -255,7 +255,7 @@
         }
       },
       "XRP": {
-        "close": 1.3635,
+        "close": 1.3577,
         "signal": "NONE",
         "conditions": {
           "daily_below_sma200": false,
@@ -267,13 +267,13 @@
         }
       },
       "DOGE": {
-        "close": 0.08471,
+        "close": 0.08416,
         "signal": "NONE",
         "conditions": {
           "daily_below_sma200": true,
           "daily_above_sma20": false,
           "above_sma50_4h": false,
-          "momentum_24h": true,
+          "momentum_24h": false,
           "volume_ok": false,
           "distance_low_2pct": true
         }
@@ -283,7 +283,7 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 235.2,
+      "age_minutes": 0.3,
       "expected_interval_minutes": 240
     }
   },
@@ -298,7 +298,7 @@
     "us10y_yield": 4.97,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 0.1,
+      "age_minutes": 5.2,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -376,13 +376,13 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 235.2,
+        "age": 0.3,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 0.1,
+        "age": 5.2,
         "expected": 15,
         "status": "OK"
       },
