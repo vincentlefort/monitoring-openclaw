@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-14T12:25:18.698366+00:00",
-  "generated_at_unix": 1789388718,
+  "generated_at": "2026-09-14T12:30:14.903451+00:00",
+  "generated_at_unix": 1789389014,
   "ntv": {
-    "generated_at": "2026-09-14T12:25:09.679311+00:00",
+    "generated_at": "2026-09-14T12:30:05.287724+00:00",
     "mode": "DRY_RUN",
     "auto_execution": false,
     "dry_run": true,
@@ -17,7 +17,7 @@
       "leverage": "blocked",
       "kill_switch_status": "inactive",
       "data_status": "ok",
-      "last_update": "2026-09-14T12:25:09.624161+00:00"
+      "last_update": "2026-09-14T12:30:05.252300+00:00"
     },
     "current_signal": {
       "btc": {
@@ -65,12 +65,12 @@
       "estimated_costs": []
     },
     "dry_run_portfolio": {
-      "equity_eur": 2834.69,
-      "pnl_eur": 24.15,
-      "pnl_pct": 0.8592,
+      "equity_eur": 2835.94,
+      "pnl_eur": 25.4,
+      "pnl_pct": 0.9037,
       "exposure": {
-        "btc_eur": 1407.57,
-        "eth_eur": 1427.12,
+        "btc_eur": 1408.24,
+        "eth_eur": 1427.7,
         "eur_cash": 0.0,
         "btc_pct": 49.66,
         "eth_pct": 50.34,
@@ -87,7 +87,7 @@
       "mode": "SHADOW_ONLY",
       "no_live_orders": true,
       "status": {
-        "timestamp": "2026-09-14T12:25:09.520001+00:00",
+        "timestamp": "2026-09-14T12:30:05.170007+00:00",
         "mode": "SHADOW_ONLY",
         "btc": {
           "high_20": 69877.5,
@@ -132,8 +132,8 @@
     },
     "ntv_tick": {
       "last_tick_ok": true,
-      "last_tick_at": "2026-09-14T14:25:09+02:00",
-      "last_tick_time": "2026-09-14T14:25:09+02:00",
+      "last_tick_at": "2026-09-14T14:30:05+02:00",
+      "last_tick_time": "2026-09-14T14:30:05+02:00",
       "age_minutes": 0.0,
       "expected_interval_minutes": 5,
       "thresholds": {
@@ -144,10 +144,10 @@
       "data_last_candle_date": "2026-09-13",
       "signal_data_age_days": 1.52,
       "source_timestamps": {
-        "dashboard_payload": "2026-09-14T12:25:09.624539+00:00",
-        "signal": "2026-09-14T12:25:09.518995+00:00",
-        "orders_dry_run": "2026-09-14T12:25:09.609995+00:00",
-        "alerts": "2026-09-14T12:25:09.611124+00:00"
+        "dashboard_payload": "2026-09-14T12:30:05.252456+00:00",
+        "signal": "2026-09-14T12:30:05.169933+00:00",
+        "orders_dry_run": "2026-09-14T12:30:05.246684+00:00",
+        "alerts": "2026-09-14T12:30:05.247014+00:00"
       },
       "source_ages_minutes": {
         "dashboard_payload": 0.0,
@@ -160,11 +160,11 @@
     "forward_test": {
       "status": "FORWARD_TEST_OK",
       "days_observed": 7,
-      "last_snapshot_time": "2026-09-14T12:20:09.924369+00:00",
+      "last_snapshot_time": "2026-09-14T12:25:09.692459+00:00",
       "last_verdict": "FORWARD_TEST_OK",
       "warnings_count": 87,
       "unsafe_count": 0,
-      "total_snapshots": 1749,
+      "total_snapshots": 1750,
       "date_range": {
         "start": "2026-09-08",
         "end": "2026-09-14"
@@ -283,22 +283,22 @@
     "closed_trades": {},
     "freshness": {
       "status": "OK",
-      "age_minutes": 20.1,
+      "age_minutes": 25.1,
       "expected_interval_minutes": 240
     }
   },
   "market_context": {
-    "timestamp": "2026-09-14T14:15:01.962242",
+    "timestamp": "2026-09-14T14:30:01.914994",
     "fear_greed": 57,
     "fear_greed_label": "Greed",
-    "btc_price": 77827.2,
-    "btc_change_4h": 0.08,
-    "vix": 17.59,
-    "dxy": 99.5,
+    "btc_price": 77976.92,
+    "btc_change_4h": 0.27,
+    "vix": 17.62,
+    "dxy": 99.51,
     "us10y_yield": 4.97,
     "regime": "greed",
     "freshness": {
-      "age_minutes": 10.2,
+      "age_minutes": 0.2,
       "status": "OK",
       "expected_interval_minutes": 15
     }
@@ -353,7 +353,7 @@
       "restart_disabled": true
     },
     "_freshness": {
-      "legacy_bots_status_age_minutes": 0.1,
+      "legacy_bots_status_age_minutes": 0.2,
       "legacy_bots_freshness": "OK"
     }
   },
@@ -376,18 +376,18 @@
         "paused": true
       },
       "recovery_paper": {
-        "age": 20.1,
+        "age": 25.1,
         "expected": 240,
         "status": "OK",
         "paused": false
       },
       "market_context": {
-        "age": 10.2,
+        "age": 0.2,
         "expected": 15,
         "status": "OK"
       },
       "legacy_bots": {
-        "age": 0.1,
+        "age": 0.2,
         "expected": 360,
         "status": "OK"
       },
